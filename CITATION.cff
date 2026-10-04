@@ -1,0 +1,90 @@
+# ---------------------------------------------------------------------------
+# Citation File Format (CFF) 1.2.0
+# https://citation-file-format.github.io/
+#
+# Draft record. No DOI has been minted for the LCE documents yet, so the
+# `doi` and `preferred-citation.doi` fields are commented out rather than
+# filled with placeholders: an invalid DOI in a citation record is worse than
+# an absent one. The repository URL is the intended location if this folder
+# is published as its own repository.
+# ---------------------------------------------------------------------------
+
+cff-version: 1.2.0
+message: >-
+  If you use the Swarmbly Local Cognitive Extension design in academic work,
+  please cite the whitepaper (see `preferred-citation`). It is a draft and has
+  not been peer reviewed.
+type: software
+
+title: "Swarmbly LCE: Local Cognitive Extension"
+abstract: >-
+  A local-first extension to the Swarmbly decentralized inference protocol.
+  Each user keeps on their own device a human-readable memory (a wiki whose
+  claims are anchored to source spans, typed and versioned) and a lightweight
+  adapter trained only on behavioural patterns (voice, register, terminology,
+  procedures), regenerated from the base model and the memory with
+  interleaved replay and gated on freshly generated tests. Personalization
+  enters the protocol only through fields of the existing global contract;
+  workers serving third parties use their base model, leaving verification
+  intact. Nodes may optionally exchange small signed knowledge capsules on
+  demand; descendants require new human evidence, prevalence is a label rather
+  than an adoption criterion, and preserved capsules use a replica count
+  derived from a churn tolerance. The design is derived from evidence on
+  knowledge injection, model collapse, conformity and correlated errors across
+  model families, and from population-genetic and cultural-evolution
+  instruments. Nothing has been measured; every mechanism carries a
+  pre-registered hypothesis and abandonment condition.
+
+version: "0.1.0"
+date-released: "2026-10-04"
+license: AGPL-3.0-or-later
+
+authors:
+  - given-names: "Sebastián A."
+    family-names: "Espinoza-Ulloa"
+    affiliation: "Independent Researcher"
+    email: "sebas_saeu@hotmail.com"
+    orcid: "https://orcid.org/0000-0003-1497-356X"
+
+# repository-code: "https://github.com/Sebastardito/Swarmbly-LCE"   # not yet published
+# doi: ""                                                            # not yet minted
+
+keywords:
+  - "local-first"
+  - "personalization"
+  - "small language models"
+  - "continual learning"
+  - "retrieval-augmented generation"
+  - "LoRA"
+  - "model collapse"
+  - "cultural evolution"
+  - "population genetics"
+  - "decentralized AI"
+  - "Swarmbly"
+
+references:
+  - type: article
+    title: >-
+      Semantic Fragmentation and Stochastic Assembly, version 2: A Protocol for
+      Decentralized Language-Model Inference over Untrusted Volunteer Nodes
+    authors:
+      - given-names: "Sebastián A."
+        family-names: "Espinoza-Ulloa"
+    year: 2026
+    doi: "10.5281/zenodo.23031305"
+    notes: "The protocol this extension builds on and must not deform."
+
+preferred-citation:
+  type: report
+  title: >-
+    Cognición local y transmisión anclada: una extensión cognitiva local-first
+    para Swarmbly (Whitepaper LCE, versión 0.1, borrador)
+  authors:
+    - given-names: "Sebastián A."
+      family-names: "Espinoza-Ulloa"
+      affiliation: "Independent Researcher"
+      orcid: "https://orcid.org/0000-0003-1497-356X"
+  year: 2026
+  month: 10
+  # doi: ""   # to be added on publication
+  notes: "Draft, not peer reviewed. Spanish; English version pending."

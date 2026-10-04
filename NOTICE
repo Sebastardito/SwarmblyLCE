@@ -1,0 +1,35 @@
+Swarmbly LCE (Local Cognitive Extension)
+========================================
+
+Copyright (C) 2026 Sebastián A. Espinoza-Ulloa (Independent Researcher)
+
+Contact: sebas_saeu@hotmail.com
+
+This repository contains the design documents of the Local Cognitive Extension
+for the Swarmbly protocol: a local-first layer in which each user keeps a
+human-readable memory anchored to their own sources and a lightweight adapter
+that learns only behavioural patterns, with optional on-demand exchange of
+small signed knowledge capsules between nodes. Swarmbly itself fragments the
+*problem* rather than the *model* and is published separately at
+https://github.com/Sebastardito/Swarmbly-AI.
+
+Components at the time of this notice:
+  - Whitepaper LCE              v0.1 (draft, Spanish; English pending)
+  - Specification LCE           v0.1 (draft, Spanish)
+  - SWIP-XXXX                   revision 2 (draft, English)
+  - Annotated bibliography      compiled 2026-10-04
+  - Reference implementation    not yet started
+
+Licensing
+---------
+  - Any code in this repository: GNU Affero General Public License,
+    version 3 or (at your option) any later version (AGPL-3.0-or-later).
+    See LICENSE. Network use of a modified version triggers section 13.
+  - Documentation and texts: Creative Commons Attribution 4.0 International
+    (CC BY 4.0).
+
+Status
+------
+Draft. Nothing in these documents has been measured, and no element is
+claimed as prior art until the documents are published in a dated public
+record (see the whitepaper, section 13).
