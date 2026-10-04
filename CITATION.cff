@@ -2,11 +2,10 @@
 # Citation File Format (CFF) 1.2.0
 # https://citation-file-format.github.io/
 #
-# Draft record. No DOI has been minted for the LCE documents yet, so the
-# `doi` and `preferred-citation.doi` fields are commented out rather than
-# filled with placeholders: an invalid DOI in a citation record is worse than
-# an absent one. The repository URL is the intended location if this folder
-# is published as its own repository.
+# Draft record. No DOI has been minted for the LCE yet, so the `doi` and
+# `preferred-citation.doi` fields are commented out rather than filled with
+# placeholders: an invalid DOI in a citation record is worse than an absent
+# one. Fill them after the Zenodo deposits (publication/CHECKLIST.md).
 # ---------------------------------------------------------------------------
 
 cff-version: 1.2.0
@@ -33,7 +32,9 @@ abstract: >-
   knowledge injection, model collapse, conformity and correlated errors across
   model families, and from population-genetic and cultural-evolution
   instruments. Nothing has been measured; every mechanism carries a
-  pre-registered hypothesis and abandonment condition.
+  pre-registered hypothesis and abandonment condition. The repository ships
+  a reference implementation and a validation harness whose instrument tests
+  pass in simulation; mock and simulation outputs are not evidence.
 
 version: "0.1.0"
 date-released: "2026-10-04"
@@ -46,8 +47,8 @@ authors:
     email: "sebas_saeu@hotmail.com"
     orcid: "https://orcid.org/0000-0003-1497-356X"
 
-# repository-code: "https://github.com/Sebastardito/Swarmbly-LCE"   # not yet published
-# doi: ""                                                            # not yet minted
+repository-code: "https://github.com/Sebastardito/SwarmblyLCE"
+# doi: ""   # software record, to be minted by the Zenodo GitHub integration
 
 keywords:
   - "local-first"
@@ -77,8 +78,8 @@ references:
 preferred-citation:
   type: report
   title: >-
-    Cognición local y transmisión anclada: una extensión cognitiva local-first
-    para Swarmbly (Whitepaper LCE, versión 0.1, borrador)
+    Local Cognition and Anchored Transmission: A Local-First Cognitive
+    Extension for Swarmbly (Whitepaper LCE, version 0.1, draft)
   authors:
     - given-names: "Sebastián A."
       family-names: "Espinoza-Ulloa"
@@ -87,4 +88,4 @@ preferred-citation:
   year: 2026
   month: 10
   # doi: ""   # to be added on publication
-  notes: "Draft, not peer reviewed. Spanish; English version pending."
+  notes: "Draft preprint, not peer reviewed. English and Spanish versions."

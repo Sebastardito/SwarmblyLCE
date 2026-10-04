@@ -6,19 +6,22 @@
 >
 > *Maintained by hand until the repository adopts Swarmbly's generator.*
 
-## Borrador · Draft — 3
+## Borrador · Draft — 5
 
 | Documento | Versión | Idioma | Fecha | Nota |
 |---|---|---|---|---|
-| [`WHITEPAPER_LCE_ES.md`](WHITEPAPER_LCE_ES.md) | 0.1 | es | 2026-10-04 | Nada medido. Versión EN pendiente. |
-| [`SPEC_LCE_ES.md`](SPEC_LCE_ES.md) | 0.1 | es | 2026-10-04 | Parámetros *provisional* sin medir. |
+| [`WHITEPAPER_LCE_ES.md`](WHITEPAPER_LCE_ES.md) | 0.1 | es | 2026-10-04 | Nada medido. PDF: [`WHITEPAPER_LCE_ES.pdf`](WHITEPAPER_LCE_ES.pdf). |
+| [`WHITEPAPER_LCE_EN.md`](WHITEPAPER_LCE_EN.md) | 0.1 | en | 2026-10-04 | Nothing measured. PDF: [`WHITEPAPER_LCE_EN.pdf`](WHITEPAPER_LCE_EN.pdf). |
+| [`SPEC_LCE_ES.md`](SPEC_LCE_ES.md) | 0.1 | es | 2026-10-04 | Parámetros *provisional* sin medir. Sección 21: correspondencia con el código. |
+| [`SPEC_LCE_EN.md`](SPEC_LCE_EN.md) | 0.1 | en | 2026-10-04 | *Provisional* parameters unmeasured. Section 21: code map. |
 | [`../swips/SWIP-XXXX-local-cognitive-extension.md`](../swips/SWIP-XXXX-local-cognitive-extension.md) | rev. 2 | en | 2026-10-04 | Sin issue de discusión abierto; `XXXX` pendiente. |
 
-## Vigente · Current — 1
+## Vigente · Current — 2
 
 | Documento | Fecha | Nota |
 |---|---|---|
-| [`REFERENCES_LCE.md`](REFERENCES_LCE.md) | 2026-10-04 | Entradas `[STD]` y ⚠️ pendientes de cotejo antes de publicar. |
+| [`REFERENCES_LCE.md`](REFERENCES_LCE.md) | 2026-10-04 | Tres entradas ⚠️ ([37], [59], [61]) con un campo sin confirmar; `[STD]` según registro estándar. |
+| [`../lce_validation/README.md`](../lce_validation/README.md) | 2026-10-04 | Arnés: seis instrumentos aprobados en simulación; sin corridas reales. |
 
 ## Superado · Superseded — 5
 

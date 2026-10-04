@@ -5,7 +5,7 @@ lang: es
 # Especificación y arquitectura de la Local Cognitive Extension (LCE) de Swarmbly
 
 **Versión 0.1 — 4 de octubre de 2026**
-Estado: **Borrador.** Normativa para una futura implementación de referencia; se espera que cambie después de los prototipos de la sección 14 del whitepaper. Nada de lo que especifica está medido.
+Estado: **Borrador.** Normativa; la implementación de referencia la sigue (sección 21) y se espera que cambie después de los prototipos de la sección 14 del whitepaper. Nada de lo que especifica está medido.
 Documentos complementarios: `WHITEPAPER_LCE_ES.md` (fundamento, homologías y evidencia), `REFERENCES_LCE.md` (bibliografía anotada; los marcadores [n] de este documento remiten a ella), `swips/SWIP-XXXX-local-cognitive-extension.md` (la parte visible en la red, en inglés, para el repositorio del protocolo), y la especificación del protocolo Swarmbly v0.2 (`Swarmbly-AI/docs/SPEC_ES.md`), que este documento no modifica.
 
 Las palabras clave MUST, MUST NOT, REQUIRED, SHALL, SHOULD, SHOULD NOT, MAY y OPTIONAL deben interpretarse tal como se describe en RFC 2119. Se conservan en inglés y en mayúsculas, como en la especificación del protocolo, para que su fuerza normativa sea inequívoca.
@@ -629,6 +629,31 @@ Ningún fallo de cápsula MUST contarse como fallo de ejecución de una microtar
 6. Si la afinidad debe considerar la correlación de errores observada entre pares, a la vista de [36].
 7. El tratamiento de un usuario que también es operador de varios nodos, para la colocación de copias por operadores distintos.
 8. La diversidad de evidencia entre réplicas como complemento de E12 frente a la correlación de errores entre familias. Pertenece al protocolo, no a la LCE (nota `FINDING_2026-10-04_correlated_errors_across_families_ES.md` del repositorio Swarmbly); una implementación de la LCE MUST NOT satisfacerla con memoria personal de los workers.
+
+---
+
+## 21. Implementación de referencia
+
+El paquete `swarmbly_lce` implementa esta especificación; `lce_validation` contiene el arnés. La correspondencia es la siguiente.
+
+| Sección | Módulo | Notas |
+|---|---|---|
+| 5 | `policy.py`, `sources.py` | política por prefijo más largo; claves desconocidas rechazadas |
+| 6.2–6.6 | `claims.py` | máquina de estados con condiciones normativas; distancia por transformaciones |
+| 6.3 | `anchors.py`, `digest.py` | verificación determinista más soporte léxico o por modelo |
+| 6.7–6.8 | `depgraph.py`, `wiki.py` | invalidación en cascada; almacén JSON determinista apto para Git |
+| 7 | `training.py` | elegibilidad, lotes con repaso, compuerta, registro de pruebas nuevas, olvido; `MLXLoRATrainer` experimental |
+| 8 | `projection.py` | proyección sobre Γ, tope de bytes, doble clasificación |
+| 9 | `worker.py` | `WorkerGuard` |
+| 10 | `social.py`, `affinity.py` | regla de prevalencia con guarda de linealidad; afinidad con decaimiento y normalización |
+| 11 | `profile.py` | bloque de capacidades |
+| 12 | `capsules.py`, `canonical.py`, `crypto.py` | BLAKE2b sobre JSON canónico; Ed25519 con `cryptography` opcional |
+| 13 | `persistence.py` | r desde ε; colocación por operadores distintos |
+| 14 | `plural.py` | respuesta plural |
+| 15 | `diversity.py`, `report.py` | F_ST, Wright, conformismo, canario, homogeneidad, concordancia de errores |
+| 19 | `params.py` | parámetros normativos y provisionales |
+
+`tests/test_invariants.py` contiene una prueba por invariante I1–I8. `lce_validation/run_all.py` ejecuta los seis instrumentos y los experimentos con backend simulado; `lce_validation/run_real.py`, los experimentos con modelos reales. Ningún resultado producido con `MockBackend` o por simulación es evidencia.
 
 ---
 

@@ -1841,7 +1841,11 @@ That is a valid result.
 
 ## Reference implementation
 
-Not yet implemented.
+A reference implementation of the full LCE (local and wire-visible parts) is available
+in the companion repository `Sebastardito/SwarmblyLCE` (package `swarmbly_lce`, harness
+`lce_validation`, one test per invariant I1–I8). It is published for review, not for
+merging: per the SWIP process, protocol-facing code will be proposed in separate PRs after
+acceptance.
 
 A reference implementation should be staged in separate PRs after SWIP acceptance.
 

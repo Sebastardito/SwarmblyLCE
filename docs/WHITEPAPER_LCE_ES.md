@@ -7,8 +7,8 @@ lang: es
 
 ## Una extensión cognitiva local-first para Swarmbly: memoria personal, aprendizaje del modelo del usuario y transferencia ligera de conocimiento sobre nodos voluntarios no confiables
 
-**Sebastián A. Espinoza-Ulloa, Ph.D.**
-Investigador independiente
+**Sebastián A. Espinoza-Ulloa, Ph.D.**\
+Investigador independiente\
 ORCID: [0000-0003-1497-356X](https://orcid.org/0000-0003-1497-356X) · GitHub: [@Sebastardito](https://github.com/Sebastardito)
 
 > **Nota sobre afiliación e independencia.** Este trabajo se realiza íntegramente
@@ -32,7 +32,7 @@ ORCID: [0000-0003-1497-356X](https://orcid.org/0000-0003-1497-356X) · GitHub: [
 
 > ## Estado de este documento: BORRADOR
 >
-> Versión 0.1, del 4 de octubre de 2026. **No publicado y no revisado por pares.**
+> Versión 0.1, del 4 de octubre de 2026. **Preprint en borrador; no revisado por pares.**
 > Es la extensión del protocolo descrito en el whitepaper v2 [1] y no lo
 > modifica: nada de lo que aquí se propone forma parte de la especificación v0.2
 > ni de la v0.3.
@@ -43,6 +43,13 @@ ORCID: [0000-0003-1497-356X](https://orcid.org/0000-0003-1497-356X) · GitHub: [
 > el whitepaper v2. Las cifras que aparecen son cálculos derivados de
 > parámetros publicados o hallazgos de la literatura citada, nunca resultados
 > propios.
+>
+> **Código y arnés.** Esta versión se publica con una implementación de
+> referencia (`swarmbly_lce/`) y un arnés de validación (`lce_validation/`).
+> Seis instrumentos simulados pasan su prueba y los experimentos C1, C2 y C10
+> corren de extremo a extremo con un backend simulado (sección 11.6). **Nada de
+> eso es evidencia**: muestra que las medidas responden a lo que miden. Las
+> corridas con modelos reales están pendientes y se reportarán en la versión 0.2.
 >
 > **Documentos complementarios.** `SPEC_LCE_ES.md` (arquitectura y
 > especificación normativa), `swips/SWIP-XXXX-local-cognitive-extension.md`
@@ -92,6 +99,7 @@ La propuesta nació de una pregunta del autor: cómo afinar un modelo local con 
 | La regla de anclaje sin instrumento de verificación | **Instrumentada** con la evaluación por afirmaciones atómicas [20] y con la evidencia de que los modelos no citan de forma fiable [21] (sección 5.2) |
 | El olvido en pesos como regeneración opcional | **Convertido** en la única vía verificable, a la vista de los resultados negativos de desaprendizaje [59, 60] (sección 5.8) |
 | La diversidad del aprendizaje local como posible remedio de la correlación entre familias | **Descartada** como remedio dentro de una petición; reconocida como reducción de la homogeneidad entre usuarios (secciones 2.6 y 6.4, H-C17) |
+| Sin código ni arnés | **Implementación de referencia** con 77 pruebas, una por invariante, y **arnés** con seis instrumentos probados en simulación (sección 11.6) |
 | Hipótesis H-C1–H-C15 dispersas en tres secciones | **Reunidas**, más H-C16 y H-C17, con los experimentos C0–C12 y sus condiciones de muerte (sección 11) |
 
 Dos ideas de la fase exploratoria entraron a la revisión y no sobrevivieron como mecanismo: la neurona hebbiana como modelo de la red, que aporta solo su modo de fallo, y la transferencia genética horizontal como modelo del intercambio entre nodos, que no trae un instrumento aplicable. Las dos se documentan en la sección 3, porque el diagnóstico de por qué fallan orienta el diseño tanto como las homologías que sí transfieren.
@@ -328,7 +336,7 @@ Compartir conocimiento escrito en lugar de parámetros es la decisión más disc
 
 Si un nodo A posee una cápsula, B la pide y la cachea, C la pide y la cachea, y A desaparece, la cápsula sigue en B y en C. Cuanto más útil es un conocimiento, más copias aparecen sin ningún servicio de replicación. Es la respuesta barata a la pregunta original de qué pasa con el conocimiento de un nodo que cae, y tiene un sesgo estructural que la sección 7.6 corrige: favorece lo popular.
 
-Para lo que un usuario decide preservar explícitamente, el número de réplicas no se elige a ojo sino que se deriva de una tolerancia, con la misma lógica de E17 [1]. Si la vida de un nodo es exponencial con media de 91 días [65], la probabilidad de que un nodo concreto abandone la red en una ventana de reparación semanal es q = 1 − e^(−7/91) ≈ 0.074. Si las copias perdidas se reponen cada semana, la probabilidad de perder las r copias en la misma ventana es q^r, y para una tolerancia ε por ventana basta r ≥ ln(1/ε)/ln(1/q). Acumulada sobre un año, la probabilidad de perder una cápsula preservada es de aproximadamente 25 % con r = 2, 2.1 % con r = 3 y 0.16 % con r = 4. El cálculo supone salidas independientes, y la concentración de hosts en pocos usuarios que documenta el protocolo [1, sección 13.6] rompe ese supuesto, de modo que la colocación de copias debe exigir operadores distintos, igual que E12 exige familias distintas.
+Para lo que un usuario decide preservar explícitamente, el número de réplicas no se elige a ojo sino que se deriva de una tolerancia, con la misma lógica de E17 [1]. Si la vida de un nodo es exponencial con media de 91 días [65], la probabilidad de que un nodo concreto abandone la red en una ventana de reparación semanal es q = 1 − e^(−7/91) ≈ 0.074. Si las copias perdidas se reponen cada semana, la probabilidad de perder las r copias en la misma ventana es qʳ, y para una tolerancia ε por ventana basta r ≥ ln(1/ε)/ln(1/q). Acumulada sobre un año, la probabilidad de perder una cápsula preservada es de aproximadamente 25 % con r = 2, 2.1 % con r = 3 y 0.16 % con r = 4. El cálculo supone salidas independientes, y la concentración de hosts en pocos usuarios que documenta el protocolo [1, sección 13.6] rompe ese supuesto, de modo que la colocación de copias debe exigir operadores distintos, igual que E12 exige familias distintas.
 
 ### 7.3 Acumular, nunca reemplazar
 
@@ -532,6 +540,12 @@ Cada experimento reporta, junto a su beneficio, el costo que la extensión añad
 
 La extensión, o una de sus piezas, permanece fuera del protocolo si se cumple cualquiera de estas condiciones, enunciadas antes de medir. La afinidad se abandona si no mejora el despacho de forma medible. Las cápsulas se abandonan si su tráfico y complejidad superan el ahorro, y en ese caso Swarmbly se queda solo con la capa local. El aprendizaje social se abandona si contrae las colas aun bajo las restricciones de acumulación. El ajuste fino de comportamiento se abandona si no supera claramente a la recuperación; el de hechos se abandona sin experimento adicional, porque la evidencia [13, 14] ya basta. El bloque de capacidades se abandona si su fuga de información supera su utilidad. La respuesta plural se abandona si aumenta la adopción de posiciones con soporte débil, aunque mejore la satisfacción. Y la extensión entera queda fuera si requiere entrenamiento continuo en GPU, estado global sincronizado, gossip intenso, intercambio de adaptadores grandes, servicios centrales de conocimiento o revelación obligatoria de identidad, porque eso contradice la lógica que permite a Swarmbly democratizar la inferencia sobre hardware de consumo.
 
+### 11.6 El arnés y la prueba de los instrumentos
+
+El método del whitepaper v2 se aplica también a las medidas: un instrumento se prueba antes de usarlo para decidir nada. El arnés `lce_validation/` contiene seis pruebas de instrumento, cada una una simulación con una predicción enunciada de antemano y un criterio de aprobación, y `run_all` termina con error si alguna falla. La prueba **de anclaje** fabrica afirmaciones de tres maneras (palabras de contenido inventadas sobre un fragmento real, una afirmación real apuntada al fragmento equivocado, y una huella de archivo obsoleta) y exige que el verificador acepte al menos el 95 % de las afirmaciones soportadas y como mucho el 5 % de las fabricadas. La prueba **de conformismo** simula demes de agentes que adoptan una variante minoritaria del 20 % por la regla conformista o por la lineal, y exige que la primera la pierda y la segunda conserve su media, y que la guarda de I5 marque como no conforme una regla de umbral. La prueba **de migración** simula el modelo de islas de Wright–Fisher y exige que el F_ST simulado decrezca con Nm y siga 1/(1+4Nm) dentro de un factor 2 en la banda de la sección 7.5. La prueba **de persistencia** simula el recambio de nodos con vida media de 91 días y reparación semanal, y exige que la pérdida anual simulada coincida con qʳ y que la colocación en un mismo operador sea mucho peor. La prueba **de sesgo de selección** exige que la ganancia realizada siga i·r·σ, que la estimación sobre el conjunto de selección esté inflada y que la de un conjunto nuevo no lo esté. La prueba **de colapso** autoentrena una distribución categórica de cola larga y exige que reemplazar erosione la cola, que acumular la acote y que la variación anclada la preserve.
+
+Las seis pasan en la versión publicada, y la prueba es robusta a la semilla. Junto a ellas, los experimentos C1, C2 y C10 recorren el código real (digestión, anclaje, wiki, proyección sobre Γ, compuerta) con `MockBackend`, un backend de reglas que inyecta los efectos que se quieren detectar, entre ellos errores compartidos entre familias. Con él la proyección reduce la homogeneidad entre usuarios y deja intacta la concordancia de errores entre familias, que es la predicción de H-C17, pero lo hace por construcción, y por eso se reporta como validación de la tubería y nunca como resultado. El script `run_real` repite C1 y C2 contra modelos reales servidos por Ollama o cualquier servidor compatible con OpenAI, se niega a correr si algún modelo no responde o si todos pertenecen a la misma familia, y etiqueta su salida como real. Su alcance debe declararse con cualquier cifra: un corpus sintético de un usuario, tres usuarios proyectados, diez preguntas fácticas y un conjunto canario todavía sin verificar.
+
 ---
 
 ## 12. Limitaciones
@@ -600,6 +614,8 @@ Los elementos se divulgarán con la intención de que entren al dominio público
 ## 14. Hoja de ruta
 
 La hoja de ruta sigue el principio del protocolo de no afirmar antes de medir, y cada etapa termina en un veredicto. La etapa 0 fija el arnés: especificación, conjunto de tareas, conjunto canario inicial y contabilidad del costo cognitivo, todo antes de implementar ningún componente. El primer prototipo es estrictamente local y sin red: wiki con anclaje, capa epistémica, recuperación y proyección de tarea sobre Γ, evaluado con C0 a C3. El segundo prototipo añade el adaptador con repaso y la selección por generaciones, evaluado con C8 y C10; si el ajuste no supera a la recuperación, la capa 2 se retira y la LCE queda como memoria más proyección. El tercer prototipo es una simulación social sin despliegue, con nodos simulados sobre backends reales, evaluada con C4 a C7 y C9; si las cápsulas no pagan su costo, el plano social se retira. Solo después de esos veredictos se abre la discusión del SWIP en el repositorio del protocolo, separando si conviene la parte local y la de cápsulas en dos propuestas. La respuesta plural (C11) y la cohorte de piloto (C12) requieren usuarios reales y van al final.
+
+Con esta versión, la etapa 0 y el código de los dos primeros prototipos están implementados y probados (sección 11.6), con un entrenador LoRA real para Apple Silicon como componente experimental. Lo que separa la versión 0.1 de un primer veredicto no es código sino corridas: C1, C2 y C8 con modelos reales, y la verificación del conjunto canario por hablantes nativos.
 
 ---
 
@@ -722,7 +738,7 @@ Lo que la revisión bibliográfica añade a esa forma es un catálogo de modos d
 
 [43] Perez, J., Léger, C., Ovando-Tellez, M., Foulon, C., Dussauld, J., Oudeyer, P.-Y., & Moulin-Frier, C. (2024). Cultural evolution in populations of large language models. *arXiv*. https://arxiv.org/abs/2403.08882
 
-[44] Vallinder, A., & Hughes, E. (2025). Cultural evolution of cooperation among LLM agents. En *Proceedings of AAMAS 2025*. https://arxiv.org/abs/2412.10270
+[44] Vallinder, A., & Hughes, E. (2025). Cultural evolution of cooperation among LLM agents: Extended abstract. En *Proceedings of the 24th International Conference on Autonomous Agents and Multiagent Systems (AAMAS 2025)* (pp. 2771–2773). IFAAMAS. https://arxiv.org/abs/2412.10270
 
 [45] Weng, Z., Chen, G., & Wang, W. (2025). Do as we do, not as you think: The conformity of large language models. En *ICLR 2025*. https://arxiv.org/abs/2501.13381
 
@@ -778,4 +794,4 @@ Lo que la revisión bibliográfica añade a esa forma es un catálogo de modos d
 
 ---
 
-*Swarmbly LCE — Sebastián A. Espinoza-Ulloa · Whitepaper versión 0.1 (borrador). Compañero en inglés: pendiente, sobre el texto aprobado. Especificación: `SPEC_LCE_ES.md`. Texto bajo CC BY 4.0.*
+*Swarmbly LCE — Sebastián A. Espinoza-Ulloa · Whitepaper versión 0.1 (borrador). Versión en inglés: `WHITEPAPER_LCE_EN.md`. Especificación: `SPEC_LCE_ES.md`. Texto bajo CC BY 4.0.*

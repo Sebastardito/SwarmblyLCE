@@ -10,7 +10,7 @@ lang: es+en
 
 Esta bibliografía es la base citable de la **Local Cognitive Extension (LCE)** de Swarmbly: memoria personal local, aprendizaje del modelo del usuario y transferencia ligera de conocimiento entre nodos. Complementa la bibliografía maestra del protocolo (`Swarmbly-AI/docs/REFERENCES.md`) y no la duplica: lo que trata sobre inferencia descentralizada, verificación, ensamblaje genómico y computación voluntaria se cita a través del whitepaper v2 [1].
 
-This bibliography is the citable base for Swarmbly's **Local Cognitive Extension**. It complements the protocol's master bibliography and does not duplicate it. Numbering is the one used by `WHITEPAPER_LCE_ES.md` and `SPEC_LCE_ES.md`.
+This bibliography is the citable base for Swarmbly's **Local Cognitive Extension**. It complements the protocol's master bibliography and does not duplicate it. Numbering is the one used by `WHITEPAPER_LCE_ES.md`, `WHITEPAPER_LCE_EN.md`, `SPEC_LCE_ES.md` and `SPEC_LCE_EN.md`.
 
 Cada entrada lleva una línea **Uso en LCE**: para qué se cita y qué decisión de diseño sostiene. Una referencia que no sostiene ninguna decisión no está en la lista.
 
@@ -85,9 +85,9 @@ Uso en LCE: memoria por niveles gestionada por el propio modelo; antecedente de 
 
 Uso en LCE: memoria tipo Zettelkasten con enlaces y evolución de notas; antecedente directo del grafo de la wiki.
 
-[11] ⚠️ Kleppmann, M., Wiggins, A., van Hardenberg, P., & McGranaghan, M. (2019). Local-first software: You own your data, in spite of the cloud. En *Proceedings of Onward! 2019* (pp. 154–178). ACM. https://doi.org/10.1145/3359591.3359737
+[11] Kleppmann, M., Wiggins, A., van Hardenberg, P., & McGranaghan, M. (2019). Local-first software: You own your data, in spite of the cloud. En *Proceedings of Onward! 2019* (pp. 154–178). ACM. https://doi.org/10.1145/3359591.3359737
 
-Uso en LCE: los principios local-first (propiedad, funcionamiento sin red, longevidad de los datos) que la LCE adopta como principio rector. ⚠️ páginas y DOI según registro estándar; confirmado el lugar (Onward! 2019).
+Uso en LCE: los principios local-first (propiedad, funcionamiento sin red, longevidad de los datos) que la LCE adopta como principio rector. Páginas, editorial y DOI confirmados en Crossref (4 oct. 2026).
 
 ---
 
@@ -233,9 +233,9 @@ Uso en LCE: las máquinas alteran la variación, la transmisión y la selección
 
 Uso en LCE: marco abierto para simular evolución cultural en poblaciones de LLM variando red, personalidad y agregación. Candidato a arnés del experimento social.
 
-[44] ⚠️ Vallinder, A., & Hughes, E. (2025). Cultural evolution of cooperation among LLM agents. En *Proceedings of AAMAS 2025*. https://arxiv.org/abs/2412.10270
+[44] Vallinder, A., & Hughes, E. (2025). Cultural evolution of cooperation among LLM agents: Extended abstract. En *Proceedings of the 24th International Conference on Autonomous Agents and Multiagent Systems (AAMAS 2025)* (pp. 2771–2773). IFAAMAS. https://arxiv.org/abs/2412.10270
 
-Uso en LCE: las normas que emergen en sociedades de LLM dependen fuertemente del modelo base. ⚠️ páginas no confirmadas.
+Uso en LCE: las normas que emergen en sociedades de LLM dependen fuertemente del modelo base. Resumen extendido de 3 páginas en las actas; la versión completa está en arXiv. Páginas confirmadas en las actas de AAMAS 2025 (4 oct. 2026).
 
 [45] ⭐ Weng, Z., Chen, G., & Wang, W. (2025). Do as we do, not as you think: The conformity of large language models. En *ICLR 2025*. https://arxiv.org/abs/2501.13381
 
