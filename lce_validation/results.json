@@ -1,0 +1,283 @@
+{
+ "header": {
+  "lce_version": "0.1.0",
+  "backend_kind": "simulation",
+  "backend": "MockBackend + numpy simulations",
+  "evidence": false,
+  "python": "3.10.12",
+  "utc": "2026-10-04T19:43:29Z",
+  "seed": 0
+ },
+ "instruments": {
+  "anchor_gate": {
+   "hypothesis": "anchoring rule (whitepaper 5.2; SPEC 6.3)",
+   "accept_rate_supported": 1.0,
+   "accept_rate_fabricated": 0.0,
+   "prediction": "supported claims accepted (>=0.95); fabricated or misanchored claims rejected (acceptance <=0.05)",
+   "passed": true
+  },
+  "conformity": {
+   "hypothesis": "H-C11",
+   "analytic_generations_to_1pct": 18,
+   "generations_simulated": 30,
+   "minority_freq_conformist": 0.001,
+   "minority_freq_linear": 0.21425,
+   "guard_accepts_linear": true,
+   "guard_flags_threshold_rule": true,
+   "prediction": "conformist arm loses the minority (<5%); linear arm keeps its mean (~p0)",
+   "passed": true
+  },
+  "migration": {
+   "hypothesis": "H-C8 (instrument only)",
+   "rows": [
+    {
+     "Nm": 0.1,
+     "fst_sim": 0.8347253606321242,
+     "fst_wright": 0.7142857142857143,
+     "rel_err": 0.16861550488497387
+    },
+    {
+     "Nm": 0.5,
+     "fst_sim": 0.5178411142460579,
+     "fst_wright": 0.3333333333333333,
+     "rel_err": 0.5535233427381739
+    },
+    {
+     "Nm": 1.0,
+     "fst_sim": 0.34934278978572375,
+     "fst_wright": 0.2,
+     "rel_err": 0.7467139489286186
+    },
+    {
+     "Nm": 2.25,
+     "fst_sim": 0.18468737031398377,
+     "fst_wright": 0.1,
+     "rel_err": 0.8468737031398377
+    },
+    {
+     "Nm": 10.0,
+     "fst_sim": 0.04802238757206865,
+     "fst_wright": 0.024390243902439025,
+     "rel_err": 0.9689178904548146
+    }
+   ],
+   "monotone_decreasing": true,
+   "within_factor_2_in_band": true,
+   "prediction": "simulated F_ST decreases with Nm and tracks 1/(1+4Nm) within a factor of 2 in the band 0.5–2.25",
+   "passed": true
+  },
+  "persistence": {
+   "hypothesis": "H-C5 / H-C13 (instrument)",
+   "q_per_window": 0.07403892135768397,
+   "r_for_eps_1e-3": 3,
+   "r_for_eps_1e-4": 4,
+   "by_r": {
+    "1": {
+     "sim_annual_loss": 0.979,
+     "analytic": 0.9816843611112658,
+     "correlated_annual_loss": 0.9845
+    },
+    "2": {
+     "sim_annual_loss": 0.255,
+     "analytic": 0.24861399940959816,
+     "correlated_annual_loss": 0.6105
+    },
+    "3": {
+     "sim_annual_loss": 0.021750000000000047,
+     "analytic": 0.020887958651462202,
+     "correlated_annual_loss": 0.49750000000000005
+    },
+    "4": {
+     "sim_annual_loss": 0.0007500000000000284,
+     "analytic": 0.0015613883306642151,
+     "correlated_annual_loss": 0.50675
+    }
+   },
+   "prediction": "simulated loss matches q**r analytics; shared-operator placement is far worse",
+   "passed": true
+  },
+  "selection_bias": {
+   "hypothesis": "H-C15 (instrument)",
+   "rows": [
+    {
+     "k": 3,
+     "reliability": 0.3,
+     "intensity": 0.8499286364529188,
+     "predicted_gain": 0.25497859093587566,
+     "realised_gain": 0.25970423436993734,
+     "observed_on_selection_set": 2.84278058887591,
+     "observed_on_fresh_set": 0.24246176558427018
+    },
+    {
+     "k": 3,
+     "reliability": 0.8,
+     "intensity": 0.8499286364529188,
+     "predicted_gain": 0.6799429091623351,
+     "realised_gain": 0.6913362028112587,
+     "observed_on_selection_set": 1.0531539841942663,
+     "observed_on_fresh_set": 0.6946280818895897
+    },
+    {
+     "k": 5,
+     "reliability": 0.3,
+     "intensity": 1.1615207910759235,
+     "predicted_gain": 0.34845623732277703,
+     "realised_gain": 0.34183203031256976,
+     "observed_on_selection_set": 3.8691448085834326,
+     "observed_on_fresh_set": 0.3170325289964191
+    },
+    {
+     "k": 5,
+     "reliability": 0.8,
+     "intensity": 1.1615207910759235,
+     "predicted_gain": 0.9292166328607389,
+     "realised_gain": 0.9236643960404929,
+     "observed_on_selection_set": 1.469118502688863,
+     "observed_on_fresh_set": 0.9366105146523023
+    },
+    {
+     "k": 10,
+     "reliability": 0.3,
+     "intensity": 1.5366926482222065,
+     "predicted_gain": 0.46100779446666196,
+     "realised_gain": 0.43545437113392343,
+     "observed_on_selection_set": 5.123928992040113,
+     "observed_on_fresh_set": 0.43536065081496794
+    },
+    {
+     "k": 10,
+     "reliability": 0.8,
+     "intensity": 1.5366926482222065,
+     "predicted_gain": 1.2293541185777652,
+     "realised_gain": 1.2349199550395749,
+     "observed_on_selection_set": 1.9324765794342862,
+     "observed_on_fresh_set": 1.2480239757501226
+    }
+   ],
+   "prediction": "realised ≈ i·r·σ; selection-set estimate inflated; fresh-set estimate unbiased",
+   "passed": true
+  },
+  "collapse": {
+   "hypothesis": "H-C7 / H-C12 (instrument)",
+   "tail_mass_initial": 0.5397492965818664,
+   "tail_mass_final": {
+    "replace": 0.07491822516249484,
+    "accumulate": 0.5397492965818664,
+    "anchored": 1.0
+   },
+   "prediction": "replace erodes the tail; accumulate bounds it; anchored variation preserves or recovers it",
+   "passed": true
+  }
+ },
+ "experiments_mock": {
+  "build_wiki": {
+   "claims": 13,
+   "maturity": {
+    "RAW": 0,
+    "DIGESTED": 0,
+    "ANCHORED": 0,
+    "CONNECTED": 7,
+    "CORROBORATED": 0,
+    "CONSOLIDATED": 1,
+    "TRAINABLE": 5
+   },
+   "trainable": 5,
+   "digest": {
+    "spans": 12,
+    "malformed": 0,
+    "proposed": 13,
+    "added": 13,
+    "skipped_policy": 0
+   },
+   "anchor_verification": {
+    "proposed": 13,
+    "verified": 13,
+    "rejected_missing": 0,
+    "rejected_hash": 0,
+    "rejected_support": 0,
+    "rejection_rate": 0.0
+   },
+   "digest_ms": 13.371541994274594
+  },
+  "C1": {
+   "hypothesis": "H-C1",
+   "n": 10,
+   "acc_with_memory": 0.9,
+   "acc_without_memory": 0.0,
+   "gain": 0.9
+  },
+  "C2": {
+   "hypothesis": "H-C2, H-C17",
+   "users": 3,
+   "projection_bytes_mean": 113.33333333333333,
+   "lanes": {
+    "u1": [
+     "PUBLIC",
+     "PUBLIC"
+    ],
+    "u2": [
+     "PUBLIC",
+     "PUBLIC"
+    ],
+    "u3": [
+     "PUBLIC",
+     "PUBLIC"
+    ]
+   },
+   "lexicon_adherence": 1.0,
+   "homogeneity_with_projection": 0.8255579032236298,
+   "homogeneity_without_projection": 1.0,
+   "error_agreement_without_projection": {
+    "pairs": [
+     {
+      "pair": "fam-a|fam-b",
+      "agree_given_both_wrong": 0.8
+     },
+     {
+      "pair": "fam-a|fam-c",
+      "agree_given_both_wrong": 0.3
+     },
+     {
+      "pair": "fam-b|fam-c",
+      "agree_given_both_wrong": 0.5
+     }
+    ],
+    "mean": 0.5333333333333333
+   },
+   "error_agreement_with_projection": {
+    "pairs": [
+     {
+      "pair": "fam-a|fam-b",
+      "agree_given_both_wrong": 0.8
+     },
+     {
+      "pair": "fam-a|fam-c",
+      "agree_given_both_wrong": 0.3
+     },
+     {
+      "pair": "fam-b|fam-c",
+      "agree_given_both_wrong": 0.5
+     }
+    ],
+    "mean": 0.5333333333333333
+   },
+   "prediction": "projection lowers cross-user homogeneity and leaves within-request error agreement unchanged"
+  },
+  "C10_sim": {
+   "hypothesis": "H-C15 (simulation through AdapterManager)",
+   "generations": 6,
+   "candidates_per_generation": 5,
+   "accepted": 5,
+   "distinct_test_sets": 6,
+   "examples_eligible": 40
+  },
+  "canary": {
+   "items": 8,
+   "verified_items": 0,
+   "tail_mass": 0.0,
+   "identity_violation_rate": 0.0,
+   "training_guard": "passed",
+   "note": "items are unverified drafts until a native speaker confirms them; do not report as a result"
+  }
+ }
+}
