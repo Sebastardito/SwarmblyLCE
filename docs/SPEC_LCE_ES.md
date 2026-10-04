@@ -628,6 +628,7 @@ Ningún fallo de cápsula MUST contarse como fallo de ejecución de una microtar
 5. Las métricas de colas conceptuales que complementen al conjunto canario.
 6. Si la afinidad debe considerar la correlación de errores observada entre pares, a la vista de [36].
 7. El tratamiento de un usuario que también es operador de varios nodos, para la colocación de copias por operadores distintos.
+8. La diversidad de evidencia entre réplicas como complemento de E12 frente a la correlación de errores entre familias. Pertenece al protocolo, no a la LCE (nota `FINDING_2026-10-04_correlated_errors_across_families_ES.md` del repositorio Swarmbly); una implementación de la LCE MUST NOT satisfacerla con memoria personal de los workers.
 
 ---
 

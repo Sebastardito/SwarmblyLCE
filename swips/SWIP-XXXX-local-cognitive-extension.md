@@ -1595,6 +1595,15 @@ The latency threshold is a design target, not a current claim.
 If TP requires >128 median added tokens to produce <5 points of adherence gain, it SHOULD
 be rejected or redesigned.
 
+**Revision 2 addition (H-C17).** On a set of open-ended queries issued under
+different user profiles, C2 also measures cross-user homogeneity of responses
+(Infinity-Chat style [35]) and factual error correlation between replicas of the
+same request. Prediction: Task Projection reduces cross-user homogeneity and leaves
+within-request error correlation unchanged, because all replicas of a request share
+the same `Γ`, workers serve base models (I2), and adapters do not carry facts (I1).
+Local learning diversifies expression, not the pretraining-derived error structure
+measured in [36].
+
 ### Experiment C3 — Privacy reclassification
 
 Property/adversarial test.
@@ -1963,6 +1972,13 @@ No implementation PR should bundle all stages.
 25. **Should any social function of the LCE be tied to contributing as a worker?** The
     LCE is a selfish reason to install the client (L10), but users may disable worker
     mode; tying functions to contribution reintroduces credit accounting.
+
+26. **Can anything at the protocol level decorrelate errors across families?** Local
+    learning cannot (see C2, H-C17). A candidate is evidence diversity: replicas
+    reasoning over different public evidence. It belongs to the base protocol and is
+    recorded as a finding note in the Swarmbly repository
+    (`docs/FINDING_2026-10-04_correlated_errors_across_families.md`); it MUST NOT be
+    implemented with workers' personal memory.
 
 ---
 
