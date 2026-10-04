@@ -23,7 +23,7 @@
 | [`REFERENCES_LCE.md`](REFERENCES_LCE.md) | 2026-10-04 | Tres entradas ⚠️ ([37], [59], [61]) con un campo sin confirmar; `[STD]` según registro estándar. |
 | [`../lce_validation/README.md`](../lce_validation/README.md) | 2026-10-04 | Arnés: seis instrumentos aprobados en simulación; sin corridas reales. |
 
-## Superado · Superseded — 5
+## Superado · Superseded — 4
 
 Conservados en [`../_archive/drafts/`](../_archive/drafts/). No citar: el contenido vigente está en los documentos de arriba.
 
@@ -33,4 +33,3 @@ Conservados en [`../_archive/drafts/`](../_archive/drafts/). No citar: el conten
 | `Swarmbly_Cognitive_Extension_Architecture_ES_v3.md` | 2026-10-03 | Whitepaper y SPEC LCE 0.1 |
 | `Swarmbly_Cognitive_Extension_Architecture_ES_v4.md` | 2026-10-04 | Whitepaper y SPEC LCE 0.1 |
 | `SWIP-XXXX-local-cognitive-extension_v1_2026-10-01.md` | 2026-10-01 | SWIP revisión 2 |
-| `Claude_Swarmbly_fine-tuning_architecture.txt` | 2026-10-01 | Registro de la sesión de trabajo; integrado en v0.3 |

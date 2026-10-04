@@ -5,3 +5,9 @@ __pycache__/
 .env
 # local runtime state of a future implementation
 .swarmbly/
+
+# Conversaciones y registros de sesión: nunca en el repositorio
+_archive/**/*.txt
+*conversation*
+*transcript*
+*chat_log*
