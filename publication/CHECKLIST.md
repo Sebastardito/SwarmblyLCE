@@ -40,7 +40,7 @@ Este repositorio se publica en dos depósitos de Zenodo, igual que Swarmbly v2: 
 ## 5. Hacia la versión 0.2 · Towards v0.2
 
 - [x] Preregistro de C1/C2 confirmado antes de cualquier corrida real (`docs/PREREGISTRATION_C1_C2_ES.md` / `_EN.md`), con las reglas de decisión como código (`lce_validation/decide.py`).
-- [ ] En el Mac: `bash scripts/run_c1_c2_mac.sh` (extrae y confirma las 1.500 preguntas MMLU, comprueba Ollama y los modelos, corre `run_real` confirmatorio). Luego revisar `REPORT_REAL.md` y confirmar los resultados.
+- [x] Corridas confirmatorias en el Mac: la 1 falló por proyección vacía (`docs/RESULTS_2026-10-05_C1_C2_run1_*`); la 2, tras las enmiendas 2 y 3, decidió H-C2 (léxico), H-C17a y H-C17b (`docs/RESULTS_2026-10-05_C1_C2_run2_*`).
 - [ ] Verificación del conjunto canario por tres o más hablantes nativos (`lce_validation/data/canary_verification/`), y `python -m lce_validation.canary_verify verificador_*.csv`.
 - [ ] Issue de discusión del SWIP en Swarmbly-AI con el texto de `publication/SWIP_ISSUE_Swarmbly-AI.md`; después renombrar el SWIP con el número del issue.
 - [ ] Opcional: probar `MLXLoRATrainer` (extra `mlx`) en Apple Silicon.
