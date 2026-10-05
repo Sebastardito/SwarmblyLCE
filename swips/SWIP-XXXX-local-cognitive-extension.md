@@ -11,6 +11,15 @@ spec-version: 0.3
 
 # SWIP-XXXX: Local Cognitive Extension and Optional Knowledge Capsules
 
+> **Revision 3 — 2026-10-05.** Adds the first measured findings (the
+> pre-registered confirmatory run 2 of C1/C2 and the exploratory benchmarks with
+> five real model families), and the design consequences they force: a Γ-caching
+> recommendation for the projection cost, a digester-quality gate (proposal) for
+> the local store, and the measured feasibility of consumer-hardware adapters. The findings
+> are summarised in the new section "Validation status"; none of them changes the
+> normative specification, and two of them (the ρ cost of per-packet projection
+> and the digester gate) are recorded as open questions for review.
+>
 > **Revision 2 — 2026-10-04.** This revision integrates the design work recorded in
 > `docs/WHITEPAPER_LCE_ES.md` (rationale and evidence), `docs/SPEC_LCE_ES.md` (full
 > local architecture) and `docs/REFERENCES_LCE.md` (annotated bibliography; bracketed
@@ -1514,6 +1523,42 @@ serving adapters (I2) so the extension does not add a shared-training correlatio
 and Experiment C9 measures that prediction (H-C16).
 
 ---
+
+## Validation status (measured, 2026-10-05)
+
+Nothing below is claimed as a performance improvement; each number carries its
+declared scope. The confirmatory run follows the pre-registration
+(`docs/PREREGISTRATION_C1_C2_EN.md`, amendments 1–3); the benchmarks are
+labelled exploratory in their own scripts.
+
+| Hypothesis | Measurement | Scope | Outcome |
+|---|---|---|---|
+| C1 positive control | accuracy 0.80 with memory vs 0.00 without | 10 questions, 1 synthetic user, real digester | holds; validates the pipeline |
+| H-C2 lexicon | adherence 0.667 with Γ vs 0.033 without; diff 0.633 [0.500, 0.750] | 3 synthetic users × 20 topics, real models | holds |
+| H-C17 (a) | homogeneity 0.879 → 0.806; exceeds placebo by 0.048 [0.023, 0.070] | same | holds, with qualification |
+| H-C17 (b) | error agreement Δ = 0.039 [0.009, 0.069] inside ±0.10 | 1,500 MMLU items, 3 families | holds as equivalence; Γ has a small accuracy cost |
+| H-C1 at scale | mean gain of memory +0.477 by question, 95 % CI [0.407, 0.543] (question-clustered; 60 questions × 5 families) | 5 synthetic users × 12 questions × 5 families, wiki statistics stored per family and user | holds descriptively; per-family gain spans +0.133 (phi3.5) to +0.667 (qwen2.5) — the attribution to the digester is confounded (the family digests AND answers) and needs the crossed design of the next phase |
+| H-C2 ρ | with the current protocol (Γ in every packet) the projection adds +4–8 % ρ across users (median +7 %, worst +7.8 %, real Projector); Δρ ≈ |Γ|/packet size and does not dilute with longer documents | real planner/packer over 5 user procedure documents, real Projector | the comparison with the projection's GAIN (the actual death condition of H-C2) and the cost of per-request injection or Γ caching remain pending |
+| H-C6 (behavior) | a rank-8 LoRA trains in 36 s on consumer hardware and memorises its batch | LoRA rank 8, 200 iters, 13 pairs, Qwen2.5-3B-Instruct (qwen-research licence; weights not distributed) | feasibility only: the adherence comparison is not conclusive (batch contamination, unequal arms, no CI); the fair test is the next phase |
+| H-C11 direction (C9-lite) | utility adoption circuit works mechanically; prevalence threshold never fires on rare tails | 5 real nodes, unverified canary drafts | inconclusive by design (identity probe without capsules; tail mass by construction; prevalence counts the correct gloss, not the majority variant); two post-run deviations declared in the script |
+
+**Design consequences forced by the measurements.**
+
+1. **Γ caching (open question).** The projection cost multiplies by the number
+   of fragments because Γ travels in every packet. A per-user Γ cache on the
+   node (Γ is constant between requests) or a per-request injection point
+   reduces the measured +9–12 % to +3.6–4.1 % or to ~0. This SWIP records the
+   recommendation and leaves the mechanism to review (protocol-level, since it
+   benefits every Γ user).
+2. **Digester-quality gate (proposal; preliminary and confounded evidence).**
+   The family that both digests and answers (phi3.5:3.8b) showed the lowest
+   memory gain (+0.133 against +0.700); the claim counts that motivate this
+   were not stored in the first run and are re-measured with the corrected
+   benchmark. A minimum anchored-claim gate is proposed, not established.
+3. **Adapter feasibility.** A rank-8 LoRA trains on consumer hardware in 36 s
+   (200 iterations, 13 pairs) and memorises its batch. Whether behaviour —
+   and only behaviour — can live in the weights is exactly what the fair
+   comparison of the next phase must show; this run does not.
 
 ## Measurement plan
 
