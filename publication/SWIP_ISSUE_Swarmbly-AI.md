@@ -27,11 +27,11 @@ An optional, local-first extension in which each client keeps a readable memory 
 
 ## Motivation
 
-The client is the only unit in Swarmbly that keeps memory, and today that memory is discarded: every request starts without the user's terminology, register or prior work, and the only way to personalize is to send more context, which raises ρ and widens what workers observe. The design, its evidence base and its failure modes are in the LCE whitepaper v0.1 (doi:10.5281/zenodo.23150478), with a reference implementation and a validation harness at github.com/Sebastardito/SwarmblyLCE. Nothing has been measured yet with real models; the first run is pre-registered (`docs/PREREGISTRATION_C1_C2_EN.md` in that repository) and will be reported here whatever its outcome.
+The client is the only unit in Swarmbly that keeps memory, and today that memory is discarded: every request starts without the user's terminology, register or prior work, and the only way to personalize is to send more context, which raises ρ and widens what workers observe. The design, its evidence base and its failure modes are in the LCE whitepaper v0.1 (doi:10.5281/zenodo.23150478), with a reference implementation and a validation harness at github.com/Sebastardito/SwarmblyLCE. The first measurements with real models now exist and are summarised under Measurement plan; the pre-registered confirmatory run is reported with its failed first attempt included.
 
 ## Specification
 
-Summary; the normative text is the full SWIP (revision 2). The **cognitive capability block** is an optional profile field with `v`, `share_mode` (`none | metadata | pull`), coarse `capsule_kinds`, `domains`, `languages` and `max_capsule_bytes`, bounded in size and forbidden from carrying biographical attributes; clients treat it as advisory. **Capsules** are canonical-JSON objects identified by BLAKE2b-128 and signed with Ed25519, carrying an anchor (kind and digest), an epistemic distance, permissions (`cache`, `redistribute`, `train`) and, for descendants, the evidence that justifies the variation; descendants without new human evidence are rejected (`E_CAPSULE_NO_DELTA`), and material at distance greater than 1 may be cached but not redistributed or trained on. Exchange is pull only: no gossip, no global index. Two rules bind workers: a worker serving third parties MUST use its base model without adapter, and MUST NOT retain task content by default. Task Projection writes into Γ only, and re-classifies the request's privacy lane after retrieval, never lowering it.
+Summary; the normative text is the full SWIP (revision 3, which adds the measured validation status without changing the normative specification). The **cognitive capability block** is an optional profile field with `v`, `share_mode` (`none | metadata | pull`), coarse `capsule_kinds`, `domains`, `languages` and `max_capsule_bytes`, bounded in size and forbidden from carrying biographical attributes; clients treat it as advisory. **Capsules** are canonical-JSON objects identified by BLAKE2b-128 and signed with Ed25519, carrying an anchor (kind and digest), an epistemic distance, permissions (`cache`, `redistribute`, `train`) and, for descendants, the evidence that justifies the variation; descendants without new human evidence are rejected (`E_CAPSULE_NO_DELTA`), and material at distance greater than 1 may be cached but not redistributed or trained on. Exchange is pull only: no gossip, no global index. Two rules bind workers: a worker serving third parties MUST use its base model without adapter, and MUST NOT retain task content by default. Task Projection writes into Γ only, and re-classifies the request's privacy lane after retrieval, never lowering it.
 
 ## Rationale
 
@@ -47,7 +47,15 @@ A malicious node can observe at most the coarse capability block and the capsule
 
 ## Measurement plan
 
-Experiments C0–C12 with kill conditions are in the whitepaper, Section 11. The first confirmatory run (C1, C2) is pre-registered with its decision rules as code (`lce_validation/decide.py`): lexicon adherence with vs without Γ (H-C2, lexicon part), homogeneity of responses across users with a non-personal placebo (H-C17a), and equivalence within ±0.10 of cross-family error agreement with vs without projection on 1,500 multiple-choice items (H-C17b). ρ under projection (the other half of H-C2) needs the Swarmbly dispatch path and is not part of that run.
+Experiments C0–C12 with kill conditions are in the whitepaper, Section 11. The first confirmatory run (C1, C2) was pre-registered with its decision rules as code (`lce_validation/decide.py`) and run with three local model families of 2–3B parameters (`docs/RESULTS_2026-10-05_C1_C2_run2_EN.md`):
+
+- **Run 1 failed its manipulation**: the projection came out empty, so its C2 verdicts are refused and the failure is published. Amendments 2 and 3 (a manipulation check, then quote anchoring and span projection) were committed before run 2.
+- **C1 (positive control)** holds: accuracy 0.80 with memory vs 0.00 without.
+- **H-C2, lexicon part** holds: adherence 0.667 with Γ vs 0.033 without (difference 0.633, 95 % CI [0.500, 0.750]).
+- **H-C17a** holds: homogeneity across users 0.879 → 0.806, exceeding a non-personal placebo by 0.048 [0.023, 0.070]. The placebo matched the form of Γ, not its amount of instruction.
+- **H-C17b** holds as equivalence: cross-family error agreement rises by 0.039 [0.009, 0.069], inside ±0.10 but not zero; the excess over chance is unchanged (0.206 vs 0.209), and Γ has a small accuracy cost on factual items.
+
+Exploratory benchmarks, not confirmatory: local memory raises answer accuracy on user-specific questions by +0.477 (question-clustered 95 % CI [0.407, 0.543]; 5 synthetic users, 5 families), and the per-packet projection adds +4.0 to +7.8 % to ρ with the real planner. The scope of every figure (synthetic users, small local models, MCQ items in English) is stated in the full SWIP, section "Validation status". Not yet tested: ρ against the projection's gain (the actual kill condition of H-C2), the adapter against retrieval (H-C6), and the social plane (C9).
 
 ## Reference implementation
 
@@ -55,18 +63,20 @@ Experiments C0–C12 with kill conditions are in the whitepaper, Section 11. The
 
 ## Open questions
 
-1. One SWIP or two? The local layer and Task Projection need almost no wire change, while capsules do. Splitting into SWIP-A (worker base-model rule, Γ projection, lane re-classification) and SWIP-B (capability block, capsules) would let the first be judged on the C1/C2 results without waiting for capsule experiments.
+1. One SWIP or two? The local layer and Task Projection need almost no wire change, while capsules do. Splitting into SWIP-A (worker base-model rule, Γ projection, lane re-classification) and SWIP-B (capability block, capsules) would let the first be judged on the C1/C2 results, which now exist, without waiting for capsule experiments.
 2. Target spec version: `SPEC_EN.md` is v0.2 while whitepaper v2 points to v0.3.
 3. Should the profile carry `domains` at all, or only a boolean `capsules: true` with topics discovered after connection?
 4. BCP 47 for `languages`; registry or bounded free strings for `domains`.
 5. Licence representation (SPDX) before capsules are used for training or redistribution, and signed revocation (tombstones).
+6. Γ caching. Γ travels in every packet, so its ρ cost multiplies by the number of fragments. Should the protocol offer a per-request injection point or a per-user Γ cache on the node? This benefits every Γ user, not only the LCE; the per-request figure (about +1.1 to +2.6 %) is an arithmetic estimate, not a measurement.
+7. Digester-quality gate. The family with the weakest memory gain built far smaller wikis, but the evidence is confounded (the same family digests and answers). Is a floor on anchored claims a client concern only, or should the profile advertise it?
 
 ## Checklist
 
 - [x] I have read `CONTRIBUTING.md` Section 6 (the SWIP process)
 - [x] This genuinely requires a SWIP (optional wire fields and new node obligations)
 - [x] I searched existing and closed SWIPs (only SWIP-0001, unrelated)
-- [x] The Specification is complete in the full SWIP (revision 2)
+- [x] The Specification is complete in the full SWIP (revision 3)
 - [x] The Security and privacy implications section is filled in
-- [x] The Measurement plan is filled in and pre-registered
+- [x] The Measurement plan is filled in and pre-registered, and the first confirmatory results are reported, failed run included
 - [x] No performance or quality claim is made without a measurement
