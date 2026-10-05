@@ -33,3 +33,15 @@ Status
 Draft. Nothing in these documents has been measured, and no element is
 claimed as prior art until the documents are published in a dated public
 record (see the whitepaper, section 13).
+
+
+## Base model license (benchmark of the local adapter, F1c)
+
+The exploratory adapter benchmark (`lce_validation/bench_adapter.py`) fine-tunes
+Qwen/Qwen2.5-3B-Instruct as its base model. That model is distributed under the
+Qwen RESEARCH license (non-commercial; see the LICENSE file in the model card).
+No adapter weights are distributed in this repository: they are regenerable from
+the committed recipe in 36 seconds, and the SHA-256 of the local checkpoints is
+recorded in `results/bench_adapter/adapter_mara/MANIFEST_WEIGHTS.json`. The
+alternative for a commercial-compatible base is a permissively licensed model
+(Apache-2.0/MIT), recorded in the next-phase design.

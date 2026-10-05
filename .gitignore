@@ -12,3 +12,9 @@ _archive/**/*.txt
 *transcript*
 *chat_log*
 *.egg-info/
+
+# caché de modelos HuggingFace para el benchmark del adaptador
+.hf_cache/
+
+# pesos de adaptadores: regenerables en 36 s, nunca en el repositorio
+results/bench_adapter/adapter_*/*.safetensors

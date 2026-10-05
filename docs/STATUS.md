@@ -27,7 +27,7 @@
 | [`RESULTS_2026-10-05_C1_C2_run1_EN.md`](RESULTS_2026-10-05_C1_C2_run1_EN.md) | 2026-10-05 | Confirmatory run 1: manipulation failed (empty projection); C2 refused; cross-family shared errors measured (descriptive). |
 | [`PREREGISTRATION_C1_C2_ES.md`](PREREGISTRATION_C1_C2_ES.md) | 2026-10-05 | Preregistro de C1/C2 con modelos reales; enmiendas 1–3. |
 | [`PREREGISTRATION_C1_C2_EN.md`](PREREGISTRATION_C1_C2_EN.md) | 2026-10-05 | Pre-registration of C1/C2 with real models; amendments 1–3. |
-| [`../lce_validation/README.md`](../lce_validation/README.md) | 2026-10-04 | Arnés: siete instrumentos aprobados en simulación; sin corridas reales. |
+| [`../lce_validation/README.md`](../lce_validation/README.md) | 2026-10-04 | Arnés: siete instrumentos aprobados en simulación; corridas reales C1/C2 en `RESULTS_2026-10-05_C1_C2_run2`. |
 
 ## Superado · Superseded — 4
 
