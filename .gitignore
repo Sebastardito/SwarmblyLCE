@@ -11,3 +11,4 @@ _archive/**/*.txt
 *conversation*
 *transcript*
 *chat_log*
+*.egg-info/

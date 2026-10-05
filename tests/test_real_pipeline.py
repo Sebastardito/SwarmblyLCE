@@ -182,3 +182,32 @@ def test_confirmatory_guard(tmp_path, monkeypatch):
     assert not ok and any("uncommitted" in p for p in problems)
     new = tmp_path / "docs" / "NEW.md"; new.write_text("y")
     assert any("not committed" in p for p in run_real._committed_and_clean([new])[1])
+
+
+def test_fetch_mcq_pages_and_resume(tmp_path, monkeypatch):
+    from lce_validation import fetch_mcq as F
+    N = 1234
+    calls = []
+
+    def fake_get(offset, length=1, retries=8):
+        calls.append((offset, length))
+        rows = [{"row": {"subject": "s", "question": f"q{i}", "choices": ["a", "b", "c", "d"], "answer": i % 4}}
+                for i in range(offset, min(offset + length, N))]
+        return {"num_rows_total": N, "rows": rows}
+
+    monkeypatch.setattr(F, "_get", fake_get)
+    monkeypatch.setattr(F, "CACHE", tmp_path / "cache")
+    monkeypatch.setattr(F.time, "sleep", lambda s: None)
+    out = tmp_path / "m.json"
+    assert F.main(["--n", "300", "--seed", "7", "--out", str(out)]) == 0
+    data = json.loads(out.read_text())
+    idx = F.select_indices(N, 300, 7)
+    assert [it["idx"] for it in data["items"]] == idx
+    assert all(it["question"] == f"q{it['idx']}" and it["answer"] == "ABCD"[it["idx"] % 4] for it in data["items"])
+    assert max(l for _, l in calls) <= F.PAGE and len(calls) <= 1 + N // F.PAGE + 1
+    # Second run: refuses to overwrite; with the file removed, pages come from the cache.
+    assert F.main(["--n", "300", "--seed", "7", "--out", str(out)]) == 1
+    out.unlink(); n_before = len(calls)
+    assert F.main(["--n", "300", "--seed", "7", "--out", str(out)]) == 0
+    assert len(calls) == n_before + 1          # only the num_rows probe
+    assert [it["idx"] for it in json.loads(out.read_text())["items"]] == idx

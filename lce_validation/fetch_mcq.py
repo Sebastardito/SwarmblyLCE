@@ -6,9 +6,11 @@
 Source: MMLU (Hendrycks et al., 2021), Hugging Face dataset ``cais/mmlu``,
 config ``all``, split ``test``; MIT licence. Items are drawn uniformly without
 replacement with ``numpy.random.default_rng(seed)`` over the row indices
-reported by the Hugging Face datasets-server, then fetched one by one through
-its public ``/rows`` endpoint (standard library only, no ``datasets`` or
-``pyarrow`` needed). The script prints the SHA-256 of the file it writes;
+reported by the Hugging Face datasets-server, then fetched through its public
+``/rows`` endpoint in pages of 100 rows, with backoff on rate limits and an
+on-disk page cache (``~/.cache/swarmbly_lce/mmlu_pages``) so an interrupted
+download resumes (standard library only, no ``datasets`` or ``pyarrow``).
+How rows are downloaded does not affect which rows are selected. The script prints the SHA-256 of the file it writes;
 ``run_real`` records that hash in every result.
 
 The pre-registration fixes the seed and the size. Re-drawing with another seed
@@ -21,6 +23,8 @@ import argparse
 import hashlib
 import json
 import time
+import os
+import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -32,17 +36,44 @@ DATASET, CONFIG, SPLIT = "cais/mmlu", "all", "test"
 DEFAULT_OUT = Path(__file__).resolve().parent / "data" / "mmlu_test_1500.json"
 
 
-def _get(offset: int, length: int = 1, retries: int = 4) -> dict:
+PAGE = 100  # maximum rows per request accepted by the datasets-server
+CACHE = Path(os.environ.get("LCE_MCQ_CACHE", Path.home() / ".cache" / "swarmbly_lce" / "mmlu_pages"))
+
+
+def _get(offset: int, length: int = 1, retries: int = 8) -> dict:
+    """GET /rows with backoff. HTTP 429 honours Retry-After, otherwise waits 2, 4, 8 ... up to 60 s."""
     q = urllib.parse.urlencode({"dataset": DATASET, "config": CONFIG, "split": SPLIT, "offset": offset, "length": length})
     last: Exception | None = None
     for attempt in range(retries):
         try:
             with urllib.request.urlopen(f"{API}?{q}", timeout=60) as r:
                 return json.loads(r.read().decode("utf-8"))
-        except Exception as exc:  # network errors are retried, then raised
+        except urllib.error.HTTPError as exc:
             last = exc
-            time.sleep(1.5 * (attempt + 1))
+            wait = min(60.0, 2.0 ** (attempt + 1))
+            if exc.code == 429:
+                try:
+                    wait = max(wait, float(exc.headers.get("Retry-After", 0)))
+                except (TypeError, ValueError):
+                    pass
+                print(f"  rate limited at offset {offset}; waiting {wait:.0f} s")
+            time.sleep(wait)
+        except Exception as exc:  # other network errors are retried, then raised
+            last = exc
+            time.sleep(min(60.0, 2.0 ** (attempt + 1)))
     raise RuntimeError(f"datasets-server unreachable at offset {offset}: {last}")
+
+
+def _page(start: int, num_rows: int) -> list[dict]:
+    """Rows [start, start+PAGE) of the split, cached on disk so an interrupted run resumes."""
+    CACHE.mkdir(parents=True, exist_ok=True)
+    path = CACHE / f"{CONFIG}_{SPLIT}_{start:06d}.json"
+    if path.exists():
+        return json.loads(path.read_text(encoding="utf-8"))
+    rows = [r["row"] for r in _get(start, min(PAGE, num_rows - start))["rows"]]
+    path.write_text(json.dumps(rows, ensure_ascii=False), encoding="utf-8")
+    time.sleep(1.0)  # be polite to a public endpoint
+    return rows
 
 
 def select_indices(num_rows: int, n: int, seed: int) -> list[int]:
@@ -63,14 +94,20 @@ def main(argv: list[str] | None = None) -> int:
     first = _get(0)
     num_rows = int(first["num_rows_total"])
     idx = select_indices(num_rows, args.n, args.seed)
+    # Fetch only the pages that contain selected rows, 100 rows per request, with
+    # an on-disk cache. The selection itself depends only on (num_rows, n, seed).
+    pages = sorted({(i // PAGE) * PAGE for i in idx})
+    rows: dict[int, dict] = {}
+    for k, start in enumerate(pages, 1):
+        for j, row in enumerate(_page(start, num_rows)):
+            rows[start + j] = row
+        if k % 20 == 0 or k == len(pages):
+            print(f"  pages {k}/{len(pages)}")
     items = []
-    for k, i in enumerate(idx, 1):
-        row = _get(i)["rows"][0]["row"]
+    for i in idx:
+        row = rows[i]
         items.append({"idx": i, "subject": row["subject"], "question": row["question"],
                       "choices": list(row["choices"]), "answer": "ABCD"[int(row["answer"])]})
-        if k % 50 == 0:
-            print(f"  {k}/{len(idx)}")
-        time.sleep(0.05)
     payload = {"source": f"huggingface.co/datasets/{DATASET}", "config": CONFIG, "split": SPLIT, "licence": "MIT",
                "citation": "Hendrycks, D., et al. (2021). Measuring massive multitask language understanding. ICLR 2021.",
                "num_rows_total": num_rows, "n": len(items), "seed": args.seed,
