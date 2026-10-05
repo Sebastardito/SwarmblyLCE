@@ -2,6 +2,7 @@
 
 [![Licencia: AGPL-3.0-or-later](https://img.shields.io/badge/licencia-AGPL--3.0--or--later-blue.svg)](LICENSE)
 ![Estado: borrador](https://img.shields.io/badge/estado-borrador-orange.svg)
+[![Whitepaper DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23150478.svg)](https://doi.org/10.5281/zenodo.23150478)
 
 **Una extensión local-first para [Swarmbly](https://github.com/Sebastardito/Swarmbly-AI): memoria personal, aprendizaje del modelo del usuario y transferencia ligera de conocimiento entre nodos, sin deformar el protocolo.**
 
@@ -9,7 +10,7 @@ Swarmbly fragmenta el problema y no el modelo. Sus workers son deliberadamente c
 
 > **Estado: borrador, nada medido.** Ningún mecanismo de este repositorio se ha medido todavía. Cada uno llega con su hipótesis, su experimento y su condición de abandono, enunciados antes de construir. El repositorio incluye una implementación de referencia y un arnés cuyos instrumentos pasan en simulación; eso valida las medidas, no la extensión. No revisado por pares.
 
-- **Whitepaper (v0.1, borrador):** [`docs/WHITEPAPER_LCE_ES.md`](docs/WHITEPAPER_LCE_ES.md) ([PDF](docs/WHITEPAPER_LCE_ES.pdf)) · English: [`docs/WHITEPAPER_LCE_EN.md`](docs/WHITEPAPER_LCE_EN.md) ([PDF](docs/WHITEPAPER_LCE_EN.pdf)) — fundamento, homologías aceptadas y descartadas, evidencia adversa, arquitectura, hipótesis, limitaciones.
+- **Whitepaper (v0.1, borrador; Zenodo [10.5281/zenodo.23150478](https://doi.org/10.5281/zenodo.23150478)):** [`docs/WHITEPAPER_LCE_ES.md`](docs/WHITEPAPER_LCE_ES.md) ([PDF](docs/WHITEPAPER_LCE_ES.pdf)) · English: [`docs/WHITEPAPER_LCE_EN.md`](docs/WHITEPAPER_LCE_EN.md) ([PDF](docs/WHITEPAPER_LCE_EN.pdf)) — fundamento, homologías aceptadas y descartadas, evidencia adversa, arquitectura, hipótesis, limitaciones.
 - **Especificación y arquitectura (v0.1, borrador):** [`docs/SPEC_LCE_ES.md`](docs/SPEC_LCE_ES.md) · English: [`docs/SPEC_LCE_EN.md`](docs/SPEC_LCE_EN.md) — componentes, esquemas, reglas normativas (RFC 2119), parámetros, correspondencia con el código (sección 21).
 - **Diagrama de arquitectura:** [`docs/ARCHITECTURE_LCE.html`](docs/ARCHITECTURE_LCE.html).
 - **Implementación de referencia:** [`swarmbly_lce/`](swarmbly_lce/) · **arnés de validación:** [`lce_validation/`](lce_validation/) ([README](lce_validation/README.md)) · **pruebas:** [`tests/`](tests/), una por invariante I1–I8.
@@ -52,13 +53,15 @@ Que el modelo personal aprenda hechos; olvido verificable en los pesos salvo reg
 
 Código: AGPL-3.0-or-later (ver [`LICENSE`](LICENSE) y [`NOTICE`](NOTICE)). Textos: CC BY 4.0. Metadatos de cita en [`CITATION.cff`](CITATION.cff).
 
+**Cómo citar / How to cite:** Espinoza-Ulloa, S. A. (2026). *Local Cognition and Anchored Transmission: A Local-First Cognitive Extension for Swarmbly* (Version 0.1, draft). Zenodo. https://doi.org/10.5281/zenodo.23150478
+
 ---
 
 ## English summary
 
 **Swarmbly LCE** is a local-first extension to the Swarmbly decentralized inference protocol. Each user keeps, on their own device, a human-readable memory anchored to their sources and a lightweight adapter that learns only their voice and procedures, never facts; nodes may optionally exchange small signed knowledge capsules on demand. Workers keep serving their base model, so verification is untouched. The design is derived from evidence on knowledge injection, model collapse, conformity and correlated errors across model families, and from population-genetic and cultural-evolution instruments. **Status: draft; nothing has been measured.**
 
-Documents: whitepaper [`docs/WHITEPAPER_LCE_EN.md`](docs/WHITEPAPER_LCE_EN.md), specification [`docs/SPEC_LCE_EN.md`](docs/SPEC_LCE_EN.md), protocol-facing proposal [`swips/`](swips/), annotated bibliography [`docs/REFERENCES_LCE.md`](docs/REFERENCES_LCE.md); Spanish versions alongside.
+Documents: whitepaper [`docs/WHITEPAPER_LCE_EN.md`](docs/WHITEPAPER_LCE_EN.md) (Zenodo: [10.5281/zenodo.23150478](https://doi.org/10.5281/zenodo.23150478)), specification [`docs/SPEC_LCE_EN.md`](docs/SPEC_LCE_EN.md), protocol-facing proposal [`swips/`](swips/), annotated bibliography [`docs/REFERENCES_LCE.md`](docs/REFERENCES_LCE.md); Spanish versions alongside.
 
 Code: `swarmbly_lce` is a reference implementation of the whole specification (Python 3.10+, numpy; optional `cryptography` for Ed25519 and MLX for a real LoRA trainer on Apple Silicon). `lce_validation` is the harness: six instrument tests that must pass before any measurement is trusted, mock-backend experiments that exercise the pipeline, and `run_real` for runs against real models through Ollama or any OpenAI-compatible server. `pip install -e '.[dev]' && python -m pytest && python -m lce_validation.run_all`. Mock and simulation outputs are never evidence.
 

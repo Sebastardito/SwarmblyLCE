@@ -2,10 +2,10 @@
 # Citation File Format (CFF) 1.2.0
 # https://citation-file-format.github.io/
 #
-# Draft record. No DOI has been minted for the LCE yet, so the `doi` and
-# `preferred-citation.doi` fields are commented out rather than filled with
-# placeholders: an invalid DOI in a citation record is worse than an absent
-# one. Fill them after the Zenodo deposits (publication/CHECKLIST.md).
+# The whitepaper DOI is minted (10.5281/zenodo.23150478). The software DOI
+# is minted by the Zenodo GitHub integration on release and is left commented
+# out until then: an invalid DOI in a citation record is worse than an absent
+# one (publication/CHECKLIST.md).
 # ---------------------------------------------------------------------------
 
 cff-version: 1.2.0
@@ -79,7 +79,7 @@ preferred-citation:
   type: report
   title: >-
     Local Cognition and Anchored Transmission: A Local-First Cognitive
-    Extension for Swarmbly (Whitepaper LCE, version 0.1, draft)
+    Extension for Swarmbly
   authors:
     - given-names: "Sebastián A."
       family-names: "Espinoza-Ulloa"
@@ -87,5 +87,8 @@ preferred-citation:
       orcid: "https://orcid.org/0000-0003-1497-356X"
   year: 2026
   month: 10
-  # doi: ""   # to be added on publication
-  notes: "Draft preprint, not peer reviewed. English and Spanish versions."
+  publisher:
+    name: "Zenodo"
+  url: "https://doi.org/10.5281/zenodo.23150478"
+  doi: "10.5281/zenodo.23150478"
+  notes: "Version 0.1, draft preprint, not peer reviewed. English and Spanish versions."

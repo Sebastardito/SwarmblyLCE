@@ -20,13 +20,13 @@ Este repositorio se publica en dos depósitos de Zenodo, igual que Swarmbly v2: 
 
 - [ ] Zenodo → *New upload*. Archivos: `WHITEPAPER_LCE_EN.pdf`, `WHITEPAPER_LCE_ES.pdf`, `WHITEPAPER_LCE_EN.md`, `WHITEPAPER_LCE_ES.md`, `REFERENCES_LCE.md`.
 - [ ] Metadatos: copiar de `publication/zenodo_whitepaper.json` (tipo *Publication → Preprint*, licencia CC BY 4.0, ORCID, palabras clave, relación *references* con 10.5281/zenodo.23031305).
-- [ ] Publicar y anotar el DOI del artículo: `10.5281/zenodo._______`.
+- [x] Publicar y anotar el DOI del artículo: `10.5281/zenodo.23150478`.
 
 ## 3. Repositorio en GitHub · GitHub repository
 
 - [ ] Crear el repositorio vacío `Sebastardito/SwarmblyLCE` en GitHub (sin README ni licencia, para no crear un primer commit en conflicto).
 - [ ] En zenodo.org → *GitHub*, activar el interruptor de `SwarmblyLCE` **antes** de crear la release.
-- [ ] Añadir el DOI del artículo a `.zenodo.json` (`related_identifiers`, relación `isSupplementTo`, `resource_type: publication-preprint`) y a `CITATION.cff` (`preferred-citation.doi`); commit con `git commit -s`.
+- [x] Añadir el DOI del artículo a `.zenodo.json` (`related_identifiers`, relación `isSupplementTo`, `resource_type: publication-preprint`) y a `CITATION.cff` (`preferred-citation.doi`); commit con `git commit -s`.
 - [ ] `git push -u origin main` (el remoto `origin` ya está configurado).
 - [ ] Comprobar que el workflow `tests` pasa en GitHub Actions (Python 3.10–3.13).
 - [ ] Crear la release `v0.1.0` (*Swarmbly LCE v0.1.0 — draft, no results*). Zenodo crea el depósito de software y su DOI a partir de `.zenodo.json`.
