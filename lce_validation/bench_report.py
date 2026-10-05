@@ -35,7 +35,13 @@ def main() -> int:
     run2 = _load(ROOT / "results" / "2026-10-05_C1C2_run2" / "results_real.json")
 
     lines = [
-        f"# Reporte integrado de benchmarks — Swarmbly LCE",
+        "---",
+        "status: current",
+        "lang: es",
+        "kind: exploratory",
+        "---",
+        "",
+        "# Reporte integrado de benchmarks — Swarmbly LCE",
         "",
         f"*Generado el {date.today().isoformat()} por `lce_validation/bench_report.py` "
         "desde los resultados guardados de cada benchmark. Ningún número de este "
@@ -76,8 +82,9 @@ def main() -> int:
         rs = rho["summary"]
         lines.append(
             f"| H-C2 ρ: ¿la proyección encarece la redundancia? | Δρ por "
-            f"paquete +{rs['worst_delta_pct']:.1f}% (peor), por solicitud "
-            f"+{rs['worst_delta_pct_per_request']:.1f}% | **"
+            f"paquete +{rs['worst_delta_pct']:.1f}% (peor, medido); por "
+            f"solicitud ≈+{rs['worst_delta_pct_per_request']:.1f}% (estimación "
+            "aritmética, diseño no implementado) | **"
             f"{rs['verdict_hc2_rho']}** |")
     adp = _load(ROOT / "results" / "bench_adapter" / "results.json")
     if adp and "summary" in adp:
@@ -114,9 +121,18 @@ def main() -> int:
                   "resultado.",
                   "",
                   "**Por familia:**", ""]
+        ws = hc1.get("wiki_stats", {})
         for m, v in s["by_model"].items():
+            extra = ""
+            if m in ws:
+                us = list(ws[m].values())
+                anch = [u["claims"] - u["maturity"]["RAW"] - u["maturity"]["DIGESTED"] for u in us]
+                rate = [1 - u["anchor_rejection_rate"] for u in us]
+                extra = (f"; afirmaciones ancladas por usuario {min(anch)}–{max(anch)} "
+                         f"(media {sum(anch) / len(anch):.1f}), tasa de anclaje "
+                         f"{min(rate):.2f}–{max(rate):.2f}")
             lines.append(f"- `{m}`: ganancia media {v['mean_gain']:+.3f} "
-                         f"(n={v['n']})")
+                         f"(n={v['n']}){extra}")
         lines += ["", "**Por usuario:**", ""]
         for u, v in s["by_user"].items():
             lines.append(f"- `{u}`: ganancia media {v['mean_gain']:+.3f} "
@@ -128,7 +144,12 @@ def main() -> int:
             "umbrales de su protocolo, términos preferidos). La variación "
             "entre familias mezcla dos cosas —la familia digiere Y responde— "
             "y la atribución al digestor requiere el diseño cruzado de la "
-            "siguiente fase.",
+            "siguiente fase. Solo phi3.5 se separa por el tamaño de su wiki "
+            "(muchas menos afirmaciones ancladas); entre las otras cuatro, ni "
+            "el número de afirmaciones ancladas ni la tasa de anclaje ordenan "
+            "la ganancia. Una compuerta de calidad del digestor, si se adopta, "
+            "sería un piso de afirmaciones ancladas, no un umbral derivado de "
+            "estos datos.",
             "",
             "**Ajuste propuesto.** Añadir el brazo «memoria + proyección Γ», "
             "un usuario real y el diseño cruzado digestor/respuesta."]
@@ -152,7 +173,17 @@ def main() -> int:
                   "(«muere si el aumento de ρ supera la ganancia») exige "
                   "comparar este costo con la ganancia de adherencia; esa "
                   "comparación y los diseños por-solicitud o con caché "
-                  "quedan pendientes. " + rs.get("note", "")]
+                  "quedan pendientes.",
+                  "",
+                  "**Estimación, no medición.** Si Γ se inyectara una sola vez "
+                  "por solicitud, la misma aritmética sobre estos conteos de "
+                  "tokens daría "
+                  f"+{min(u['delta_pct_per_request'] for u in rho['users'].values()):.1f}% a "
+                  f"+{rs['worst_delta_pct_per_request']:.1f}% "
+                  f"(mediana +{rs['median_delta_pct_per_request']:.1f}%). Ese "
+                  "diseño no existe en el protocolo y la cifra no está medida; "
+                  "una caché de Γ por usuario en el nodo podría acercarla a "
+                  "cero, lo que es una hipótesis."]
 
     # 2.3 C9-lite
     if soc and "summary" in soc:
@@ -197,7 +228,10 @@ def main() -> int:
                   "confianza): "
                   f"**{a['h6']}**. Los pesos no se distribuyen (licencia "
                   "qwen-research del modelo base); el manifiesto con su "
-                  "SHA-256 y la receta regenerable están en el resultado.",
+                  "SHA-256 y la receta están en el resultado. Reentrenar con "
+                  "la receta da un adaptador funcionalmente equivalente, no "
+                  "necesariamente idéntico bit a bit (MLX no garantiza "
+                  "determinismo); el manifiesto permite comprobarlo.",
                   "",
                   f"**Alcance.** {a['scope']}.",
                   "",

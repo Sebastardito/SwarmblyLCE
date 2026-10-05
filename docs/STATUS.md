@@ -14,9 +14,9 @@
 | [`WHITEPAPER_LCE_EN.md`](WHITEPAPER_LCE_EN.md) | 0.1 | en | 2026-10-04 | Nothing measured. PDF: [`WHITEPAPER_LCE_EN.pdf`](WHITEPAPER_LCE_EN.pdf). Zenodo: 10.5281/zenodo.23150478. |
 | [`SPEC_LCE_ES.md`](SPEC_LCE_ES.md) | 0.1 | es | 2026-10-04 | Parámetros *provisional* sin medir. Sección 21: correspondencia con el código. |
 | [`SPEC_LCE_EN.md`](SPEC_LCE_EN.md) | 0.1 | en | 2026-10-04 | *Provisional* parameters unmeasured. Section 21: code map. |
-| [`../swips/SWIP-XXXX-local-cognitive-extension.md`](../swips/SWIP-XXXX-local-cognitive-extension.md) | rev. 2 | en | 2026-10-04 | Sin issue de discusión abierto; `XXXX` pendiente. |
+| [`../swips/SWIP-XXXX-local-cognitive-extension.md`](../swips/SWIP-XXXX-local-cognitive-extension.md) | rev. 3 | en | 2026-10-05 | Con «Validation status» medido; sin issue de discusión abierto; `XXXX` pendiente. |
 
-## Vigente · Current — 8
+## Vigente · Current — 9
 
 | Documento | Fecha | Nota |
 |---|---|---|
@@ -27,6 +27,7 @@
 | [`RESULTS_2026-10-05_C1_C2_run1_EN.md`](RESULTS_2026-10-05_C1_C2_run1_EN.md) | 2026-10-05 | Confirmatory run 1: manipulation failed (empty projection); C2 refused; cross-family shared errors measured (descriptive). |
 | [`PREREGISTRATION_C1_C2_ES.md`](PREREGISTRATION_C1_C2_ES.md) | 2026-10-05 | Preregistro de C1/C2 con modelos reales; enmiendas 1–3. |
 | [`PREREGISTRATION_C1_C2_EN.md`](PREREGISTRATION_C1_C2_EN.md) | 2026-10-05 | Pre-registration of C1/C2 with real models; amendments 1–3. |
+| [`../results/BENCH_REPORT.md`](../results/BENCH_REPORT.md) | 2026-10-05 | **Exploratorio**, generado por `lce_validation/bench_report.py`: H-C1 a escala, ρ de la proyección, adaptador (factibilidad), C9-lite. No es resultado confirmatorio. |
 | [`../lce_validation/README.md`](../lce_validation/README.md) | 2026-10-04 | Arnés: siete instrumentos aprobados en simulación; corridas reales C1/C2 en `RESULTS_2026-10-05_C1_C2_run2`. |
 
 ## Superado · Superseded — 4

@@ -8,7 +8,7 @@ This directory holds the validation harness of the Swarmbly LCE. It follows the 
 
 | | what it is | output | evidence? |
 |---|---|---|---|
-| **Instruments** (`instruments.py`) | numpy simulations checking that each measurement detects what it must | `results.json`, `REPORT.md` | **No** — they validate instruments |
+| **Instruments** (`instruments.py`) | numpy simulations checking that each measurement detects what it must | `results/harness/results.json`, `results/harness/REPORT.md` | **No** — they validate instruments |
 | **Mock experiments** (`experiments.py` with `MockBackend`) | the real pipeline (digest → anchors → wiki → projection → Γ) driven by a rule-based backend | same files | **No** — plumbing only |
 | **Real runs** (`run_real.py`) | the same experiments against real models (Ollama or any OpenAI-compatible server) | `results_real.json`, `REPORT_REAL.md` | candidate evidence, with its scope declared |
 

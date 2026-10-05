@@ -35,6 +35,9 @@ from .decide import decide
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MCQ = E.DATA / "mmlu_test_1500.json"
+# Directories that must be clean for a confirmatory run, and the run's own outputs inside them.
+GUARDED = ("swarmbly_lce", "lce_validation", "docs")
+OWN_OUTPUTS = ("results_real.json", "REPORT_REAL.md", "run_real.log")
 
 
 def _sha(path: Path) -> str:
@@ -56,10 +59,9 @@ def _committed_and_clean(paths: list[Path]) -> tuple[bool, list[str]]:
         rel = str(p.resolve().relative_to(ROOT)) if p.resolve().is_relative_to(ROOT) else str(p)
         if not _git("ls-files", rel):
             problems.append(f"{rel} is not committed")
-    dirty = _git("status", "--porcelain", "--", "swarmbly_lce", "lce_validation", "docs")
-    dirty = "\n".join(l for l in dirty.splitlines() if not l.endswith(("results_real.json", "REPORT_REAL.md", "run_real.log")))
+    dirty = [l[3:] for l in _git("status", "--porcelain", "--", *GUARDED).splitlines() if not l.endswith(OWN_OUTPUTS)]
     if dirty:
-        problems.append("uncommitted changes in swarmbly_lce/, lce_validation/ or docs/")
+        problems.append("uncommitted changes in swarmbly_lce/, lce_validation/ or docs/: " + ", ".join(dirty))
     return not problems, problems
 
 

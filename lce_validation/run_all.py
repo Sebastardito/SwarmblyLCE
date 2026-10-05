@@ -1,7 +1,11 @@
 """Run every instrument test and the mock experiments; write results.json and REPORT.md.
 
-    python -m lce_validation.run_all            # writes into lce_validation/
+    python -m lce_validation.run_all            # writes into results/harness/
     python -m lce_validation.run_all --out DIR
+
+The default output lies outside the directories that ``run_real`` requires to be
+clean (``swarmbly_lce/``, ``lce_validation/``, ``docs/``), so running the harness
+before a confirmatory run never turns that run exploratory.
 
 Exit status is 1 if any instrument fails: a failed instrument cannot decide
 its hypothesis, and the whitepaper's experiments must not be run on it.
@@ -24,6 +28,8 @@ from swarmbly_lce.report import run_header
 from . import experiments as E
 from . import instruments as I
 
+DEFAULT_OUT = Path(__file__).resolve().parents[1] / "results" / "harness"
+
 BANNER = ("> **SIMULATION AND MOCK RUN — NOT EVIDENCE.** Instruments are simulations; experiments use `MockBackend`, "
           "which answers by rules and injects the effects being measured. These numbers show that each measurement "
           "responds to what it measures. No figure here may be cited as a result about language models or about the LCE.")
@@ -31,7 +37,7 @@ BANNER = ("> **SIMULATION AND MOCK RUN — NOT EVIDENCE.** Instruments are simul
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--out", default=str(Path(__file__).resolve().parent))
+    ap.add_argument("--out", default=str(DEFAULT_OUT))
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args(argv)
     out = Path(args.out)

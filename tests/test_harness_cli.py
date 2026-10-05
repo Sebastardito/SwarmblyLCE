@@ -33,6 +33,14 @@ def test_run_all_writes_reports(tmp_path):
     assert "NOT EVIDENCE" in (tmp_path / "REPORT.md").read_text()
 
 
+def test_run_all_default_output_outside_guarded_dirs():
+    """run_all must not dirty the directories run_real requires clean (it would silently demote a confirmatory run)."""
+    from lce_validation.run_all import DEFAULT_OUT
+    from lce_validation.run_real import GUARDED
+    rel = DEFAULT_OUT.resolve().relative_to(ROOT)
+    assert rel.parts[0] not in GUARDED, rel
+
+
 def test_c2_prediction_holds_on_mock():
     fams = [MockBackend(family=f) for f in ("a", "b", "c")]
     r = E.c2_projection(fams, MockBackend(), bootstrap_B=500)

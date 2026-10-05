@@ -16,5 +16,6 @@ _archive/**/*.txt
 # caché de modelos HuggingFace para el benchmark del adaptador
 .hf_cache/
 
-# pesos de adaptadores: regenerables en 36 s, nunca en el repositorio
+# pesos de adaptadores: regenerables con la receta de bench_adapter.py (no necesariamente
+# idénticos bit a bit; comparar con MANIFEST_WEIGHTS.json), nunca en el repositorio
 results/bench_adapter/adapter_*/*.safetensors
