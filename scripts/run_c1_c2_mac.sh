@@ -42,7 +42,9 @@ else
   echo "committed $(git rev-parse --short HEAD)"
 fi
 
-echo "== 4. confirmatory run (about one to two hours)"
-"$PY" -m lce_validation.run_real --models "$MODELS" --embed-model "$EMBED" --prereg "$PREREG" 2>&1 | tee lce_validation/run_real.log
+echo "== 4. confirmatory run (about one to two hours; stops in about a minute if the projection fails the preflight)"
+# Run settings fixed by amendment 3 of the pre-registration (run 2 onwards).
+"$PY" -m lce_validation.run_real --models "$MODELS" --embed-model "$EMBED" --prereg "$PREREG" \
+  --anchor-mode quote --span-projection --reconcile-types --preflight 2>&1 | tee lce_validation/run_real.log
 echo
 echo "Done. Review lce_validation/REPORT_REAL.md, then commit results_real.json, REPORT_REAL.md and run_real.log."

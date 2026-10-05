@@ -23,7 +23,7 @@ from .errors import InvariantViolation
 from .sources import SourceSpace, Span
 from .wiki import Wiki
 
-__all__ = ["Digester", "DigestStats", "locate_quote"]
+__all__ = ["Digester", "DigestStats", "locate_quote", "reconcile_type"]
 
 PROMPT = (
     PROMPT_MARKERS["extract"] + "\n"
@@ -46,6 +46,24 @@ PROMPT_QUOTE = (
 
 _JSON = re.compile(r"\{.*\}", re.S)
 _WS = re.compile(r"\s+")
+
+# Type reconciliation (amendment 3). The model proposes a type; when the user's
+# own anchored words carry an explicit first-person cue, code decides. Applied only
+# to sources the user authored, and only from an assertive type (user_claim,
+# opinion, belief, fact) towards a behavioral one: never the reverse.
+_PREF_CUE = re.compile(r"\b(prefiero|prefer|i prefer|i'd rather)\b", re.I)
+_STYLE_CUE = re.compile(r"\b(escribo|suelo escribir|i write|i usually write|mi estilo|my style)\b", re.I)
+_RECONCILABLE = frozenset({ClaimType.USER_CLAIM, ClaimType.OPINION, ClaimType.BELIEF, ClaimType.FACT})
+
+
+def reconcile_type(proposed: ClaimType, span_text: str) -> ClaimType:
+    if proposed not in _RECONCILABLE:
+        return proposed
+    if _PREF_CUE.search(span_text):
+        return ClaimType.PREFERENCE
+    if _STYLE_CUE.search(span_text):
+        return ClaimType.STYLE
+    return proposed
 
 
 def locate_quote(passage: str, quote: str) -> tuple[int, int] | None:
@@ -73,6 +91,7 @@ class DigestStats:
     added: int = 0
     skipped_policy: int = 0
     quote_not_found: int = 0
+    type_reconciled: int = 0
 
 
 @dataclass
@@ -84,6 +103,8 @@ class Digester:
     # "offsets": the model returns character offsets (v0.1). "quote": the model returns a
     # verbatim quote and the code locates it; small models count characters poorly.
     anchor_mode: str = "offsets"
+    # Amendment 3: reconcile the proposed type with first-person cues in the anchored span.
+    reconcile_types: bool = False
 
     def _parse(self, raw: str) -> list[dict]:
         m = _JSON.search(raw)
@@ -126,6 +147,11 @@ class Digester:
             if not text or not (0 <= s < e <= len(span.text)):
                 self.stats.malformed += 1
                 continue
+            if self.reconcile_types and rule.authored_by_user:
+                new_type = reconcile_type(ctype, span.text[s:e])
+                if new_type != ctype:
+                    self.stats.type_reconciled += 1
+                    ctype = new_type
             self.stats.proposed += 1
             if ctype == ClaimType.EXPERIENCE and not rule.retain_episodic:
                 self.stats.skipped_policy += 1

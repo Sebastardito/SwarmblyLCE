@@ -5,7 +5,7 @@
   "backend": "MockBackend + numpy simulations",
   "evidence": false,
   "python": "3.10.12",
-  "utc": "2026-10-05T05:30:59Z",
+  "utc": "2026-10-05T07:29:10Z",
   "seed": 0
  },
  "instruments": {
@@ -204,7 +204,9 @@
     "malformed": 0,
     "proposed": 13,
     "added": 13,
-    "skipped_policy": 0
+    "skipped_policy": 0,
+    "quote_not_found": 0,
+    "type_reconciled": 0
    },
    "anchor_verification": {
     "proposed": 13,
@@ -214,7 +216,102 @@
     "rejected_support": 0,
     "rejection_rate": 0.0
    },
-   "digest_ms": 12.435415992513299
+   "digest_ms": 13.656040988280438,
+   "anchor_mode": "offsets",
+   "reconcile_types": false,
+   "claims_detail": [
+    {
+     "text": "Ayer hablé con el equipo sobre el cronograma del proyecto y acordamos revisar los datos la semana pasada.",
+     "type": "experience",
+     "anchored": true,
+     "maturity": "CONNECTED",
+     "span": "Ayer hablé con el equipo sobre el cronograma del proyecto y acordamos revisar los datos la semana pasada."
+    },
+    {
+     "text": "El laboratorio cierra a las seis de la tarde los viernes.",
+     "type": "fact",
+     "anchored": true,
+     "maturity": "CONNECTED",
+     "span": "El laboratorio cierra a las seis de la tarde los viernes."
+    },
+    {
+     "text": "El tamaño efectivo de población puede ser mucho menor que el tamaño censal cuando la proporción de sexos está sesgada.",
+     "type": "fact",
+     "anchored": true,
+     "maturity": "CONNECTED",
+     "span": "El tamaño efectivo de población puede ser mucho menor que el tamaño censal cuando la proporción de sexos está sesgada."
+    },
+    {
+     "text": "La regla de un migrante por generación corresponde a un F_ST cercano a 0.",
+     "type": "fact",
+     "anchored": true,
+     "maturity": "CONNECTED",
+     "span": "La regla de un migrante por generación corresponde a un F_ST cercano a 0."
+    },
+    {
+     "text": "2 en el modelo de islas.",
+     "type": "fact",
+     "anchored": true,
+     "maturity": "CONNECTED",
+     "span": "2 en el modelo de islas."
+    },
+    {
+     "text": "Creo que el café mejora la concentración en todos los casos.",
+     "type": "belief",
+     "anchored": true,
+     "maturity": "CONNECTED",
+     "span": "Creo que el café mejora la concentración en todos los casos."
+    },
+    {
+     "text": "Primero filtro las variantes por calidad, luego calculo la heterocigosidad esperada y finalmente estimo F_ST por pares de poblaciones.",
+     "type": "procedure",
+     "anchored": true,
+     "maturity": "TRAINABLE",
+     "span": "Primero filtro las variantes por calidad, luego calculo la heterocigosidad esperada y finalmente estimo F_ST por pares de poblaciones."
+    },
+    {
+     "text": "Para revisar un manuscrito, primero leo las figuras, luego la discusión y al final los métodos.",
+     "type": "procedure",
+     "anchored": true,
+     "maturity": "TRAINABLE",
+     "span": "Para revisar un manuscrito, primero leo las figuras, luego la discusión y al final los métodos."
+    },
+    {
+     "text": "Cuando preparo un experimento, primero escribo el criterio de abandono y luego diseño las corridas.",
+     "type": "style",
+     "anchored": true,
+     "maturity": "CONSOLIDATED",
+     "span": "Cuando preparo un experimento, primero escribo el criterio de abandono y luego diseño las corridas."
+    },
+    {
+     "text": "Siempre escribo correos con un registro cálido y profesional, y cierro con un agradecimiento breve.",
+     "type": "style",
+     "anchored": true,
+     "maturity": "TRAINABLE",
+     "span": "Siempre escribo correos con un registro cálido y profesional, y cierro con un agradecimiento breve."
+    },
+    {
+     "text": "Prefiero el término fragmentación semántica en lugar de división de prompts.",
+     "type": "preference",
+     "anchored": true,
+     "maturity": "TRAINABLE",
+     "span": "Prefiero el término fragmentación semántica en lugar de división de prompts."
+    },
+    {
+     "text": "Prefiero el término heterocigosidad esperada en lugar de diversidad génica.",
+     "type": "preference",
+     "anchored": true,
+     "maturity": "TRAINABLE",
+     "span": "Prefiero el término heterocigosidad esperada en lugar de diversidad génica."
+    },
+    {
+     "text": "Suelo explicar un concepto nuevo con una analogía biológica antes de dar la definición formal.",
+     "type": "fact",
+     "anchored": true,
+     "maturity": "CONNECTED",
+     "span": "Suelo explicar un concepto nuevo con una analogía biológica antes de dar la definición formal."
+    }
+   ]
   },
   "C1": {
    "hypothesis": "H-C1",
@@ -230,6 +327,159 @@
    "temperature": 0.7,
    "projection_bytes_mean": 96.85,
    "local_only_writes": 3,
+   "nonempty_gamma_writes": 1.0,
+   "nonempty_gamma_items": 1.0,
+   "anchor_mode": "offsets",
+   "span_projection": false,
+   "user_wikis": {
+    "u1": {
+     "claims": 2,
+     "maturity": {
+      "RAW": 0,
+      "DIGESTED": 0,
+      "ANCHORED": 0,
+      "CONNECTED": 0,
+      "CORROBORATED": 0,
+      "CONSOLIDATED": 0,
+      "TRAINABLE": 2
+     },
+     "trainable": 2,
+     "digest": {
+      "spans": 2,
+      "malformed": 0,
+      "proposed": 2,
+      "added": 2,
+      "skipped_policy": 0,
+      "quote_not_found": 0,
+      "type_reconciled": 0
+     },
+     "anchor_verification": {
+      "proposed": 2,
+      "verified": 2,
+      "rejected_missing": 0,
+      "rejected_hash": 0,
+      "rejected_support": 0,
+      "rejection_rate": 0.0
+     },
+     "digest_ms": 3.4207910066470504,
+     "anchor_mode": "offsets",
+     "reconcile_types": false,
+     "claims_detail": [
+      {
+       "text": "Escribo en un registro técnico y conciso.",
+       "type": "style",
+       "anchored": true,
+       "maturity": "TRAINABLE",
+       "span": "Escribo en un registro técnico y conciso."
+      },
+      {
+       "text": "Prefiero el término inferencia descentralizada en lugar de computación distribuida.",
+       "type": "preference",
+       "anchored": true,
+       "maturity": "TRAINABLE",
+       "span": "Prefiero el término inferencia descentralizada en lugar de computación distribuida."
+      }
+     ]
+    },
+    "u2": {
+     "claims": 2,
+     "maturity": {
+      "RAW": 0,
+      "DIGESTED": 0,
+      "ANCHORED": 0,
+      "CONNECTED": 0,
+      "CORROBORATED": 0,
+      "CONSOLIDATED": 0,
+      "TRAINABLE": 2
+     },
+     "trainable": 2,
+     "digest": {
+      "spans": 2,
+      "malformed": 0,
+      "proposed": 2,
+      "added": 2,
+      "skipped_policy": 0,
+      "quote_not_found": 0,
+      "type_reconciled": 0
+     },
+     "anchor_verification": {
+      "proposed": 2,
+      "verified": 2,
+      "rejected_missing": 0,
+      "rejected_hash": 0,
+      "rejected_support": 0,
+      "rejection_rate": 0.0
+     },
+     "digest_ms": 3.2345409999834374,
+     "anchor_mode": "offsets",
+     "reconcile_types": false,
+     "claims_detail": [
+      {
+       "text": "Escribo en un registro divulgativo y cercano.",
+       "type": "style",
+       "anchored": true,
+       "maturity": "TRAINABLE",
+       "span": "Escribo en un registro divulgativo y cercano."
+      },
+      {
+       "text": "Prefiero el término modelo pequeño en lugar de SLM.",
+       "type": "preference",
+       "anchored": true,
+       "maturity": "TRAINABLE",
+       "span": "Prefiero el término modelo pequeño en lugar de SLM."
+      }
+     ]
+    },
+    "u3": {
+     "claims": 2,
+     "maturity": {
+      "RAW": 0,
+      "DIGESTED": 0,
+      "ANCHORED": 0,
+      "CONNECTED": 0,
+      "CORROBORATED": 0,
+      "CONSOLIDATED": 0,
+      "TRAINABLE": 2
+     },
+     "trainable": 2,
+     "digest": {
+      "spans": 2,
+      "malformed": 0,
+      "proposed": 2,
+      "added": 2,
+      "skipped_policy": 0,
+      "quote_not_found": 0,
+      "type_reconciled": 0
+     },
+     "anchor_verification": {
+      "proposed": 2,
+      "verified": 2,
+      "rejected_missing": 0,
+      "rejected_hash": 0,
+      "rejected_support": 0,
+      "rejection_rate": 0.0
+     },
+     "digest_ms": 3.2031669979915023,
+     "anchor_mode": "offsets",
+     "reconcile_types": false,
+     "claims_detail": [
+      {
+       "text": "Escribo en un registro académico y formal.",
+       "type": "style",
+       "anchored": true,
+       "maturity": "TRAINABLE",
+       "span": "Escribo en un registro académico y formal."
+      },
+      {
+       "text": "Prefiero el término evolución cultural en lugar de aprendizaje social.",
+       "type": "preference",
+       "anchored": true,
+       "maturity": "TRAINABLE",
+       "span": "Prefiero el término evolución cultural en lugar de aprendizaje social."
+      }
+     ]
+    }
+   },
    "local_only_items": 0,
    "lanes_final": {
     "PUBLIC": 57,

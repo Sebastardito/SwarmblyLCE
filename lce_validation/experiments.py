@@ -47,12 +47,12 @@ def _norm(ans: str) -> str:
 
 
 def build_wiki(corpus: Path, policy_path: Path, backend: Backend, cycles: int = 4,
-               anchor_mode: str = "offsets") -> tuple[Wiki, dict[str, Any]]:
+               anchor_mode: str = "offsets", reconcile_types: bool = False) -> tuple[Wiki, dict[str, Any]]:
     space = SourceSpace(corpus)
     policy = LearningPolicy.load(policy_path)
     wiki = Wiki(policy=policy)
     verifier = AnchorVerifier(space)
-    dig = Digester(backend, space, verifier, anchor_mode=anchor_mode)
+    dig = Digester(backend, space, verifier, anchor_mode=anchor_mode, reconcile_types=reconcile_types)
     t0 = time.perf_counter()
     dig.digest_all(wiki)
     digest_ms = (time.perf_counter() - t0) * 1000
@@ -76,6 +76,7 @@ def build_wiki(corpus: Path, policy_path: Path, backend: Backend, cycles: int = 
         "anchor_verification": {**verifier.stats.__dict__, "rejection_rate": verifier.stats.rejection_rate},
         "digest_ms": digest_ms,
         "anchor_mode": anchor_mode,
+        "reconcile_types": reconcile_types,
         "claims_detail": [{"text": c.text, "type": c.type.value, "anchored": c.anchored, "maturity": c.maturity.value,
                            "span": space.read(c.anchors[0].source)[c.anchors[0].start:c.anchors[0].end] if c.anchors else ""}
                           for c in wiki.claims.values()],
@@ -133,6 +134,15 @@ PLACEBO_GAMMAS = [
 ]
 
 
+class ManipulationCheckFailed(RuntimeError):
+    """Γ would not reach the writer; raised before any outcome is generated (amendment 3)."""
+
+    def __init__(self, stats: dict[str, Any]):
+        super().__init__(f"manipulation check failed: {stats['projection_bytes_mean']:.0f} bytes, "
+                         f"non-empty writes {stats['nonempty_gamma_writes']:.2f}, items {stats['nonempty_gamma_items']:.2f}")
+        self.stats = stats
+
+
 def _boot_ci(values: Sequence[float], B: int = 10_000, seed: int = 20261005) -> list[float] | None:
     v = np.asarray(values, dtype=float)
     if len(v) < 2:
@@ -145,7 +155,8 @@ def _boot_ci(values: Sequence[float], B: int = 10_000, seed: int = 20261005) -> 
 def c2_projection(families: Sequence[Backend], digest_backend: Backend, users_dir: Path = FIXTURES / "users",
                   users_policy: Path = FIXTURES / "users_policy.json", queries_path: Path = FIXTURES / "open_queries.json",
                   mcq_path: Path = FIXTURES / "mcq_synthetic.json", temperature: float = 0.7,
-                  bootstrap_B: int = 10_000, anchor_mode: str = "offsets", span_projection: bool = False) -> dict[str, Any]:
+                  bootstrap_B: int = 10_000, anchor_mode: str = "offsets", span_projection: bool = False,
+                  reconcile_types: bool = False, preflight: bool = False) -> dict[str, Any]:
     """C2: H-C2 (lexicon adherence, bytes) and H-C17 (homogeneity across users; error agreement within a request).
 
     Design fixed by PREREGISTRATION_C1_C2 (2026-10-05):
@@ -167,7 +178,7 @@ def c2_projection(families: Sequence[Backend], digest_backend: Backend, users_di
     # (local_only); they are still written with Γ and counted, never dropped.
     claims_by_user, spaces, user_wikis = {}, {}, {}
     for udir in sorted(p for p in users_dir.iterdir() if p.is_dir()):
-        wiki, ws = build_wiki(udir, users_policy, digest_backend, anchor_mode=anchor_mode)
+        wiki, ws = build_wiki(udir, users_policy, digest_backend, anchor_mode=anchor_mode, reconcile_types=reconcile_types)
         claims_by_user[udir.name] = list(wiki.claims.values())
         spaces[udir.name] = wiki.space  # type: ignore[attr-defined]
         user_wikis[udir.name] = ws
@@ -183,6 +194,21 @@ def c2_projection(families: Sequence[Backend], digest_backend: Backend, users_di
     projections = {(u, t): projectors[u].project("escribe sobre " + t, claims_by_user[u]) for u in users for t in topics}
     gammas = {k: r.projection.gamma_fields() for k, r in projections.items()}
     seeds = {u: 1000 + k for k, u in enumerate(users)}
+
+    # Multiple-choice items and their projections (used in (c)); computed first so the
+    # preflight can check that Γ reaches the writer before any outcome is generated.
+    items = M.load_items(mcq_path)
+    item_proj = {i: projectors[users[i % len(users)]].project(it.question, claims_by_user[users[i % len(users)]]) for i, it in enumerate(items)}
+    if preflight:
+        # Amendment 3: stop before any outcome is generated if Γ would not reach the writer.
+        from .decide import MIN_NONEMPTY, MIN_PROJ_BYTES
+        stats = {"projection_bytes_mean": float(np.mean([r.projection.size_bytes() for r in projections.values()])),
+                 "nonempty_gamma_writes": float(np.mean([bool(r.projection.gamma_fields()) for r in projections.values()])),
+                 "nonempty_gamma_items": float(np.mean([bool(r.projection.gamma_fields()) for r in item_proj.values()])),
+                 "gamma": {f"{u}|{t}": g for (u, t), g in gammas.items()}, "user_wikis": user_wikis}
+        if (stats["projection_bytes_mean"] < MIN_PROJ_BYTES or stats["nonempty_gamma_writes"] < MIN_NONEMPTY
+                or stats["nonempty_gamma_items"] < MIN_NONEMPTY):
+            raise ManipulationCheckFailed(stats)
 
     # Generate every write once: three conditions x users x topics.
     outs: dict[str, dict[tuple[str, str], str]] = {"baseline": {}, "projection": {}, "placebo": {}}
@@ -214,8 +240,6 @@ def c2_projection(families: Sequence[Backend], digest_backend: Backend, users_di
     d_spec = [pl - pr for pl, pr in zip(hom["placebo"], hom["projection"])]
 
     # (c) H-C17 cross-family error agreement within a request (MCQ), Γ rotated across users.
-    items = M.load_items(mcq_path)
-    item_proj = {i: projectors[users[i % len(users)]].project(it.question, claims_by_user[users[i % len(users)]]) for i, it in enumerate(items)}
     without = {b.family: [M.parse_letter(b.generate(M.mcq_prompt(it), temperature=0.0, max_tokens=8)) for it in items] for b in families}
     with_ = {b.family: [M.parse_letter(b.generate(M.mcq_prompt(it, item_proj[i].projection.as_text()), temperature=0.0, max_tokens=8))
                         for i, it in enumerate(items)] for b in families}

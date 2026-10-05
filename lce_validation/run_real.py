@@ -90,6 +90,10 @@ def main(argv: list[str] | None = None) -> int:
                     help="how the digester anchors claims (amendment 2 fixes the value for run 2)")
     ap.add_argument("--span-projection", action="store_true",
                     help="read lexicon/register from the user's anchored words (amendment 2)")
+    ap.add_argument("--reconcile-types", action="store_true",
+                    help="reconcile proposed claim types with first-person cues in the anchored span (amendment 3)")
+    ap.add_argument("--preflight", action="store_true",
+                    help="stop before generating outcomes if the projection fails the manipulation check (amendment 3)")
     ap.add_argument("--out", default=str(Path(__file__).resolve().parent))
     args = ap.parse_args(argv)
 
@@ -131,15 +135,27 @@ def main(argv: list[str] | None = None) -> int:
                         prereg=str(prereg) if prereg else "", prereg_sha256=_sha(prereg) if prereg and prereg.exists() else "",
                         mcq_file=str(mcq), mcq_sha256=_sha(mcq), git_commit=_git("rev-parse", "HEAD"),
                         platform=platform.platform(), machine=platform.machine(), ollama=_ollama_info(args.url),
-                        temperature=args.temperature, anchor_mode=args.anchor_mode, span_projection=args.span_projection)
+                        temperature=args.temperature, anchor_mode=args.anchor_mode, span_projection=args.span_projection,
+                        reconcile_types=args.reconcile_types, preflight=args.preflight)
     lead = backends[0]
-    wiki, wstats = E.build_wiki(E.FIXTURES / "corpus", E.FIXTURES / "policy.json", lead, anchor_mode=args.anchor_mode)
+    wiki, wstats = E.build_wiki(E.FIXTURES / "corpus", E.FIXTURES / "policy.json", lead, anchor_mode=args.anchor_mode,
+                                reconcile_types=args.reconcile_types)
+    try:
+        c2 = E.c2_projection(backends, lead, mcq_path=mcq, temperature=args.temperature,
+                             anchor_mode=args.anchor_mode, span_projection=args.span_projection,
+                             reconcile_types=args.reconcile_types, preflight=args.preflight)
+    except E.ManipulationCheckFailed as exc:
+        out = Path(args.out)
+        stopped = {"header": header, "build_wiki": wstats, "C2": {"preflight_failed": True, **exc.stats}}
+        stopped["verdicts"] = decide(stopped)
+        (out / "results_real.json").write_text(json.dumps(stopped, indent=1, ensure_ascii=False, default=str) + "\n", encoding="utf-8")
+        print(f"STOPPED BEFORE ANY OUTCOME: {exc}. Nothing was measured; see results_real.json.", file=sys.stderr)
+        return 3
     results = {
         "header": header,
         "build_wiki": wstats,
         "C1": E.c1_memory(lead, wiki),
-        "C2": E.c2_projection(backends, lead, mcq_path=mcq, temperature=args.temperature,
-                              anchor_mode=args.anchor_mode, span_projection=args.span_projection),
+        "C2": c2,
         "canary": E.canary_check(lead, wiki),
         "scope": ("fixture corpus (1 synthetic user) for C1; 3 synthetic users x 20 topics for H-C2/H-C17a; "
                   f"{results_items(mcq)} MMLU items x {len(families)} families for H-C17b; canary unverified (descriptive only)"),

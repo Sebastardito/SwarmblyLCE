@@ -241,3 +241,21 @@ def test_diagnose_runs(server, tmp_path):
     rep = json.loads((tmp_path / "diagnose_fama_1b.json").read_text())
     assert set(rep["corpora"]["u1"]) == {"offsets", "quote"}
     assert rep["corpora"]["u1"]["quote"]["projection_span_text"]["bytes"] >= 20
+
+
+def test_reconcile_and_preflight(server, tmp_path, monkeypatch):
+    from swarmbly_lce.claims import ClaimType
+    from swarmbly_lce.digest import reconcile_type
+    assert reconcile_type(ClaimType.USER_CLAIM, "Prefiero el término X en lugar de Y.") == ClaimType.PREFERENCE
+    assert reconcile_type(ClaimType.FACT, "Escribo en un registro formal.") == ClaimType.STYLE
+    assert reconcile_type(ClaimType.PROCEDURE, "Prefiero empezar por las figuras.") == ClaimType.PROCEDURE  # never from behavioral
+    assert reconcile_type(ClaimType.USER_CLAIM, "El café mejora la concentración.") == ClaimType.USER_CLAIM
+    # Preflight: with every projection forced empty, run_real stops before generating outcomes.
+    from swarmbly_lce import projection as P
+    monkeypatch.setattr(P.TaskProjection, "gamma_fields", lambda self: {})
+    rc = run_real.main(["--url", server, "--models", "fama:1b,famb:1b,famc:1b", "--mcq", str(E.FIXTURES / "mcq_synthetic.json"),
+                        "--out", str(tmp_path), "--preflight"])
+    assert rc == 3
+    res = json.loads((tmp_path / "results_real.json").read_text())
+    assert res["C2"]["preflight_failed"] and "raw" not in res["C2"]
+    assert res["verdicts"]["H-C17a"]["verdict"] in {"refused", "exploratory_only"}
