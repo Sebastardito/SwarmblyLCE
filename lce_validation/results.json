@@ -5,7 +5,7 @@
   "backend": "MockBackend + numpy simulations",
   "evidence": false,
   "python": "3.11.17",
-  "utc": "2026-10-05T21:45:30Z",
+  "utc": "2026-10-05T21:46:31Z",
   "seed": 0
  },
  "instruments": {
@@ -216,7 +216,7 @@
     "rejected_support": 0,
     "rejection_rate": 0.0
    },
-   "digest_ms": 2.3209169739857316,
+   "digest_ms": 2.1865000016987324,
    "anchor_mode": "offsets",
    "reconcile_types": false,
    "claims_detail": [
@@ -361,7 +361,7 @@
       "rejected_support": 0,
       "rejection_rate": 0.0
      },
-     "digest_ms": 0.39599998854100704,
+     "digest_ms": 0.443708966486156,
      "anchor_mode": "offsets",
      "reconcile_types": false,
      "claims_detail": [
@@ -410,7 +410,7 @@
       "rejected_support": 0,
       "rejection_rate": 0.0
      },
-     "digest_ms": 0.37695799255743623,
+     "digest_ms": 0.4925419925712049,
      "anchor_mode": "offsets",
      "reconcile_types": false,
      "claims_detail": [
@@ -459,7 +459,7 @@
       "rejected_support": 0,
       "rejection_rate": 0.0
      },
-     "digest_ms": 0.37220801459625363,
+     "digest_ms": 0.4279580316506326,
      "anchor_mode": "offsets",
      "reconcile_types": false,
      "claims_detail": [

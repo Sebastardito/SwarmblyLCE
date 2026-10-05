@@ -2,7 +2,7 @@
 
 > **SIMULATION AND MOCK RUN — NOT EVIDENCE.** Instruments are simulations; experiments use `MockBackend`, which answers by rules and injects the effects being measured. These numbers show that each measurement responds to what it measures. No figure here may be cited as a result about language models or about the LCE.
 
-Version 0.2.0.dev0 · seed 0 · 2026-10-05T21:45:30Z
+Version 0.2.0.dev0 · seed 0 · 2026-10-05T21:46:31Z
 
 ## Instruments
 
