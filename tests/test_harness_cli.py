@@ -22,7 +22,7 @@ def test_instrument_passes(name):
 
 def test_instruments_seed_robust():
     for seed in (1, 2):
-        for name in ("conformity", "persistence", "collapse", "anchor_gate"):
+        for name in ("conformity", "persistence", "collapse", "anchor_gate", "error_agreement"):
             assert I.ALL[name](seed=seed)["passed"], (name, seed)
 
 
@@ -35,9 +35,10 @@ def test_run_all_writes_reports(tmp_path):
 
 def test_c2_prediction_holds_on_mock():
     fams = [MockBackend(family=f) for f in ("a", "b", "c")]
-    r = E.c2_projection(fams, MockBackend())
-    assert r["homogeneity_with_projection"] < r["homogeneity_without_projection"]
-    assert r["error_agreement_with_projection"]["mean"] == r["error_agreement_without_projection"]["mean"]
+    r = E.c2_projection(fams, MockBackend(), bootstrap_B=500)
+    assert r["homogeneity"]["mean"]["projection"] < r["homogeneity"]["mean"]["baseline"] < 1.0
+    assert r["error_agreement"]["delta"] == 0.0
+    assert r["lexicon"]["adherence_with"] > r["lexicon"]["adherence_without"]
 
 
 def test_cli_end_to_end(tmp_path, monkeypatch):

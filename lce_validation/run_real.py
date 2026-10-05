@@ -1,41 +1,101 @@
 """Run C1 and C2 against real models through an OpenAI-compatible endpoint (e.g. Ollama).
 
-    python -m lce_validation.run_real --models qwen2.5:3b,llama3.2:3b,gemma2:2b
-    python -m lce_validation.run_real --url http://localhost:11434/v1 --models ... --embed-model nomic-embed-text
+Confirmatory run (the one PREREGISTRATION_C1_C2 describes):
 
-The first model is used to digest the corpus and to write; all models are
-used as replicas of different families for the error-agreement metric. The
-script refuses to run if any model is unreachable, and labels its output
-``backend_kind = real``. Results go to results_real.json and REPORT_REAL.md.
+    python -m lce_validation.fetch_mcq                       # once, then commit the data file
+    python -m lce_validation.run_real \\
+        --models qwen2.5:3b,llama3.2:3b,gemma2:2b --embed-model nomic-embed-text \\
+        --prereg docs/PREREGISTRATION_C1_C2_EN.md
 
-Scope must be declared with any result: fixture corpus of one synthetic user,
-three projected users, ten factual questions. This is a first measurement of
-the instruments on real models, not a test of the LCE's hypotheses at scale.
+The first model digests the corpus and writes; all models are replicas of
+different families for the error-agreement metric. A run is labelled
+**confirmatory** only if the pre-registration and the MCQ item file exist and
+are committed, the code tree is clean, an embedding model is given and at least
+three families respond. Otherwise it runs as **exploratory** and ``decide``
+reports no verdicts. Outputs: ``results_real.json`` (with raw answers),
+``REPORT_REAL.md`` and the verdicts of ``lce_validation.decide``.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import platform
+import subprocess
 import sys
+import urllib.request
 from pathlib import Path
 
 from swarmbly_lce.backends import BackendUnavailable, OpenAICompatBackend
 from swarmbly_lce.report import run_header
 
 from . import experiments as E
+from .decide import decide
+
+ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_MCQ = E.DATA / "mmlu_test_1500.json"
+
+
+def _sha(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _git(*args: str) -> str:
+    try:
+        return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True, timeout=20).stdout.strip()
+    except Exception:
+        return ""
+
+
+def _committed_and_clean(paths: list[Path]) -> tuple[bool, list[str]]:
+    problems = []
+    if not _git("rev-parse", "HEAD"):
+        return False, ["not a git checkout"]
+    for p in paths:
+        rel = str(p.resolve().relative_to(ROOT)) if p.resolve().is_relative_to(ROOT) else str(p)
+        if not _git("ls-files", rel):
+            problems.append(f"{rel} is not committed")
+    dirty = _git("status", "--porcelain", "--", "swarmbly_lce", "lce_validation", "docs")
+    dirty = "\n".join(l for l in dirty.splitlines() if not l.endswith(("results_real.json", "REPORT_REAL.md", "VERDICTS_REAL.md")))
+    if dirty:
+        problems.append("uncommitted changes in swarmbly_lce/, lce_validation/ or docs/")
+    return not problems, problems
+
+
+def _ollama_info(url: str) -> dict:
+    root = url.rstrip("/").removesuffix("/v1")
+    info: dict = {}
+    for key, path in (("version", "/api/version"), ("tags", "/api/tags")):
+        try:
+            with urllib.request.urlopen(root + path, timeout=10) as r:
+                info[key] = json.loads(r.read().decode("utf-8"))
+        except Exception as exc:
+            info[key] = f"unavailable: {exc}"
+    if isinstance(info.get("tags"), dict):
+        info["models"] = {m.get("name"): m.get("digest") for m in info["tags"].get("models", [])}
+        info.pop("tags")
+    return info
 
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--url", default="http://localhost:11434/v1")
-    ap.add_argument("--models", required=True, help="comma-separated; at least two families")
+    ap.add_argument("--models", required=True, help="comma-separated; at least two families (three for a confirmatory run)")
     ap.add_argument("--embed-model", default="")
+    ap.add_argument("--mcq", default=str(DEFAULT_MCQ))
+    ap.add_argument("--prereg", default="", help="path to the committed pre-registration (required for a confirmatory run)")
+    ap.add_argument("--temperature", type=float, default=0.7)
     ap.add_argument("--out", default=str(Path(__file__).resolve().parent))
     args = ap.parse_args(argv)
+
     models = [m.strip() for m in args.models.split(",") if m.strip()]
     if len(models) < 2:
         ap.error("at least two models of different families are required")
+    mcq = Path(args.mcq)
+    if not mcq.exists():
+        print(f"MCQ item file {mcq} not found. Draw it once with `python -m lce_validation.fetch_mcq` and commit it.", file=sys.stderr)
+        return 2
     backends = [OpenAICompatBackend(model=m, base_url=args.url, embed_model=args.embed_model) for m in models]
     for b in backends:
         try:
@@ -43,37 +103,74 @@ def main(argv: list[str] | None = None) -> int:
         except BackendUnavailable as exc:
             print(f"model {b.model} unreachable: {exc}", file=sys.stderr)
             return 2
+    if args.embed_model:
+        try:
+            backends[0].embed(["probe"])
+        except BackendUnavailable as exc:
+            print(f"embedding model {args.embed_model} unreachable: {exc}", file=sys.stderr)
+            return 2
     families = {b.family for b in backends}
     if len(families) < 2:
         print("all models resolve to one family; the error-agreement metric needs distinct families", file=sys.stderr)
         return 2
+
+    prereg = Path(args.prereg) if args.prereg else None
+    guarded = [mcq] + ([prereg] if prereg else [])
+    clean, problems = _committed_and_clean(guarded)
+    if prereg is None or not prereg.exists():
+        problems.append("no pre-registration given")
+    confirmatory = bool(prereg and prereg.exists() and clean and args.embed_model and len(families) >= 3)
+    print(f"run type: {'CONFIRMATORY' if confirmatory else 'EXPLORATORY'}" + ("" if confirmatory else f" ({'; '.join(problems) or 'see header'})"))
+
+    header = run_header("real", ",".join(models), url=args.url, embed_model=args.embed_model or "hash-fallback",
+                        confirmatory=confirmatory, problems=problems, distinct_families=len(families),
+                        prereg=str(prereg) if prereg else "", prereg_sha256=_sha(prereg) if prereg and prereg.exists() else "",
+                        mcq_file=str(mcq), mcq_sha256=_sha(mcq), git_commit=_git("rev-parse", "HEAD"),
+                        platform=platform.platform(), machine=platform.machine(), ollama=_ollama_info(args.url),
+                        temperature=args.temperature)
     lead = backends[0]
     wiki, wstats = E.build_wiki(E.FIXTURES / "corpus", E.FIXTURES / "policy.json", lead)
     results = {
-        "header": run_header("real", ",".join(models), url=args.url, embed_model=args.embed_model or "hash-fallback"),
+        "header": header,
         "build_wiki": wstats,
         "C1": E.c1_memory(lead, wiki),
-        "C2": E.c2_projection(backends, lead),
+        "C2": E.c2_projection(backends, lead, mcq_path=mcq, temperature=args.temperature),
         "canary": E.canary_check(lead, wiki),
-        "scope": "fixture corpus (1 synthetic user), 3 projected users, 10 factual questions; unverified canary",
+        "scope": ("fixture corpus (1 synthetic user) for C1; 3 synthetic users x 20 topics for H-C2/H-C17a; "
+                  f"{results_items(mcq)} MMLU items x {len(families)} families for H-C17b; canary unverified (descriptive only)"),
     }
+    results["verdicts"] = decide(results)
     out = Path(args.out)
     (out / "results_real.json").write_text(json.dumps(results, indent=1, ensure_ascii=False, default=str) + "\n", encoding="utf-8")
-    c2 = results["C2"]
-    lines = ["# lce_validation — real-model run", "", f"Models: {', '.join(models)} · {results['header']['utc']}", "",
+
+    v = results["verdicts"]
+    lines = ["# lce_validation — real-model run", "",
+             f"**Run type: {'confirmatory' if confirmatory else 'exploratory'}.** Models: {', '.join(models)} · {header['utc']} · commit {header['git_commit'][:10]}",
+             "", f"Pre-registration sha256 `{header['prereg_sha256'][:16]}…` · MCQ sha256 `{header['mcq_sha256'][:16]}…`", "",
              f"Scope: {results['scope']}.", "",
              f"- Wiki: {wstats['claims']} claims; anchor rejection rate {wstats['anchor_verification']['rejection_rate']:.2f}; "
              f"malformed digester outputs {wstats['digest']['malformed']}.",
-             f"- C1 (H-C1): accuracy with memory {results['C1']['acc_with_memory']:.2f} vs without {results['C1']['acc_without_memory']:.2f}.",
-             f"- C2 (H-C2): lexicon adherence {c2['lexicon_adherence']}; projection bytes {c2['projection_bytes_mean']:.0f}.",
-             f"- C2 (H-C17): cross-user homogeneity {c2['homogeneity_with_projection']:.3f} with projection vs "
-             f"{c2['homogeneity_without_projection']:.3f} without; cross-family error agreement "
-             f"{c2['error_agreement_with_projection']['mean']} with vs {c2['error_agreement_without_projection']['mean']} without.",
-             f"- Canary (unverified): tail mass {results['canary']['tail_mass']:.2f}; identity violations {results['canary']['identity_violation_rate']:.2f}.",
-             ""]
+             f"- C1 (positive control): accuracy with memory {results['C1']['acc_with_memory']:.2f} vs without {results['C1']['acc_without_memory']:.2f}.",
+             *E.format_c2(results["C2"]),
+             f"- Canary (unverified, descriptive only): tail mass {results['canary']['tail_mass']:.2f}; identity violations {results['canary']['identity_violation_rate']:.2f}.",
+             "", "## Verdicts (lce_validation.decide)", ""]
+    for k, r in v.items():
+        if isinstance(r, dict) and "verdict" in r:
+            lines.append(f"- **{k}: {r['verdict']}** — {r['reason']}" + (f" ({r['qualification']})" if r.get("qualification") else ""))
+    if v.get("global_refusals"):
+        lines.append(f"- Global refusals: {'; '.join(v['global_refusals'])}")
+    lines.append(f"- Replication of Kim et al. (2025), descriptive: {v['replication_Kim2025']['statement']}.")
+    lines.append("")
     (out / "REPORT_REAL.md").write_text("\n".join(lines), encoding="utf-8")
     print("\n".join(lines))
     return 0
+
+
+def results_items(mcq: Path) -> int:
+    try:
+        return len(json.loads(mcq.read_text(encoding="utf-8"))["items"])
+    except Exception:
+        return 0
 
 
 if __name__ == "__main__":

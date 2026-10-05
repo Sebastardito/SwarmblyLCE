@@ -16,7 +16,6 @@ results validate the plumbing and are labelled ``mock`` downstream; only
 
 from __future__ import annotations
 
-import itertools
 import json
 import re
 import time
@@ -29,7 +28,7 @@ from swarmbly_lce.anchors import AnchorVerifier
 from swarmbly_lce.backends import PROMPT_MARKERS, Backend
 from swarmbly_lce.claims import Maturity
 from swarmbly_lce.digest import Digester
-from swarmbly_lce.diversity import CanarySet, error_agreement_given_both_wrong, homogeneity
+from swarmbly_lce.diversity import CanarySet, homogeneity
 from swarmbly_lce.policy import LearningPolicy
 from swarmbly_lce.projection import Projector
 from swarmbly_lce.retrieval import BM25Retriever
@@ -40,7 +39,7 @@ from swarmbly_lce.wiki import Wiki
 FIXTURES = Path(__file__).resolve().parent / "fixtures"
 DATA = Path(__file__).resolve().parent / "data"
 
-__all__ = ["build_wiki", "c1_memory", "c2_projection", "c10_selection", "canary_check", "FIXTURES", "DATA"]
+__all__ = ["build_wiki", "c1_memory", "c2_projection", "c10_selection", "canary_check", "format_c2", "FIXTURES", "DATA"]
 
 
 def _norm(ans: str) -> str:
@@ -104,7 +103,7 @@ def c1_memory(backend: Backend, wiki: Wiki, questions_path: Path = FIXTURES / "q
     return {"hypothesis": "H-C1", "n": len(qs), "acc_with_memory": acc1, "acc_without_memory": acc0, "gain": acc1 - acc0}
 
 
-def _write(backend: Backend, topic: str, gamma: dict[str, Any]) -> str:
+def _write(backend: Backend, topic: str, gamma: dict[str, Any], temperature: float = 0.0, seed: int = 0) -> str:
     lex = gamma.get("lexicon", {})
     preferred = [t for t, v in lex.items() if v == "preferred"]
     prompt = (f"{PROMPT_MARKERS['write']}\nWrite two sentences about the topic. Follow the contract fields if present.\n"
@@ -115,67 +114,140 @@ def _write(backend: Backend, topic: str, gamma: dict[str, Any]) -> str:
         prompt += f"LEXICON: {', '.join(preferred)}\n"
     if gamma.get("style_seed"):
         prompt += f"STYLE_SEED: {gamma['style_seed']}\n"
-    return backend.generate(prompt, temperature=0.0, max_tokens=160)
+    return backend.generate(prompt, temperature=temperature, max_tokens=160, seed=seed)
+
+
+# Placebo contracts: per-user prompt variation of similar form that carries no
+# personal information. They separate "personalisation lowers homogeneity"
+# from "any per-user variation in the prompt lowers homogeneity".
+PLACEBO_GAMMAS = [
+    {"register": "neutral", "style_seed": "Write in plain language."},
+    {"register": "neutral", "style_seed": "Use a measured tone."},
+    {"register": "neutral", "style_seed": "Be direct and brief."},
+]
+
+
+def _boot_ci(values: Sequence[float], B: int = 10_000, seed: int = 20261005) -> list[float] | None:
+    v = np.asarray(values, dtype=float)
+    if len(v) < 2:
+        return None
+    rng = np.random.default_rng(seed)
+    means = v[rng.integers(0, len(v), (B, len(v)))].mean(axis=1)
+    return [float(np.quantile(means, 0.025)), float(np.quantile(means, 0.975))]
 
 
 def c2_projection(families: Sequence[Backend], digest_backend: Backend, users_dir: Path = FIXTURES / "users",
                   users_policy: Path = FIXTURES / "users_policy.json", queries_path: Path = FIXTURES / "open_queries.json",
-                  factual_path: Path = FIXTURES / "factual.json") -> dict[str, Any]:
+                  mcq_path: Path = FIXTURES / "mcq_synthetic.json", temperature: float = 0.7,
+                  bootstrap_B: int = 10_000) -> dict[str, Any]:
+    """C2: H-C2 (lexicon adherence, bytes) and H-C17 (homogeneity across users; error agreement within a request).
+
+    Design fixed by PREREGISTRATION_C1_C2 (2026-10-05):
+    * every write is sampled at ``temperature`` > 0 with seed 1000+u for user slot u, in all
+      conditions, so the baseline without Γ is not identical by construction;
+    * homogeneity is compared per topic between baseline (no Γ), projection (user Γ) and
+      placebo (generic Γ), with a bootstrap CI over topics;
+    * error agreement uses multiple-choice items (lce_validation.mcq), Γ rotated across users.
+    """
+    from . import mcq as M
+
+    if temperature <= 0:
+        raise ValueError("homogeneity needs temperature > 0: at temperature 0 the baseline outputs are identical by construction")
     topics = json.loads(queries_path.read_text(encoding="utf-8"))["topics"]
     writer = families[0]
     projections = {}
     for udir in sorted(p for p in users_dir.iterdir() if p.is_dir()):
         wiki, _ = build_wiki(udir, users_policy, digest_backend)
-        res = Projector().project("escribe sobre " + " ".join(topics), list(wiki.claims.values()))
-        projections[udir.name] = res
-    # (a) adherence and bytes
-    adherence, bytes_added = [], []
-    for name, res in projections.items():
-        g = res.projection.gamma_fields()
-        preferred = [t for t, v in g.get("lexicon", {}).items() if v == "preferred"]
-        bytes_added.append(res.projection.size_bytes())
-        for t in topics:
-            out = _write(writer, t, g).lower()
-            if preferred:
-                adherence.append(np.mean([p.lower() in out for p in preferred]))
-    # (b) H-C17 cross-user homogeneity
-    hom_with, hom_without = [], []
+        projections[udir.name] = Projector().project("escribe sobre " + " ".join(topics), list(wiki.claims.values()))
+    users = list(projections)
+    gammas = {u: projections[u].projection.gamma_fields() for u in users}
+    seeds = {u: 1000 + k for k, u in enumerate(users)}
+
+    # Generate every write once: three conditions x users x topics.
+    outs: dict[str, dict[tuple[str, str], str]] = {"baseline": {}, "projection": {}, "placebo": {}}
     for t in topics:
-        outs_with = [_write(writer, t, projections[u].projection.gamma_fields()) for u in projections]
-        outs_without = [_write(writer, t, {}) for _ in projections]
-        hom_with.append(homogeneity(writer.embed(outs_with)))
-        hom_without.append(homogeneity(writer.embed(outs_without)))
-    # (c) within-request cross-family error agreement with vs without projection
-    fq = json.loads(factual_path.read_text(encoding="utf-8"))["questions"]
-    some_proj = next(iter(projections.values())).projection.as_text()
+        for k, u in enumerate(users):
+            outs["baseline"][(u, t)] = _write(writer, t, {}, temperature, seeds[u])
+            outs["projection"][(u, t)] = _write(writer, t, gammas[u], temperature, seeds[u])
+            outs["placebo"][(u, t)] = _write(writer, t, PLACEBO_GAMMAS[k % len(PLACEBO_GAMMAS)], temperature, seeds[u])
 
-    def correct(ans: str, gold: str) -> bool:
-        return ans.startswith("CORRECT::") or gold.lower() in ans.lower()
+    # (a) H-C2 lexicon adherence, with vs without Γ, per (user, topic) cell.
+    cells = []
+    for u in users:
+        preferred = [w for w, v in gammas[u].get("lexicon", {}).items() if v == "preferred"]
+        if not preferred:
+            continue
+        for t in topics:
+            w = float(np.mean([p.lower() in outs["projection"][(u, t)].lower() for p in preferred]))
+            o = float(np.mean([p.lower() in outs["baseline"][(u, t)].lower() for p in preferred]))
+            cells.append((w, o))
+    adh_diff = [w - o for w, o in cells]
 
-    def agreement(extra: str) -> dict[str, Any]:
-        answers = {b.family: [_norm(_answer(b, q["q"], extra=extra)) for q in fq] for b in families}
-        rows = []
-        for fa, fb in itertools.combinations(sorted(answers), 2):
-            a, b = answers[fa], answers[fb]
-            # Map correct answers to a sentinel so that only wrong answers are compared.
-            aa = ["__gold__" if correct(x, q["gold"]) else x for x, q in zip(a, fq)]
-            bb = ["__gold__" if correct(x, q["gold"]) else x for x, q in zip(b, fq)]
-            rows.append({"pair": f"{fa}|{fb}", "agree_given_both_wrong": error_agreement_given_both_wrong(aa, bb, ["__gold__"] * len(fq))})
-        vals = [r["agree_given_both_wrong"] for r in rows if r["agree_given_both_wrong"] is not None]
-        return {"pairs": rows, "mean": float(np.mean(vals)) if vals else None}
+    # (b) H-C17 cross-user homogeneity per topic.
+    hom = {c: [] for c in outs}
+    for t in topics:
+        for c in outs:
+            hom[c].append(homogeneity(writer.embed([outs[c][(u, t)] for u in users])))
+    d_proj = [b - p for b, p in zip(hom["baseline"], hom["projection"])]
+    d_plac = [b - p for b, p in zip(hom["baseline"], hom["placebo"])]
+    d_spec = [pl - pr for pl, pr in zip(hom["placebo"], hom["projection"])]
+
+    # (c) H-C17 cross-family error agreement within a request (MCQ), Γ rotated across users.
+    items = M.load_items(mcq_path)
+    gtext = {u: projections[u].projection.as_text() for u in users}
+    without = {b.family: [M.parse_letter(b.generate(M.mcq_prompt(it), temperature=0.0, max_tokens=8)) for it in items] for b in families}
+    with_ = {b.family: [M.parse_letter(b.generate(M.mcq_prompt(it, gtext[users[i % len(users)]]), temperature=0.0, max_tokens=8))
+                        for i, it in enumerate(items)] for b in families}
+    agree = M.bootstrap_delta(without, with_, items, B=bootstrap_B)
+    inv_o = M.pairwise_agreement(without, items).invalid_rate
+    inv_w = M.pairwise_agreement(with_, items).invalid_rate
 
     return {
-        "hypothesis": "H-C2, H-C17",
-        "users": len(projections),
-        "projection_bytes_mean": float(np.mean(bytes_added)) if bytes_added else 0.0,
+        "hypothesis": "H-C2 (partial: rho not measured), H-C17",
+        "users": len(users),
+        "topics": len(topics),
+        "temperature": temperature,
+        "projection_bytes_mean": float(np.mean([projections[u].projection.size_bytes() for u in users])),
         "lanes": {u: [r.lane_initial.name, r.lane_final.name] for u, r in projections.items()},
-        "lexicon_adherence": float(np.mean(adherence)) if adherence else None,
-        "homogeneity_with_projection": float(np.mean(hom_with)),
-        "homogeneity_without_projection": float(np.mean(hom_without)),
-        "error_agreement_without_projection": agreement(""),
-        "error_agreement_with_projection": agreement(some_proj),
-        "prediction": "projection lowers cross-user homogeneity and leaves within-request error agreement unchanged",
+        "lexicon": {"cells": len(cells),
+                    "adherence_with": float(np.mean([w for w, _ in cells])) if cells else None,
+                    "adherence_without": float(np.mean([o for _, o in cells])) if cells else None,
+                    "difference": float(np.mean(adh_diff)) if cells else None,
+                    "difference_ci95": _boot_ci(adh_diff, bootstrap_B)},
+        "homogeneity": {"per_topic": {c: [float(x) for x in v] for c, v in hom.items()},
+                        "mean": {c: float(np.mean(v)) for c, v in hom.items()},
+                        "reduction_projection": float(np.mean(d_proj)), "reduction_projection_ci95": _boot_ci(d_proj, bootstrap_B),
+                        "reduction_placebo": float(np.mean(d_plac)), "reduction_placebo_ci95": _boot_ci(d_plac, bootstrap_B),
+                        "projection_beyond_placebo": float(np.mean(d_spec)), "projection_beyond_placebo_ci95": _boot_ci(d_spec, bootstrap_B)},
+        "error_agreement": {"items": len(items), "mcq_sha256": M.file_sha256(mcq_path), **agree,
+                            "invalid_rate_without": inv_o, "invalid_rate_with": inv_w,
+                            "accuracy_without": {f: M.accuracy(v, items) for f, v in without.items()},
+                            "accuracy_with": {f: M.accuracy(v, items) for f, v in with_.items()}},
+        "prediction": "projection lowers cross-user homogeneity and leaves within-request error agreement unchanged (|delta| <= 0.10)",
+        "raw": {"writes": {c: {f"{u}|{t}": s for (u, t), s in d.items()} for c, d in outs.items()},
+                "mcq_items": [it.idx for it in items], "mcq_without": without, "mcq_with": with_,
+                "gamma": gammas},
     }
+
+
+def _ci(x: list[float] | None) -> str:
+    return f"[{x[0]:+.3f}, {x[1]:+.3f}]" if x else "n/a"
+
+
+def format_c2(c2: dict[str, Any]) -> list[str]:
+    lx, hm, ea = c2["lexicon"], c2["homogeneity"], c2["error_agreement"]
+    f = lambda v: "n/a" if v is None else f"{v:.3f}"
+    return [
+        f"- C2 / H-C2 lexicon adherence: {f(lx['adherence_with'])} with Γ vs {f(lx['adherence_without'])} without "
+        f"(difference {f(lx['difference'])}, 95% CI {_ci(lx['difference_ci95'])}; {lx['cells']} cells). Projection bytes {c2['projection_bytes_mean']:.0f}.",
+        f"- C2 / H-C17 homogeneity across users (mean cosine, {c2['topics']} topics, T={c2['temperature']}): baseline {hm['mean']['baseline']:.3f}, "
+        f"projection {hm['mean']['projection']:.3f}, placebo {hm['mean']['placebo']:.3f}. Reduction by projection {hm['reduction_projection']:+.3f} "
+        f"{_ci(hm['reduction_projection_ci95'])}; by placebo {hm['reduction_placebo']:+.3f} {_ci(hm['reduction_placebo_ci95'])}; "
+        f"projection beyond placebo {hm['projection_beyond_placebo']:+.3f} {_ci(hm['projection_beyond_placebo_ci95'])}.",
+        f"- C2 / H-C17 error agreement given both wrong ({ea['items']} MCQ items): without Γ {f(ea['agreement_without'])} "
+        f"(chance {f(ea['chance_without'])}, excess {_ci(ea['excess_ci95'])}); with Γ {f(ea['agreement_with'])}; "
+        f"delta {f(ea['delta'])} {_ci(ea['delta_ci95'])}; invalid answers {ea['invalid_rate_without']:.3f}/{ea['invalid_rate_with']:.3f}.",
+    ]
 
 
 def c10_selection(generations: int = 6, k: int = 5, reliability: float = 0.5, seed: int = 0) -> dict[str, Any]:

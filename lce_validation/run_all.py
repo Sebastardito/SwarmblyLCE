@@ -62,9 +62,7 @@ def main(argv: list[str] | None = None) -> int:
               f"- Wiki on the fixture corpus: {wstats['claims']} claims, {wstats['trainable']} trainable, "
               f"anchor rejection rate {wstats['anchor_verification']['rejection_rate']:.2f}.",
               f"- C1: accuracy with memory {experiments['C1']['acc_with_memory']:.2f} vs without {experiments['C1']['acc_without_memory']:.2f} (mock answers from context by rule).",
-              f"- C2: lexicon adherence {c2['lexicon_adherence']}; projection bytes {c2['projection_bytes_mean']:.0f}; "
-              f"cross-user homogeneity {c2['homogeneity_with_projection']:.3f} with projection vs {c2['homogeneity_without_projection']:.3f} without; "
-              f"cross-family error agreement {c2['error_agreement_with_projection']['mean']} with vs {c2['error_agreement_without_projection']['mean']} without.",
+              *E.format_c2(c2),
               f"- C10 (simulated trainer): {experiments['C10_sim']['accepted']} accepted adapters over "
               f"{experiments['C10_sim']['generations']} generations, {experiments['C10_sim']['distinct_test_sets']} distinct test sets.",
               f"- Canary: {experiments['canary']['items']} items, {experiments['canary']['verified_items']} verified; training guard {experiments['canary']['training_guard']}.",

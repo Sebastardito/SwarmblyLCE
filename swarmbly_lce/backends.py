@@ -45,6 +45,7 @@ PROMPT_MARKERS = {
     "answer": "TASK: ANSWER",
     "write": "TASK: WRITE",
     "support": "Answer only YES or NO",
+    "mcq": "TASK: MCQ",
 }
 
 
@@ -146,7 +147,9 @@ class MockBackend:
         if PROMPT_MARKERS["answer"] in prompt:
             return self._answer(prompt)
         if PROMPT_MARKERS["write"] in prompt:
-            return self._write(prompt)
+            return self._write(prompt, float(kw.get("temperature", 0.0)), int(kw.get("seed", 0)))
+        if PROMPT_MARKERS["mcq"] in prompt:
+            return self._mcq(prompt)
         return "OK"
 
     def embed(self, texts: Sequence[str]) -> np.ndarray:
@@ -194,7 +197,24 @@ class MockBackend:
             return f"WRONG::shared::{_stable(question) % 991}"
         return f"WRONG::{self.family}::{_stable(question + self.family) % 983}"
 
-    def _write(self, prompt: str) -> str:
+    def _mcq(self, prompt: str) -> str:
+        # Synthetic arithmetic items only ("What is a + b?"). The STYLE line is
+        # ignored, so projection cannot change errors here: by construction.
+        q = self._field(prompt, "QUESTION").splitlines()[0]
+        m = re.search(r"(-?\d+)\s*\+\s*(-?\d+)", q)
+        opts = dict(re.findall(r"^([ABCD])\. (.*)$", prompt, re.M))
+        if not m or len(opts) != 4:
+            return "A"
+        gold = next((L for L, v in opts.items() if v.strip() == str(int(m.group(1)) + int(m.group(2)))), "A")
+        wrong = [L for L in "ABCD" if L != gold]
+        shared = Random(_stable(f"{self.seed}|{q}|shared"))
+        if shared.random() < self.base_accuracy:
+            return gold
+        if Random(_stable(f"{self.seed}|{q}|{self.family}")).random() < self.shared_error_rate:
+            return wrong[_stable(q) % 3]
+        return wrong[_stable(q + self.family) % 3]
+
+    def _write(self, prompt: str, temperature: float = 0.0, seed: int = 0) -> str:
         topic = self._field(prompt, "TOPIC") or "the topic"
         register = self._field(prompt, "REGISTER")
         lexicon = [w.strip() for w in self._field(prompt, "LEXICON").split(",") if w.strip()]
@@ -209,6 +229,12 @@ class MockBackend:
             parts.append("Key terms: " + ", ".join(lexicon) + ".")
         if style:
             parts.append(style.rstrip(".") + ".")
+        if temperature > 0:
+            # Emulates decoding variation between samples (seeded), so that a
+            # baseline without Γ is not identical by construction.
+            fillers = ["It is an active field.", "Its limits are debated.", "It has practical uses.",
+                       "Several approaches exist.", "It keeps evolving."]
+            parts.append(fillers[Random(_stable(f"{topic}|{seed}")).randrange(len(fillers))])
         return " ".join(parts)
 
 

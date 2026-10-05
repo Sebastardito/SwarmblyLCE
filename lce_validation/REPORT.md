@@ -2,12 +2,13 @@
 
 > **SIMULATION AND MOCK RUN — NOT EVIDENCE.** Instruments are simulations; experiments use `MockBackend`, which answers by rules and injects the effects being measured. These numbers show that each measurement responds to what it measures. No figure here may be cited as a result about language models or about the LCE.
 
-Version 0.1.0 · seed 0 · 2026-10-04T19:43:29Z
+Version 0.2.0.dev0 · seed 0 · 2026-10-05T05:24:22Z
 
 ## Instruments
 
 | instrument | hypothesis | prediction | passed |
 |---|---|---|---|
+| `error_agreement` | H-C17 (instrument: error agreement on MCQ) | independent ≈ chance ≈ 1/3; shared > chance; no change → CI inside ±0.10 in ≥80%; real change detected in ≥80% | yes |
 | `anchor_gate` | anchoring rule (whitepaper 5.2; SPEC 6.3) | supported claims accepted (>=0.95); fabricated or misanchored claims rejected (acceptance <=0.05) | yes |
 | `conformity` | H-C11 | conformist arm loses the minority (<5%); linear arm keeps its mean (~p0) | yes |
 | `migration` | H-C8 (instrument only) | simulated F_ST decreases with Nm and tracks 1/(1+4Nm) within a factor of 2 in the band 0.5–2.25 | yes |
@@ -19,6 +20,8 @@ Version 0.1.0 · seed 0 · 2026-10-04T19:43:29Z
 
 - Wiki on the fixture corpus: 13 claims, 5 trainable, anchor rejection rate 0.00.
 - C1: accuracy with memory 0.90 vs without 0.00 (mock answers from context by rule).
-- C2: lexicon adherence 1.0; projection bytes 113; cross-user homogeneity 0.826 with projection vs 1.000 without; cross-family error agreement 0.5333333333333333 with vs 0.5333333333333333 without.
+- C2 / H-C2 lexicon adherence: 1.000 with Γ vs 0.033 without (difference 0.967, 95% CI [+0.917, +1.000]; 60 cells). Projection bytes 113.
+- C2 / H-C17 homogeneity across users (mean cosine, 20 topics, T=0.7): baseline 0.855, projection 0.748, placebo 0.771. Reduction by projection +0.107 [+0.097, +0.117]; by placebo +0.084 [+0.075, +0.094]; projection beyond placebo +0.023 [+0.020, +0.026].
+- C2 / H-C17 error agreement given both wrong (60 MCQ items): without Γ 0.569 (chance 0.341, excess [+0.075, +0.382]); with Γ 0.569; delta 0.000 [+0.000, +0.000]; invalid answers 0.000/0.000.
 - C10 (simulated trainer): 5 accepted adapters over 6 generations, 6 distinct test sets.
 - Canary: 8 items, 0 verified; training guard passed.

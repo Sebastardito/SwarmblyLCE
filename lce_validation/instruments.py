@@ -13,6 +13,7 @@ Mapping to the whitepaper:
 * ``persistence``      → H-C5 / H-C13 (replica derivation, operator concentration, rarity)
 * ``selection_bias``   → H-C15 (fresh vs reused test sets)
 * ``collapse``         → H-C7 / H-C12 (replace vs accumulate vs anchored variation)
+* ``error_agreement``  → H-C17, second clause (multiple-choice agreement given both wrong)
 """
 
 from __future__ import annotations
@@ -27,7 +28,7 @@ from swarmbly_lce.persistence import annual_loss, replicas_for, window_loss_q
 from swarmbly_lce.social import check_at_most_linear
 from swarmbly_lce.errors import InvariantViolation
 
-__all__ = ["conformity", "migration", "persistence", "selection_bias", "collapse", "ALL"]
+__all__ = ["error_agreement", "conformity", "migration", "persistence", "selection_bias", "collapse", "ALL"]
 
 
 def _mean_ci(x: np.ndarray) -> tuple[float, float, float]:
@@ -311,7 +312,88 @@ def anchor_gate(seed: int = 0) -> dict[str, Any]:
     }
 
 
+def error_agreement(seed: int = 0, n_items: int = 1500, families: int = 3, reps: int = 60, B: int = 1000,
+                    margin: float = 0.10) -> dict[str, Any]:
+    """Instrument for H-C17's second clause (``lce_validation.mcq``).
+
+    Simulates multiple-choice answers from several families with item-level
+    difficulty (correlated correctness) and a shared wrong option chosen with
+    probability ``s`` when a model is wrong. Checks that the pooled estimator
+    (i) sits at its chance level when wrong answers are independent and above
+    it when they are shared; (ii) with no true change between conditions, the
+    paired-bootstrap CI of the difference lies inside ±margin in most
+    replicates (the equivalence decision is attainable with n_items); and
+    (iii) a true increase in sharing is detected (CI excludes 0).
+    """
+    from . import mcq as M
+
+    rng = np.random.default_rng(seed)
+
+    def simulate(s: float, rgen: np.random.Generator) -> tuple[list, dict[str, list]]:
+        gold = rgen.integers(0, 4, n_items)
+        diff = rgen.normal(0, 1.0, n_items)
+        shared_wrong = (gold + rgen.integers(1, 4, n_items)) % 4
+        items = [M.MCQItem(i, "sim", f"q{i}", ("a", "b", "c", "d"), "ABCD"[g]) for i, g in enumerate(gold)]
+        answers = {}
+        for f in range(families):
+            p_correct = 1 / (1 + np.exp(-(0.4 - diff + rgen.normal(0, 0.5, n_items))))
+            correct = rgen.random(n_items) < p_correct
+            own_wrong = (gold + rgen.integers(1, 4, n_items)) % 4
+            use_shared = rgen.random(n_items) < s
+            ans = np.where(correct, gold, np.where(use_shared, shared_wrong, own_wrong))
+            answers[f"f{f}"] = ["ABCD"[a] for a in ans]
+        return items, answers
+
+    def regenerate(items, answers, s_new: float, rgen):
+        # Same items and same correctness; wrong answers re-drawn with sharing s_new.
+        gold = np.array(["ABCD".index(it.answer) for it in items])
+        shared_wrong = (gold + rgen.integers(1, 4, len(items))) % 4
+        out = {}
+        for f, ans in answers.items():
+            a = np.array(["ABCD".index(x) for x in ans])
+            wrong = a != gold
+            own = (gold + rgen.integers(1, 4, len(items))) % 4
+            use_shared = rgen.random(len(items)) < s_new
+            out[f] = ["ABCD"[x] for x in np.where(wrong, np.where(use_shared, shared_wrong, own), gold)]
+        return out
+
+    # (i) chance level and excess
+    items0, ind = simulate(0.0, rng)
+    r_ind = M.pairwise_agreement(ind, items0)
+    items1, sh = simulate(0.5, rng)
+    r_sh = M.pairwise_agreement(sh, items1)
+    ok_chance = abs(r_ind.agreement - r_ind.chance) < 0.06 and abs(r_ind.chance - 1 / 3) < 0.03
+    ok_excess = r_sh.agreement - r_sh.chance > 0.1
+
+    # (ii) equivalence attainable with no true change; (iii) detection of a true change
+    inside, detected = 0, 0
+    for r in range(reps):
+        rg = np.random.default_rng(seed * 1000 + r)
+        it, a = simulate(0.4, rg)
+        same = regenerate(it, a, 0.4, rg)
+        res = M.bootstrap_delta(a, same, it, B=B, seed=r)
+        lo, hi = res["delta_ci95"]
+        inside += int(-margin <= lo and hi <= margin)
+        more = regenerate(it, a, 0.8, rg)
+        res2 = M.bootstrap_delta(a, more, it, B=B, seed=r)
+        detected += int(res2["delta_ci95"][0] > 0)
+    ok_equiv = inside / reps >= 0.8
+    ok_detect = detected / reps >= 0.8
+    return {
+        "hypothesis": "H-C17 (instrument: error agreement on MCQ)",
+        "independent": {"agreement": r_ind.agreement, "chance": r_ind.chance},
+        "shared_0.5": {"agreement": r_sh.agreement, "chance": r_sh.chance},
+        "equivalence_rate_no_change": inside / reps,
+        "detection_rate_sharing_0.4_to_0.8": detected / reps,
+        "n_items": n_items, "margin": margin,
+        "prediction": "independent ≈ chance ≈ 1/3; shared > chance; no change → CI inside ±0.10 in ≥80%; real change detected in ≥80%",
+        "passed": bool(ok_chance and ok_excess and ok_equiv and ok_detect),
+    }
+
+
+# ---------------------------------------------------------------------------
 ALL = {
+    "error_agreement": error_agreement,
     "anchor_gate": anchor_gate,
     "conformity": conformity,
     "migration": migration,

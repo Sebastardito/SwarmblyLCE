@@ -37,13 +37,13 @@ Requiere Python 3.10 o superior; la única dependencia obligatoria es numpy.
 
 ```bash
 pip install -e '.[dev]'          # extras: crypto (Ed25519), yaml, mlx (LoRA en Apple Silicon)
-python -m pytest                 # 77 pruebas, incluida una por invariante
-python -m lce_validation.run_all # seis instrumentos + experimentos con backend simulado
+python -m pytest                 # 83 pruebas, incluida una por invariante
+python -m lce_validation.run_all # siete instrumentos + experimentos con backend simulado
 ```
 
 La herramienta de línea de órdenes `swarmbly-lce` cubre el ciclo local: `init` crea las carpetas de fuentes y una política en la que nada entrena por defecto; `ingest --sources DIR [--backend ollama --model qwen2.5:3b]` digiere y ancla; `cycle` avanza la madurez; `status`, `project "petición"` (muestra lo que saldría hacia Γ y en qué carril), `forget FUENTE`, `export-md`, `replicas --eps 1e-3`, `capsule keygen|make|verify` y `validate`.
 
-Los resultados con `MockBackend` o por simulación **no son evidencia**. Las corridas reales se hacen con `python -m lce_validation.run_real --models qwen2.5:3b,llama3.2:3b,gemma2:2b` contra Ollama u otro servidor compatible con OpenAI, y se reportan con su alcance.
+Los resultados con `MockBackend` o por simulación **no son evidencia**. La primera corrida con modelos reales está preregistrada en [`docs/PREREGISTRATION_C1_C2_ES.md`](docs/PREREGISTRATION_C1_C2_ES.md) ([EN](docs/PREREGISTRATION_C1_C2_EN.md)), escrita antes de medir. Las corridas reales se hacen con `python -m lce_validation.run_real --models qwen2.5:3b,llama3.2:3b,gemma2:2b` contra Ollama u otro servidor compatible con OpenAI, y se reportan con su alcance.
 
 ## Lo que no se afirma
 
@@ -63,6 +63,6 @@ Código: AGPL-3.0-or-later (ver [`LICENSE`](LICENSE) y [`NOTICE`](NOTICE)). Text
 
 Documents: whitepaper [`docs/WHITEPAPER_LCE_EN.md`](docs/WHITEPAPER_LCE_EN.md) (Zenodo: [10.5281/zenodo.23150478](https://doi.org/10.5281/zenodo.23150478)), specification [`docs/SPEC_LCE_EN.md`](docs/SPEC_LCE_EN.md), protocol-facing proposal [`swips/`](swips/), annotated bibliography [`docs/REFERENCES_LCE.md`](docs/REFERENCES_LCE.md); Spanish versions alongside.
 
-Code: `swarmbly_lce` is a reference implementation of the whole specification (Python 3.10+, numpy; optional `cryptography` for Ed25519 and MLX for a real LoRA trainer on Apple Silicon). `lce_validation` is the harness: six instrument tests that must pass before any measurement is trusted, mock-backend experiments that exercise the pipeline, and `run_real` for runs against real models through Ollama or any OpenAI-compatible server. `pip install -e '.[dev]' && python -m pytest && python -m lce_validation.run_all`. Mock and simulation outputs are never evidence.
+Code: `swarmbly_lce` is a reference implementation of the whole specification (Python 3.10+, numpy; optional `cryptography` for Ed25519 and MLX for a real LoRA trainer on Apple Silicon). `lce_validation` is the harness: seven instrument tests that must pass before any measurement is trusted, mock-backend experiments that exercise the pipeline, and `run_real` for runs against real models through Ollama or any OpenAI-compatible server. `pip install -e '.[dev]' && python -m pytest && python -m lce_validation.run_all`. Mock and simulation outputs are never evidence. The first real-model run is pre-registered in [`docs/PREREGISTRATION_C1_C2_EN.md`](docs/PREREGISTRATION_C1_C2_EN.md).
 
 *Sebastián A. Espinoza-Ulloa · Independent Researcher · [ORCID 0000-0003-1497-356X](https://orcid.org/0000-0003-1497-356X)*
