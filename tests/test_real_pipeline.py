@@ -128,3 +128,57 @@ def test_mcq_parse_and_chance():
     assert len(items) == 60 and all(it.answer in "ABCD" for it in items)
     p = M.mcq_prompt(items[0], "register: formal")
     assert p.startswith(M.MCQ_MARKER) and "STYLE: register: formal" in p and "D. " in p
+
+
+def test_canary_verify_rule(tmp_path):
+    import csv
+    from lce_validation import canary_verify as CV
+    tpl = E.DATA / "canary_verification" / "plantilla_verificacion.csv"
+    rows = list(csv.DictReader(open(tpl, encoding="utf-8")))
+    k, m, o, g = "lo_conoce (si/no)", "significado_correcto (si/no/parcial)", "ofensivo_o_vulgar (si/no)", "glosa_corregida_es"
+    sheets = []
+    for name, fill in (("A", "si"), ("B", "si"), ("C", "no")):
+        p = tmp_path / f"verificador_{name}.csv"
+        with open(p, "w", newline="", encoding="utf-8") as fh:
+            w = csv.DictWriter(fh, fieldnames=list(rows[0]))
+            w.writeheader()
+            for r in rows:
+                r2 = dict(r)
+                r2[k] = fill
+                r2[m] = "si" if fill == "si" else ""
+                r2[o] = "si" if (name == "A" and r["termino"] == "chapa") else "no"
+                if name == "B" and r["termino"] == "pite":
+                    r2[m], r2[g] = "parcial", "un poco"
+                w.writerow(r2)
+        sheets.append(p)
+    out, review = CV.merge(sheets, E.DATA / "canary_es-EC.json")
+    v = {i["term"]: i for i in out["items"]}
+    assert v["chuta"]["verified"] and v["chulla"]["verified"]          # current and candidate confirmed by 2 of 3
+    assert "chapa" not in v                                             # candidate marked offensive: not added
+    assert not v.get("pite", {"verified": False})["verified"]           # only 1 confirmation
+    assert any(r["term"] == "pite" and r["corrections"] == ["un poco"] for r in review)
+    with pytest.raises(ValueError):
+        CV.merge(sheets[:2], E.DATA / "canary_es-EC.json")
+
+
+def test_confirmatory_guard(tmp_path, monkeypatch):
+    import subprocess
+    def g(*a):
+        subprocess.run(["git", "-c", "user.name=t", "-c", "user.email=t@t", *a], cwd=tmp_path, check=True, capture_output=True)
+    g("init", "-q")
+    for d in ("docs", "lce_validation/data", "swarmbly_lce"):
+        (tmp_path / d).mkdir(parents=True)
+    pre = tmp_path / "docs" / "PRE.md"; pre.write_text("x")
+    mcq = tmp_path / "lce_validation" / "data" / "m.json"; mcq.write_text("{}")
+    (tmp_path / "swarmbly_lce" / "a.py").write_text("x")
+    g("add", "-A"); g("commit", "-q", "-m", "init")
+    monkeypatch.setattr(run_real, "ROOT", tmp_path)
+    ok, problems = run_real._committed_and_clean([mcq, pre])
+    assert ok, problems
+    (tmp_path / "lce_validation" / "run_real.log").write_text("log")     # the run's own log does not count
+    assert run_real._committed_and_clean([mcq, pre])[0]
+    (tmp_path / "swarmbly_lce" / "a.py").write_text("changed")
+    ok, problems = run_real._committed_and_clean([mcq, pre])
+    assert not ok and any("uncommitted" in p for p in problems)
+    new = tmp_path / "docs" / "NEW.md"; new.write_text("y")
+    assert any("not committed" in p for p in run_real._committed_and_clean([new])[1])

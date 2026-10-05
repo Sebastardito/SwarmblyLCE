@@ -57,7 +57,7 @@ def _committed_and_clean(paths: list[Path]) -> tuple[bool, list[str]]:
         if not _git("ls-files", rel):
             problems.append(f"{rel} is not committed")
     dirty = _git("status", "--porcelain", "--", "swarmbly_lce", "lce_validation", "docs")
-    dirty = "\n".join(l for l in dirty.splitlines() if not l.endswith(("results_real.json", "REPORT_REAL.md", "VERDICTS_REAL.md")))
+    dirty = "\n".join(l for l in dirty.splitlines() if not l.endswith(("results_real.json", "REPORT_REAL.md", "run_real.log")))
     if dirty:
         problems.append("uncommitted changes in swarmbly_lce/, lce_validation/ or docs/")
     return not problems, problems

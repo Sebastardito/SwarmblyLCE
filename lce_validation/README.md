@@ -52,6 +52,12 @@ python -m lce_validation.run_real --models qwen2.5:3b,llama3.2:3b,gemma2:2b \
 
 `run_real` labels the run **confirmatory** only if the pre-registration and the item file are committed, the code tree is clean, an embedding model is given and three families respond; otherwise it runs as **exploratory** and reports no verdicts. It records the git commit, the SHA-256 of the pre-registration and of the item file, the Ollama version and model digests, and every raw answer. The verdicts come from [`decide.py`](decide.py), where the pre-registered thresholds live as code.
 
+On the author's Mac the whole sequence is wrapped in `scripts/run_c1_c2_mac.sh`, which checks each step before the next, commits only the item file and pushes nothing.
+
+### Canary verification
+
+The canary items are verified by native speakers with [`data/canary_verification/INSTRUCCIONES.md`](data/canary_verification/INSTRUCCIONES.md) and the sheet `plantilla_verificacion.csv` (eight current items and twelve candidates). `python -m lce_validation.canary_verify verificador_*.csv` applies the rule (at least two of three or more pseudonymous verifiers confirm, none marks the term offensive) and lists corrected glosses for manual review.
+
 Declare the scope with any result: one synthetic user corpus (C1), three synthetic users × 20 topics (H-C2, H-C17a), 1,500 MMLU items × three families (H-C17b), an **unverified** canary set (descriptive only). The canary items in `data/canary_es-EC.json` are drafts (`verified: false`) until a native speaker confirms each gloss.
 
 ---
