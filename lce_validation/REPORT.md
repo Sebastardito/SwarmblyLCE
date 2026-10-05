@@ -2,7 +2,7 @@
 
 > **SIMULATION AND MOCK RUN — NOT EVIDENCE.** Instruments are simulations; experiments use `MockBackend`, which answers by rules and injects the effects being measured. These numbers show that each measurement responds to what it measures. No figure here may be cited as a result about language models or about the LCE.
 
-Version 0.2.0.dev0 · seed 0 · 2026-10-05T05:24:22Z
+Version 0.2.0.dev0 · seed 0 · 2026-10-05T05:30:59Z
 
 ## Instruments
 
@@ -20,8 +20,8 @@ Version 0.2.0.dev0 · seed 0 · 2026-10-05T05:24:22Z
 
 - Wiki on the fixture corpus: 13 claims, 5 trainable, anchor rejection rate 0.00.
 - C1: accuracy with memory 0.90 vs without 0.00 (mock answers from context by rule).
-- C2 / H-C2 lexicon adherence: 1.000 with Γ vs 0.033 without (difference 0.967, 95% CI [+0.917, +1.000]; 60 cells). Projection bytes 113.
-- C2 / H-C17 homogeneity across users (mean cosine, 20 topics, T=0.7): baseline 0.855, projection 0.748, placebo 0.771. Reduction by projection +0.107 [+0.097, +0.117]; by placebo +0.084 [+0.075, +0.094]; projection beyond placebo +0.023 [+0.020, +0.026].
+- C2 / H-C2 lexicon adherence: 1.000 with Γ vs 0.033 without (difference 0.967, 95% CI [+0.917, +1.000]; 60 cells). Projection bytes 97.
+- C2 / H-C17 homogeneity across users (mean cosine, 20 topics, T=0.7): baseline 0.855, projection 0.759, placebo 0.771. Reduction by projection +0.096 [+0.082, +0.110]; by placebo +0.084 [+0.075, +0.094]; projection beyond placebo +0.011 [+0.001, +0.022].
 - C2 / H-C17 error agreement given both wrong (60 MCQ items): without Γ 0.569 (chance 0.341, excess [+0.075, +0.382]); with Γ 0.569; delta 0.000 [+0.000, +0.000]; invalid answers 0.000/0.000.
 - C10 (simulated trainer): 5 accepted adapters over 6 generations, 6 distinct test sets.
 - Canary: 8 items, 0 verified; training guard passed.

@@ -5,7 +5,7 @@
   "backend": "MockBackend + numpy simulations",
   "evidence": false,
   "python": "3.10.12",
-  "utc": "2026-10-05T05:24:22Z",
+  "utc": "2026-10-05T05:30:59Z",
   "seed": 0
  },
  "instruments": {
@@ -214,7 +214,7 @@
     "rejected_support": 0,
     "rejection_rate": 0.0
    },
-   "digest_ms": 13.01670899556484
+   "digest_ms": 12.435415992513299
   },
   "C1": {
    "hypothesis": "H-C1",
@@ -228,20 +228,13 @@
    "users": 3,
    "topics": 20,
    "temperature": 0.7,
-   "projection_bytes_mean": 113.33333333333333,
-   "lanes": {
-    "u1": [
-     "SENSITIVE",
-     "SENSITIVE"
-    ],
-    "u2": [
-     "SENSITIVE",
-     "SENSITIVE"
-    ],
-    "u3": [
-     "SENSITIVE",
-     "SENSITIVE"
-    ]
+   "projection_bytes_mean": 96.85,
+   "local_only_writes": 3,
+   "local_only_items": 0,
+   "lanes_final": {
+    "PUBLIC": 57,
+    "SANITISABLE": 0,
+    "SENSITIVE": 3
    },
    "lexicon": {
     "cells": 60,
@@ -278,24 +271,24 @@
       0.8240752175481548
      ],
      "projection": [
-      0.7541186225443134,
-      0.7402310780444371,
+      0.7886608408073519,
+      0.7674306147835205,
       0.7648734284061313,
-      0.7802473112298154,
-      0.7720533341955659,
-      0.8390772023492081,
+      0.816326530612245,
+      0.7208589499262908,
+      0.8936170212765954,
       0.7393702050068559,
       0.7833758208191698,
       0.7211965537943396,
-      0.7368164702697116,
+      0.7724299607800184,
       0.7614053060292384,
       0.7437510644670624,
       0.7605222276138935,
       0.7317691408115343,
-      0.7068298934257853,
-      0.7402043333356533,
-      0.7369837755448816,
-      0.7375230256283819,
+      0.7163822272788107,
+      0.7693944533713468,
+      0.774201709196284,
+      0.7558056845268531,
       0.7006408968442671,
       0.7056204893051875
      ],
@@ -324,23 +317,23 @@
     },
     "mean": {
      "baseline": 0.8548867474040188,
-     "projection": 0.7478305089832717,
+     "projection": 0.7593816562828499,
      "placebo": 0.7707446752363966
     },
-    "reduction_projection": 0.10705623842074696,
+    "reduction_projection": 0.09550509112116881,
     "reduction_projection_ci95": [
-     0.09738626634353831,
-     0.11671849206499431
+     0.08163451594238799,
+     0.11019183715606314
     ],
     "reduction_placebo": 0.08414207216762193,
     "reduction_placebo_ci95": [
      0.07462728513171264,
      0.09395187240418633
     ],
-    "projection_beyond_placebo": 0.022914166253125024,
+    "projection_beyond_placebo": 0.011363018953546872,
     "projection_beyond_placebo_ci95": [
-     0.019708867529801874,
-     0.025901382489627502
+     0.000939208119438683,
+     0.021809058335134298
     ]
    },
    "error_agreement": {
@@ -442,24 +435,24 @@
       "u3|las ciudades sostenibles": "A clear overview of las ciudades sostenibles, covering its definition, main uses and limits. It is an active field."
      },
      "projection": {
-      "u1|la inferencia descentralizada de modelos de lenguaje": "A clear overview of la inferencia descentralizada de modelos de lenguaje, covering its definition, main uses and limits. Written in a técnico y conciso register. Key terms: inferencia descentralizada. It keeps evolving.",
-      "u2|la inferencia descentralizada de modelos de lenguaje": "A clear overview of la inferencia descentralizada de modelos de lenguaje, covering its definition, main uses and limits. Written in a divulgativo y cercano register. Key terms: modelo pequeño. It is an active field.",
-      "u3|la inferencia descentralizada de modelos de lenguaje": "A clear overview of la inferencia descentralizada de modelos de lenguaje, covering its definition, main uses and limits. Written in a académico y formal register. Key terms: evolución cultural. Several approaches exist.",
-      "u1|la genética de poblaciones": "A clear overview of la genética de poblaciones, covering its definition, main uses and limits. Written in a técnico y conciso register. Key terms: inferencia descentralizada. It is an active field.",
-      "u2|la genética de poblaciones": "A clear overview of la genética de poblaciones, covering its definition, main uses and limits. Written in a divulgativo y cercano register. Key terms: modelo pequeño. It has practical uses.",
-      "u3|la genética de poblaciones": "A clear overview of la genética de poblaciones, covering its definition, main uses and limits. Written in a académico y formal register. Key terms: evolución cultural. It keeps evolving.",
+      "u1|la inferencia descentralizada de modelos de lenguaje": "A clear overview of la inferencia descentralizada de modelos de lenguaje, covering its definition, main uses and limits. Key terms: inferencia descentralizada. It keeps evolving.",
+      "u2|la inferencia descentralizada de modelos de lenguaje": "A clear overview of la inferencia descentralizada de modelos de lenguaje, covering its definition, main uses and limits. Key terms: modelo pequeño. It is an active field.",
+      "u3|la inferencia descentralizada de modelos de lenguaje": "A clear overview of la inferencia descentralizada de modelos de lenguaje, covering its definition, main uses and limits. Key terms: evolución cultural. Several approaches exist.",
+      "u1|la genética de poblaciones": "A clear overview of la genética de poblaciones, covering its definition, main uses and limits. Key terms: inferencia descentralizada. It is an active field.",
+      "u2|la genética de poblaciones": "A clear overview of la genética de poblaciones, covering its definition, main uses and limits. Key terms: modelo pequeño. It has practical uses.",
+      "u3|la genética de poblaciones": "A clear overview of la genética de poblaciones, covering its definition, main uses and limits. Key terms: evolución cultural. It keeps evolving.",
       "u1|el aprendizaje continuo en modelos pequeños": "A clear overview of el aprendizaje continuo en modelos pequeños, covering its definition, main uses and limits. Written in a técnico y conciso register. Key terms: inferencia descentralizada. It keeps evolving.",
       "u2|el aprendizaje continuo en modelos pequeños": "A clear overview of el aprendizaje continuo en modelos pequeños, covering its definition, main uses and limits. Written in a divulgativo y cercano register. Key terms: modelo pequeño. Several approaches exist.",
       "u3|el aprendizaje continuo en modelos pequeños": "A clear overview of el aprendizaje continuo en modelos pequeños, covering its definition, main uses and limits. Written in a académico y formal register. Key terms: evolución cultural. It keeps evolving.",
-      "u1|la privacidad de los datos personales": "A clear overview of la privacidad de los datos personales, covering its definition, main uses and limits. Written in a técnico y conciso register. Key terms: inferencia descentralizada. It keeps evolving.",
-      "u2|la privacidad de los datos personales": "A clear overview of la privacidad de los datos personales, covering its definition, main uses and limits. Written in a divulgativo y cercano register. Key terms: modelo pequeño. Several approaches exist.",
-      "u3|la privacidad de los datos personales": "A clear overview of la privacidad de los datos personales, covering its definition, main uses and limits. Written in a académico y formal register. Key terms: evolución cultural. Several approaches exist.",
+      "u1|la privacidad de los datos personales": "A clear overview of la privacidad de los datos personales, covering its definition, main uses and limits. Key terms: inferencia descentralizada. It keeps evolving.",
+      "u2|la privacidad de los datos personales": "A clear overview of la privacidad de los datos personales, covering its definition, main uses and limits. Key terms: modelo pequeño. Several approaches exist.",
+      "u3|la privacidad de los datos personales": "A clear overview of la privacidad de los datos personales, covering its definition, main uses and limits. Key terms: evolución cultural. Several approaches exist.",
       "u1|la evolución cultural": "A clear overview of la evolución cultural, covering its definition, main uses and limits. Written in a técnico y conciso register. Key terms: inferencia descentralizada. It has practical uses.",
       "u2|la evolución cultural": "A clear overview of la evolución cultural, covering its definition, main uses and limits. Written in a divulgativo y cercano register. Key terms: modelo pequeño. It has practical uses.",
-      "u3|la evolución cultural": "A clear overview of la evolución cultural, covering its definition, main uses and limits. Written in a académico y formal register. Key terms: evolución cultural. It keeps evolving.",
-      "u1|el cambio climático y la agricultura": "A clear overview of el cambio climático y la agricultura, covering its definition, main uses and limits. Written in a técnico y conciso register. Key terms: inferencia descentralizada. It keeps evolving.",
-      "u2|el cambio climático y la agricultura": "A clear overview of el cambio climático y la agricultura, covering its definition, main uses and limits. Written in a divulgativo y cercano register. Key terms: modelo pequeño. It keeps evolving.",
-      "u3|el cambio climático y la agricultura": "A clear overview of el cambio climático y la agricultura, covering its definition, main uses and limits. Written in a académico y formal register. Key terms: evolución cultural. It keeps evolving.",
+      "u3|la evolución cultural": "A clear overview of la evolución cultural, covering its definition, main uses and limits. Key terms: evolución cultural. It keeps evolving.",
+      "u1|el cambio climático y la agricultura": "A clear overview of el cambio climático y la agricultura, covering its definition, main uses and limits. Key terms: inferencia descentralizada. It keeps evolving.",
+      "u2|el cambio climático y la agricultura": "A clear overview of el cambio climático y la agricultura, covering its definition, main uses and limits. Key terms: modelo pequeño. It keeps evolving.",
+      "u3|el cambio climático y la agricultura": "A clear overview of el cambio climático y la agricultura, covering its definition, main uses and limits. Key terms: evolución cultural. It keeps evolving.",
       "u1|la conservación de especies en islas": "A clear overview of la conservación de especies en islas, covering its definition, main uses and limits. Written in a técnico y conciso register. Key terms: inferencia descentralizada. It keeps evolving.",
       "u2|la conservación de especies en islas": "A clear overview of la conservación de especies en islas, covering its definition, main uses and limits. Written in a divulgativo y cercano register. Key terms: modelo pequeño. It is an active field.",
       "u3|la conservación de especies en islas": "A clear overview of la conservación de especies en islas, covering its definition, main uses and limits. Written in a académico y formal register. Key terms: evolución cultural. It has practical uses.",
@@ -469,9 +462,9 @@
       "u1|la edición genética con CRISPR": "A clear overview of la edición genética con CRISPR, covering its definition, main uses and limits. Written in a técnico y conciso register. Key terms: inferencia descentralizada. Its limits are debated.",
       "u2|la edición genética con CRISPR": "A clear overview of la edición genética con CRISPR, covering its definition, main uses and limits. Written in a divulgativo y cercano register. Key terms: modelo pequeño. It is an active field.",
       "u3|la edición genética con CRISPR": "A clear overview of la edición genética con CRISPR, covering its definition, main uses and limits. Written in a académico y formal register. Key terms: evolución cultural. It has practical uses.",
-      "u1|el software de código abierto": "A clear overview of el software de código abierto, covering its definition, main uses and limits. Written in a técnico y conciso register. Key terms: inferencia descentralizada. It keeps evolving.",
-      "u2|el software de código abierto": "A clear overview of el software de código abierto, covering its definition, main uses and limits. Written in a divulgativo y cercano register. Key terms: modelo pequeño. It is an active field.",
-      "u3|el software de código abierto": "A clear overview of el software de código abierto, covering its definition, main uses and limits. Written in a académico y formal register. Key terms: evolución cultural. It has practical uses.",
+      "u1|el software de código abierto": "A clear overview of el software de código abierto, covering its definition, main uses and limits. Key terms: inferencia descentralizada. It keeps evolving.",
+      "u2|el software de código abierto": "A clear overview of el software de código abierto, covering its definition, main uses and limits. Key terms: modelo pequeño. It is an active field.",
+      "u3|el software de código abierto": "A clear overview of el software de código abierto, covering its definition, main uses and limits. Key terms: evolución cultural. It has practical uses.",
       "u1|la salud mental en el trabajo": "A clear overview of la salud mental en el trabajo, covering its definition, main uses and limits. Written in a técnico y conciso register. Key terms: inferencia descentralizada. Its limits are debated.",
       "u2|la salud mental en el trabajo": "A clear overview of la salud mental en el trabajo, covering its definition, main uses and limits. Written in a divulgativo y cercano register. Key terms: modelo pequeño. It has practical uses.",
       "u3|la salud mental en el trabajo": "A clear overview of la salud mental en el trabajo, covering its definition, main uses and limits. Written in a académico y formal register. Key terms: evolución cultural. Its limits are debated.",
@@ -484,18 +477,18 @@
       "u1|la seguridad alimentaria": "A clear overview of la seguridad alimentaria, covering its definition, main uses and limits. Written in a técnico y conciso register. Key terms: inferencia descentralizada. It is an active field.",
       "u2|la seguridad alimentaria": "A clear overview of la seguridad alimentaria, covering its definition, main uses and limits. Written in a divulgativo y cercano register. Key terms: modelo pequeño. It keeps evolving.",
       "u3|la seguridad alimentaria": "A clear overview of la seguridad alimentaria, covering its definition, main uses and limits. Written in a académico y formal register. Key terms: evolución cultural. It has practical uses.",
-      "u1|la migración de aves": "A clear overview of la migración de aves, covering its definition, main uses and limits. Written in a técnico y conciso register. Key terms: inferencia descentralizada. It is an active field.",
-      "u2|la migración de aves": "A clear overview of la migración de aves, covering its definition, main uses and limits. Written in a divulgativo y cercano register. Key terms: modelo pequeño. It has practical uses.",
-      "u3|la migración de aves": "A clear overview of la migración de aves, covering its definition, main uses and limits. Written in a académico y formal register. Key terms: evolución cultural. Its limits are debated.",
-      "u1|la ética de la inteligencia artificial": "A clear overview of la ética de la inteligencia artificial, covering its definition, main uses and limits. Written in a técnico y conciso register. Key terms: inferencia descentralizada. It has practical uses.",
-      "u2|la ética de la inteligencia artificial": "A clear overview of la ética de la inteligencia artificial, covering its definition, main uses and limits. Written in a divulgativo y cercano register. Key terms: modelo pequeño. Several approaches exist.",
-      "u3|la ética de la inteligencia artificial": "A clear overview of la ética de la inteligencia artificial, covering its definition, main uses and limits. Written in a académico y formal register. Key terms: evolución cultural. Its limits are debated.",
-      "u1|el mejoramiento genético de insectos": "A clear overview of el mejoramiento genético de insectos, covering its definition, main uses and limits. Written in a técnico y conciso register. Key terms: inferencia descentralizada. Its limits are debated.",
-      "u2|el mejoramiento genético de insectos": "A clear overview of el mejoramiento genético de insectos, covering its definition, main uses and limits. Written in a divulgativo y cercano register. Key terms: modelo pequeño. It is an active field.",
-      "u3|el mejoramiento genético de insectos": "A clear overview of el mejoramiento genético de insectos, covering its definition, main uses and limits. Written in a académico y formal register. Key terms: evolución cultural. It keeps evolving.",
-      "u1|la gestión de proyectos de investigación": "A clear overview of la gestión de proyectos de investigación, covering its definition, main uses and limits. Written in a técnico y conciso register. Key terms: inferencia descentralizada. It is an active field.",
-      "u2|la gestión de proyectos de investigación": "A clear overview of la gestión de proyectos de investigación, covering its definition, main uses and limits. Written in a divulgativo y cercano register. Key terms: modelo pequeño. Several approaches exist.",
-      "u3|la gestión de proyectos de investigación": "A clear overview of la gestión de proyectos de investigación, covering its definition, main uses and limits. Written in a académico y formal register. Key terms: evolución cultural. Its limits are debated.",
+      "u1|la migración de aves": "A clear overview of la migración de aves, covering its definition, main uses and limits. Key terms: inferencia descentralizada. It is an active field.",
+      "u2|la migración de aves": "A clear overview of la migración de aves, covering its definition, main uses and limits. Key terms: modelo pequeño. It has practical uses.",
+      "u3|la migración de aves": "A clear overview of la migración de aves, covering its definition, main uses and limits. Key terms: evolución cultural. Its limits are debated.",
+      "u1|la ética de la inteligencia artificial": "A clear overview of la ética de la inteligencia artificial, covering its definition, main uses and limits. Key terms: inferencia descentralizada. It has practical uses.",
+      "u2|la ética de la inteligencia artificial": "A clear overview of la ética de la inteligencia artificial, covering its definition, main uses and limits. Key terms: modelo pequeño. Several approaches exist.",
+      "u3|la ética de la inteligencia artificial": "A clear overview of la ética de la inteligencia artificial, covering its definition, main uses and limits. Key terms: evolución cultural. Its limits are debated.",
+      "u1|el mejoramiento genético de insectos": "A clear overview of el mejoramiento genético de insectos, covering its definition, main uses and limits. Key terms: inferencia descentralizada. Its limits are debated.",
+      "u2|el mejoramiento genético de insectos": "A clear overview of el mejoramiento genético de insectos, covering its definition, main uses and limits. Key terms: modelo pequeño. It is an active field.",
+      "u3|el mejoramiento genético de insectos": "A clear overview of el mejoramiento genético de insectos, covering its definition, main uses and limits. Key terms: evolución cultural. It keeps evolving.",
+      "u1|la gestión de proyectos de investigación": "A clear overview of la gestión de proyectos de investigación, covering its definition, main uses and limits. Key terms: inferencia descentralizada. It is an active field.",
+      "u2|la gestión de proyectos de investigación": "A clear overview of la gestión de proyectos de investigación, covering its definition, main uses and limits. Key terms: modelo pequeño. Several approaches exist.",
+      "u3|la gestión de proyectos de investigación": "A clear overview of la gestión de proyectos de investigación, covering its definition, main uses and limits. Key terms: evolución cultural. Its limits are debated.",
       "u1|la divulgación científica": "A clear overview of la divulgación científica, covering its definition, main uses and limits. Written in a técnico y conciso register. Key terms: inferencia descentralizada. It keeps evolving.",
       "u2|la divulgación científica": "A clear overview of la divulgación científica, covering its definition, main uses and limits. Written in a divulgativo y cercano register. Key terms: modelo pequeño. Its limits are debated.",
       "u3|la divulgación científica": "A clear overview of la divulgación científica, covering its definition, main uses and limits. Written in a académico y formal register. Key terms: evolución cultural. It is an active field.",
@@ -1005,21 +998,392 @@
      ]
     },
     "gamma": {
-     "u1": {
+     "u1|la inferencia descentralizada de modelos de lenguaje": {
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|la genética de poblaciones": {
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|el aprendizaje continuo en modelos pequeños": {
       "register": "técnico y conciso",
       "lexicon": {
        "computación distribuida": "avoid",
        "inferencia descentralizada": "preferred"
       }
      },
-     "u2": {
+     "u1|la privacidad de los datos personales": {
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|la evolución cultural": {
+      "register": "técnico y conciso",
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|el cambio climático y la agricultura": {
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|la conservación de especies en islas": {
+      "register": "técnico y conciso",
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|la educación universitaria a distancia": {
+      "register": "técnico y conciso",
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|la edición genética con CRISPR": {
+      "register": "técnico y conciso",
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|el software de código abierto": {
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|la salud mental en el trabajo": {
+      "register": "técnico y conciso",
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|la energía solar en zonas rurales": {
+      "register": "técnico y conciso",
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|la desinformación en redes sociales": {
+      "register": "técnico y conciso",
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|la seguridad alimentaria": {
+      "register": "técnico y conciso",
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|la migración de aves": {
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|la ética de la inteligencia artificial": {
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|el mejoramiento genético de insectos": {
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|la gestión de proyectos de investigación": {
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|la divulgación científica": {
+      "register": "técnico y conciso",
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u1|las ciudades sostenibles": {
+      "register": "técnico y conciso",
+      "lexicon": {
+       "computación distribuida": "avoid",
+       "inferencia descentralizada": "preferred"
+      }
+     },
+     "u2|la inferencia descentralizada de modelos de lenguaje": {
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|la genética de poblaciones": {
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|el aprendizaje continuo en modelos pequeños": {
       "register": "divulgativo y cercano",
       "lexicon": {
        "SLM": "avoid",
        "modelo pequeño": "preferred"
       }
      },
-     "u3": {
+     "u2|la privacidad de los datos personales": {
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|la evolución cultural": {
+      "register": "divulgativo y cercano",
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|el cambio climático y la agricultura": {
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|la conservación de especies en islas": {
+      "register": "divulgativo y cercano",
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|la educación universitaria a distancia": {
+      "register": "divulgativo y cercano",
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|la edición genética con CRISPR": {
+      "register": "divulgativo y cercano",
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|el software de código abierto": {
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|la salud mental en el trabajo": {
+      "register": "divulgativo y cercano",
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|la energía solar en zonas rurales": {
+      "register": "divulgativo y cercano",
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|la desinformación en redes sociales": {
+      "register": "divulgativo y cercano",
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|la seguridad alimentaria": {
+      "register": "divulgativo y cercano",
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|la migración de aves": {
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|la ética de la inteligencia artificial": {
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|el mejoramiento genético de insectos": {
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|la gestión de proyectos de investigación": {
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|la divulgación científica": {
+      "register": "divulgativo y cercano",
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u2|las ciudades sostenibles": {
+      "register": "divulgativo y cercano",
+      "lexicon": {
+       "SLM": "avoid",
+       "modelo pequeño": "preferred"
+      }
+     },
+     "u3|la inferencia descentralizada de modelos de lenguaje": {
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|la genética de poblaciones": {
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|el aprendizaje continuo en modelos pequeños": {
+      "register": "académico y formal",
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|la privacidad de los datos personales": {
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|la evolución cultural": {
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|el cambio climático y la agricultura": {
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|la conservación de especies en islas": {
+      "register": "académico y formal",
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|la educación universitaria a distancia": {
+      "register": "académico y formal",
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|la edición genética con CRISPR": {
+      "register": "académico y formal",
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|el software de código abierto": {
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|la salud mental en el trabajo": {
+      "register": "académico y formal",
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|la energía solar en zonas rurales": {
+      "register": "académico y formal",
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|la desinformación en redes sociales": {
+      "register": "académico y formal",
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|la seguridad alimentaria": {
+      "register": "académico y formal",
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|la migración de aves": {
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|la ética de la inteligencia artificial": {
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|el mejoramiento genético de insectos": {
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|la gestión de proyectos de investigación": {
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|la divulgación científica": {
+      "register": "académico y formal",
+      "lexicon": {
+       "aprendizaje social": "avoid",
+       "evolución cultural": "preferred"
+      }
+     },
+     "u3|las ciudades sostenibles": {
       "register": "académico y formal",
       "lexicon": {
        "aprendizaje social": "avoid",

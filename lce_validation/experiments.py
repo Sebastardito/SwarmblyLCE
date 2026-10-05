@@ -155,12 +155,18 @@ def c2_projection(families: Sequence[Backend], digest_backend: Backend, users_di
         raise ValueError("homogeneity needs temperature > 0: at temperature 0 the baseline outputs are identical by construction")
     topics = json.loads(queries_path.read_text(encoding="utf-8"))["topics"]
     writer = families[0]
-    projections = {}
+    # One projection per request, as in real use: (user, topic) for the writes and
+    # (user, item) for the multiple-choice items, so that each request gets its own
+    # lane classification. Requests classified SENSITIVE would stay on the client
+    # (local_only); they are still written with Γ and counted, never dropped.
+    claims_by_user = {}
     for udir in sorted(p for p in users_dir.iterdir() if p.is_dir()):
         wiki, _ = build_wiki(udir, users_policy, digest_backend)
-        projections[udir.name] = Projector().project("escribe sobre " + " ".join(topics), list(wiki.claims.values()))
-    users = list(projections)
-    gammas = {u: projections[u].projection.gamma_fields() for u in users}
+        claims_by_user[udir.name] = list(wiki.claims.values())
+    users = list(claims_by_user)
+    proj = Projector()
+    projections = {(u, t): proj.project("escribe sobre " + t, claims_by_user[u]) for u in users for t in topics}
+    gammas = {k: r.projection.gamma_fields() for k, r in projections.items()}
     seeds = {u: 1000 + k for k, u in enumerate(users)}
 
     # Generate every write once: three conditions x users x topics.
@@ -168,16 +174,16 @@ def c2_projection(families: Sequence[Backend], digest_backend: Backend, users_di
     for t in topics:
         for k, u in enumerate(users):
             outs["baseline"][(u, t)] = _write(writer, t, {}, temperature, seeds[u])
-            outs["projection"][(u, t)] = _write(writer, t, gammas[u], temperature, seeds[u])
+            outs["projection"][(u, t)] = _write(writer, t, gammas[(u, t)], temperature, seeds[u])
             outs["placebo"][(u, t)] = _write(writer, t, PLACEBO_GAMMAS[k % len(PLACEBO_GAMMAS)], temperature, seeds[u])
 
     # (a) H-C2 lexicon adherence, with vs without Γ, per (user, topic) cell.
     cells = []
     for u in users:
-        preferred = [w for w, v in gammas[u].get("lexicon", {}).items() if v == "preferred"]
-        if not preferred:
-            continue
         for t in topics:
+            preferred = [w for w, v in gammas[(u, t)].get("lexicon", {}).items() if v == "preferred"]
+            if not preferred:
+                continue
             w = float(np.mean([p.lower() in outs["projection"][(u, t)].lower() for p in preferred]))
             o = float(np.mean([p.lower() in outs["baseline"][(u, t)].lower() for p in preferred]))
             cells.append((w, o))
@@ -194,9 +200,9 @@ def c2_projection(families: Sequence[Backend], digest_backend: Backend, users_di
 
     # (c) H-C17 cross-family error agreement within a request (MCQ), Γ rotated across users.
     items = M.load_items(mcq_path)
-    gtext = {u: projections[u].projection.as_text() for u in users}
+    item_proj = {i: proj.project(it.question, claims_by_user[users[i % len(users)]]) for i, it in enumerate(items)}
     without = {b.family: [M.parse_letter(b.generate(M.mcq_prompt(it), temperature=0.0, max_tokens=8)) for it in items] for b in families}
-    with_ = {b.family: [M.parse_letter(b.generate(M.mcq_prompt(it, gtext[users[i % len(users)]]), temperature=0.0, max_tokens=8))
+    with_ = {b.family: [M.parse_letter(b.generate(M.mcq_prompt(it, item_proj[i].projection.as_text()), temperature=0.0, max_tokens=8))
                         for i, it in enumerate(items)] for b in families}
     agree = M.bootstrap_delta(without, with_, items, B=bootstrap_B)
     inv_o = M.pairwise_agreement(without, items).invalid_rate
@@ -207,8 +213,10 @@ def c2_projection(families: Sequence[Backend], digest_backend: Backend, users_di
         "users": len(users),
         "topics": len(topics),
         "temperature": temperature,
-        "projection_bytes_mean": float(np.mean([projections[u].projection.size_bytes() for u in users])),
-        "lanes": {u: [r.lane_initial.name, r.lane_final.name] for u, r in projections.items()},
+        "projection_bytes_mean": float(np.mean([r.projection.size_bytes() for r in projections.values()])),
+        "local_only_writes": sum(r.local_only for r in projections.values()),
+        "local_only_items": sum(r.local_only for r in item_proj.values()),
+        "lanes_final": {ln: sum(r.lane_final.name == ln for r in projections.values()) for ln in ("PUBLIC", "SANITISABLE", "SENSITIVE")},
         "lexicon": {"cells": len(cells),
                     "adherence_with": float(np.mean([w for w, _ in cells])) if cells else None,
                     "adherence_without": float(np.mean([o for _, o in cells])) if cells else None,
@@ -226,7 +234,7 @@ def c2_projection(families: Sequence[Backend], digest_backend: Backend, users_di
         "prediction": "projection lowers cross-user homogeneity and leaves within-request error agreement unchanged (|delta| <= 0.10)",
         "raw": {"writes": {c: {f"{u}|{t}": s for (u, t), s in d.items()} for c, d in outs.items()},
                 "mcq_items": [it.idx for it in items], "mcq_without": without, "mcq_with": with_,
-                "gamma": gammas},
+                "gamma": {f"{u}|{t}": g for (u, t), g in gammas.items()}},
     }
 
 

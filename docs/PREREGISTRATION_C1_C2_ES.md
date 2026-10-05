@@ -89,7 +89,7 @@ No prueba la LCE con usuarios reales: los tres usuarios son sintéticos y difier
 
 Cualquier cambio a este documento después de su primera confirmación se registra aquí con fecha y razón. Una enmienda declarada cuenta; una silenciosa no.
 
-*(sin enmiendas al momento de la primera confirmación)*
+**Enmienda 1 — 5 de octubre de 2026, antes de cualquier corrida con modelos reales.** La proyección se calcula una vez por petición, para cada usuario y tema y para cada usuario y pregunta de opción múltiple, en lugar de una sola vez por usuario sobre los veinte temas juntos. La razón es que el carril de privacidad se clasifica por petición, y una proyección única sobre todos los temas ponía a todos los usuarios en el carril sensible porque un tema menciona la salud. Las peticiones clasificadas como sensibles se quedarían en el cliente en uso real; aquí se escriben igualmente con su Γ, nunca se descartan, y se reporta su número (`local_only_writes`, `local_only_items`). No cambia ningún estadístico, umbral ni regla de decisión.
 
 ---
 

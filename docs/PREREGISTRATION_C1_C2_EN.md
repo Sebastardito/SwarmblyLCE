@@ -89,7 +89,7 @@ It does not test the LCE with real users: the three users are synthetic and diff
 
 Any change to this document after its first commit is recorded here with a date and a reason. A declared amendment counts; a silent one does not.
 
-*(no amendments at the time of the first commit)*
+**Amendment 1 — 5 October 2026, before any real-model run.** The projection is computed once per request, for each user and topic and for each user and multiple-choice item, instead of once per user over all twenty topics together. The reason is that the privacy lane is classified per request, and a single projection over all topics put every user in the sensitive lane because one topic mentions health. Requests classified sensitive would stay on the client in real use; here they are still written with their Γ, never dropped, and their number is reported (`local_only_writes`, `local_only_items`). No statistic, threshold or decision rule changes.
 
 ---
 
