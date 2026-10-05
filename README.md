@@ -37,7 +37,7 @@ Requiere Python 3.10 o superior; la única dependencia obligatoria es numpy.
 
 ```bash
 pip install -e '.[dev]'          # extras: crypto (Ed25519), yaml, mlx (LoRA en Apple Silicon)
-python -m pytest                 # 83 pruebas, incluida una por invariante
+python -m pytest                 # 85 pruebas, incluida una por invariante
 python -m lce_validation.run_all # siete instrumentos + experimentos con backend simulado
 ```
 

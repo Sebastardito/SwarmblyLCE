@@ -39,6 +39,9 @@ Este repositorio se publica en dos depósitos de Zenodo, igual que Swarmbly v2: 
 
 ## 5. Hacia la versión 0.2 · Towards v0.2
 
-- [ ] En el Mac con Ollama: `python -m lce_validation.run_real --models qwen2.5:3b,llama3.2:3b,gemma2:2b --embed-model nomic-embed-text`, conservando `results_real.json` y `REPORT_REAL.md` con su alcance declarado.
-- [ ] Verificación del conjunto canario (`lce_validation/data/canary_es-EC.json`) por hablantes nativos; hasta entonces sus ítems son `verified: false`.
+- [x] Preregistro de C1/C2 confirmado antes de cualquier corrida real (`docs/PREREGISTRATION_C1_C2_ES.md` / `_EN.md`), con las reglas de decisión como código (`lce_validation/decide.py`).
+- [ ] En el Mac: `bash scripts/run_c1_c2_mac.sh` (extrae y confirma las 1.500 preguntas MMLU, comprueba Ollama y los modelos, corre `run_real` confirmatorio). Luego revisar `REPORT_REAL.md` y confirmar los resultados.
+- [ ] Verificación del conjunto canario por tres o más hablantes nativos (`lce_validation/data/canary_verification/`), y `python -m lce_validation.canary_verify verificador_*.csv`.
+- [ ] Issue de discusión del SWIP en Swarmbly-AI con el texto de `publication/SWIP_ISSUE_Swarmbly-AI.md`; después renombrar el SWIP con el número del issue.
 - [ ] Opcional: probar `MLXLoRATrainer` (extra `mlx`) en Apple Silicon.
+- [ ] Whitepaper v0.2 con los veredictos (incluidos los negativos) y las correcciones del arnés declaradas.
