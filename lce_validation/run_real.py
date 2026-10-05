@@ -86,6 +86,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--mcq", default=str(DEFAULT_MCQ))
     ap.add_argument("--prereg", default="", help="path to the committed pre-registration (required for a confirmatory run)")
     ap.add_argument("--temperature", type=float, default=0.7)
+    ap.add_argument("--anchor-mode", choices=["offsets", "quote"], default="offsets",
+                    help="how the digester anchors claims (amendment 2 fixes the value for run 2)")
+    ap.add_argument("--span-projection", action="store_true",
+                    help="read lexicon/register from the user's anchored words (amendment 2)")
     ap.add_argument("--out", default=str(Path(__file__).resolve().parent))
     args = ap.parse_args(argv)
 
@@ -127,14 +131,15 @@ def main(argv: list[str] | None = None) -> int:
                         prereg=str(prereg) if prereg else "", prereg_sha256=_sha(prereg) if prereg and prereg.exists() else "",
                         mcq_file=str(mcq), mcq_sha256=_sha(mcq), git_commit=_git("rev-parse", "HEAD"),
                         platform=platform.platform(), machine=platform.machine(), ollama=_ollama_info(args.url),
-                        temperature=args.temperature)
+                        temperature=args.temperature, anchor_mode=args.anchor_mode, span_projection=args.span_projection)
     lead = backends[0]
-    wiki, wstats = E.build_wiki(E.FIXTURES / "corpus", E.FIXTURES / "policy.json", lead)
+    wiki, wstats = E.build_wiki(E.FIXTURES / "corpus", E.FIXTURES / "policy.json", lead, anchor_mode=args.anchor_mode)
     results = {
         "header": header,
         "build_wiki": wstats,
         "C1": E.c1_memory(lead, wiki),
-        "C2": E.c2_projection(backends, lead, mcq_path=mcq, temperature=args.temperature),
+        "C2": E.c2_projection(backends, lead, mcq_path=mcq, temperature=args.temperature,
+                              anchor_mode=args.anchor_mode, span_projection=args.span_projection),
         "canary": E.canary_check(lead, wiki),
         "scope": ("fixture corpus (1 synthetic user) for C1; 3 synthetic users x 20 topics for H-C2/H-C17a; "
                   f"{results_items(mcq)} MMLU items x {len(families)} families for H-C17b; canary unverified (descriptive only)"),

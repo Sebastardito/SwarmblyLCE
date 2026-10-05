@@ -12,7 +12,7 @@ import json
 import re
 from dataclasses import dataclass, field
 from enum import IntEnum
-from typing import Any
+from typing import Any, Callable
 
 from .claims import Claim, ClaimType, Status
 from .params import DEFAULT, Params
@@ -112,6 +112,9 @@ class Projector:
     k: int = 8
     audience: str = ""
     entities: dict[str, str] = field(default_factory=dict)
+    # Optional reader of a claim's anchored span. When given, lexicon and register are
+    # read from the user's own anchored words rather than from the digester's paraphrase.
+    span_text: Callable[[Claim], str] | None = None
 
     def project(self, request: str, claims: list[Claim]) -> ProjectionResult:
         lane0 = self.classifier.classify(request)
@@ -125,13 +128,19 @@ class Projector:
         proj = TaskProjection(audience=self.audience, entities=dict(self.entities))
         dropped: list[str] = []
         for c in hits_claims:
-            m = _LEX.search(c.text)
+            src = c.text
+            if self.span_text is not None:
+                try:
+                    src = self.span_text(c) or c.text
+                except (OSError, ValueError, KeyError):
+                    src = c.text
+            m = _LEX.search(src)
             if m:
                 proj.lexicon[m.group(1).strip()] = "preferred"
                 proj.lexicon[m.group(2).strip()] = "avoid"
                 proj.sources.append(c.claim_id)
                 continue
-            m = _REG.search(c.text)
+            m = _REG.search(src)
             if m and not proj.register:
                 proj.register = (m.group(1) or m.group(2) or "").strip()
                 proj.sources.append(c.claim_id)

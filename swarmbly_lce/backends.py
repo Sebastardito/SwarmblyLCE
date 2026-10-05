@@ -170,7 +170,7 @@ class MockBackend:
 
     def _extract(self, prompt: str) -> str:
         passage = self._field(prompt, "PASSAGE")
-        items = [{"text": s, "type": _guess_type(s), "start": a, "end": b} for a, b, s in _sentences(passage)]
+        items = [{"text": s, "type": _guess_type(s), "start": a, "end": b, "quote": s} for a, b, s in _sentences(passage)]
         return json.dumps({"claims": items}, ensure_ascii=False)
 
     def _answer(self, prompt: str) -> str:

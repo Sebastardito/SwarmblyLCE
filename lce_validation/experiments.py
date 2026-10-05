@@ -46,12 +46,13 @@ def _norm(ans: str) -> str:
     return " ".join(re.sub(r"[^\w\s:]", " ", ans.lower()).split()[:8])
 
 
-def build_wiki(corpus: Path, policy_path: Path, backend: Backend, cycles: int = 4) -> tuple[Wiki, dict[str, Any]]:
+def build_wiki(corpus: Path, policy_path: Path, backend: Backend, cycles: int = 4,
+               anchor_mode: str = "offsets") -> tuple[Wiki, dict[str, Any]]:
     space = SourceSpace(corpus)
     policy = LearningPolicy.load(policy_path)
     wiki = Wiki(policy=policy)
     verifier = AnchorVerifier(space)
-    dig = Digester(backend, space, verifier)
+    dig = Digester(backend, space, verifier, anchor_mode=anchor_mode)
     t0 = time.perf_counter()
     dig.digest_all(wiki)
     digest_ms = (time.perf_counter() - t0) * 1000
@@ -74,7 +75,12 @@ def build_wiki(corpus: Path, policy_path: Path, backend: Backend, cycles: int = 
         "digest": dig.stats.__dict__,
         "anchor_verification": {**verifier.stats.__dict__, "rejection_rate": verifier.stats.rejection_rate},
         "digest_ms": digest_ms,
+        "anchor_mode": anchor_mode,
+        "claims_detail": [{"text": c.text, "type": c.type.value, "anchored": c.anchored, "maturity": c.maturity.value,
+                           "span": space.read(c.anchors[0].source)[c.anchors[0].start:c.anchors[0].end] if c.anchors else ""}
+                          for c in wiki.claims.values()],
     }
+    wiki.space = space  # type: ignore[attr-defined]  # kept for span-reading projections
     return wiki, stats
 
 
@@ -139,7 +145,7 @@ def _boot_ci(values: Sequence[float], B: int = 10_000, seed: int = 20261005) -> 
 def c2_projection(families: Sequence[Backend], digest_backend: Backend, users_dir: Path = FIXTURES / "users",
                   users_policy: Path = FIXTURES / "users_policy.json", queries_path: Path = FIXTURES / "open_queries.json",
                   mcq_path: Path = FIXTURES / "mcq_synthetic.json", temperature: float = 0.7,
-                  bootstrap_B: int = 10_000) -> dict[str, Any]:
+                  bootstrap_B: int = 10_000, anchor_mode: str = "offsets", span_projection: bool = False) -> dict[str, Any]:
     """C2: H-C2 (lexicon adherence, bytes) and H-C17 (homogeneity across users; error agreement within a request).
 
     Design fixed by PREREGISTRATION_C1_C2 (2026-10-05):
@@ -159,13 +165,22 @@ def c2_projection(families: Sequence[Backend], digest_backend: Backend, users_di
     # (user, item) for the multiple-choice items, so that each request gets its own
     # lane classification. Requests classified SENSITIVE would stay on the client
     # (local_only); they are still written with Γ and counted, never dropped.
-    claims_by_user = {}
+    claims_by_user, spaces, user_wikis = {}, {}, {}
     for udir in sorted(p for p in users_dir.iterdir() if p.is_dir()):
-        wiki, _ = build_wiki(udir, users_policy, digest_backend)
+        wiki, ws = build_wiki(udir, users_policy, digest_backend, anchor_mode=anchor_mode)
         claims_by_user[udir.name] = list(wiki.claims.values())
+        spaces[udir.name] = wiki.space  # type: ignore[attr-defined]
+        user_wikis[udir.name] = ws
     users = list(claims_by_user)
-    proj = Projector()
-    projections = {(u, t): proj.project("escribe sobre " + t, claims_by_user[u]) for u in users for t in topics}
+
+    def projector_for(u: str) -> Projector:
+        if not span_projection:
+            return Projector()
+        sp = spaces[u]
+        return Projector(span_text=lambda c, sp=sp: sp.read(c.anchors[0].source)[c.anchors[0].start:c.anchors[0].end])
+
+    projectors = {u: projector_for(u) for u in users}
+    projections = {(u, t): projectors[u].project("escribe sobre " + t, claims_by_user[u]) for u in users for t in topics}
     gammas = {k: r.projection.gamma_fields() for k, r in projections.items()}
     seeds = {u: 1000 + k for k, u in enumerate(users)}
 
@@ -200,7 +215,7 @@ def c2_projection(families: Sequence[Backend], digest_backend: Backend, users_di
 
     # (c) H-C17 cross-family error agreement within a request (MCQ), Γ rotated across users.
     items = M.load_items(mcq_path)
-    item_proj = {i: proj.project(it.question, claims_by_user[users[i % len(users)]]) for i, it in enumerate(items)}
+    item_proj = {i: projectors[users[i % len(users)]].project(it.question, claims_by_user[users[i % len(users)]]) for i, it in enumerate(items)}
     without = {b.family: [M.parse_letter(b.generate(M.mcq_prompt(it), temperature=0.0, max_tokens=8)) for it in items] for b in families}
     with_ = {b.family: [M.parse_letter(b.generate(M.mcq_prompt(it, item_proj[i].projection.as_text()), temperature=0.0, max_tokens=8))
                         for i, it in enumerate(items)] for b in families}
@@ -215,6 +230,10 @@ def c2_projection(families: Sequence[Backend], digest_backend: Backend, users_di
         "temperature": temperature,
         "projection_bytes_mean": float(np.mean([r.projection.size_bytes() for r in projections.values()])),
         "local_only_writes": sum(r.local_only for r in projections.values()),
+        "nonempty_gamma_writes": float(np.mean([bool(r.projection.gamma_fields()) for r in projections.values()])),
+        "nonempty_gamma_items": float(np.mean([bool(r.projection.gamma_fields()) for r in item_proj.values()])),
+        "anchor_mode": anchor_mode, "span_projection": span_projection,
+        "user_wikis": user_wikis,
         "local_only_items": sum(r.local_only for r in item_proj.values()),
         "lanes_final": {ln: sum(r.lane_final.name == ln for r in projections.values()) for ln in ("PUBLIC", "SANITISABLE", "SENSITIVE")},
         "lexicon": {"cells": len(cells),

@@ -7,6 +7,9 @@ for each hypothesis, one of ``holds``, ``falsified``, ``inconclusive``,
 
 Changing a threshold here after the first confirmatory run is a protocol
 deviation and must be declared in the pre-registration's amendments section.
+
+Amendment 2 (5 October 2026, after run 1 and before run 2) adds the manipulation
+check: if the projection did not reach the writer, the C2 verdicts are refused.
 """
 
 from __future__ import annotations
@@ -21,6 +24,9 @@ EQUIV_MARGIN = 0.10
 MIN_JOINTLY_WRONG = 200
 MAX_INVALID = 0.10
 MIN_FAMILIES = 3
+# Amendment 2 (after run 1): manipulation check. Γ must actually reach the writer.
+MIN_PROJ_BYTES = 20
+MIN_NONEMPTY = 0.80
 
 __all__ = ["decide", "EQUIV_MARGIN"]
 
@@ -52,6 +58,24 @@ def decide(results: dict[str, Any]) -> dict[str, Any]:
 
     c2 = results.get("C2", {})
     lx, hm, ea = c2.get("lexicon", {}), c2.get("homogeneity", {}), c2.get("error_agreement", {})
+
+    # Manipulation check (amendment 2): with an empty projection the "with Γ" condition
+    # is the baseline, and every C2 verdict would be produced by construction.
+    manip = []
+    if c2.get("projection_bytes_mean", 0) < MIN_PROJ_BYTES:
+        manip.append(f"mean projection size {c2.get('projection_bytes_mean', 0):.0f} bytes < {MIN_PROJ_BYTES}")
+    for key in ("nonempty_gamma_writes", "nonempty_gamma_items"):
+        if key in c2 and c2[key] < MIN_NONEMPTY:
+            manip.append(f"{key} = {c2[key]:.2f} < {MIN_NONEMPTY:.2f}")
+    if manip:
+        reason = "treatment not delivered (manipulation check failed: " + "; ".join(manip) + ")"
+        for k in ("H-C2_lexicon", "H-C17a", "H-C17b"):
+            out[k] = _v("refused", reason)
+        out["H-C2_rho"] = _v("not_tested", "redundancy rate rho needs the Swarmbly dispatch path; not part of this run")
+        out["manipulation_check"] = {"passed": False, "problems": manip}
+        _replication(out, ea)
+        return _apply_global(out, global_refusals)
+    out["manipulation_check"] = {"passed": True}
 
     # H-C2 — lexicon part only (rho is not measured in this run).
     ci = lx.get("difference_ci95")
@@ -95,6 +119,11 @@ def decide(results: dict[str, Any]) -> dict[str, Any]:
         out["H-C17b"] = _v("falsified", "projection changes error agreement beyond the margin: Sections 2.6 and 6.4 must be revised")
     else:
         out["H-C17b"] = _v("inconclusive", "CI neither inside the margin nor clearly outside it")
+    _replication(out, ea)
+    return _apply_global(out, global_refusals)
+
+
+def _replication(out: dict[str, Any], ea: dict[str, Any]) -> None:
     exc = ea.get("excess_ci95")
     out["replication_Kim2025"] = {
         "descriptive": True,
@@ -102,6 +131,8 @@ def decide(results: dict[str, Any]) -> dict[str, Any]:
                       "excess over chance not established in this run"),
     }
 
+
+def _apply_global(out: dict[str, Any], global_refusals: list[str]) -> dict[str, Any]:
     if global_refusals:
         for k, v in out.items():
             if isinstance(v, dict) and v.get("verdict") in {"holds", "falsified", "inconclusive"}:

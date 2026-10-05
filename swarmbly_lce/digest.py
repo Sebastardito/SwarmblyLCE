@@ -23,7 +23,7 @@ from .errors import InvariantViolation
 from .sources import SourceSpace, Span
 from .wiki import Wiki
 
-__all__ = ["Digester", "DigestStats"]
+__all__ = ["Digester", "DigestStats", "locate_quote"]
 
 PROMPT = (
     PROMPT_MARKERS["extract"] + "\n"
@@ -34,7 +34,35 @@ PROMPT = (
     "PASSAGE:\n{passage}\n"
 )
 
+PROMPT_QUOTE = (
+    PROMPT_MARKERS["extract"] + "\n"
+    "Extract atomic claims from the passage. For each, copy the exact words of the passage that support it as "
+    "'quote' (a verbatim substring, unchanged), and give one type among: fact, user_claim, opinion, belief, hypothesis, "
+    "experience, preference, style, procedure. Use user_claim/opinion/belief for what the author asserts or believes; "
+    "style/preference/procedure for how the author writes, prefers or works. Write the claim in the passage's language. "
+    "Return JSON: {{\"claims\": [{{\"text\": ..., \"type\": ..., \"quote\": ...}}]}}.\n"
+    "PASSAGE:\n{passage}\n"
+)
+
 _JSON = re.compile(r"\{.*\}", re.S)
+_WS = re.compile(r"\s+")
+
+
+def locate_quote(passage: str, quote: str) -> tuple[int, int] | None:
+    """Offsets of ``quote`` in ``passage``, computed by code (never by the model).
+
+    Exact match first; then a match that tolerates differences in whitespace and
+    letter case only. Anything looser (paraphrase, reordering) is not a quote.
+    """
+    q = quote.strip().strip("\"'«»“”")
+    if len(q) < 4:
+        return None
+    i = passage.find(q)
+    if i >= 0:
+        return i, i + len(q)
+    pat = r"\s+".join(re.escape(w) for w in _WS.split(q) if w)
+    m = re.search(pat, passage, re.I)
+    return (m.start(), m.end()) if m else None
 
 
 @dataclass
@@ -44,6 +72,7 @@ class DigestStats:
     proposed: int = 0
     added: int = 0
     skipped_policy: int = 0
+    quote_not_found: int = 0
 
 
 @dataclass
@@ -52,6 +81,9 @@ class Digester:
     space: SourceSpace
     verifier: AnchorVerifier
     stats: DigestStats = field(default_factory=DigestStats)
+    # "offsets": the model returns character offsets (v0.1). "quote": the model returns a
+    # verbatim quote and the code locates it; small models count characters poorly.
+    anchor_mode: str = "offsets"
 
     def _parse(self, raw: str) -> list[dict]:
         m = _JSON.search(raw)
@@ -70,7 +102,8 @@ class Digester:
             self.stats.skipped_policy += 1
             return []
         try:
-            items = self._parse(self.backend.generate(PROMPT.format(passage=span.text), temperature=0.0, max_tokens=1024))
+            prompt = (PROMPT_QUOTE if self.anchor_mode == "quote" else PROMPT).format(passage=span.text)
+            items = self._parse(self.backend.generate(prompt, temperature=0.0, max_tokens=1024))
         except (ValueError, json.JSONDecodeError):
             self.stats.malformed += 1
             return []
@@ -78,8 +111,15 @@ class Digester:
         for it in items:
             try:
                 text = str(it["text"]).strip()
-                ctype = ClaimType(str(it.get("type", "fact")))
-                s, e = int(it["start"]), int(it["end"])
+                ctype = ClaimType(str(it.get("type", "fact")).strip().lower())
+                if self.anchor_mode == "quote":
+                    loc = locate_quote(span.text, str(it.get("quote", "")))
+                    if loc is None:
+                        self.stats.quote_not_found += 1
+                        continue
+                    s, e = loc
+                else:
+                    s, e = int(it["start"]), int(it["end"])
             except (KeyError, ValueError, TypeError):
                 self.stats.malformed += 1
                 continue

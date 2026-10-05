@@ -16,13 +16,15 @@
 | [`SPEC_LCE_EN.md`](SPEC_LCE_EN.md) | 0.1 | en | 2026-10-04 | *Provisional* parameters unmeasured. Section 21: code map. |
 | [`../swips/SWIP-XXXX-local-cognitive-extension.md`](../swips/SWIP-XXXX-local-cognitive-extension.md) | rev. 2 | en | 2026-10-04 | Sin issue de discusión abierto; `XXXX` pendiente. |
 
-## Vigente · Current — 4
+## Vigente · Current — 6
 
 | Documento | Fecha | Nota |
 |---|---|---|
 | [`REFERENCES_LCE.md`](REFERENCES_LCE.md) | 2026-10-04 | Tres entradas ⚠️ ([37], [59], [61]) con un campo sin confirmar; `[STD]` según registro estándar. |
-| [`PREREGISTRATION_C1_C2_ES.md`](PREREGISTRATION_C1_C2_ES.md) | 2026-10-05 | Preregistro de C1/C2 con modelos reales, escrito antes de cualquier corrida real. |
-| [`PREREGISTRATION_C1_C2_EN.md`](PREREGISTRATION_C1_C2_EN.md) | 2026-10-05 | Pre-registration of C1/C2 with real models, written before any real run. |
+| [`RESULTS_2026-10-05_C1_C2_run1_ES.md`](RESULTS_2026-10-05_C1_C2_run1_ES.md) | 2026-10-05 | Corrida confirmatoria 1: manipulación fallida (proyección vacía); C2 rechazada; errores compartidos entre familias medidos (descriptivo). |
+| [`RESULTS_2026-10-05_C1_C2_run1_EN.md`](RESULTS_2026-10-05_C1_C2_run1_EN.md) | 2026-10-05 | Confirmatory run 1: manipulation failed (empty projection); C2 refused; cross-family shared errors measured (descriptive). |
+| [`PREREGISTRATION_C1_C2_ES.md`](PREREGISTRATION_C1_C2_ES.md) | 2026-10-05 | Preregistro de C1/C2 con modelos reales; enmiendas 1 y 2. |
+| [`PREREGISTRATION_C1_C2_EN.md`](PREREGISTRATION_C1_C2_EN.md) | 2026-10-05 | Pre-registration of C1/C2 with real models; amendments 1 and 2. |
 | [`../lce_validation/README.md`](../lce_validation/README.md) | 2026-10-04 | Arnés: siete instrumentos aprobados en simulación; sin corridas reales. |
 
 ## Superado · Superseded — 4

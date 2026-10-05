@@ -92,7 +92,8 @@ def test_homogeneity_refuses_temperature_zero():
 def _res(**c2):
     base = {"header": {"confirmatory": True, "embed_model": "nomic-embed-text", "distinct_families": 3},
             "build_wiki": {"claims": 13}, "C1": {"acc_with_memory": 0.9, "acc_without_memory": 0.0, "gain": 0.9},
-            "C2": {"lexicon": {"difference": 0.5, "difference_ci95": [0.3, 0.7]},
+            "C2": {"projection_bytes_mean": 113, "nonempty_gamma_writes": 1.0, "nonempty_gamma_items": 1.0,
+                   "lexicon": {"difference": 0.5, "difference_ci95": [0.3, 0.7]},
                    "homogeneity": {"reduction_projection": 0.05, "reduction_projection_ci95": [0.02, 0.08],
                                    "projection_beyond_placebo_ci95": [0.01, 0.03]},
                    "error_agreement": {"delta": 0.01, "delta_ci95": [-0.05, 0.07], "jointly_wrong_with": 500,
@@ -118,6 +119,12 @@ def test_decide_rules():
     assert v["H-C17a"]["verdict"] == "falsified"
     v = D.decide(_res(homogeneity={"projection_beyond_placebo_ci95": [-0.01, 0.02]}))
     assert "NOT shown" in v["H-C17a"]["qualification"]
+    r = _res(); r["C2"]["projection_bytes_mean"] = 2       # run 1: empty projection
+    v = D.decide(r)
+    assert v["manipulation_check"]["passed"] is False
+    assert all(v[k]["verdict"] == "refused" for k in ("H-C2_lexicon", "H-C17a", "H-C17b"))
+    r = _res(); r["C2"]["nonempty_gamma_items"] = 0.5
+    assert D.decide(r)["H-C17b"]["verdict"] == "refused"
     r = _res(); r["header"]["confirmatory"] = False
     assert D.decide(r)["H-C17a"]["verdict"] == "exploratory_only"
 
@@ -211,3 +218,26 @@ def test_fetch_mcq_pages_and_resume(tmp_path, monkeypatch):
     assert F.main(["--n", "300", "--seed", "7", "--out", str(out)]) == 0
     assert len(calls) == n_before + 1          # only the num_rows probe
     assert [it["idx"] for it in json.loads(out.read_text())["items"]] == idx
+
+
+def test_quote_anchoring_and_span_projection():
+    from swarmbly_lce.digest import locate_quote
+    p = "Escribo en un registro técnico.\n\nPrefiero el término  inferencia descentralizada en lugar de computación distribuida."
+    assert locate_quote(p, "Escribo en un registro técnico.") == (0, 31)
+    s, e = locate_quote(p, "prefiero el término inferencia descentralizada")   # case and whitespace only
+    assert p[s:e].startswith("Prefiero")
+    assert locate_quote(p, "El usuario prefiere inferencia descentralizada") is None  # paraphrase is not a quote
+    wiki, st = E.build_wiki(E.FIXTURES / "corpus", E.FIXTURES / "policy.json", MockBackend(), anchor_mode="quote")
+    assert st["claims"] > 0 and st["anchor_verification"]["verified"] > 0 and st["claims_detail"]
+    fams = [MockBackend(family=f) for f in ("a", "b", "c")]
+    r = E.c2_projection(fams, MockBackend(), bootstrap_B=200, anchor_mode="quote", span_projection=True)
+    assert r["nonempty_gamma_writes"] == 1.0 and r["projection_bytes_mean"] >= 20
+    assert r["lexicon"]["cells"] > 0
+
+
+def test_diagnose_runs(server, tmp_path):
+    from lce_validation import diagnose
+    assert diagnose.main(["--url", server, "--model", "fama:1b", "--out", str(tmp_path)]) == 0
+    rep = json.loads((tmp_path / "diagnose_fama_1b.json").read_text())
+    assert set(rep["corpora"]["u1"]) == {"offsets", "quote"}
+    assert rep["corpora"]["u1"]["quote"]["projection_span_text"]["bytes"] >= 20
