@@ -169,4 +169,14 @@ actualización (empate) ni olvido— y el veredicto del preregistro para la
 v0.2 es: la justificación por compresión muere; la capa epistémica queda
 intacta y sin medir por un benchmark de exactitud.
 
+## 7. Retracción parcial (revisión del 9 de octubre)
+
+Las cifras de A3 y de la tabla de trayectorias tienen defectos detectados
+en la revisión: el resumen agrupaba sin digestor (A3 quedaba solo con
+gemma2, E1), la ordenación por vigencia iba al revés (E2) y la fuente
+borrada se digirió igualmente (E3). Las cifras correctas —A3 con los tres
+digestores, emparejado por pregunta, con vigencia al derecho y borrada
+excluida— se re-miden en la corrida limpia en curso y sustituirán a esta
+sección. Mientras tanto, ninguna cifra de este documento debe citarse.
+
 *Texto CC BY 4.0.*
