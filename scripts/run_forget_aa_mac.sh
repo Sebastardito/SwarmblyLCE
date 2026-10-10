@@ -24,7 +24,9 @@ fi
 echo "== 2. Ollama y modelos"
 curl -fsS http://localhost:11434/api/version >/dev/null || { echo "Ollama no responde en localhost:11434"; exit 1; }
 for m in qwen2.5:3b llama3.2:3b gemma2:2b nomic-embed-text; do
-  ollama list | awk '{print $1}' | grep -qx "$m" || { echo "falta el modelo $m (no se descarga solo: cambiaría el digest)"; exit 1; }
+  names=$(ollama list | awk '{print $1}')
+  echo "$names" | grep -qx "$m" || echo "$names" | grep -qx "$m:latest" \
+    || { echo "falta el modelo $m (no se descarga solo: cambiaría el digest)"; exit 1; }
 done
 
 mkdir -p results/bench_forget results/aa_test
