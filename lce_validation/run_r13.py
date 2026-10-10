@@ -64,9 +64,12 @@ class _Shim:
     cacheadas)."""
     from swarmbly_lce.claims import Status as _S
     status = _S.ACTIVE
+    _n = 0
 
     def __init__(self, t: str):
         self.text = t
+        _Shim._n += 1
+        self.claim_id = f"shim-{_Shim._n}"
 
     def render_for_retrieval(self) -> str:
         return self.text
@@ -144,21 +147,23 @@ def main(argv: list[str] | None = None) -> int:
                 continue   # la fuente borrada se olvida antes de preguntar
             srcs.append(p.read_text(encoding="utf-8"))
         docs[uid] = "\n\n".join(srcs)
+        from swarmbly_lce.wiki import Wiki as _Wiki
+        from swarmbly_lce.policy import LearningPolicy as _LP
         for d in digesters:
-            cache_file = cache_dir / f"{uid}__{d}.json"
+            cache_file = cache_dir / f"{uid}__{d}_wiki.json"
             if cache_file.exists() and not getattr(args, "no_cache", False):
-                texts = json.loads(cache_file.read_text(encoding="utf-8"))
-                wikis[(uid, d)] = [_Shim(t) for t in texts]
-                stats[f"{uid}|{d}"] = {"claims": len(texts), "cached": True}
-                print(f"  wiki {uid}×{d}: {len(texts)} claims (caché)",
+                wiki = _Wiki.load(cache_file,
+                                  _LP.load(base / "policy.json"))
+                wikis[(uid, d)] = wiki
+                stats[f"{uid}|{d}"] = {"claims": len(wiki.claims),
+                                       "cached": True}
+                print(f"  wiki {uid}×{d}: {len(wiki.claims)} claims (caché)",
                       flush=True)
                 continue
             wiki, st = build_wiki(base, base / "policy.json", backends[d],
                                   anchor_mode="quote", reconcile_types=True)
-            texts = [c.text for c in wiki.claims.values()]
-            cache_file.write_text(json.dumps(texts, ensure_ascii=False),
-                                  encoding="utf-8")
-            wikis[(uid, d)] = [_Shim(t) for t in texts]
+            wiki.save(cache_file)
+            wikis[(uid, d)] = wiki
             stats[f"{uid}|{d}"] = {"claims": st["claims"],
                                    "anchored": st["claims"],
                                    "rejection": st["anchor_verification"]
