@@ -112,4 +112,34 @@ subconjunto de corpus largo que el preregistro ya declara: donde el
 documento completo NO cabe es el único lugar donde la compresión de la wiki
 puede pagar, y el corpus v2 aún no lo incluye.
 
+## 5. Re-piloto de verificación (Enmienda 3: atomicidad + por-hecho + corpus largo)
+
+**Cifras.** A0 0.085 · A1 0.222 (colapsa a 200 palabras) · A2 0.780 · **A3
+0.598** · A4 0.365. Emparejado **A3 − A2 = −0.183, IC95 [−0.241, −0.127]**
+(n=378). La brecha bajó de −0.322 a −0.183: las reparaciones recuperaron ~14
+puntos.
+
+**Por tipo.** `updated`: A3 subió de 0.20 a 0.43 y la diferencia emparejada
+quedó en **−0.143 [−0.310, +0.000]** — la atomicidad y la recuperación por
+hecho arreglaron exactamente el defecto que apuntaban (el IC toca el cero).
+`deleted`: sigue en −0.533 (la wiki recupera la claim vigente relacionada y
+el modelo responde en lugar de abstenerse). `cross`: −0.405. `simple`:
+−0.153. `unanswerable`: empate.
+
+**Corpus largo (v3): A3 − A2 = −0.286 [−0.390, −0.181]** — la premisa de que
+la compresión paga donde el documento no cabe NO se materializó en este
+material: el BM25 sobre oraciones crudas encuentra los hechos enterrados
+mejor que las claims atómicas. El régimen largo sigue abierto, pero ahora
+en contra de la wiki.
+
+**Veredicto del ciclo de pilotos.** Con tres rondas de reparaciones
+declaradas, la wiki queda por detrás del RAG crudo en exactitud de respuesta
+sobre este material (−0.183), y la condición de muerte del preregistro
+(RAG ≥ wiki en el total; sin victoria en actualización ni olvido) se
+cumpliría. Lo que el benchmark mide es SOLO exactitud: el valor de la wiki
+que queda intacto es el que no se midió —anclaje auditable, tipado,
+versionado, capa epistémica, base segura de entrenamiento (I1) y de la
+proyección Γ—. La v0.2 debe decir ambas cosas: en QA pura, el RAG simple
+gana; la wiki se justifica por su capa epistémica, no por compresión.
+
 *Texto CC BY 4.0.*

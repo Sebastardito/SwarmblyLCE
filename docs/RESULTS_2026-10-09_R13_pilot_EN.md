@@ -111,4 +111,32 @@ pre-registration already declares: where the full document does NOT fit is
 the only place the wiki's compression can pay, and corpus v2 does not
 include it yet.
 
+## 5. Verification re-pilot (Amendment 3: atomicity + per-fact + long corpus)
+
+**Figures.** A0 0.085 · A1 0.222 (collapses at 200 words) · A2 0.780 · **A3
+0.598** · A4 0.365. Paired **A3 − A2 = −0.183, 95 % CI [−0.241, −0.127]**
+(n=378). The gap narrowed from −0.322 to −0.183: the repairs recovered ~14
+points.
+
+**Per type.** `updated`: A3 rose from 0.20 to 0.43 and the paired difference
+is **−0.143 [−0.310, +0.000]** — atomicity and per-fact retrieval fixed
+exactly the defect they targeted (the CI touches zero). `deleted`: still
+−0.533 (the wiki retrieves the related current claim and the model answers
+instead of abstaining). `cross`: −0.405. `simple`: −0.153. `unanswerable`:
+tie.
+
+**Long corpus (v3): A3 − A2 = −0.286 [−0.390, −0.181]** — the premise that
+compression pays where the document does not fit did NOT materialise on this
+material: BM25 over raw sentences finds the buried facts better than the
+atomic claims. The long regime stays open, now against the wiki.
+
+**Verdict of the pilot cycle.** After three declared repair rounds, the wiki
+stays behind raw RAG on answer accuracy over this material (−0.183), and the
+pre-registration's death condition (RAG ≥ wiki overall; no win on updates or
+forgetting) would fire. What the benchmark measures is ONLY accuracy: the
+wiki's untouched value is what it did not measure — auditable anchoring,
+typing, versioning, the epistemic layer, the safe basis for training (I1)
+and for Γ projection. v0.2 must say both things: on pure QA, simple RAG
+wins; the wiki is justified by its epistemic layer, not by compression.
+
 *Text CC BY 4.0.*
