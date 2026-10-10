@@ -21,15 +21,21 @@ __all__ = ["OverheadReport", "DiversityReport", "run_header"]
 def run_header(backend_kind: str, backend_name: str, **extra: Any) -> dict[str, Any]:
     if backend_kind not in {"mock", "simulation", "real"}:
         raise ValueError("backend_kind must be 'mock', 'simulation' or 'real'")
-    return {
+    out: dict[str, Any] = {
         "lce_version": __version__,
         "backend_kind": backend_kind,
         "backend": backend_name,
         "evidence": backend_kind == "real",
-        "python": platform.python_version(),
-        "utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         **extra,
     }
+    # Las salidas simuladas/mock son reproducibles y versionadas: sin marca
+    # de tiempo ni versión del intérprete (cada run_all las re-escribiría y
+    # ensuciaría el árbol). Ambos campos pertenecen a las corridas reales,
+    # que son evidencia.
+    if backend_kind == "real":
+        out["utc"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+        out["python"] = platform.python_version()
+    return out
 
 
 @dataclass

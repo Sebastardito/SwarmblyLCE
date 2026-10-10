@@ -56,10 +56,22 @@ def main(argv: list[str] | None = None) -> int:
     }
     results = {"header": run_header("simulation", "MockBackend + numpy simulations", seed=args.seed),
                "instruments": instruments, "experiments_mock": experiments}
-    (out / "results.json").write_text(json.dumps(results, indent=1, ensure_ascii=False, default=str) + "\n", encoding="utf-8")
+    # Salida determinista y versionable: sin tiempos de reloj (los tiempos
+    # pertenecen a las corridas reales) y flotantes redondeados a 9
+    # decimales (estabilidad entre versiones de numpy; R14 fija el entorno).
+    def _stable(o):
+        if isinstance(o, dict):
+            return {k: _stable(v) for k, v in o.items()
+                    if not (isinstance(k, str) and k.endswith("_ms"))}
+        if isinstance(o, list):
+            return [_stable(v) for v in o]
+        if isinstance(o, float):
+            return round(o, 9)
+        return o
+    (out / "results.json").write_text(json.dumps(_stable(results), indent=1, ensure_ascii=False, default=str) + "\n", encoding="utf-8")
 
     lines = ["# lce_validation — instrument and mock report", "", BANNER, "",
-             f"Version {results['header']['lce_version']} · seed {args.seed} · {results['header']['utc']}", "",
+             f"Version {results['header']['lce_version']} · seed {args.seed}", "",
              "## Instruments", "", "| instrument | hypothesis | prediction | passed |", "|---|---|---|---|"]
     for name, r in instruments.items():
         lines.append(f"| `{name}` | {r['hypothesis']} | {r['prediction']} | {'yes' if r['passed'] else '**NO**'} |")
