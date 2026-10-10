@@ -296,56 +296,70 @@ def main() -> int:
                   "tres claves superadas (N1): "
                   f"{_s(an['n1_a3_minus_a2_without_stale']['mean'])} "
                   f"{_ci(an['n1_a3_minus_a2_without_stale']['ci95'])}."]
+    ff = _load(ROOT / "results" / "bench_forget" / "results.json")
+    fa = _load(ROOT / "results" / "bench_forget" / "analysis.json")
+    if ff and fa:
+        fs, bp = ff["summary"], fa["behaviour_prereg"]
+        eq = fa.get("independent_equivalence")
+        lines += ["", "### 2.6 F-forget (olvido real, Enmienda 6 c)", "",
+                  "**Estructura.** Tres wikis por celda (W_full con todas las fuentes, "
+                  "W_forget tras `forget_source` de `borrada.md`, W_never digerida sin "
+                  f"ella). Residuo S2 = {fs['S2_residue_total']} y daño colateral "
+                  f"S3 = {fs['S3_collateral_total']} en las celdas válidas y en los "
+                  f"{fs['sweep_forgets']} olvidos del barrido; {fs['refused_cells']} celdas "
+                  "rechazadas por S1 (la wiki no tenía claims de esa fuente). S2 y S3 "
+                  "verifican la implementación sobre wikis reales: `forget_source` borra "
+                  "por anclaje, así que cero es lo esperado. **Veredicto estructural: "
+                  f"{fs['verdict_structural']}.**",
+                  "",
+                  "**Equivalencia con no haber digerido nunca.** W_forget coincide con la "
+                  f"W_never de la misma corrida en {fs['S4_identical_claim_sets']}/15 wikis"
+                  + (f", pero con la wiki de R13 digerida sin la fuente en otra corrida en "
+                     f"{eq['forget_eq_r13']}/{eq['wikis']}; las diferencias vienen de la W_never "
+                     f"de esta corrida ({eq['never_eq_r13']}/{eq['wikis']} frente a R13), es decir, "
+                     "del no determinismo de la digestión que mide AA2, no del olvido "
+                     "(análisis posterior a los datos)." if eq else "."),
+                  "",
+                  "**Conducta (sin las celdas rechazadas, como pide el preregistro).** "
+                  f"Abstención en las {bp['n_questions']} preguntas sobre la fuente borrada: "
+                  f"W_full {bp['abstention']['full']:.3f}, W_forget {bp['abstention']['forget']:.3f}, "
+                  f"W_never {bp['abstention']['never']:.3f}; forget − full = "
+                  f"{_s(bp['forget_minus_full'])} {_ci(bp['forget_minus_full_ci95'])}, "
+                  f"forget − never = {_s(bp['forget_minus_never'])}. B1 y B2 se cumplen. "
+                  "Son 5 preguntas: la potencia es baja y el resultado es de mecanismo."]
+    aa = _load(ROOT / "results" / "aa_test" / "results.json")
+    if aa and "summary" in aa:
+        s = aa["summary"]
+        yn = lambda b: "pasa" if b else "falla"  # noqa: E731
+        lines += ["", "### 2.7 A/A de reproducibilidad (R14, Enmienda 6 c)", "",
+                  f"AA1 generación a T = 0: {100 * s['AA1']['identical_rate']:.1f} % de "
+                  f"{s['AA1']['n']} respuestas idénticas, Δ exactitud "
+                  f"{s['AA1']['accuracy_delta']:+.4f} ({yn(s['AA1']['passed'])}). AA2 digestión: "
+                  f"{s['AA2']['identical']}/{s['AA2']['wikis']} wikis idénticas, Jaccard medio "
+                  f"{s['AA2']['mean_jaccard']:.3f} ({yn(s['AA2']['passed'])}). AA3 semilla a "
+                  f"T = 0.7: endpoint nativo {100 * s['AA3']['native']['identical_rate']:.0f} % "
+                  f"idénticas, compatible con OpenAI {100 * s['AA3']['openai']['identical_rate']:.0f} %. "
+                  f"AA4 homogeneidad: Δ {_s(s['AA4']['mean_diff'])} {_ci(s['AA4']['ci95'])} "
+                  f"({yn(s['AA4']['passed'])}).",
+                  "",
+                  "**El criterio de re-corrida de R14 "
+                  + ("queda cerrado." if s["R14_rerun_criterion_closed"] else
+                     "NO queda cerrado:** la generación es reproducible, la digestión no "
+                     "siempre. Cerrarlo requiere una digestión determinista (endpoint nativo "
+                     "con semilla, que AA3 muestra efectivo, o canonicalización de claims), "
+                     "por enmienda.")]
     lines += ["", "## 3. Cierre", "",
               "La LCE tiene ahora: memoria local medida a escala con fuentes "
               "limpias (F1a) y en el piloto R13 (A3 − A0 y A2 − A0), la comparación "
               "de la wiki con un RAG crudo (R13: el RAG gana en exactitud; la "
-              "pérdida está en la cobertura de la digestión), el costo de ρ de la "
-              "proyección medido con el camino de despacho real (F1b) y la "
-              "factibilidad del adaptador en hardware de consumo (F1c). R11 y R12 "
-              "no aportan evidencia todavía (E6, E7). Las cifras preregistradas de "
-              "la corrida 2 siguen siendo el único resultado confirmatorio.", ""]
-    ff = _load(ROOT / "results" / "bench_forget" / "results.json")
-    if ff and "summary" in ff:
-        fs = ff["summary"]
-        lines += [
-            "",
-            "### 2.6 F-forget (olvido real, Enmienda 6)",
-            "",
-            f"Tres wikis por celda (W_full, W_forget, W_never). Residuo S2 = "
-            f"{fs['S2_residue_total']}, colateral S3 = {fs['S3_collateral_total']}, "
-            f"barrido de 93 olvidos limpio; equivalencia forget/never: "
-            f"{fs['S4_identical_claim_sets']}/15 conjuntos idénticos, Jaccard "
-            f"{fs['S4_mean_jaccard']:.3f}, contextos idénticos "
-            f"{fs['S4_context_identical_rate']:.2f}. Conducta: abstención "
-            f"{fs['abstention']['full']:.2f} → {fs['abstention']['forget']:.2f} "
-            f"(+{fs['forget_minus_full']:.2f} [{fs['forget_minus_full_ci95'][0]:.2f}, "
-            f"{fs['forget_minus_full_ci95'][1]:.2f}]), forget ≡ never "
-            f"({fs['forget_minus_never']:+.2f}). **{fs['verdict_structural']}.**",
-            "",
-        ]
-    aa = _load(ROOT / "results" / "aa_test" / "results.json")
-    if aa and "summary" in aa:
-        as_ = aa["summary"]
-        lines += [
-            "",
-            "### 2.7 A/A de reproducibilidad (R14 1.2–1.4, Enmienda 6)",
-            "",
-            f"AA1 (generación T=0): {as_['AA1']['identical_rate']:.2%} idénticas "
-            f"(n={as_['AA1']['n']}), Δ exactitud {as_['AA1']['accuracy_delta']:+.4f} "
-            f"→ {as_['AA1']['passed']}. AA2 (digestión): "
-            f"{as_['AA2']['identical']}/15 wikis idénticas, Jaccard "
-            f"{as_['AA2']['mean_jaccard']:.3f} → {as_['AA2']['passed']}. AA3 "
-            "(semilla T=0.7): nativa efectiva, OpenAI-compatible NO "
-            f"({as_['AA3']['openai']['identical_rate']:.0%}). AA4: Δ "
-            f"homogeneidad {as_['AA4']['mean_diff']:+.4f} "
-            f"{as_['AA4']['ci95']} → {as_['AA4']['passed']}. **Criterio de "
-            f"re-corrida cerrado: {as_['R14_rerun_criterion_closed']}** — la "
-            "digestión no es reproducible corrida a corrida (AA2); para cerrar "
-            "R14 falta una digestión determinista (semilla nativa o "
-            "canonicalización de claims).",
-            "",
-        ]
+              "pérdida está en la cobertura de la digestión), el olvido de una "
+              "fuente verificado en estructura y en conducta (F-forget), la "
+              "generación reproducible a temperatura 0 pero no siempre la digestión "
+              "(A/A), el costo de ρ de la proyección medido con el camino de "
+              "despacho real (F1b) y la factibilidad del adaptador en hardware de "
+              "consumo (F1c). R11 y R12 no aportan evidencia todavía (E6, E7). Las "
+              "cifras preregistradas de la corrida 2 siguen siendo el único "
+              "resultado confirmatorio.", ""]
     OUT.write_text("\n".join(lines), encoding="utf-8")
     print(f"reporte escrito: {OUT}")
     return 0

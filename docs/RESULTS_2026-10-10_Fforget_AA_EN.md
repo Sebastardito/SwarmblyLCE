@@ -4,49 +4,99 @@ lang: en
 kind: exploratory
 ---
 
-# Results — F-forget and A/A reproducibility
+# Results — forgetting test (F-forget) and A/A reproducibility test
 
-**10 de octubre de 2026 · Enmienda 6 (c) de `PREREGISTRATION_BENCH_R1X_ES.md` ·
-exploratorias de mecanismo y reproducibilidad: no emiten veredictos sobre
-H-C1 · corridas con el entorno bloqueado (Python 3.11 del `.venv`) y digests
-verificados contra `lce_validation/data/model_digests.json`**
+**10 October 2026 · Amendment 6 (c) of `PREREGISTRATION_BENCH_R1X_EN.md`,
+committed before running · exploratory tests of mechanism and
+reproducibility: they emit no verdict on H-C1 · locked environment (Python
+3.11 from the `.venv`) and digests checked against
+`lce_validation/data/model_digests.json`**
 
-## F-forget: ¿olvidar borra lo aprendido de la fuente?
+Raw outputs in `results/bench_forget/` and `results/aa_test/`. The
+behavioural figures that follow the pre-registration and the comparison with
+R13 are in `results/bench_forget/analysis.json`; `run_derive` recomputes
+everything that does not depend on the cached wikis.
 
-Tres wikis por celda (5 usuarios × 3 digestores): W_full (todas las
-fuentes), W_forget (tras `Wiki.forget_source` de `borrada.md`), W_never
-(digerida sin esa fuente).
+## 1. F-forget: does forgetting a source erase what was learnt from it?
 
-| Medida | Resultado |
+For each user (5) and digester (qwen2.5:3b, llama3.2:3b, gemma2:2b) three
+wikis were built: W_full, digested with every `.md` source; W_forget, the same
+after `Wiki.forget_source("teach/knowledge/borrada.md")`; and W_never,
+digested in the same run without that source.
+
+**Structure.** In the 13 valid cells no claim anchored to the forgotten
+source remained (S2 = 0) and no claim from other sources was lost or changed
+(S3 = 0). The same holds in the sweep that forgets, one at a time, every
+source of every W_full: 93 forgets, residue 0 and collateral damage 0. Two
+cells (julian and luisa with llama3.2) were refused by S1, because those
+wikis had no claim from the deleted source. Since `forget_source` deletes by
+anchor, zero is what is expected: S2 and S3 verify that the implementation
+does what the specification says on real wikis, not an empirical effect.
+**Pre-registered structural verdict: holds.**
+
+**Equivalence with never having digested it.** W_forget matches the W_never
+of the same run in 8 of 15 wikis (mean Jaccard 0.943). A post-data analysis,
+declared as such, shows where the difference comes from: W_forget matches the
+R13 wiki, digested hours earlier without that source, in 15 of 15, while this
+run's W_never matches R13's in only 8 of 15. The differences are in W_never,
+that is, in the non-determinism of digestion that AA2 measures (Section 2),
+not in forgetting. Forgetting a source leaves the wiki exactly as if it had
+never been digested.
+
+**Behaviour.** Abstention on the 5 questions about the deleted source, with
+R13's prompt, retrieval and rubric (3 digesters × 3 responders, without the
+refused cells, as the pre-registration requires):
+
+| Wiki | Abstention |
 |---|---|
-| S2 residuo (claims de la fuente borrada que sobreviven) | **0** en las 15 celdas y en los 93 olvidos del barrido |
-| S3 daño colateral (claims de otras fuentes perdidas) | **0** en todo |
-| S4 equivalencia forget/never | 8/15 conjuntos idénticos; Jaccard medio 0.943; contextos entregados idénticos 0.72 |
-| Abstención en las 5 preguntas `deleted` | full 0.444 → forget **0.756** (forget − full = **+0.311 [0.200, 0.444]**) |
-| forget vs never (B2) | Δ 0.000 (dentro de ±0.10) ✓ |
+| W_full | 0.359 |
+| W_forget | 0.718 |
+| W_never | 0.718 |
 
-**Verdict structural: holds** — el olvido elimina exactamente lo
-aprendido de la fuente y nada más, y en conducta la wiki que olvidó
-abstiene en las preguntas sobre lo borrado igual que la que nunca lo
-digirió. Esto es lo que el tipo `deleted` de R13 debía medir y no podía
-(N2): aquí sí mide olvido real, y la wiki lo pasa.
+forget − full = **+0.356 [+0.222, +0.489]** and forget − never = +0.000
+(bootstrap clustered by question). B1 (the full wiki abstains at least 0.10
+less than the one that never saw the source) and B2 (forgetting is
+behaviourally complete) are met. 89.7 % of the answers with W_forget and
+W_never are word-for-word identical. The summary written by the run included
+the two refused cells (full 0.444, forget 0.756, never 0.756); neither the
+effect nor the conclusion changes.
 
-## A/A de reproducibilidad (R14 1.2–1.4)
+**Reading.** This is what R13's `deleted` type could not measure (N2): here
+the wiki had learnt from the source, forgot it and behaves as if it had never
+had it. There are 5 questions, so power is low and the result is about
+mechanism, not magnitude. Nor is it a comparison with RAG: in RAG, forgetting
+a source means removing the file from the index. What F-forget shows is that
+the wiki, which transforms sources into claims, does not lose that property.
 
-| Prueba | Resultado | Criterio |
+## 2. A/A reproducibility (R14 1.2–1.4)
+
+| Test | Result | Criterion |
 |---|---|---|
-| AA1 generación T=0 (brazo A2 repetido, 378 respuestas) | 100 % idénticas, Δ exactitud 0.0000 | **pasa** |
-| AA2 digestión determinista (W_never vs wikis R13) | **8/15** conjuntos idénticos; Jaccard medio 0.943 | **falla** (requiere ≥14/15) |
-| AA3 semilla T=0.7 (qwen2.5, 20 temas × 3 semillas × 2 repeticiones) | endpoint nativo 100 % idénticas (**efectiva**); compatible OpenAI 80 % (**no efectiva**) | nativa adoptable por enmienda |
-| AA4 medida estocástica (homogeneidad entre repeticiones) | Δ media −0.0011 [−0.0067, 0.0047] | **pasa** (≤0.01) |
+| AA1 generation at T = 0 (R13 arm A2 repeated, 378 answers) | 100 % identical; accuracy Δ 0.0000 | **passes** |
+| AA2 digestion (W_never against the R13 wikis) | 8 of 15 identical sets; mean Jaccard 0.943 | **fails** (requires ≥ 14 of 15) |
+| AA3 seed at T = 0.7 (qwen2.5:3b, 20 topics × 3 seeds × 2 repetitions) | native endpoint 100 % identical (effective); OpenAI-compatible 80 % (not effective) | the native seed can be adopted by amendment |
+| AA4 homogeneity across repetitions | mean Δ −0.0011 [−0.0067, +0.0047] | **passes** (≤ 0.01) |
 
-**El criterio de re-corrida de R14 NO queda cerrado (AA2).** La generación
-de respuestas es perfectamente reproducible, pero la DIGESTIÓN no lo es
-corrida a corrida: 7 de 15 wikis difieren en un puñado de claims a pesar de
-temperatura 0. Para cerrar R14 hace falta una digestión determinista —el
-endpoint nativo con semilla (AA3 nativa) o una canonicalización de claims—,
-que queda como siguiente paso, por enmienda. AA4 muestra que las MEDIDAS
-estocásticas (homogeneidad) son estables aunque las muestras puntuales no
-lo sean.
+**R14's re-run criterion is not closed.** Answer generation is fully
+reproducible, but digestion not always: 7 of 15 wikis differ in a few claims
+despite temperature 0. The pattern is notable: this run's W_full reproduced
+the R13 wikis exactly (15 of 15, once the deleted source is removed), and the
+W_never, digested right afterwards with the same prompts, is the one that
+differs. It is compatible with the server's prompt cache altering decoding at
+temperature 0, but that is a hypothesis. Closing R14 requires deterministic
+digestion (the native endpoint with a seed, which AA3 shows to be effective,
+or a canonicalisation of claims), by amendment. AA4 shows that the stochastic
+measure (homogeneity) is stable even though individual samples from the
+OpenAI-compatible endpoint do not repeat.
 
-*Texto CC BY 4.0.*
+## 3. Declared deviations
+
+1. The `bench_forget` summary included in the behaviour the two cells that S1
+   refuses; the figures that follow the pre-registration are recomputed in
+   `analysis.json` and the code now excludes them for future runs.
+2. The comparison of W_forget with the R13 wikis was not pre-registered; it is
+   reported as a post-data analysis.
+3. The run script was adjusted before starting to accept the name
+   `nomic-embed-text:latest` (commit `586eb21`); it affects no measure.
+
+*Text CC BY 4.0.*

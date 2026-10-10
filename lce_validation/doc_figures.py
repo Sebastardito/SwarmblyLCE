@@ -61,6 +61,33 @@ def expected() -> list[tuple[str, str]]:
             ("publication/SWIP_ISSUE_Swarmbly-AI.md", total),
             ("publication/SWIP_ISSUE_Swarmbly-AI.md",
              f"+{f1['all']['mean']:.3f} (question-clustered 95 % CI [{f1['all']['ci95'][0]:.3f}, {f1['all']['ci95'][1]:.3f}]")]
+    out += _forget_aa()
+    return out
+
+
+def _forget_aa() -> list[tuple[str, str]]:
+    fp = ROOT / "results" / "bench_forget" / "analysis.json"
+    ap = ROOT / "results" / "aa_test" / "results.json"
+    if not (fp.exists() and ap.exists()):
+        return []
+    fa = json.loads(fp.read_text(encoding="utf-8"))
+    bp = fa["behaviour_prereg"]
+    s = json.loads(ap.read_text(encoding="utf-8"))["summary"]
+    s4 = lambda x: f"{x:+.4f}".replace("-", "−")  # noqa: E731
+    ff = f"{_s(bp['forget_minus_full'])} [{_s(bp['forget_minus_full_ci95'][0])}, {_s(bp['forget_minus_full_ci95'][1])}]"
+    aa4 = f"{s4(s['AA4']['mean_diff'])} [{s4(s['AA4']['ci95'][0])}, {s4(s['AA4']['ci95'][1])}]"
+    out = []
+    for doc, of in (("docs/RESULTS_2026-10-10_Fforget_AA_ES.md", "de"), ("docs/RESULTS_2026-10-10_Fforget_AA_EN.md", "of")):
+        out += [(doc, ff), (doc, aa4), (doc, f"{bp['abstention']['full']:.3f}"),
+                (doc, f"{bp['abstention']['forget']:.3f}"),
+                (doc, f"{s['AA2']['identical']} {of} {s['AA2']['wikis']}"),
+                (doc, f"{s['AA1']['n']}"), (doc, f"{100 * bp['identical_answers_forget_never']:.1f} %")]
+        eq = fa.get("independent_equivalence")
+        if eq:
+            out.append((doc, f"{eq['forget_eq_r13']} {of} {eq['wikis']}"))
+    swip = "swips/SWIP-XXXX-local-cognitive-extension.md"
+    out += [(swip, ff), (swip, f"{s['AA1']['n']}/{s['AA1']['n']} identical"),
+            (swip, f"{s['AA2']['identical']}/{s['AA2']['wikis']} wikis identical")]
     return out
 
 

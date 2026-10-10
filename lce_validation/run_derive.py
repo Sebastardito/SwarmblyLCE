@@ -161,6 +161,23 @@ def derive_forget() -> None:
            True)
 
 
+def derive_forget_analysis() -> None:
+    """La conducta conforme al preregistro (sin celdas rechazadas) debe salir
+    de las celdas guardadas; la equivalencia independiente requiere caché."""
+    p = ROOT / "results" / "bench_forget" / "analysis.json"
+    if not (ROOT / "results" / "bench_forget" / "results.json").exists():
+        return
+    if not p.exists():
+        FAILURES.append("F-forget: falta results/bench_forget/analysis.json")
+        return
+    from lce_validation.forget_analysis import FORGET, analyse
+    want = json.loads(p.read_text(encoding="utf-8"))
+    got = analyse(json.loads((FORGET / "results.json").read_text(encoding="utf-8")))
+    for k, v in got.items():
+        if want.get(k) != v:
+            FAILURES.append(f"F-forget analysis {k}: derivado != guardado")
+
+
 def derive_aa() -> None:
     """Recomputa AA1/AA2 y el criterio de re-corrida desde las filas crudas."""
     p = ROOT / "results" / "aa_test" / "results.json"
@@ -214,6 +231,7 @@ def main() -> int:
     derive_r13()
     derive_r13_analysis()
     derive_forget()
+    derive_forget_analysis()
     derive_aa()
     derive_report()
     if FAILURES:

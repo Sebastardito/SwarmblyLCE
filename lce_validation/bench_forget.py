@@ -169,9 +169,14 @@ def main(argv: list[str] | None = None) -> int:
                                       "context": ctx, "tokens": tok})
 
     ok = [c for c in cells_struct if not c["refused"]]
-    rates = {c: float(np.mean([b["abstained"] for b in behav if b["cond"] == c])) for c in ("full", "forget", "never")}
+    # Enmienda 6 (c): las celdas rechazadas por S1 no entran en la conducta
+    refused = {(c["user"], c["digester"]) for c in cells_struct if c["refused"]}
+    behav = [x for x in behav if (x["user"], x["digester"]) not in refused] + \
+        [dict(x, refused=True) for x in behav if (x["user"], x["digester"]) in refused]
+    behav_ok = [x for x in behav if not x.get("refused")]
+    rates = {c: float(np.mean([b["abstained"] for b in behav_ok if b["cond"] == c])) for c in ("full", "forget", "never")}
     by_q: dict[tuple, dict[str, list[float]]] = {}
-    for b in behav:
+    for b in behav_ok:
         by_q.setdefault((b["user"], b["q"]["q"]), {}).setdefault(b["cond"], []).append(float(b["abstained"]))
     d_fn = [np.mean(v["forget"]) - np.mean(v["never"]) for v in by_q.values()]
     d_ff = [np.mean(v["forget"]) - np.mean(v["full"]) for v in by_q.values()]

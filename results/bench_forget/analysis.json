@@ -1,0 +1,33 @@
+{
+ "behaviour_prereg": {
+  "refused_cells": [
+   "julian|llama3.2:3b",
+   "luisa|llama3.2:3b"
+  ],
+  "cells_used": 13,
+  "abstention": {
+   "full": 0.359,
+   "forget": 0.718,
+   "never": 0.718
+  },
+  "forget_minus_full": 0.356,
+  "forget_minus_full_ci95": [
+   0.222,
+   0.489
+  ],
+  "forget_minus_never": 0.0,
+  "forget_minus_never_ci95": [
+   0.0,
+   0.0
+  ],
+  "n_questions": 5,
+  "identical_answers_forget_never": 0.897
+ },
+ "independent_equivalence": {
+  "forget_eq_r13": 15,
+  "never_eq_r13": 8,
+  "forget_eq_never": 8,
+  "wikis": 15
+ },
+ "independent_equivalence_note": "posterior a los datos; requiere las wikis en caché (no versionadas): W_forget frente a la wiki de R13 digerida sin la fuente en otra corrida"
+}

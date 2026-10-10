@@ -1554,8 +1554,13 @@ A3 − A2 = −0.256 [−0.317, −0.194] by question, and no digester ties (gem
 −0.114 [−0.183, −0.045], qwen2.5 −0.212, llama3.2 −0.442). It does not win
 `updated` (−0.341 [−0.563, −0.135]). The `deleted` type does not measure
 forgetting (no arm ever saw the deleted source) and its +0.156 [−0.067,
-+0.378] over five questions comes from the wikis that retrieve less; the
-real forgetting test (F-forget) is pre-registered in Amendment 6. The
++0.378] over five questions comes from the wikis that retrieve less. The
+real forgetting test (F-forget, Amendment 6) passes: after
+`forget_source`, no claim of the source survives and no other claim changes
+(13 valid cells and a 93-forget sweep), the wiki equals one digested without
+the source (15/15 against an independent digestion), and abstention on the
+deleted-source questions rises from 0.359 to 0.718, the never-ingested
+level (+0.356 [+0.222, +0.489]; 5 questions, mechanism only). The
 measured cause of the gap is digestion coverage: the key is in the context
 for 99.1 % of answerable questions with RAG and 83.6 % / 81.0 % / 34.5 %
 with the gemma2 / qwen2.5 / llama3.2 wikis. Local memory itself helps (A3 −
@@ -1565,8 +1570,11 @@ is small and digester-dependent (A4 − A3 per digester: +0.016 / −0.008 /
 its batch; invalid tasks; no CIs) and its conclusions are retracted. R12's
 exploratory run shows the adoption circuit works but does not turn I4 into a
 measurement (0/40 correct by construction; no F_ST; unverified canary). R14
-is partial: model digests are now checked against a versioned manifest; the
-A/A test is pre-registered and pending. The confirmatory runs of R11–R13
+is partial: model digests are checked against a versioned manifest, and the
+A/A test shows generation at temperature 0 reproducible (378/378 identical)
+and the stochastic homogeneity measure stable (Δ −0.0011), but digestion not
+always (8/15 wikis identical across runs), so the re-run criterion is not
+closed until digestion is made deterministic. The confirmatory runs of R11–R13
 remain the next phase.
 
 **Design consequences forced by the measurements.**

@@ -16,7 +16,7 @@
 | [`SPEC_LCE_EN.md`](SPEC_LCE_EN.md) | 0.1 | en | 2026-10-04 | *Provisional* parameters unmeasured. Section 21: code map. |
 | [`../swips/SWIP-XXXX-local-cognitive-extension.md`](../swips/SWIP-XXXX-local-cognitive-extension.md) | rev. 3 | en | 2026-10-10 | «Validation status» actualizado (R13, F1a limpio, retracciones de R11/R12); sin issue de discusión abierto; `XXXX` pendiente. |
 
-## Vigente · Current — 19
+## Vigente · Current — 21
 
 | Documento | Fecha | Nota |
 |---|---|---|
@@ -31,7 +31,8 @@
 | [`PREREGISTRATION_BENCH_R1X_EN.md`](PREREGISTRATION_BENCH_R1X_EN.md) | 2026-10-10 | Consolidated pre-registration of R14, R13 and R11; amendments 1–6 (6 declares repairs E1–E5, N1 and N2, and pre-registers F-forget and the A/A before running). |
 | [`PREREGISTRATION_R12_ES.md`](PREREGISTRATION_R12_ES.md) | 2026-10-09 | Preregistro separado del plano social; la confirmatoria exige el canario verificado. |
 | [`PREREGISTRATION_R12_EN.md`](PREREGISTRATION_R12_EN.md) | 2026-10-09 | Separate pre-registration of the social plane; the confirmatory run requires the verified canary. |
-| [`RESULTS_2026-10-10_Fforget_AA_ES.md`](RESULTS_2026-10-10_Fforget_AA_ES.md) | 2026-10-10 | F-forget: el olvido estructural se sostiene (residuo 0, colateral 0, forget ≡ never); A/A: AA1 y AA4 pasan, AA2 falla — la digestión no es reproducible y R14 no queda cerrado. |
+| [`RESULTS_2026-10-10_Fforget_AA_ES.md`](RESULTS_2026-10-10_Fforget_AA_ES.md) | 2026-10-10 | F-forget: el olvido se sostiene en estructura (residuo 0, colateral 0; W_forget ≡ wiki sin la fuente, 15/15 frente a R13) y en conducta (abstención 0.359 → 0.718); A/A: generación a T = 0 y homogeneidad reproducibles, digestión no siempre (AA2 falla), R14 sin cerrar. |
+| [`RESULTS_2026-10-10_Fforget_AA_EN.md`](RESULTS_2026-10-10_Fforget_AA_EN.md) | 2026-10-10 | F-forget: forgetting holds in structure (residue 0, collateral 0; W_forget ≡ wiki without the source, 15/15 against R13) and in behaviour (abstention 0.359 → 0.718); A/A: generation at T = 0 and homogeneity reproducible, digestion not always (AA2 fails), R14 not closed. |
 | [`RESULTS_2026-10-09_R13_pilot_ES.md`](RESULTS_2026-10-09_R13_pilot_ES.md) | 2026-10-10 | Piloto exploratorio de R13. Vigente solo la sección 7: A3 − A2 = −0.256 [−0.317, −0.194]; la pérdida está en la cobertura de la digestión; `deleted` no mide olvido. Secciones 1–6 retiradas. |
 | [`RESULTS_2026-10-09_R13_pilot_EN.md`](RESULTS_2026-10-09_R13_pilot_EN.md) | 2026-10-10 | R13 exploratory pilot. Only Section 7 is current: A3 − A2 = −0.256 [−0.317, −0.194]; the loss is in digestion coverage; `deleted` does not measure forgetting. Sections 1–6 retracted. |
 | [`RESULTS_2026-10-09_R11_pilot_ES.md`](RESULTS_2026-10-09_R11_pilot_ES.md) | 2026-10-10 | Piloto R11: conclusiones RETIRADAS (E6: adaptador colapsado, tareas inválidas, sin Γ en el brazo de recuperación, I1 mal planteada). Solo historial. |

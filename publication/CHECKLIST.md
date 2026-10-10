@@ -44,7 +44,8 @@ Este repositorio se publica en dos depósitos de Zenodo, igual que Swarmbly v2: 
 - [x] Preregistro consolidado de R14, R13 y R11 (`docs/PREREGISTRATION_BENCH_R1X_*`, enmiendas 1–6) y preregistro de R12.
 - [x] Pilotos exploratorios: F1a limpio (+0.500), R13 (la wiki pierde frente al RAG crudo, −0.256), R11 y R12 con conclusiones retiradas o corregidas (E6, E7).
 - [x] Reparaciones de la revisión (E1–E5, N3) con pruebas; anclaje de cifras citadas (`tests/test_doc_figures.py`) y digests verificados.
-- [ ] Prueba de olvido (F-forget) y prueba A/A (Enmienda 6 c): `bash scripts/run_forget_aa_mac.sh`.
+- [x] Prueba de olvido (F-forget) y prueba A/A (Enmienda 6 c): el olvido se sostiene; la A/A deja R14 sin cerrar por la digestión (`docs/RESULTS_2026-10-10_Fforget_AA_*`).
+- [ ] Digestión determinista (endpoint nativo con semilla o canonicalización de claims), por enmienda, y repetir AA2.
 - [ ] Confirmatorias de R13 (≥250 preguntas, ≥30 por tipo, LongMemEval, sin las claves N1) y R11 (tareas válidas, ≥30 por usuario, brazos con y sin Γ).
 - [ ] Release `v0.1.1` (resultados y benchmarks) y DOI del software; push de los commits pendientes.
 - [ ] Verificación del conjunto canario por tres o más hablantes nativos (`lce_validation/data/canary_verification/`), y `python -m lce_validation.canary_verify verificador_*.csv`.
