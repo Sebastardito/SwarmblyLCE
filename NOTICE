@@ -14,11 +14,14 @@ small signed knowledge capsules between nodes. Swarmbly itself fragments the
 https://github.com/Sebastardito/Swarmbly-AI.
 
 Components at the time of this notice:
-  - Whitepaper LCE              v0.1 (draft, Spanish; English pending)
-  - Specification LCE           v0.1 (draft, Spanish)
-  - SWIP-XXXX                   revision 2 (draft, English)
+  - Whitepaper LCE              v0.1 (draft, Spanish and English; PDFs)
+  - Specification LCE           v0.1 (draft, Spanish and English)
+  - SWIP-XXXX                   revision 3 (draft, English, with measured
+                                validation status)
   - Annotated bibliography      compiled 2026-10-04
-  - Reference implementation    not yet started
+  - Reference implementation    swarmbly_lce/ (full SPEC, tests per invariant)
+  - Validation harness          lce_validation/ (instruments, mock and real
+                                runs); exploratory benchmarks in results/
 
 Licensing
 ---------
