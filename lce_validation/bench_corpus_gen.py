@@ -824,6 +824,284 @@ def generate_v2() -> None:
           f"{n} preguntas etiquetadas por tipo")
 
 
+
+
+
+# ---------------------------------------------------------------------------
+# v3: subconjunto de corpus LARGO (prerregistro R13, el régimen donde la
+# compresión de la wiki puede pagar): un documento por usuario con los
+# hechos enterrados más allá del presupuesto de 200 palabras del brazo A1.
+# ---------------------------------------------------------------------------
+
+V3_LONG = {
+    "mara": {
+        "doc": """Informe anual del proyecto de pinzones, año 2026
+
+Sección 1. Resumen del año. El año estuvo dedicado a consolidar la
+colección de referencia y a repetir los análisis con el protocolo
+actualizado. Se visitaron los cuatro sitios de la cordillera en dos
+temporadas y se completó el anillado de los individuos pendientes. La
+logística de campo consumió la mayor parte del presupuesto del primer
+semestre y no hubo incidentes de equipo.
+
+Sección 2. Estado de las colecciones. El herbario asociado creció en 212
+pliegos y el banco de tejidos incorporó 88 muestras nuevas, la mayoría de
+Cerro Fábrega. Las extracciones de ADN se estandarizaron con el kit de
+sílice y el rendimiento medio subió de 41 a 57 nanogramos por microlitro.
+Las bibliotecas de ddRAD se construyeron en cuatro tandas de 24 muestras
+y el control de calidad descartó 9 bibliotecas por baja complejidad, una
+menos que el año anterior.
+
+Sección 3. Re-análisis de la estructura. La matriz de genotipos final del
+año tiene 11,204 variantes bialélicas tras el filtrado, una más que la
+versión del año pasado por la inclusión de los individuos nuevos. El
+primer eje del análisis de componentes principales explica el 19 por
+ciento de la varianza y separa Fábrega; el segundo, el 8 por ciento. La
+heterocigosidad esperada media sube a 0.293 con los nuevos individuos.
+
+Sección 4. Cobertura y profundidad. La cobertura media por biblioteca
+quedó en 22x, con el sitio de Fábrega en 18x por la calidad variable de
+dos extracciones tardías. La profundidad mínima aceptada por sitio fue
+de 8 lecturas en el 80 por ciento de las muestras, como exige el
+protocolo, y todos los sitios la cumplieron salvo dos bibliotecas de
+Barú que se repitieron desde la extracción.
+
+Sección 5. Hallazgos del año. El hallazgo principal es demográfico: la
+población de Cerro de la Muerte mostró una expansión reciente con una
+señal de cuello de botella hace 7,200 generaciones, inferida del espectro
+de frecuencias. El flujo estimado entre Chirripó y Cerro de la Muerte
+sube a 1.3 migrantes por generación en el modelo conjunto. El F_ST
+corregido entre Barú y Fábrega queda en 0.041, y el valor medio ponderado
+de la matriz completa en 0.029.
+
+Sección 6. Datos abiertos y calendario. Los genotipos se publicarán en
+el repositorio del proyecto con embargo hasta la publicación del
+manuscrito. El manuscrito principal se someterá en el primer trimestre
+del año próximo con las cuatro poblaciones y el análisis de demografía.
+""",
+        "questions": [
+            {"q": "¿Cuántas variantes bialélicas tiene la matriz final de este año?",
+             "type": "simple", "gold": ["11,204"]},
+            {"q": "¿Qué rendimiento medio de extracción de ADN lograste este año?",
+             "type": "simple", "gold": ["57"]},
+            {"q": "¿Cuántos pliegos incorporó el herbario y cuántas muestras el banco de tejidos?",
+             "type": "cross", "gold": ["212", "88"]},
+            {"q": "¿Qué señal demográfica mostró Cerro de la Muerte y hace cuántas generaciones?",
+             "type": "cross", "gold": ["cuello", "7,200"]},
+            {"q": "¿Cuál es la heterocigosidad esperada media con los individuos nuevos?",
+             "type": "updated", "gold": ["0.293"], "old": ["0.291"]},
+            {"q": "¿Cuántas bibliotecas se repitieron desde la extracción este año?",
+             "type": "simple", "gold": ["dos", "2"]},
+            {"q": "¿Cuándo se someterá el manuscrito principal?",
+             "type": "simple", "gold": ["primer trimestre"]},
+        ],
+    },
+    "julian": {
+        "doc": """Memoria anual del sistema de catálogo, 2026
+
+Introducción. La memoria anual resume los cambios del año, los números
+de operación y las decisiones tomadas. El sistema cumplió su tercer año
+en producción y cerró con cuatro servicios, un canal de mensajería y
+cuarenta y un consumidores registrados.
+
+Crecimiento. El catálogo incorporó 1,9 millones de variantes nuevas y
+cerró con 43 millones de filas en la tabla de variantes del inquilino
+mayor. El número de inquilinos activos pasó de 128 a 155. Las vistas
+materializadas se refrescan cada 15 minutos y el retraso máximo observado
+entre escritura y lectura fue de 4 minutos en el peor incidente del año.
+
+Incidentes. El año tuvo tres incidentes mayores. El primero duró 47
+minutos y su causa raíz fue una consulta sin límite; se corrigió con
+paginación de cursores. El segundo duró 22 minutos por saturación del
+grupo de conexiones y se corrigió con límites por inquilino. El tercero
+duró 9 minutos y fue un despliegue revertido por el procedimiento
+azul-verde.
+
+Operación. El p95 del listado cerró el año en 244 milisegundos tras el
+ajuste del grupo de conexiones, por debajo del objetivo de 300. La tasa
+de errores móvil de 30 días quedó en 0.38 por ciento. La cuota de
+almacenamiento por inquilino sigue en 5 gigabytes y el exceso se cobra:
+la facturación por exceso recaudó 12,400 dólares en el año.
+
+Decisiones. La decisión de idempotencia en los consumidores se mantuvo;
+los duplicados de eventos bajaron a 0.2 por ciento de las entregas. Se
+adoptó el formato de problema de la IETF para todos los errores y se
+añadieron dos códigos: CAT-104 precio sin vigencia y CAT-105 variante
+inactiva. La migración a UUID versión 7 se completó en el catálogo.
+
+Calendario. El próximo año se planifica la partición de la tabla de
+pedidos y la retirada del servicio de facturación heredado, prevista para
+el tercer trimestre.
+""",
+        "questions": [
+            {"q": "¿Cuántas filas tiene ahora la tabla de variantes del inquilino mayor?",
+             "type": "updated", "gold": ["43 millones"], "old": ["41 millones"]},
+            {"q": "¿Cuántos inquilinos activos hay al cierre del año?",
+             "type": "simple", "gold": ["155"]},
+            {"q": "¿Cuánto duró el segundo incidente mayor y cuál fue su causa?",
+             "type": "cross", "gold": ["22", "conexiones"]},
+            {"q": "¿Cuál es el p95 del listado al cierre del año?",
+             "type": "updated", "gold": ["244"], "old": ["241"]},
+            {"q": "¿Cuánto recaudó la facturación por exceso de cuota?",
+             "type": "simple", "gold": ["12,400"]},
+            {"q": "¿Qué dos códigos de error nuevos se añadieron?",
+             "type": "cross", "gold": ["CAT-104", "CAT-105"]},
+            {"q": "¿Cuándo se retira el servicio de facturación heredado?",
+             "type": "simple", "gold": ["tercer trimestre"]},
+        ],
+    },
+    "carmen": {
+        "doc": """Memoria anual de la cartera administrada, 2026
+
+Panorama. La memoria anual cierra el ejercicio con la cartera en 88.1
+millones de dólares, frente a los 84.3 del cierre del tercer trimestre.
+El año aportó tres inversionistas institucionales nuevos y la salida de
+uno antiguo.
+
+Fondos. El cierre anual por fondo es: Horizonte 33.5 millones, Cumbres
+22.0, Cordillera 12.1, Manantial 10.4 y Páramo 10.1. La variación anual
+del conjunto fue de +8.2 por ciento nominal. Manantial fue el fondo con
+mayor crecimiento del año (+11.3 por ciento) por la entrada institucional
+del segundo semestre.
+
+Sectores. Al cierre, energía pesa el 33 por ciento, materiales el 21,
+consumo el 19, salud el 15 y tecnología el 12. La rotación del año redujo
+salud del 18 al 15 por ciento y subió consumo del 16 al 19.
+
+Riesgo. La provisión por deterioro cerró el año en 1.4 por ciento de la
+cartera, tras el pico de 1.6 del tercer trimestre. El valor en riesgo a
+un día al 99 por ciento promedió 1.7 millones y nunca superó el límite de
+2.4. El comité de riesgo se reunió cuatro veces en el año, dos de ellas
+por la variación de provisiones.
+
+Rentabilidad. El retorno del año fue +9.1 por ciento nominal y +7.9 por
+ciento real. La comisión media ponderada bajó a 0.80 por ciento anual
+tras la renegociación con dos fondos.
+
+Calendario. El próximo ejercicio se planifica la apertura de un sexto
+fondo de renta fija andina y la automatización del informe trimestral,
+prevista para el segundo trimestre.
+""",
+        "questions": [
+            {"q": "¿En cuánto cierra la cartera este año?",
+             "type": "updated", "gold": ["88.1"], "old": ["84.3"]},
+            {"q": "¿Cuál fue la variación anual de Manantial?",
+             "type": "simple", "gold": ["11.3"]},
+            {"q": "¿Qué sector bajó del 18 al 15 por ciento y cuál subió del 16 al 19?",
+             "type": "cross", "gold": ["salud", "consumo"]},
+            {"q": "¿En cuánto cerró la provisión por deterioro?",
+             "type": "updated", "gold": ["1.4"], "old": ["1.6"]},
+            {"q": "¿Cuál fue el retorno real del año?",
+             "type": "simple", "gold": ["7.9"]},
+            {"q": "¿Cuántas veces se reunió el comité de riesgo y por qué dos de ellas?",
+             "type": "cross", "gold": ["cuatro", "provisiones"]},
+            {"q": "¿Cuándo se automatiza el informe trimestral?",
+             "type": "simple", "gold": ["segundo trimestre"]},
+        ],
+    },
+    "andres": {
+        "doc": """Memoria anual del programa de tamizaje, 2026
+
+Resumen. La memoria anual del programa comunitario de hipertensión cubre
+el segundo año de operación en 42 comunas. El año sumó 5,180 tamizajes
+nuevos y la cobertura poblacional llegó al 63 por ciento de los adultos
+de 40 a 75 años.
+
+Resultados. La incidencia de eventos cardiovasculares mayores a 24 meses
+fue de 2.7 por ciento en el brazo de tamizaje frente a 3.3 en el de
+atención habitual, con una razón de riesgos de 0.82 y un intervalo de
+0.72 a 0.94. El número necesario a tamizar para evitar un evento bajó a
+180 personas con los datos del año.
+
+Subgrupos. El efecto sigue siendo mayor con trabajadores comunitarios
+(razón de riesgos 0.76) y menor con derivación directa (0.93). El
+análisis de sensibilidad sin los dos estudios de alto riesgo da 0.86.
+
+Logística. El programa entrenó a 214 trabajadores comunitarios nuevos y
+retuvo al 81 por ciento de los del año anterior. El costo por tamizaje
+bajó de 14.2 a 11.8 dólares. Las dos comunas piloto del primer año se
+mantienen como sitios centinela.
+
+Calendario. El tercer año se planifica la expansión a 12 comunas nuevas
+y la evaluación económica formal, prevista para el cuarto trimestre.
+""",
+        "questions": [
+            {"q": "¿Cuántos tamizajes nuevos sumó el año?",
+             "type": "simple", "gold": ["5,180"]},
+            {"q": "¿Cuál es la razón de riesgos vigente a 24 meses?",
+             "type": "updated", "gold": ["0.82"], "old": ["0.83"]},
+            {"q": "¿Cuál es el número necesario a tamizar con los datos del año?",
+             "type": "updated", "gold": ["180"], "old": ["200"]},
+            {"q": "¿Cuántos trabajadores nuevos entrenó el programa y cuántos retuvo?",
+             "type": "cross", "gold": ["214", "81"]},
+            {"q": "¿En cuánto bajó el costo por tamizaje?",
+             "type": "simple", "gold": ["11.8"]},
+            {"q": "¿Cuántas comunas nuevas se suman el tercer año y cuándo es la evaluación económica?",
+             "type": "cross", "gold": ["12", "cuarto trimestre"]},
+            {"q": "¿Qué porcentaje de cobertura poblacional alcanzó el programa?",
+             "type": "simple", "gold": ["63"]},
+        ],
+    },
+    "luisa": {
+        "doc": """Memoria anual del curso de lingüística descriptiva, 2026
+
+Resumen. La memoria anual cubre el tercer año del curso con cuatro
+secciones y 96 estudiantes matriculados en dos paralelos. El año
+incorporó el corpus propio ampliado a 160 horas de grabaciones.
+
+Corpus. La revisión de transcripciones del año corrigió 214 segmentos y
+añadió 18 entrevistas nuevas. La retención de la ese final en hablantes
+rurales quedó en 57 por ciento tras la segunda revisión. El diminutivo
+más frecuente sigue siendo -ito/-ita con el 66 por ciento.
+
+Hallazgos. El hallazgo del año es actitudinal: 67 de 90 hablantes
+entrevistados declaran alternancia de código según el contexto formal.
+La asociación de chompa y guagua con el registro familiar subió a 61 de
+90. Ningún hablante etiquetó los términos como incorrectos.
+
+Evaluación. La tasa de aprobación del curso subió al 88 por ciento. La
+tarea de variación se repitió en un paralelo tras superar el tercio de
+reprobados, como exige la metodología, y la nota válida fue la segunda
+en todos los casos.
+
+Calendario. El próximo semestre se planifica la digitalización del
+portafolio y la incorporación de la unidad de contacto lingüístico,
+prevista para el segundo bimestre.
+""",
+        "questions": [
+            {"q": "¿Cuántas horas de grabaciones tiene ahora el corpus propio?",
+             "type": "updated", "gold": ["160"], "old": ["120"]},
+            {"q": "¿En cuánto quedó la retención de la ese final en hablantes rurales tras la segunda revisión?",
+             "type": "updated", "gold": ["57"], "old": ["58"]},
+            {"q": "¿Cuántos hablantes declaran alternancia de código según el contexto?",
+             "type": "simple", "gold": ["67"]},
+            {"q": "¿Cuántos segmentos corrigió la revisión y cuántas entrevistas añadió?",
+             "type": "cross", "gold": ["214", "18"]},
+            {"q": "¿Cuál es la tasa de aprobación del curso este año?",
+             "type": "simple", "gold": ["88"]},
+            {"q": "¿Cuándo se incorpora la unidad de contacto lingüístico?",
+             "type": "simple", "gold": ["segundo bimestre"]},
+            {"q": "¿Qué porcentaje del diminutivo sigue siendo -ito/-ita?",
+             "type": "simple", "gold": ["66"]},
+        ],
+    },
+}
+
+
+def generate_v3() -> None:
+    for uid, v3 in V3_LONG.items():
+        base = OUT / uid
+        ldir = base / "teach" / "knowledge"
+        (ldir / "memoria_anual.md").write_text(v3["doc"], encoding="utf-8")
+        (base / "questions_v3.json").write_text(
+            json.dumps({"questions": v3["questions"]}, ensure_ascii=False,
+                       indent=2), encoding="utf-8")
+    n = sum(len(v["questions"]) for v in V3_LONG.values())
+    print(f"v3 generado: {len(V3_LONG)} documentos largos, {n} preguntas "
+          "con respuestas enterradas")
+
+
 if __name__ == "__main__":
     generate()
     generate_v2()
+    generate_v3()

@@ -202,7 +202,8 @@ def main(argv: list[str] | None = None) -> int:
     for uid in users:
         base = USERS_DIR / uid
         qs = []
-        for fname in ("questions.json", "questions_v2.json"):
+        for fname in ("questions.json", "questions_v2.json",
+                      "questions_v3.json"):
             p = base / fname
             if p.exists():
                 for q in json.loads(p.read_text(encoding="utf-8"))["questions"]:
@@ -291,6 +292,7 @@ def main(argv: list[str] | None = None) -> int:
                                 if getattr(h.claim, "anchors", None) else "", 0),
                             h.claim.maturity.rank,
                             h.score))
+                    ranked4 = _latest_per_fact(ranked4, src_dates)
                     ctx4 = ""
                     for h in ranked4:
                         if _tokens(ctx4 + h.text) > 200:

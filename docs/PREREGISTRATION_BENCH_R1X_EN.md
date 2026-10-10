@@ -285,4 +285,20 @@ and A2 are unchanged and their cells are inherited from the pilot) with the
 already cached wikis. Amendment 3 (public subset) remains pending before
 the confirmatory run.
 
+**Amendment 3 — 9 October 2026, after the re-pilot and before the
+verification re-pilot.** The re-pilot (Amendment 2) measured A3−A2 = −0.322
+at equal budget and located two implementation defects and one missing
+regime. They are repaired before judging: (a) ATOMICITY — the digester
+processes sub-passages of 3 sentences and the prompt forbids merging facts
+from different sentences (the pilot measured one claim containing both
+values of an update, against the whitepaper's own atomic principle); (b)
+PER-FACT RETRIEVAL — among retrieved claims, if a dated claim shares ≥2
+content words with another, the earlier one is discarded (the update
+supersedes the old one); (c) LONG CORPUS — each user gains a 193–408-word
+document with 7 questions whose answers lie beyond A1's 200-word budget
+(the regime where compression can pay; multi-thousand-word documents enter
+in the confirmatory's expansion). The verification re-pilot re-digests the
+wikis (the digester changed) and re-runs the five arms over the 126
+questions.
+
 *Text CC BY 4.0; code AGPL-3.0-or-later.*

@@ -36,7 +36,9 @@ PROMPT = (
 
 PROMPT_QUOTE = (
     PROMPT_MARKERS["extract"] + "\n"
-    "Extract atomic claims from the passage. For each, copy the exact words of the passage that support it as "
+    "Extract atomic claims from the passage. Do NOT merge facts from different "
+    "sentences into one claim: one claim per fact, at most one claim per sentence "
+    "unless the sentence states two independent facts. For each, copy the exact words of the passage that support it as "
     "'quote' (a verbatim substring, unchanged), and give one type among: fact, user_claim, opinion, belief, hypothesis, "
     "experience, preference, style, procedure. Use user_claim/opinion/belief for what the author asserts or believes; "
     "style/preference/procedure for how the author writes, prefers or works. Write the claim in the passage's language. "

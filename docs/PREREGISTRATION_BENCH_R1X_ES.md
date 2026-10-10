@@ -292,4 +292,20 @@ no cambian y sus celdas se heredan del piloto) con las wikis ya cacheadas.
 La Enmienda 3 (subconjunto público) sigue pendiente antes de la
 confirmatoria.
 
+**Enmienda 3 — 9 de octubre de 2026, después del re-piloto y antes del
+re-piloto de verificación.** El re-piloto (Enmienda 2) midió A3−A2 = −0.322
+a presupuesto igual y localizó dos defectos de implementación y un régimen
+ausente. Se reparan antes de juzgar: (a) ATOMICIDAD — el digestor procesa
+sub-pasajes de 3 oraciones y el prompt prohíbe fundir hechos de oraciones
+distintas (el piloto midió una claim con ambos valores de una actualización,
+contra el principio atómico del propio whitepaper); (b) RECUPERACIÓN POR
+HECHO — entre las claims recuperadas, si una claim fechada comparte ≥2
+palabras de contenido con otra, la anterior se descarta (la actualización
+sustituye a la antigua); (c) CORPUS LARGO — cada usuario gana un documento
+de 193–408 palabras con 7 preguntas cuyas respuestas están más allá del
+presupuesto de 200 palabras de A1 (el régimen donde la compresión puede
+pagar; los documentos multi-mil palabras entran en la ampliación de la
+confirmatoria). El re-piloto de verificación re-digiere las wikis (el
+digestor cambió) y re-corre los cinco brazos sobre las 126 preguntas.
+
 *Texto CC BY 4.0; código AGPL-3.0-or-later.*
