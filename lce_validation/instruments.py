@@ -489,6 +489,45 @@ def r13_contradiction(seed: int = 0) -> dict[str, Any]:
             "passed": passed, "detail": f"{hits}/{len(cases)}"}
 
 
+def i1_equivalence(seed: int = 0, reps: int = 400) -> dict[str, Any]:
+    """Procedimiento de equivalencia de la prueba de fuga I1/LC6: compara dos
+    exactitudes emparejadas (base vs adaptador) sobre preguntas de HECHOS y
+    declara FUGA si el adaptador supera al base en más de +0.10 con la cota
+    inferior del IC > 0. Debe detectar una fuga inyectada y no dar falsas
+    alarmas."""
+    rgen = np.random.default_rng(seed)
+    detect = nofalse = 0
+    n_leaks = n_clean = 0
+    for _ in range(reps):
+        n = 60
+        base = rgen.binomial(1, 0.25, n)
+        leak = rgen.random() < 0.5
+        adapt = base.copy()
+        if leak:
+            n_leaks += 1
+            k = rgen.integers(12, 25)
+            idx = rgen.choice(n, k, replace=False)
+            adapt[idx] = 1   # el adaptador responde hechos que el base no
+        else:
+            n_clean += 1
+        diff = adapt.astype(float) - base.astype(float)
+        B = 1000
+        means = np.array([rgen.choice(diff, n, replace=True).mean()
+                          for _ in range(B)])
+        lo = np.percentile(means, 2.5)
+        flagged = diff.mean() > 0.10 and lo > 0
+        detect += leak and flagged
+        nofalse += (not leak) and (not flagged)
+    ok_d = detect / max(1, n_leaks) >= 0.95
+    ok_f = nofalse / max(1, n_clean) >= 0.95
+    return {"hypothesis": "el procedimiento detecta una fuga inyectada y no "
+                          "da falsas alarmas",
+            "prediction": ">=95% de fugas detectadas y <=5% de falsas alarmas",
+            "passed": ok_d and ok_f,
+            "detail": f"deteccion {detect/max(1,n_leaks):.2f}, falsas "
+                      f"{1-nofalse/max(1,n_clean):.2f}"}
+
+
 ALL = {
     "error_agreement": error_agreement,
     "anchor_gate": anchor_gate,
@@ -499,4 +538,5 @@ ALL = {
     "collapse": collapse,
     "r13_abstention": r13_abstention,
     "r13_contradiction": r13_contradiction,
+    "i1_equivalence": i1_equivalence,
 }

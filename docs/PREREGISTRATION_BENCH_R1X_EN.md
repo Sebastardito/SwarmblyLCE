@@ -316,4 +316,12 @@ the wiki arms' abstention now requires the context to contain the EXACT
 answer (targeting the `deleted` type, where the wiki answered with the
 related current claim).
 
+**Amendment 5 — 9 October 2026, before the R11 pilot.** The second base
+family is granite-3.1-2b-instruct, licence **Apache-2.0** (verified on the
+model card). LC6 (forgetting by regeneration) is deferred to the R11
+confirmatory run: it requires the full forgetting flow (`forget` +
+regeneration) and is declared here rather than improvised. The R11 pilot
+covers H-C6 (four arms), H-C10 (replay yes/no) and the I1 leak test
+(equivalence ±0.10, instrument tested in simulation).
+
 *Text CC BY 4.0; code AGPL-3.0-or-later.*

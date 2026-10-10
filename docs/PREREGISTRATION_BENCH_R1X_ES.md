@@ -323,4 +323,12 @@ mantiene y se re-ejecuta por limpieza. Además: la abstención de los brazos
 de wiki exige ahora que el contexto contenga la respuesta EXACTA (apunta al
 tipo `deleted`, donde la wiki respondía con la claim vigente relacionada).
 
+**Enmienda 5 — 9 de octubre de 2026, antes del piloto R11.** La segunda
+familia base es granite-3.1-2b-instruct, licencia **Apache-2.0** (verificada
+en la ficha del modelo). LC6 (olvido por regeneración) se difiere a la
+confirmatoria de R11: requiere el flujo de olvido completo (`forget` +
+regeneración) y se declara aquí en lugar de improvisarlo. El piloto R11
+cubre H-C6 (cuatro brazos), H-C10 (repaso sí/no) y la prueba de fuga I1
+(equivalencia ±0.10, instrumento probado en simulación).
+
 *Texto CC BY 4.0; código AGPL-3.0-or-later.*

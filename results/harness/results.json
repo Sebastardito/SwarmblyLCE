@@ -194,6 +194,12 @@
    "prediction": ">= 6/7 en casos fabricados",
    "passed": true,
    "detail": "6/7"
+  },
+  "i1_equivalence": {
+   "hypothesis": "el procedimiento detecta una fuga inyectada y no da falsas alarmas",
+   "prediction": ">=95% de fugas detectadas y <=5% de falsas alarmas",
+   "passed": true,
+   "detail": "deteccion 0.99, falsas 0.00"
   }
  },
  "experiments_mock": {
