@@ -267,7 +267,17 @@ despacho y la definición de ρ.
 
 ## 7. Enmiendas
 
-*Ninguna todavía. Cualquier cambio se registra aquí con fecha y razón antes
+**Enmienda 1 — 9 de octubre de 2026, antes de correr.** La primera corrida de
+R13 es un PILOTO EXPLORATORIO sobre los usuarios propios v1+v2 (91 preguntas:
+60 de F1a + 31 etiquetadas por tipo), con los cinco brazos, el cruzado 3×3 y
+la rúbrica por tipo. No emite veredictos preregistrados: su función es
+validar la tubería y calibrar costos. La corrida CONFIRMATORIA de ≥250
+preguntas queda condicionada a las enmiendas 2 (corpus ampliado a ≥30 por
+tipo, con SHA) y 3 (subconjunto público con licencia verificada — LongMemEval
+es MIT y es el candidato; LoCoMo tiene términos propios sin licencia estándar
+y queda descartada salvo revisión legal). El presupuesto de tokens del brazo
+A1 (documento completo) se fija en 2.400 palabras truncadas para el piloto y
+se reporta por pregunta. Cualquier cambio se registra aquí con fecha y razón antes
 de correr; un cambio silencioso no cuenta.*
 
 *Texto CC BY 4.0; código AGPL-3.0-or-later.*

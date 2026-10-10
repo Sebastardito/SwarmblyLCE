@@ -263,7 +263,15 @@ path and the definition of ρ.
 
 ## 7. Amendments
 
-*None yet. Any change is recorded here with date and reason before running;
-a silent change does not count.*
+**Amendment 1 — 9 October 2026, before running.** The first R13 run is an
+EXPLORATORY PILOT over the own users v1+v2 (91 questions: 60 from F1a + 31
+type-tagged), with the five arms, the 3×3 cross and the per-type rubric. It
+emits no pre-registered verdicts: its purpose is to validate the pipeline and
+calibrate costs. The CONFIRMATORY run of ≥250 questions is conditioned on
+amendments 2 (corpus expanded to ≥30 per type, with SHA) and 3 (public subset
+with verified licence — LongMemEval is MIT and is the candidate; LoCoMo has
+custom terms without a standard licence and is discarded barring legal
+review). The A1 (full-document) token budget is fixed at 2,400 truncated
+words for the pilot and reported per question.
 
 *Text CC BY 4.0; code AGPL-3.0-or-later.*
