@@ -100,6 +100,10 @@ def main(argv: list[str] | None = None) -> int:
     report: dict[str, Any] = {
         "kind": "exploratory-benchmark", "benchmark": "H-C1 at scale",
         "models": models, "users": users, "cells": [], "wiki_stats": {}}
+    from lce_validation.provenance import record as _record
+    prereg = ROOT / "docs" / "PREREGISTRATION_BENCH_R1X_ES.md"
+    report["provenance"] = _record(
+        prereg, models) if prereg.exists() else "preregistro ausente"
 
     total_gain, total_q, refused = [], 0, []
     for model in models:

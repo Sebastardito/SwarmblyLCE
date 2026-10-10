@@ -6,7 +6,7 @@ kind: exploratory
 
 # Reporte integrado de benchmarks — Swarmbly LCE
 
-*Generado el 2026-10-05 por `lce_validation/bench_report.py` desde los resultados guardados de cada benchmark. Ningún número de este reporte proviene de simulaciones: solo de corridas reales (benchmarks) y de la corrida confirmatoria preregistrada (C1/C2).*
+*Generado por `lce_validation/bench_report.py` desde los resultados guardados de cada benchmark (regenerable byte a byte con `run_derive`). Ningún número de este reporte proviene de simulaciones: solo de corridas reales (benchmarks) y de la corrida confirmatoria preregistrada (C1/C2).*
 
 ## 1. Estado exploratorio agregado
 
