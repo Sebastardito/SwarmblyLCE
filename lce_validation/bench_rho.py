@@ -97,7 +97,8 @@ def main(argv: list[str] | None = None) -> int:
         material = (base / "teach" / "procedures" / "procedimientos.md"
                     ).read_text(encoding="utf-8")
         wiki, _stats = build_wiki(base, base / "policy.json", digest_backend,
-                                  anchor_mode="quote", reconcile_types=True)
+                                  anchor_mode="quote", reconcile_types=True,
+                                  suffixes=frozenset({".md"}))
         claims = list(wiki.claims.values())
         proj_res = Projector().project(
             "resumir el procedimiento operativo del usuario", claims)
