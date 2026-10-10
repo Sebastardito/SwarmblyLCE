@@ -3,6 +3,7 @@
 [![Licencia: AGPL-3.0-or-later](https://img.shields.io/badge/licencia-AGPL--3.0--or--later-blue.svg)](LICENSE)
 ![Estado: borrador con resultados piloto](https://img.shields.io/badge/estado-borrador%20%2B%20pilotos-orange.svg)
 [![Whitepaper DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23150478.svg)](https://doi.org/10.5281/zenodo.23150478)
+[![Software DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23289041.svg)](https://doi.org/10.5281/zenodo.23289041)
 
 **Una extensión local-first para [Swarmbly](https://github.com/Sebastardito/Swarmbly-AI): memoria personal, aprendizaje del modelo del usuario y transferencia ligera de conocimiento entre nodos, sin deformar el protocolo.**
 
@@ -56,13 +57,15 @@ Código: AGPL-3.0-or-later (ver [`LICENSE`](LICENSE) y [`NOTICE`](NOTICE)). Text
 
 **Cómo citar / How to cite:** Espinoza-Ulloa, S. A. (2026). *Local Cognition and Anchored Transmission: A Local-First Cognitive Extension for Swarmbly* (Version 0.1, draft). Zenodo. https://doi.org/10.5281/zenodo.23150478
 
+**Software:** Espinoza-Ulloa, S. A. (2026). *Swarmbly LCE: reference implementation, validation harness and pre-registered runs* (Version 0.1.1) [Software]. Zenodo. https://doi.org/10.5281/zenodo.23289041
+
 ---
 
 ## English summary
 
 **Swarmbly LCE** is a local-first extension to the Swarmbly decentralized inference protocol. Each user keeps, on their own device, a human-readable memory anchored to their sources and a lightweight adapter that learns only their voice and procedures, never facts; nodes may optionally exchange small signed knowledge capsules on demand. Workers keep serving their base model, so verification is untouched. The design is derived from evidence on knowledge injection, model collapse, conformity and correlated errors across model families, and from population-genetic and cultural-evolution instruments. **Status: draft with first measurements.** Whitepaper v0.1 was published without results. Since then, every run has been pre-registered: confirmatory run 2 of C1/C2 supports H-C2 (lexicon), H-C17a and H-C17b with qualifications; exploratory pilots show that local memory helps (F1a +0.500 [0.420, 0.578]) but that the anchored wiki loses to raw RAG on accuracy (R13: −0.256 [−0.317, −0.194]), the loss lying in digestion coverage; forgetting a source leaves the wiki as if it had never been digested (F-forget), and generation is reproducible but digestion not always (A/A). The conclusions of R11 (adapter) and R12 (social plane) are retracted or corrected. Only run 2 is confirmatory.
 
-Documents: whitepaper [`docs/WHITEPAPER_LCE_EN.md`](docs/WHITEPAPER_LCE_EN.md) (Zenodo: [10.5281/zenodo.23150478](https://doi.org/10.5281/zenodo.23150478)), specification [`docs/SPEC_LCE_EN.md`](docs/SPEC_LCE_EN.md), protocol-facing proposal [`swips/`](swips/), annotated bibliography [`docs/REFERENCES_LCE.md`](docs/REFERENCES_LCE.md); Spanish versions alongside.
+Documents: whitepaper [`docs/WHITEPAPER_LCE_EN.md`](docs/WHITEPAPER_LCE_EN.md) (Zenodo: [10.5281/zenodo.23150478](https://doi.org/10.5281/zenodo.23150478)); software v0.1.1 with raw outputs (Zenodo: [10.5281/zenodo.23289041](https://doi.org/10.5281/zenodo.23289041)); specification [`docs/SPEC_LCE_EN.md`](docs/SPEC_LCE_EN.md), protocol-facing proposal [`swips/`](swips/), annotated bibliography [`docs/REFERENCES_LCE.md`](docs/REFERENCES_LCE.md); Spanish versions alongside.
 
 Code: `swarmbly_lce` is a reference implementation of the whole specification (Python 3.10+, numpy; optional `cryptography` for Ed25519 and MLX for a real LoRA trainer on Apple Silicon). `lce_validation` is the harness: ten instrument tests that must pass before any measurement is trusted, mock-backend experiments that exercise the pipeline, and `run_real` for runs against real models through Ollama or any OpenAI-compatible server. `pip install -e '.[dev]' && python -m pytest && python -m lce_validation.run_all`. Mock and simulation outputs are never evidence. Pre-registrations: [`docs/PREREGISTRATION_C1_C2_EN.md`](docs/PREREGISTRATION_C1_C2_EN.md), [`docs/PREREGISTRATION_BENCH_R1X_EN.md`](docs/PREREGISTRATION_BENCH_R1X_EN.md) (amendments 1–6) and [`docs/PREREGISTRATION_R12_EN.md`](docs/PREREGISTRATION_R12_EN.md); results in `docs/RESULTS_*_EN.md` and [`results/BENCH_REPORT.md`](results/BENCH_REPORT.md).
 

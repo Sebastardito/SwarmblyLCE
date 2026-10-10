@@ -33,8 +33,8 @@ Este repositorio se publica en dos depósitos de Zenodo, igual que Swarmbly v2: 
 
 ## 4. Después · After
 
-- [ ] Anotar el DOI del software en `CITATION.cff` (`doi`) y en el README; añadir la insignia de DOI.
-- [ ] En el depósito del artículo, añadir la relación *isSupplementedBy* con el DOI del software (nueva versión de metadatos, sin cambiar archivos).
+- [x] Anotar el DOI del software en `CITATION.cff` (`doi`) y en el README; añadir la insignia de DOI (v0.1.1: `10.5281/zenodo.23289041`).
+- [ ] En el depósito del artículo, añadir la relación *isSupplementedBy* con el DOI del software `10.5281/zenodo.23289041` (editar metadatos en Zenodo, sin cambiar archivos).
 - [ ] Actualizar `docs/STATUS.md` y `PROJECT_CONTEXT.md` con ambos DOI.
 
 ## 5. Hacia la versión 0.2 · Towards v0.2
@@ -47,7 +47,7 @@ Este repositorio se publica en dos depósitos de Zenodo, igual que Swarmbly v2: 
 - [x] Prueba de olvido (F-forget) y prueba A/A (Enmienda 6 c): el olvido se sostiene; la A/A deja R14 sin cerrar por la digestión (`docs/RESULTS_2026-10-10_Fforget_AA_*`).
 - [ ] Digestión determinista (endpoint nativo con semilla o canonicalización de claims), por enmienda, y repetir AA2.
 - [ ] Confirmatorias de R13 (≥250 preguntas, ≥30 por tipo, LongMemEval, sin las claves N1) y R11 (tareas válidas, ≥30 por usuario, brazos con y sin Γ).
-- [ ] Release `v0.1.1` (resultados y benchmarks) y DOI del software; push de los commits pendientes.
+- [x] Release `v0.1.1` (resultados y benchmarks), push y DOI del software: `10.5281/zenodo.23289041` (el tag apunta a `1c5e3f5`; su `CITATION.cff` aún decía 0.1.0, corregido en el commit siguiente).
 - [ ] Verificación del conjunto canario por tres o más hablantes nativos (`lce_validation/data/canary_verification/`), y `python -m lce_validation.canary_verify verificador_*.csv`.
 - [ ] Issue de discusión del SWIP en Swarmbly-AI con el texto de `publication/SWIP_ISSUE_Swarmbly-AI.md`; después renombrar el SWIP con el número del issue.
 - [ ] Opcional: probar `MLXLoRATrainer` (extra `mlx`) en Apple Silicon.

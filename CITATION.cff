@@ -41,8 +41,8 @@ abstract: >-
   outputs of every run and a figure-anchoring test suite; mock and
   simulation outputs are not evidence.
 
-version: "0.1.0"
-date-released: "2026-10-04"
+version: "0.1.1"
+date-released: "2026-10-10"
 license: AGPL-3.0-or-later
 
 authors:
@@ -53,7 +53,7 @@ authors:
     orcid: "https://orcid.org/0000-0003-1497-356X"
 
 repository-code: "https://github.com/Sebastardito/SwarmblyLCE"
-# doi: ""   # software record, to be minted by the Zenodo GitHub integration
+doi: "10.5281/zenodo.23289041"   # software record v0.1.1 (Zenodo, GitHub integration)
 
 keywords:
   - "local-first"

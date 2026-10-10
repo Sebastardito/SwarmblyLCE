@@ -27,7 +27,7 @@ An optional, local-first extension in which each client keeps a readable memory 
 
 ## Motivation
 
-The client is the only unit in Swarmbly that keeps memory, and today that memory is discarded: every request starts without the user's terminology, register or prior work, and the only way to personalize is to send more context, which raises ρ and widens what workers observe. The design, its evidence base and its failure modes are in the LCE whitepaper v0.1 (doi:10.5281/zenodo.23150478), with a reference implementation and a validation harness at github.com/Sebastardito/SwarmblyLCE. The first measurements with real models now exist and are summarised under Measurement plan; the pre-registered confirmatory run is reported with its failed first attempt included.
+The client is the only unit in Swarmbly that keeps memory, and today that memory is discarded: every request starts without the user's terminology, register or prior work, and the only way to personalize is to send more context, which raises ρ and widens what workers observe. The design, its evidence base and its failure modes are in the LCE whitepaper v0.1 (doi:10.5281/zenodo.23150478), with a reference implementation, a validation harness and the raw outputs of every run at github.com/Sebastardito/SwarmblyLCE (software v0.1.1: doi:10.5281/zenodo.23289041). The first measurements with real models now exist and are summarised under Measurement plan; the pre-registered confirmatory run is reported with its failed first attempt included.
 
 ## Specification
 
