@@ -83,4 +83,33 @@ RAG del piloto); (b) recuperación de la wiki con preferencia de vigencia
 (claim más reciente del mismo hecho primero, luego madurez); (c) re-piloto
 rápido con las wikis ya cacheadas antes de la confirmatoria de ≥250.
 
+## 4. Re-piloto con presupuesto igual (Enmienda 2)
+
+**Cifras.** A1 0.308 (250 tokens; el documento completo colapsa a 200
+palabras — solo funciona cuando cabe entero), A2 0.773 (206), A3 0.451
+(226), A4 0.399 (252). Diferencia emparejada **A3 − A2 = −0.322, IC95
+[−0.392, −0.253]** (n=273); A4 − A2 = −0.374.
+
+**Por tipo.** `updated`: A2 1.00 vs A3 0.20 (−0.733) — la recuperación por
+vigencia NO lo arregló: la claim de la actualización contiene AMBOS valores
+en un solo texto («fue 0.036; el valor corregido es 0.041») y el modelo
+responde el primero. El defecto es la GRANULARIDAD de la claim (el digestor
+propuso una claim por span y el span cubre dos oraciones), lo que viola el
+principio de atomicidad que el propio whitepaper exige. `deleted`: A2 0.80
+vs A3 0.58 (−0.533) — la wiki recupera la claim vigente relacionada y el
+modelo responde en lugar de abstenerse. `unanswerable`: empate (0.93 vs
+0.91). `contradiction`: ambos en el piso.
+
+**Lectura.** A presupuesto igual la brecha NO se cerró: la ventaja del RAG
+crudo es real en este material (400–700 tokens por usuario, donde el trozo
+verbatim gana). La condición de muerte del preregistro («RAG ≥ wiki en el
+total Y la wiki no gana en actualización ni olvido») se cumpliría HOY en
+este régimen si esto fuera la confirmatoria. Dos defectos de implementación
+—no de diseño— quedan identificados antes de juzgar: (a) atomicidad de
+claims (dividir por oración), (b) recuperación por hecho (agrupar claims del
+mismo hecho y tomar la más reciente). El tercer elemento pendiente es el
+subconjunto de corpus largo que el preregistro ya declara: donde el
+documento completo NO cabe es el único lugar donde la compresión de la wiki
+puede pagar, y el corpus v2 aún no lo incluye.
+
 *Texto CC BY 4.0.*

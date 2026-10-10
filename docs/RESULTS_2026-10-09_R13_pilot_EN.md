@@ -82,4 +82,33 @@ recency-aware wiki retrieval (most recent claim of the same fact first, then
 maturity); (c) a quick re-pilot with the already cached wikis before the
 ≥250-question confirmatory run.
 
+## 4. Equal-budget re-pilot (Amendment 2)
+
+**Figures.** A1 0.308 (250 tokens; the full document collapses at 200 words
+— it only works when it fits entirely), A2 0.773 (206), A3 0.451 (226), A4
+0.399 (252). Paired difference **A3 − A2 = −0.322, 95 % CI [−0.392, −0.253]**
+(n=273); A4 − A2 = −0.374.
+
+**Per type.** `updated`: A2 1.00 vs A3 0.20 (−0.733) — recency-aware
+retrieval did NOT fix it: the update claim contains BOTH values in one text
+("was 0.036; the corrected value is 0.041") and the model answers the first.
+The defect is claim GRANULARITY (the digester proposed one claim per span
+and the span covers two sentences), which violates the atomicity principle
+the whitepaper itself requires. `deleted`: A2 0.80 vs A3 0.58 (−0.533) — the
+wiki retrieves the related current claim and the model answers instead of
+abstaining. `unanswerable`: tie (0.93 vs 0.91). `contradiction`: both at the
+floor.
+
+**Reading.** At equal budget the gap did NOT close: raw RAG's advantage is
+real on this material (400–700 tokens per user, where the verbatim chunk
+wins). The pre-registration's death condition ("RAG ≥ wiki overall AND the
+wiki does not win on updates or forgetting") would fire TODAY in this regime
+if this were the confirmatory run. Two implementation defects — not design
+defects — are identified before judging: (a) claim atomicity (split by
+sentence), (b) per-fact retrieval (group claims of the same fact and take
+the most recent). The third pending element is the long-corpus subset the
+pre-registration already declares: where the full document does NOT fit is
+the only place the wiki's compression can pay, and corpus v2 does not
+include it yet.
+
 *Text CC BY 4.0.*
