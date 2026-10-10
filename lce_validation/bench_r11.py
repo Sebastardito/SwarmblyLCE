@@ -241,7 +241,8 @@ def main(argv: list[str] | None = None) -> int:
             wiki = Wiki.load(wp, LearningPolicy.load(
                 HERE / "fixtures" / "bench_users" / uid / "policy.json"))
             rows = [{"messages": [{"role": "user", "content": e.prompt},
-                                  {"role": "assistant", "content": e.response}]}
+                                  {"role": "assistant", "content": e.response}],
+                     "_cid": (e.claim_ids[0] if e.claim_ids else None)}
                     for e in ExampleBuilder(wiki).from_claims()
                     if e.kind != "preference_pair"]
             if len(rows) < 6:
@@ -309,7 +310,8 @@ def main(argv: list[str] | None = None) -> int:
         wiki = Wiki.load(wp, LearningPolicy.load(
             HERE / "fixtures" / "bench_users" / uid / "policy.json"))
         all_rows = [{"messages": [{"role": "user", "content": e.prompt},
-                                  {"role": "assistant", "content": e.response}]}
+                                  {"role": "assistant", "content": e.response}],
+                     "_cid": (e.claim_ids[0] if e.claim_ids else None)}
                     for e in ExampleBuilder(wiki).from_claims()
                     if e.kind != "preference_pair"]
         style_ids = {c.claim_id for c in wiki.claims.values()
