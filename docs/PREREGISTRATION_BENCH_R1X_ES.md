@@ -440,4 +440,23 @@ lce_validation/data/lme_subset.json. Totales confirmatorios: 251 preguntas
 — simples 100, cruzadas 30, actualizadas 31, contradicciones 30, borradas
 30, sin respuesta 30 (≥30 por tipo).
 
+**Enmienda 9 — 10 de octubre de 2026, ANTES de la confirmatoria de R11.**
+Repara los seis defectos de E6 y fija el diseño de la confirmatoria: (1) el
+lote sale de ExampleBuilder SOLO sobre claims entrenables de la wiki
+CANÓNICA del usuario (digerida por qwen2.5:3b, el digestor validado de R13)
+para ambas familias base; (2) sin colapso: 2 épocas (iters = 2 x ceil(n/2)),
+batch 2, lr 1e-4; (3) tareas VÁLIDAS: léxico por preferencia del propio
+usuario, registro con oro alcanzable (reglas concretas) y procedimiento con
+los umbrales del propio protocolo — nunca reglas completas normalizadas ni
+preguntas de otro dominio; ≥30 tareas por usuario con IC por bootstrap
+agrupado por tarea; (4) el brazo de recuperación lleva Γ REAL (Projector
+sobre las claims recuperadas); (5) I1 usa 10 hechos DEL USUARIO (sus
+factuales), adaptador sin recuperación vs base, equivalencia ±0.10; (6)
+LC6 se ejecuta: se olvida teach/style de mara, se re-entrena sin sus claims
+y la adherencia a las tareas de estilo debe caer hacia el base; (7) H-C10
+es una curva de 2 puntos (25 % y 100 % del presupuesto) sobre tareas de
+material consolidado (estilo), con y sin repaso. Presupuesto: 2 familias x
+3 usuarios x 2 semillas x 2 repasos x 2 puntos = 24 entrenamientos + 2 de
+LC6.
+
 *Texto CC BY 4.0; código AGPL-3.0-or-later.*

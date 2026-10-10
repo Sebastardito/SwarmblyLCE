@@ -430,4 +430,22 @@ lce_validation/data/lme_subset.json. Confirmatory totals: 251 questions —
 simple 100, cross 30, updated 31, contradiction 30, deleted 30,
 unanswerable 30 (≥30 per type).
 
+**Amendment 9 — 10 October 2026, BEFORE the R11 confirmatory run.**
+Repairs the six E6 defects and fixes the confirmatory's design: (1) the
+batch comes from ExampleBuilder ONLY over trainable claims of the user's
+CANONICAL wiki (digested by qwen2.5:3b, R13's validated digester) for both
+base families; (2) no collapse: 2 epochs (iters = 2 x ceil(n/2)), batch 2,
+lr 1e-4; (3) VALID tasks: lexicon per the user's own preferences, register
+with reachable golds (concrete rules) and procedure with the user's own
+protocol thresholds — never whole normalized rules or other-domain
+questions; >=30 tasks per user with task-clustered bootstrap CIs; (4) the
+retrieval arm carries REAL Gamma (Projector over the retrieved claims);
+(5) I1 uses 10 USER facts (their factuals), adapter without retrieval vs
+base, equivalence +-0.10; (6) LC6 runs: mara's teach/style is forgotten,
+re-trained without its claims and style-task adherence must fall toward
+base; (7) H-C10 is a 2-point curve (25 % and 100 % of budget) on
+consolidated-material (style) tasks, with and without replay. Budget: 2
+families x 3 users x 2 seeds x 2 replay x 2 points = 24 trainings + 2 for
+LC6.
+
 *Text CC BY 4.0; code AGPL-3.0-or-later.*

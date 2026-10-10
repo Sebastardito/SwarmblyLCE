@@ -1,12 +1,1 @@
-  andres×qwen2.5:3b: borrada 2 claims; residuo 0; colateral 0; jaccard forget/never 0.9184
-  andres×llama3.2:3b: borrada 2 claims; residuo 0; colateral 0; jaccard forget/never 1.0
-  andres×gemma2:2b: borrada 2 claims; residuo 0; colateral 0; jaccard forget/never 1.0
-  carmen×qwen2.5:3b: borrada 2 claims; residuo 0; colateral 0; jaccard forget/never 1.0
-  carmen×llama3.2:3b: borrada 1 claims; residuo 0; colateral 0; jaccard forget/never 0.9808
-  carmen×gemma2:2b: borrada 2 claims; residuo 0; colateral 0; jaccard forget/never 1.0
-  julian×qwen2.5:3b: borrada 1 claims; residuo 0; colateral 0; jaccard forget/never 1.0
-  julian×llama3.2:3b: borrada 0 claims; residuo 0; colateral 0; jaccard forget/never 1.0
-  julian×gemma2:2b: borrada 6 claims; residuo 0; colateral 0; jaccard forget/never 0.9365
-  luisa×qwen2.5:3b: borrada 6 claims; residuo 0; colateral 0; jaccard forget/never 0.9455
-  luisa×llama3.2:3b: borrada 0 claims; residuo 0; colateral 0; jaccard forget/never 0.8205
-  luisa×gemma2:2b: borrada 7 claims; residuo 0; colateral 0; jaccard forget/never 1.0
+  andres×qwen2.5:3b: borrada 7 claims; residuo 0; colateral 0; jaccard forget/never 0.8833
