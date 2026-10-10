@@ -97,6 +97,6 @@ OpenAI-compatible endpoint do not repeat.
 2. The comparison of W_forget with the R13 wikis was not pre-registered; it is
    reported as a post-data analysis.
 3. The run script was adjusted before starting to accept the name
-   `nomic-embed-text:latest` (commit `586eb21`); it affects no measure.
+   `nomic-embed-text:latest` (commit `eca8f88`; `586eb21` in the provenance, before the weights purge: see `COMMIT_MAP_2026-10-10.md`); it affects no measure.
 
 *Text CC BY 4.0.*

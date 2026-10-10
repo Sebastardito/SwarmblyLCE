@@ -169,7 +169,7 @@ unmeasured by an accuracy benchmark.
 
 ## 7. Current figures (re-measured on 10 October, with E1, E2 and E3 repaired)
 
-Run at commit `7363881` with a clean tree, verified digests and the 15
+Run at commit `ea04c81` (`7363881` in the provenance, before the weights purge: see `COMMIT_MAP_2026-10-10.md`) with a clean tree, verified digests and the 15
 wikis digested again without the deleted source. The interpreter was Python
 3.9.6, a deviation from R14 (the lock fixes 3.11). Every figure in this
 section comes from `results/bench_r13/analysis.json`, which `run_derive`

@@ -100,6 +100,6 @@ endpoint compatible con OpenAI no se repitan.
 2. La comparación de W_forget con las wikis de R13 no estaba preregistrada;
    se reporta como análisis posterior a los datos.
 3. El script de corrida se ajustó antes de empezar para aceptar el nombre
-   `nomic-embed-text:latest` (commit `586eb21`); no afecta a ninguna medida.
+   `nomic-embed-text:latest` (commit `eca8f88`; `586eb21` en la procedencia, anterior a la purga de pesos: ver `COMMIT_MAP_2026-10-10.md`); no afecta a ninguna medida.
 
 *Texto CC BY 4.0.*

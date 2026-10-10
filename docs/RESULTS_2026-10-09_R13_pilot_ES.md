@@ -173,7 +173,7 @@ intacta y sin medir por un benchmark de exactitud.
 
 ## 7. Cifras vigentes (re-medidas el 10 de octubre, con E1, E2 y E3 reparados)
 
-Corrida en el commit `7363881` con el árbol limpio, digests verificados y las
+Corrida en el commit `ea04c81` (`7363881` en la procedencia, anterior a la purga de pesos: ver `COMMIT_MAP_2026-10-10.md`) con el árbol limpio, digests verificados y las
 15 wikis digeridas de nuevo sin la fuente borrada. El intérprete fue Python
 3.9.6, una desviación de R14 (el lock fija 3.11). Todas las cifras de esta
 sección salen de `results/bench_r13/analysis.json`, que `run_derive`

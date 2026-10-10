@@ -16,7 +16,7 @@
 | [`SPEC_LCE_EN.md`](SPEC_LCE_EN.md) | 0.1 | en | 2026-10-04 | *Provisional* parameters unmeasured. Section 21: code map. |
 | [`../swips/SWIP-XXXX-local-cognitive-extension.md`](../swips/SWIP-XXXX-local-cognitive-extension.md) | rev. 3 | en | 2026-10-10 | «Validation status» actualizado (R13, F1a limpio, retracciones de R11/R12); sin issue de discusión abierto; `XXXX` pendiente. |
 
-## Vigente · Current — 21
+## Vigente · Current — 22
 
 | Documento | Fecha | Nota |
 |---|---|---|
@@ -39,6 +39,7 @@
 | [`RESULTS_2026-10-09_R11_pilot_EN.md`](RESULTS_2026-10-09_R11_pilot_EN.md) | 2026-10-10 | R11 pilot: conclusions RETRACTED (E6: collapsed adapter, invalid tasks, no Γ in the retrieval arm, ill-posed I1). History only. |
 | [`RESULTS_2026-10-09_R12_exploratory_ES.md`](RESULTS_2026-10-09_R12_exploratory_ES.md) | 2026-10-10 | R12 exploratorio: el circuito de adopción funciona; el 0/40 es por construcción; compatible con la I4, no la mide (E7). |
 | [`RESULTS_2026-10-09_R12_exploratory_EN.md`](RESULTS_2026-10-09_R12_exploratory_EN.md) | 2026-10-10 | R12 exploratory: the adoption circuit works; 0/40 is by construction; compatible with I4, does not measure it (E7). |
+| [`COMMIT_MAP_2026-10-10.md`](COMMIT_MAP_2026-10-10.md) | 2026-10-10 | Correspondencia de 18 commits reescritos al purgar del historial los pesos de un adaptador de R11 · Map of 18 commits rewritten when purging R11 adapter weights from history. |
 | [`../results/BENCH_REPORT.md`](../results/BENCH_REPORT.md) | 2026-10-10 | **Exploratorio**, generado por `lce_validation/bench_report.py`: F1a (H-C1 a escala), R13, ρ de la proyección, estado de R11 y R12. No es resultado confirmatorio. |
 | [`../lce_validation/README.md`](../lce_validation/README.md) | 2026-10-04 | Arnés: diez instrumentos aprobados en simulación; corridas reales C1/C2 en `RESULTS_2026-10-05_C1_C2_run2`. |
 
