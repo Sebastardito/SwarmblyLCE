@@ -112,6 +112,21 @@ def derive_r13() -> None:
         if want.get(k) != v:
             FAILURES.append(f"R13 {k}: derivado {v} != guardado {want.get(k)}")
 
+def derive_r13_analysis() -> None:
+    """Las cifras de R13 que citan los documentos (analysis.json) deben salir
+    de las celdas guardadas; la cobertura (requiere caché) no se recalcula."""
+    p = ROOT / "results" / "bench_r13" / "analysis.json"
+    if not p.exists():
+        FAILURES.append("R13: falta results/bench_r13/analysis.json")
+        return
+    from lce_validation.r13_analysis import analyse, R13
+    want = json.loads(p.read_text(encoding="utf-8"))
+    got = analyse(json.loads((R13 / "results.json").read_text(encoding="utf-8")))
+    for k, v in got.items():
+        if want.get(k) != v:
+            FAILURES.append(f"R13 analysis {k}: derivado != guardado")
+
+
 def derive_report() -> None:
     import lce_validation.bench_report as br
     import tempfile
@@ -138,6 +153,7 @@ def main() -> int:
     derive_rho()
     derive_run2()
     derive_r13()
+    derive_r13_analysis()
     derive_report()
     if FAILURES:
         print("✘ DERIVA DETECTADA:")

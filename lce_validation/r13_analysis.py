@@ -1,0 +1,165 @@
+"""Análisis derivado de R13 (sin modelos): las cifras que citan los documentos.
+
+Todo sale de ``results/bench_r13/results.json`` con la misma semilla y el
+mismo bootstrap agrupado por pregunta; ``doc_figures`` y la prueba de anclaje
+exigen que cada cifra citada en los documentos coincida con lo que esto
+calcula. La cobertura de la respuesta en el contexto necesita las wikis en
+caché (no versionadas) y se guarda aparte, marcada como tal.
+
+    python -m lce_validation.r13_analysis
+"""
+
+from __future__ import annotations
+
+import json
+import sys
+from collections import defaultdict
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent
+sys.path.insert(0, str(ROOT))
+
+import numpy as np  # noqa: E402
+
+R13 = ROOT / "results" / "bench_r13"
+DIGESTERS = ["qwen2.5:3b", "llama3.2:3b", "gemma2:2b"]
+TYPES = ["simple", "cross", "updated", "contradiction", "deleted", "unanswerable"]
+ANSWERABLE = ("simple", "cross", "updated", "contradiction")
+# N1 (Enmienda 6 b): claves «simples» de la v1 que actualizacion.md declara superadas.
+STALE = {
+    ("andres", "¿Cuál fue la razón de riesgos de tu resultado principal y su intervalo de confianza?"),
+    ("carmen", "¿Qué fondo superó el umbral de materialidad este trimestre y cuál fue su variación?"),
+    ("mara", "Según tu criterio de abandono, ¿bajo qué valor de F_ST declararías muerta la "
+             "hipótesis de aislamiento y cuál fue el valor medido entre Barú y Fábrega?"),
+}
+
+
+def _boot(x, B: int = 10_000, seed: int = 20261005) -> list[float]:
+    a = np.asarray(x, dtype=float)
+    rng = np.random.default_rng(seed)
+    m = [a[rng.integers(0, len(a), len(a))].mean() for _ in range(B)]
+    return [round(float(np.percentile(m, 2.5)), 3), round(float(np.percentile(m, 97.5)), 3)]
+
+
+def _per_question(cells, exclude=frozenset()):
+    pq: dict = defaultdict(lambda: defaultdict(list))
+    typ = {}
+    for c in cells:
+        k = (c["user"], c["q"]["q"])
+        if k in exclude:
+            continue
+        typ[k] = c["q"].get("type", "simple")
+        tag = c["arm"] if c["arm"] != "A3" else "A3"
+        pq[k][tag].append(float(c["ok"]))
+        if c["arm"] == "A3":
+            pq[k]["A3|" + c["digester"]].append(float(c["ok"]))
+    return pq, typ
+
+
+def _diff(pq, typ, a, b, types=None):
+    ks = [k for k in pq if a in pq[k] and b in pq[k] and (types is None or typ[k] in types)]
+    x = [np.mean(pq[k][a]) - np.mean(pq[k][b]) for k in ks]
+    return {"mean": round(float(np.mean(x)), 3), "ci95": _boot(x), "n_questions": len(ks)}
+
+
+def analyse(d: dict) -> dict:
+    cells = d["cells"]
+    pq, typ = _per_question(cells)
+    out: dict = {"source_sha_note": "derivado de results/bench_r13/results.json"}
+    out["a3_minus_a2"] = _diff(pq, typ, "A3", "A2")
+    out["a3_minus_a2_by_digester"] = {g: _diff(pq, typ, "A3|" + g, "A2") for g in DIGESTERS}
+    out["a3_minus_a2_by_type"] = {t: _diff(pq, typ, "A3", "A2", (t,)) for t in TYPES}
+    out["a3_minus_a0_answerable"] = _diff(pq, typ, "A3", "A0", ANSWERABLE)
+    out["a2_minus_a0_answerable"] = _diff(pq, typ, "A2", "A0", ANSWERABLE)
+    # E5: A4 contra la diagonal de A3 del mismo digestor
+    a3d, a4 = {}, {}
+    for c in cells:
+        k = (c["user"], c["q"]["q"], c["responder"])
+        if c["arm"] == "A3" and c["digester"] == c["responder"]:
+            a3d[k] = float(c["ok"])
+        if c["arm"] == "A4":
+            a4[k] = float(c["ok"])
+    out["a4_minus_a3_diagonal"] = {g: round(float(np.mean([a4[k] - a3d[k] for k in a4 if k[2] == g])), 3)
+                                   for g in DIGESTERS}
+    # N2: abstención junto con la exactitud en preguntas con respuesta, por brazo/digestor
+    joint = {}
+    for tag in ["A0", "A1", "A2", "A3|qwen2.5:3b", "A3|llama3.2:3b", "A3|gemma2:2b"]:
+        def rate(types):
+            v = [np.mean(pq[k][tag]) for k in pq if typ[k] in types and tag in pq[k]]
+            return round(float(np.mean(v)), 3)
+        joint[tag] = {"answerable_accuracy": rate(ANSWERABLE),
+                      "abstention_deleted": rate(("deleted",)),
+                      "abstention_unanswerable": rate(("unanswerable",))}
+    out["abstention_with_accuracy"] = joint
+    # N1: sensibilidad sin las tres claves superadas
+    pq2, typ2 = _per_question(cells, STALE)
+    out["n1_a3_minus_a2_without_stale"] = _diff(pq2, typ2, "A3", "A2")
+    out["n1_stale_questions"] = len(STALE)
+    out["f1a_n1"] = f1a_sensitivity()
+    return out
+
+
+def f1a_sensitivity() -> dict:
+    """F1a con y sin las tres claves superadas (N1), bootstrap por pregunta."""
+    h = json.loads((ROOT / "results" / "bench_hc1_scale" / "results.json").read_text(encoding="utf-8"))
+    res = {}
+    for name, excl in (("all", frozenset()), ("without_stale", STALE)):
+        by: dict = defaultdict(list)
+        for c in h["cells"]:
+            if (c["user"], c["q"]) not in excl:
+                by[(c["user"], c["q"])].append(c["with"] - c["without"])
+        g = [float(np.mean(v)) for v in by.values()]
+        res[name] = {"mean": round(float(np.mean(g)), 3), "ci95": _boot(g), "n_questions": len(g)}
+    return res
+
+
+def coverage(d: dict) -> dict | None:
+    """Fracción de preguntas con respuesta cuya clave está en el contexto (requiere la caché)."""
+    cache = R13 / "wikis_cache"
+    if not cache.exists():
+        return None
+    from swarmbly_lce.policy import LearningPolicy
+    from swarmbly_lce.wiki import Wiki
+    from lce_validation import run_r13 as R
+    from lce_validation.bench_forget import load_questions, source_dates
+    res: dict = defaultdict(list)
+    for uid in sorted(p.name for p in R.USERS_DIR.iterdir() if p.is_dir()):
+        base = R.USERS_DIR / uid
+        doc = "\n\n".join(p.read_text(encoding="utf-8") for p in sorted((base / "teach").rglob("*.md"))
+                          if p.name != "borrada.md")
+        dates = source_dates(base)
+        wikis = {g: Wiki.load(cache / f"{uid}__{g}_wiki.json", LearningPolicy.load(base / "policy.json"))
+                 for g in DIGESTERS if (cache / f"{uid}__{g}_wiki.json").exists()}
+        for q in load_questions(base):
+            if q["type"] not in ANSWERABLE:
+                continue
+            gold = [R._norm(x) for x in q["gold"]]
+            has = lambda ctx: all(g in R._norm(ctx) for g in gold)  # noqa: E731
+            res["A2"].append(has(R.rag_context(doc, q["q"])))
+            for g, w in wikis.items():
+                res["A3|" + g].append(has(R.wiki_context(w, q["q"], dates)))
+    return {k: round(float(np.mean(v)), 3) for k, v in res.items()} | {"n_questions": len(res["A2"])}
+
+
+def main() -> int:
+    d = json.loads((R13 / "results.json").read_text(encoding="utf-8"))
+    a = analyse(d)
+    cov = coverage(d)
+    if cov is not None:
+        a["gold_in_context_answerable"] = cov
+        a["gold_in_context_note"] = "requiere results/bench_r13/wikis_cache (no versionada)"
+    else:
+        prev = R13 / "analysis.json"
+        if prev.exists():
+            old = json.loads(prev.read_text(encoding="utf-8"))
+            if "gold_in_context_answerable" in old:
+                a["gold_in_context_answerable"] = old["gold_in_context_answerable"]
+                a["gold_in_context_note"] = old.get("gold_in_context_note", "")
+    (R13 / "analysis.json").write_text(json.dumps(a, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    print(json.dumps(a, ensure_ascii=False, indent=1))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
