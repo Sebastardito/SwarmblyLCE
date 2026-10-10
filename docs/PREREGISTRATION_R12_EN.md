@@ -8,7 +8,7 @@ lang: en
 **9 October 2026 · written BEFORE any R12 run**
 
 Separate pre-registration of the social plane, as declared in
-`PREREGISTRATION_BENCH_R1X_EN.md` §4. **The canary set must be VERIFIED by
+`PREREGISTRATION_BENCH_R1X_EN.md` Section 4. **The canary set must be VERIFIED by
 native speakers for the confirmatory run** (≥2 of 3 pseudonymous verifiers
 confirm each gloss and none marks it offensive; rule in `canary_verify.py`).
 The EXPLORATORY run with the unverified canary is allowed and reports only

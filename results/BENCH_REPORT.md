@@ -18,7 +18,7 @@ kind: exploratory
 | H-C17a / H-C17b (preregistrado) | reducción de homogeneidad 0.073 supera placebo; Δ acuerdo de errores 0.039 dentro de ±0.10 | **se sostiene, con matices** |
 | H-C2 ρ: ¿la proyección encarece la redundancia? | Δρ por paquete +7.8% (peor, medido); por solicitud ≈+2.6% (estimación aritmética, diseño no implementado) | **con el protocolo actual (Γ en cada paquete) la proyección añade +8–8 % de ρ (mediana +7 %); la comparación con su ganancia (la condición de muerte real de H-C2) y el costo del diseño por-solicitud o con caché quedan pendientes** |
 | H-C6 (adaptador real) | LoRA rank 8 en 36 s; adherencia bruta 0.62 vs 0.38 (brazos NO comparables) | **no concluyente (lote contaminado, brazos no comparables); factibilidad demostrada** |
-| H-C11 (dirección, C9-lite) | circuito de adopción por utilidad ejercitado; identidad 1+1 es la misma respuesta dos veces | **no concluyente por diseño (sonda sin cápsulas: 1+1 es la misma respuesta dos veces; desviaciones declaradas en el script)** |
+| H-C11 (dirección, C9-lite) | circuito de adopción por utilidad ejercitado; identidad 1+1 es la misma respuesta dos veces | **señal insuficiente (violaciones totales < 5)** |
 
 ## 2. Detalle por benchmark
 
@@ -59,9 +59,9 @@ kind: exploratory
 
 ### 2.3 C9-lite social (5 nodos reales)
 
-**Cifras.** Masa de colas post: utilidad 0.80 vs prevalencia 0.00 (la del brazo de utilidad sale del diseño: nadie conocía los términos y todos copian la glosa del contexto). Identidad: 1+1 — la sonda no recibe las cápsulas, así que es la misma respuesta dos veces. Estado: **no concluyente por diseño (sonda sin cápsulas: 1+1 es la misma respuesta dos veces; desviaciones declaradas en el script)**.
+**Cifras.** Masa de colas post: utilidad 0.00 vs prevalencia 0.00 (la del brazo de utilidad sale del diseño: nadie conocía los términos y todos copian la glosa del contexto). Identidad: 2+2 — la sonda no recibe las cápsulas, así que es la misma respuesta dos veces. Estado: **señal insuficiente (violaciones totales < 5)**.
 
-**Alcance y desviaciones.** términos canarios SIN verificar y diseño no concluyente: descriptivo del circuito de adopción, no evidencia sobre H-C11 ni sobre los términos. Dos desviaciones post-corrida están declaradas en el encabezado de `bench_social.py`.
+**Alcance y desviaciones.** términos canarios SIN verificar: descriptivo del mecanismo, no evidencia sobre los términos. Dos desviaciones post-corrida están declaradas en el encabezado de `bench_social.py`.
 
 **Ajuste propuesto.** La versión justa (siguiente fase): sonda con cápsulas en contexto, prevalencia que adopta la variante mayoritaria aunque sea errónea, utilidad juzgada por beneficio posterior, cápsulas con el conocimiento del nodo fuente, varias rondas, y el canario verificado por hablantes nativos.
 

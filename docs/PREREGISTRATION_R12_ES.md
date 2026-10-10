@@ -8,7 +8,7 @@ lang: es
 **9 de octubre de 2026 · escrito ANTES de cualquier corrida de R12**
 
 Preregistro separado del plano social, como declara `PREREGISTRATION_BENCH_R1X_ES.md`
-§4. **El conjunto canario debe estar VERIFICADO por hablantes nativos para la
+sección 4. **El conjunto canario debe estar VERIFICADO por hablantes nativos para la
 corrida confirmatoria** (≥2 de 3 verificadores seudónimos confirman cada
 glosa y ninguno la marca ofensiva; regla en `canary_verify.py`). La corrida
 EXPLORATORIA con el canario sin verificar está permitida y reporta solo el

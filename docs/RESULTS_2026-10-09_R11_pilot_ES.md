@@ -6,7 +6,7 @@ kind: exploratory
 
 # Resultados — piloto R11 (el adaptador justo)
 
-**9 de octubre de 2026 · preregistro `PREREGISTRATION_BENCH_R1X_ES.md` §3 con
+**9 de octubre de 2026 · preregistro `PREREGISTRATION_BENCH_R1X_ES.md` sección 3, con
 Enmienda 5 · PILOTO EXPLORATORIO: no dispara la condición de muerte, pero
 fija su dirección**
 
