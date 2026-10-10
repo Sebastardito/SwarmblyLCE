@@ -409,4 +409,17 @@ coinciden, registran su procedencia y guardan todas las respuestas
 completas. Son exploratorias de mecanismo y reproducibilidad: no emiten
 veredictos sobre H-C1.
 
+**Enmienda 7 — 10 de octubre de 2026, ANTES de la re-corrida de AA2.** AA3
+mostró que la semilla del endpoint nativo (`/api/generate`, `options.seed`)
+es efectiva (100 % idénticas) y la del compatible OpenAI no (80 %). Conforme
+a la regla de la Enmienda 6 («un servidor con semilla se adopta solo si AA3
+pasa, por enmienda»), la DIGESTIÓN pasa al endpoint nativo con una semilla
+derivada del texto del prompt (mismo prompt, misma semilla, mismo orden de
+llamadas); los respondedores siguen con el endpoint compatible OpenAI (AA1
+lo mostró reproducible). AA2 se redefine como la comparación de DOS corridas
+de la digestión determinista (las W_never de F-forget contra una segunda
+digestión de las mismas 15 wikis con el mismo backend); su criterio no
+cambia (≥14 de 15 conjuntos de claims idénticos). El criterio de re-corrida
+de R14 sigue siendo AA1 + AA2 + AA4.
+
 *Texto CC BY 4.0; código AGPL-3.0-or-later.*

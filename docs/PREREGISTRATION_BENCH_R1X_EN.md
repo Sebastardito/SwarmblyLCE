@@ -401,4 +401,16 @@ do not match, record their provenance and store every answer in full. They
 are exploratory tests of mechanism and reproducibility: they emit no verdict
 on H-C1.
 
+**Amendment 7 — 10 October 2026, BEFORE the AA2 re-run.** AA3 showed the
+native endpoint's seed (`/api/generate`, `options.seed`) is effective (100 %
+identical) and the OpenAI-compatible one is not (80 %). Per the Amendment 6
+rule ("a seeded server is adopted only if AA3 passes, by amendment"),
+DIGESTION moves to the native endpoint with a seed derived from the prompt
+text (same prompt, same seed, same call order); responders keep the
+OpenAI-compatible endpoint (AA1 showed it reproducible). AA2 is redefined as
+the comparison of TWO runs of the deterministic digestion (F-forget's
+W_never versus a second digestion of the same 15 wikis with the same
+backend); its criterion is unchanged (≥14 of 15 identical claim sets). The
+R14 re-run criterion remains AA1 + AA2 + AA4.
+
 *Text CC BY 4.0; code AGPL-3.0-or-later.*

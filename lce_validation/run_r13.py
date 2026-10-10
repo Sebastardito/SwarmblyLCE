@@ -272,7 +272,10 @@ def main(argv: list[str] | None = None) -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     cache_dir = OUT / "wikis_cache"
     cache_dir.mkdir(exist_ok=True)
-    backends = {m: OpenAICompatBackend(model=m, base_url=args.url)
+    from swarmbly_lce.backends import OllamaNativeBackend
+    backends = {m: (OllamaNativeBackend(model=m, base_url=args.url.replace("/v1", ""))
+                    if m in digesters
+                    else OpenAICompatBackend(model=m, base_url=args.url))
                 for m in set(digesters + responders)}
 
     # wikis por (usuario, digestor) + RAG y documento completo

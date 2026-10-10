@@ -126,7 +126,11 @@ def main(argv: list[str] | None = None) -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     cache_dir = OUT / "wikis_cache"
     cache_dir.mkdir(exist_ok=True)
-    backends = {m: OpenAICompatBackend(model=m, base_url=args.url) for m in models}
+    from swarmbly_lce.backends import OllamaNativeBackend
+    # digestores nativos (deterministas, Enmienda 7); los respondedores usan
+    # el mismo backend nativo para las preguntas de conducta
+    backends = {m: OllamaNativeBackend(model=m, base_url=args.url.replace("/v1", ""))
+                for m in models}
     users = sorted(p.name for p in R.USERS_DIR.iterdir() if p.is_dir())
     if args.users:
         users = [u for u in users if u in {x.strip() for x in args.users.split(",")}]

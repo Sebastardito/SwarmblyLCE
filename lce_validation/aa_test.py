@@ -2,8 +2,8 @@
 
 AA1  generación determinista: repite el brazo A2 de R13 (temperatura 0, mismo
      contexto) y compara con las respuestas guardadas;
-AA2  digestión determinista: compara las W_never de F-forget con las wikis
-     guardadas de R13 (mismo digestor, mismas fuentes);
+AA2  digestión determinista (v2, Enmienda 7): segunda corrida de la
+     digestión nativa con semilla, comparada con las W_never de F-forget;
 AA3  semilla: qwen2.5:3b escribe los 20 temas de C2 a T = 0.7 con las
      semillas 1000–1002, dos veces, por el endpoint compatible con OpenAI y
      por el nativo (``/api/generate``, ``options.seed``);
@@ -83,19 +83,35 @@ def aa1(url: str) -> dict[str, Any]:
 
 
 def aa2() -> dict[str, Any]:
+    """AA2 v2 (Enmienda 7): digestión determinista corrida a corrida.
+
+    Digiere las 15 (usuario, digestor) una SEGUNDA vez con el backend nativo
+    con semilla derivada del prompt y compara los conjuntos de claims con las
+    W_never de F-forget (primera corrida, mismo backend). Pasa si >= 14 de 15
+    conjuntos coinciden."""
+    from swarmbly_lce.backends import OllamaNativeBackend
+    from lce_validation.bench_forget import _digest
+    root = ROOT / "results" / "aa_test" / "second_digest"
+    root.mkdir(parents=True, exist_ok=True)
     out, n_same = [], 0
     for f in sorted(FORGET_CACHE.glob("*__never.json")):
         uid, d, _ = f.name.split("__")
-        r13 = R13 / "wikis_cache" / f"{uid}__{d}_wiki.json"
-        if not r13.exists():
-            out.append({"user": uid, "digester": d, "available": False})
+        base = FIXTURES / "bench_users" / uid
+        backend = OllamaNativeBackend(model=d, base_url="http://localhost:11434")
+        cache = root / f"{uid}__{d}.json"
+        try:
+            _digest(base, backend, frozenset({"borrada.md"}), cache, resume=False)
+        except Exception as exc:  # noqa: BLE001 - celda no disponible
+            out.append({"user": uid, "digester": d, "available": False,
+                        "error": str(exc)[:120]})
             continue
         a = {c["claim_id"] for c in json.loads(f.read_text(encoding="utf-8"))["claims"]}
-        b = {c["claim_id"] for c in json.loads(r13.read_text(encoding="utf-8"))["claims"]}
+        b = {c["claim_id"] for c in json.loads(cache.read_text(encoding="utf-8"))["claims"]}
         same = a == b
         n_same += same
         out.append({"user": uid, "digester": d, "available": True, "identical": same,
-                    "jaccard": round(len(a & b) / len(a | b), 4) if a | b else 1.0, "n_new": len(a), "n_r13": len(b)})
+                    "jaccard": round(len(a & b) / len(a | b), 4) if a | b else 1.0,
+                    "n_first": len(a), "n_second": len(b)})
     avail = [x for x in out if x["available"]]
     return {"wikis": len(avail), "identical": n_same,
             "mean_jaccard": round(float(np.mean([x["jaccard"] for x in avail])), 4) if avail else None,

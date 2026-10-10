@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import zlib
 import os
 import re
 import time
@@ -302,9 +303,85 @@ class OpenAICompatBackend:
         return arr / norms
 
 
+@dataclass
+class OllamaNativeBackend:
+    """Client for Ollama's NATIVE /api/generate with a deterministic seed.
+
+    The seed is derived from the prompt text (stable across runs and call
+    order): the same prompt always gets the same seed, so digestion is
+    reproducible run to run. AA3 (Enmienda 6) showed the native endpoint's
+    seed is effective (100 % identical writes at T = 0.7) while the
+    OpenAI-compatible endpoint's is not; the re-run criterion of R14 adopts
+    this backend for digestion (Enmienda 7).
+    """
+
+    model: str
+    base_url: str = "http://localhost:11434"
+    family: str = ""
+    timeout: float = 300.0
+    retries: int = 2
+    name: str = "ollama-native"
+    embed_model: str = ""
+    _fallback: HashEmbedder = field(default_factory=HashEmbedder)
+
+    def __post_init__(self) -> None:
+        if not self.family:
+            self.family = self.model.split(":")[0].split("/")[-1]
+
+    @staticmethod
+    def _seed_for(prompt: str) -> int:
+        return zlib.crc32(prompt.encode("utf-8")) & 0x7FFFFFFF
+
+    def generate(self, prompt: str, **kw: Any) -> str:
+        payload = {
+            "model": self.model,
+            "prompt": prompt,
+            "stream": False,
+            "options": {
+                "temperature": float(kw.get("temperature", 0.0)),
+                "seed": int(kw.get("seed", self._seed_for(prompt))),
+                "num_predict": int(kw.get("max_tokens", 512)),
+            },
+        }
+        url = self.base_url.rstrip("/") + "/api/generate"
+        body = json.dumps(payload).encode("utf-8")
+        last: Exception | None = None
+        for attempt in range(self.retries + 1):
+            try:
+                req = urllib.request.Request(url, data=body,
+                                             headers={"Content-Type": "application/json"},
+                                             method="POST")
+                with urllib.request.urlopen(req, timeout=self.timeout) as resp:
+                    return json.loads(resp.read().decode("utf-8")).get("response", "")
+            except (urllib.error.URLError, TimeoutError, ConnectionError) as exc:
+                last = exc
+                time.sleep(min(2.0 * (attempt + 1), 6.0))
+        raise BackendUnavailable(f"{url}: {last}")
+
+    def embed(self, texts: Sequence[str]) -> np.ndarray:
+        if not self.embed_model:
+            return self._fallback.embed(texts)
+        data = self._post_embed(texts)
+        arr = np.array([d["embedding"] for d in data["embeddings"]], dtype=np.float64)
+        norms = np.linalg.norm(arr, axis=1, keepdims=True)
+        norms[norms == 0] = 1.0
+        return arr / norms
+
+    def _post_embed(self, texts: Sequence[str]) -> dict[str, Any]:
+        url = self.base_url.rstrip("/") + "/api/embed"
+        body = json.dumps({"model": self.embed_model, "input": list(texts)}).encode("utf-8")
+        req = urllib.request.Request(url, data=body,
+                                     headers={"Content-Type": "application/json"},
+                                     method="POST")
+        with urllib.request.urlopen(req, timeout=self.timeout) as resp:
+            return json.loads(resp.read().decode("utf-8"))
+
+
 def get_backend(name: str = "mock", **kw: Any) -> Backend:
     if name == "mock":
         return MockBackend(**kw)
     if name in {"ollama", "openai", "openai-compat"}:
         return OpenAICompatBackend(**kw)
+    if name == "ollama-native":
+        return OllamaNativeBackend(**kw)
     raise ValueError(f"unknown backend {name!r}")
