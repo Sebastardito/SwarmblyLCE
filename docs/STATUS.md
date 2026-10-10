@@ -24,6 +24,7 @@
 | [`RESULTS_2026-10-05_C1_C2_run2_ES.md`](RESULTS_2026-10-05_C1_C2_run2_ES.md) | 2026-10-05 | Corrida confirmatoria 2: H-C2 (léxico), H-C17a y H-C17b se sostienen, con matices; ρ no probada. |
 | [`RESULTS_2026-10-05_C1_C2_run2_EN.md`](RESULTS_2026-10-05_C1_C2_run2_EN.md) | 2026-10-05 | Confirmatory run 2: H-C2 (lexicon), H-C17a and H-C17b hold, with qualifications; ρ not tested. |
 | [`RESULTS_2026-10-05_C1_C2_run1_ES.md`](RESULTS_2026-10-05_C1_C2_run1_ES.md) | 2026-10-05 | Corrida confirmatoria 1: manipulación fallida (proyección vacía); C2 rechazada; errores compartidos entre familias medidos (descriptivo). |
+| [`RESULTS_2026-10-09_R13_pilot_ES.md`](RESULTS_2026-10-09_R13_pilot_ES.md) | 2026-10-09 | Piloto exploratorio de R13: tubería validada; presupuestos desiguales y recuperación sin vigencia identificados como confundidos; Enmienda 2 pendiente. |
 | [`PREREGISTRATION_BENCH_R1X_ES.md`](PREREGISTRATION_BENCH_R1X_ES.md) | 2026-10-05 | Preregistro consolidado de R14, R13 y R11 (escrito antes de correr); R12 se preregistra aparte tras verificar el canario. |
 | [`RESULTS_2026-10-05_C1_C2_run1_EN.md`](RESULTS_2026-10-05_C1_C2_run1_EN.md) | 2026-10-05 | Confirmatory run 1: manipulation failed (empty projection); C2 refused; cross-family shared errors measured (descriptive). |
 | [`PREREGISTRATION_C1_C2_ES.md`](PREREGISTRATION_C1_C2_ES.md) | 2026-10-05 | Preregistro de C1/C2 con modelos reales; enmiendas 1–3. |
