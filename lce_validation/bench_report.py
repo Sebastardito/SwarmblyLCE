@@ -305,6 +305,47 @@ def main() -> int:
               "factibilidad del adaptador en hardware de consumo (F1c). R11 y R12 "
               "no aportan evidencia todavía (E6, E7). Las cifras preregistradas de "
               "la corrida 2 siguen siendo el único resultado confirmatorio.", ""]
+    ff = _load(ROOT / "results" / "bench_forget" / "results.json")
+    if ff and "summary" in ff:
+        fs = ff["summary"]
+        lines += [
+            "",
+            "### 2.6 F-forget (olvido real, Enmienda 6)",
+            "",
+            f"Tres wikis por celda (W_full, W_forget, W_never). Residuo S2 = "
+            f"{fs['S2_residue_total']}, colateral S3 = {fs['S3_collateral_total']}, "
+            f"barrido de 93 olvidos limpio; equivalencia forget/never: "
+            f"{fs['S4_identical_claim_sets']}/15 conjuntos idénticos, Jaccard "
+            f"{fs['S4_mean_jaccard']:.3f}, contextos idénticos "
+            f"{fs['S4_context_identical_rate']:.2f}. Conducta: abstención "
+            f"{fs['abstention']['full']:.2f} → {fs['abstention']['forget']:.2f} "
+            f"(+{fs['forget_minus_full']:.2f} [{fs['forget_minus_full_ci95'][0]:.2f}, "
+            f"{fs['forget_minus_full_ci95'][1]:.2f}]), forget ≡ never "
+            f"({fs['forget_minus_never']:+.2f}). **{fs['verdict_structural']}.**",
+            "",
+        ]
+    aa = _load(ROOT / "results" / "aa_test" / "results.json")
+    if aa and "summary" in aa:
+        as_ = aa["summary"]
+        lines += [
+            "",
+            "### 2.7 A/A de reproducibilidad (R14 1.2–1.4, Enmienda 6)",
+            "",
+            f"AA1 (generación T=0): {as_['AA1']['identical_rate']:.2%} idénticas "
+            f"(n={as_['AA1']['n']}), Δ exactitud {as_['AA1']['accuracy_delta']:+.4f} "
+            f"→ {as_['AA1']['passed']}. AA2 (digestión): "
+            f"{as_['AA2']['identical']}/15 wikis idénticas, Jaccard "
+            f"{as_['AA2']['mean_jaccard']:.3f} → {as_['AA2']['passed']}. AA3 "
+            "(semilla T=0.7): nativa efectiva, OpenAI-compatible NO "
+            f"({as_['AA3']['openai']['identical_rate']:.0%}). AA4: Δ "
+            f"homogeneidad {as_['AA4']['mean_diff']:+.4f} "
+            f"{as_['AA4']['ci95']} → {as_['AA4']['passed']}. **Criterio de "
+            f"re-corrida cerrado: {as_['R14_rerun_criterion_closed']}** — la "
+            "digestión no es reproducible corrida a corrida (AA2); para cerrar "
+            "R14 falta una digestión determinista (semilla nativa o "
+            "canonicalización de claims).",
+            "",
+        ]
     OUT.write_text("\n".join(lines), encoding="utf-8")
     print(f"reporte escrito: {OUT}")
     return 0

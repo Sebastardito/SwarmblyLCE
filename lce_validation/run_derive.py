@@ -127,6 +127,65 @@ def derive_r13_analysis() -> None:
             FAILURES.append(f"R13 analysis {k}: derivado != guardado")
 
 
+def derive_forget() -> None:
+    """Recomputa el resumen de F-forget desde las celdas estructurales y de
+    conducta y lo compara con el guardado."""
+    import numpy as np
+    p = ROOT / "results" / "bench_forget" / "results.json"
+    if not p.exists():
+        return
+    d = json.loads(p.read_text(encoding="utf-8"))
+    sm = d.get("summary", {})
+    st = d.get("structural", [])
+    sw = d.get("sweep", {})
+    _check("F-forget S2 total", sum(r.get("residue", 0) for r in st),
+           sm.get("S2_residue_total"))
+    _check("F-forget S3 total", sum(r.get("collateral", 0) for r in st),
+           sm.get("S3_collateral_total"))
+    _check("F-forget barrido residuo", sum(r.get("residue", 0) for r in sw),
+           sm.get("sweep_residue_total"))
+    _check("F-forget barrido colateral", sum(r.get("collateral", 0) for r in sw),
+           sm.get("sweep_collateral_total"))
+    beh = d.get("behaviour", [])
+    by_cond: dict[str, list[int]] = {}
+    for r in beh:
+        if not r.get("refused"):
+            by_cond.setdefault(r["cond"], []).append(int(r.get("abstained")))
+    for cond, want in (sm.get("abstention") or {}).items():
+        got = round(float(np.mean(by_cond.get(cond, []))), 3) if by_cond.get(cond) else None
+        _check(f"F-forget abstención {cond}", got, round(want, 3))
+    verdict = ("se sostiene" if sm.get("S2_residue_total", 1) == 0
+               and sm.get("S3_collateral_total", 1) == 0 else "se falsifica")
+    _check("F-forget veredicto estructural",
+           verdict == sm.get("verdict_structural"),
+           True)
+
+
+def derive_aa() -> None:
+    """Recomputa AA1/AA2 y el criterio de re-corrida desde las filas crudas."""
+    p = ROOT / "results" / "aa_test" / "results.json"
+    if not p.exists():
+        return
+    d = json.loads(p.read_text(encoding="utf-8"))
+    sm = d.get("summary", {})
+    r1 = d.get("aa1_rows", [])
+    if r1:
+        got_rate = round(sum(1 for r in r1 if r.get("identical")) / len(r1), 4)
+        _check("AA1 tasa idénticas", got_rate,
+               round(sm["AA1"]["identical_rate"], 4))
+    r2 = [r for r in d.get("aa2_rows", []) if r.get("available")]
+    if r2:
+        _check("AA2 wikis idénticas", sum(1 for r in r2 if r.get("identical")),
+               sm["AA2"]["identical"])
+        _check("AA2 jaccard medio", round(
+            sum(r.get("jaccard", 0) for r in r2) / len(r2), 4),
+            round(sm["AA2"]["mean_jaccard"], 4))
+    _check("A/A criterio cerrado",
+           (sm["AA1"]["passed"] and sm["AA2"]["passed"]
+            and sm["AA4"]["passed"]) == sm["R14_rerun_criterion_closed"],
+           True)
+
+
 def derive_report() -> None:
     import lce_validation.bench_report as br
     import tempfile
@@ -154,6 +213,8 @@ def main() -> int:
     derive_run2()
     derive_r13()
     derive_r13_analysis()
+    derive_forget()
+    derive_aa()
     derive_report()
     if FAILURES:
         print("✘ DERIVA DETECTADA:")

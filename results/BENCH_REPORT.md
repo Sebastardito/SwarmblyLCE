@@ -93,3 +93,13 @@ kind: exploratory
 ## 3. Cierre
 
 La LCE tiene ahora: memoria local medida a escala con fuentes limpias (F1a) y en el piloto R13 (A3 − A0 y A2 − A0), la comparación de la wiki con un RAG crudo (R13: el RAG gana en exactitud; la pérdida está en la cobertura de la digestión), el costo de ρ de la proyección medido con el camino de despacho real (F1b) y la factibilidad del adaptador en hardware de consumo (F1c). R11 y R12 no aportan evidencia todavía (E6, E7). Las cifras preregistradas de la corrida 2 siguen siendo el único resultado confirmatorio.
+
+
+### 2.6 F-forget (olvido real, Enmienda 6)
+
+Tres wikis por celda (W_full, W_forget, W_never). Residuo S2 = 0, colateral S3 = 0, barrido de 93 olvidos limpio; equivalencia forget/never: 8/15 conjuntos idénticos, Jaccard 0.943, contextos idénticos 0.72. Conducta: abstención 0.44 → 0.76 (+0.31 [0.20, 0.44]), forget ≡ never (+0.00). **se sostiene.**
+
+
+### 2.7 A/A de reproducibilidad (R14 1.2–1.4, Enmienda 6)
+
+AA1 (generación T=0): 100.00% idénticas (n=378), Δ exactitud +0.0000 → True. AA2 (digestión): 8/15 wikis idénticas, Jaccard 0.943 → False. AA3 (semilla T=0.7): nativa efectiva, OpenAI-compatible NO (80%). AA4: Δ homogeneidad -0.0011 [-0.0067, 0.0047] → True. **Criterio de re-corrida cerrado: False** — la digestión no es reproducible corrida a corrida (AA2); para cerrar R14 falta una digestión determinista (semilla nativa o canonicalización de claims).
