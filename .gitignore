@@ -19,3 +19,4 @@ _archive/**/*.txt
 # pesos de adaptadores: regenerables con la receta de bench_adapter.py (no necesariamente
 # idénticos bit a bit; comparar con MANIFEST_WEIGHTS.json), nunca en el repositorio
 results/bench_adapter/adapter_*/*.safetensors
+results/bench_r13/wikis_cache/
