@@ -59,6 +59,19 @@ def _tokens(text: str) -> int:
     return len(text.split())
 
 
+class _Shim:
+    """Objeto compatible con el índice BM25 (sentencias crudas o claims
+    cacheadas)."""
+    from swarmbly_lce.claims import Status as _S
+    status = _S.ACTIVE
+
+    def __init__(self, t: str):
+        self.text = t
+
+    def render_for_retrieval(self) -> str:
+        return self.text
+
+
 def score_answer(q: dict, answer: str) -> bool:
     """Rúbrica de R13 §2.3 por tipo."""
     t = q.get("type", "simple")
@@ -94,6 +107,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--url", default="http://localhost:11434/v1")
     ap.add_argument("--confirm", action="store_true")
     ap.add_argument("--users", default=None)
+    ap.add_argument("--no-cache", action="store_true")
     args = ap.parse_args(argv)
 
     digesters = [m.strip() for m in args.digesters.split(",") if m.strip()]
@@ -112,10 +126,13 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     OUT.mkdir(parents=True, exist_ok=True)
+    cache_dir = OUT / "wikis_cache"
+    cache_dir.mkdir(exist_ok=True)
     backends = {m: OpenAICompatBackend(model=m, base_url=args.url)
                 for m in set(digesters + responders)}
 
     # wikis por (usuario, digestor) + RAG y documento completo
+    # (las wikis se cachean en disco: un fallo no pierde las digestiones)
     wikis: dict[tuple, Any] = {}
     docs: dict[str, str] = {}
     stats: dict[str, Any] = {}
@@ -128,9 +145,20 @@ def main(argv: list[str] | None = None) -> int:
             srcs.append(p.read_text(encoding="utf-8"))
         docs[uid] = "\n\n".join(srcs)
         for d in digesters:
+            cache_file = cache_dir / f"{uid}__{d}.json"
+            if cache_file.exists() and not getattr(args, "no_cache", False):
+                texts = json.loads(cache_file.read_text(encoding="utf-8"))
+                wikis[(uid, d)] = [_Shim(t) for t in texts]
+                stats[f"{uid}|{d}"] = {"claims": len(texts), "cached": True}
+                print(f"  wiki {uid}×{d}: {len(texts)} claims (caché)",
+                      flush=True)
+                continue
             wiki, st = build_wiki(base, base / "policy.json", backends[d],
                                   anchor_mode="quote", reconcile_types=True)
-            wikis[(uid, d)] = wiki
+            texts = [c.text for c in wiki.claims.values()]
+            cache_file.write_text(json.dumps(texts, ensure_ascii=False),
+                                  encoding="utf-8")
+            wikis[(uid, d)] = [_Shim(t) for t in texts]
             stats[f"{uid}|{d}"] = {"claims": st["claims"],
                                    "anchored": st["claims"],
                                    "rejection": st["anchor_verification"]
@@ -164,10 +192,7 @@ def main(argv: list[str] | None = None) -> int:
                               "tokens": tok, "answer": ans[:200]})
             # A2: RAG crudo (BM25 sobre oraciones de las fuentes)
             sents = re.split(r"(?<=[.!?])\s+", docs[uid])
-            retr_raw = BM25Retriever()
-            class _S:
-                def __init__(self, t): self.text = t
-            retr_raw.index([_S(s) for s in sents])
+            retr_raw = BM25Retriever().index([_Shim(s) for s in sents])
             ctx2 = "\n".join(h.text for h in retr_raw.search(q["q"], k=6))
             for r in responders:
                 ans, tok = _ask(backends[r], q, context=ctx2)
