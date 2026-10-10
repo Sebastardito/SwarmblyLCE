@@ -11,6 +11,10 @@ spec-version: 0.3
 
 # SWIP-XXXX: Local Cognitive Extension and Optional Knowledge Capsules
 
+> **Revision 3, validation status updated 2026-10-10.** The "Validation status" section now
+> reports the R13 pilot, F1a re-measured with clean sources and the retraction of the R11 and R12
+> conclusions (pre-registration Amendment 6); the normative specification is unchanged.
+>
 > **Revision 3 — 2026-10-05.** Adds the first measured findings (the
 > pre-registered confirmatory run 2 of C1/C2 and the exploratory benchmarks with
 > five real model families), and the design consequences they force: a Γ-caching

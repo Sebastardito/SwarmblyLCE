@@ -33,9 +33,11 @@ Licensing
 
 Status
 ------
-Draft. Nothing in these documents has been measured, and no element is
-claimed as prior art until the documents are published in a dated public
-record (see the whitepaper, section 13).
+Draft. Whitepaper v0.1 was published without results (10.5281/zenodo.23150478).
+Later pre-registered runs with real models and their raw outputs are in docs/
+and results/; only confirmatory run 2 of C1/C2 is confirmatory. No element is
+claimed as prior art beyond what the dated public records contain (see the
+whitepaper, section 13).
 
 
 ## Base model license (benchmark of the local adapter, F1c)

@@ -233,6 +233,8 @@ representación ni en la respuesta. La cobertura necesita las wikis en caché
 (no versionadas) y por eso es la única cifra de esta sección que
 `run_derive` no recalcula.
 
+**Nota sobre la Enmienda 4.** Su texto dice que la abstención exacta se aplicó a los brazos de wiki; en el código, el cambio de prompt se aplicó a todos los brazos, y todos se volvieron a correr con él. Las cifras de esta sección son, por tanto, comparables entre brazos.
+
 **Lectura.** En exactitud de preguntas y respuestas sobre este material, el
 RAG crudo supera a la wiki y la wiki no gana en actualizaciones: la
 dirección de la condición de muerte se mantiene, como piloto y sin

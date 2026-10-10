@@ -56,6 +56,11 @@ def expected() -> list[tuple[str, str]]:
     out.append((swip, f"+{f1['all']['mean']:.3f} by question, 95 % CI [{f1['all']['ci95'][0]:.3f}, {f1['all']['ci95'][1]:.3f}]"))
     out.append((swip, f"+{f1['without_stale']['mean']:.3f} [{f1['without_stale']['ci95'][0]:.3f}, {f1['without_stale']['ci95'][1]:.3f}]"))
     out.append(("docs/STATUS.md", total))
+    f1s = f"+{f1['all']['mean']:.3f} [{f1['all']['ci95'][0]:.3f}, {f1['all']['ci95'][1]:.3f}]"
+    out += [("README.md", total), ("README.md", f1s),
+            ("publication/SWIP_ISSUE_Swarmbly-AI.md", total),
+            ("publication/SWIP_ISSUE_Swarmbly-AI.md",
+             f"+{f1['all']['mean']:.3f} (question-clustered 95 % CI [{f1['all']['ci95'][0]:.3f}, {f1['all']['ci95'][1]:.3f}]")]
     return out
 
 

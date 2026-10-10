@@ -31,10 +31,15 @@ abstract: >-
   derived from a churn tolerance. The design is derived from evidence on
   knowledge injection, model collapse, conformity and correlated errors across
   model families, and from population-genetic and cultural-evolution
-  instruments. Nothing has been measured; every mechanism carries a
-  pre-registered hypothesis and abandonment condition. The repository ships
-  a reference implementation and a validation harness whose instrument tests
-  pass in simulation; mock and simulation outputs are not evidence.
+  instruments. Every mechanism carries a pre-registered hypothesis and
+  abandonment condition. Since whitepaper v0.1, pre-registered runs with real
+  local models have measured lexicon adherence, cross-user homogeneity and
+  cross-family error agreement under task projection (confirmatory), and the
+  value of local memory and of the anchored wiki against raw retrieval
+  (exploratory pilots). The repository ships a reference implementation, a
+  validation harness whose ten instrument tests pass in simulation, the raw
+  outputs of every run and a figure-anchoring test suite; mock and
+  simulation outputs are not evidence.
 
 version: "0.1.0"
 date-released: "2026-10-04"

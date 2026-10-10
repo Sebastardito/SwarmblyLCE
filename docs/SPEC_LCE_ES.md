@@ -653,7 +653,7 @@ El paquete `swarmbly_lce` implementa esta especificación; `lce_validation` cont
 | 15 | `diversity.py`, `report.py` | F_ST, Wright, conformismo, canario, homogeneidad, concordancia de errores |
 | 19 | `params.py` | parámetros normativos y provisionales |
 
-`tests/test_invariants.py` contiene una prueba por invariante I1–I8. `lce_validation/run_all.py` ejecuta los seis instrumentos y los experimentos con backend simulado; `lce_validation/run_real.py`, los experimentos con modelos reales. Ningún resultado producido con `MockBackend` o por simulación es evidencia.
+`tests/test_invariants.py` contiene una prueba por invariante I1–I8. `lce_validation/run_all.py` ejecuta los diez instrumentos y los experimentos con backend simulado; `lce_validation/run_real.py`, los experimentos C1/C2 con modelos reales; los benchmarks (`bench_*.py`, `run_r13.py`, `bench_forget.py`, `aa_test.py`) y `run_derive.py`, que recalcula las cifras publicadas desde las salidas crudas. Ningún resultado producido con `MockBackend` o por simulación es evidencia.
 
 ---
 

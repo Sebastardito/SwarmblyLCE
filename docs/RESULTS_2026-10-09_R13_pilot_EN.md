@@ -228,6 +228,8 @@ answers depending on the digester, not in the representation or in
 answering. Coverage needs the cached wikis (not versioned), which is why it
 is the only figure in this section that `run_derive` does not recompute.
 
+**Note on Amendment 4.** Its text says that exact abstention was applied to the wiki arms; in the code the prompt change was applied to every arm, and every arm was re-run with it. The figures in this section are therefore comparable across arms.
+
 **Reading.** On question-answering accuracy over this material, raw RAG
 beats the wiki and the wiki does not win on updates: the direction of the
 death condition holds, as a pilot and without a pre-registered verdict. The

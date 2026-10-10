@@ -41,6 +41,12 @@ Este repositorio se publica en dos depósitos de Zenodo, igual que Swarmbly v2: 
 
 - [x] Preregistro de C1/C2 confirmado antes de cualquier corrida real (`docs/PREREGISTRATION_C1_C2_ES.md` / `_EN.md`), con las reglas de decisión como código (`lce_validation/decide.py`).
 - [x] Corridas confirmatorias en el Mac: la 1 falló por proyección vacía (`docs/RESULTS_2026-10-05_C1_C2_run1_*`); la 2, tras las enmiendas 2 y 3, decidió H-C2 (léxico), H-C17a y H-C17b (`docs/RESULTS_2026-10-05_C1_C2_run2_*`).
+- [x] Preregistro consolidado de R14, R13 y R11 (`docs/PREREGISTRATION_BENCH_R1X_*`, enmiendas 1–6) y preregistro de R12.
+- [x] Pilotos exploratorios: F1a limpio (+0.500), R13 (la wiki pierde frente al RAG crudo, −0.256), R11 y R12 con conclusiones retiradas o corregidas (E6, E7).
+- [x] Reparaciones de la revisión (E1–E5, N3) con pruebas; anclaje de cifras citadas (`tests/test_doc_figures.py`) y digests verificados.
+- [ ] Prueba de olvido (F-forget) y prueba A/A (Enmienda 6 c): `bash scripts/run_forget_aa_mac.sh`.
+- [ ] Confirmatorias de R13 (≥250 preguntas, ≥30 por tipo, LongMemEval, sin las claves N1) y R11 (tareas válidas, ≥30 por usuario, brazos con y sin Γ).
+- [ ] Release `v0.1.1` (resultados y benchmarks) y DOI del software; push de los commits pendientes.
 - [ ] Verificación del conjunto canario por tres o más hablantes nativos (`lce_validation/data/canary_verification/`), y `python -m lce_validation.canary_verify verificador_*.csv`.
 - [ ] Issue de discusión del SWIP en Swarmbly-AI con el texto de `publication/SWIP_ISSUE_Swarmbly-AI.md`; después renombrar el SWIP con el número del issue.
 - [ ] Opcional: probar `MLXLoRATrainer` (extra `mlx`) en Apple Silicon.
