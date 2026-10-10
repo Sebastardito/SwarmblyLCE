@@ -9,6 +9,8 @@ kind: exploratory
 **9 October 2026 · pre-registration `PREREGISTRATION_BENCH_R1X_EN.md` with
 Amendment 1 · EXPLORATORY PILOT run: no pre-registered verdicts**
 
+> **Notice (10 October 2026).** Sections 1 to 6 keep the history of the pilot cycle and contain figures RETRACTED because of review defects E1–E3 (A3 from a single digester, recency sorted in reverse, deleted source digested into the wiki). Do not cite them. The current figures are those of Section 7.
+
 **What the pilot says in one line.** The five-arm pipeline works end to end
 and the per-type rubric behaves (abstention on unanswerable ≈ 0.95). The
 decisive comparison is NOT yet fair: the arms ran with unequal budgets (A1
@@ -164,5 +166,76 @@ not. The death condition holds in direction — RAG ≥ wiki overall; no wiki
 win on updates (tie) or forgetting — and the pre-registration's verdict for
 v0.2 is: the compression justification dies; the epistemic layer stands,
 unmeasured by an accuracy benchmark.
+
+## 7. Current figures (re-measured on 10 October, with E1, E2 and E3 repaired)
+
+Run at commit `7363881` with a clean tree, verified digests and the 15
+wikis digested again without the deleted source. The interpreter was Python
+3.9.6, a deviation from R14 (the lock fixes 3.11). Every figure in this
+section comes from `results/bench_r13/analysis.json`, which `run_derive`
+recomputes from the stored cells; the interval is a bootstrap clustered by
+question (10,000 resamples, seed 20261005).
+
+| Arm | Accuracy |
+|---|---|
+| A0 no memory | 0.079 |
+| A1 first 200 words | 0.206 |
+| A2 raw RAG | 0.765 |
+| A3 wiki (three digesters) | 0.509 (qwen2.5 0.553 · llama3.2 0.323 · gemma2 0.651) |
+| A4 wiki + Γ | 0.471 |
+
+**The wiki against RAG.** A3 − A2 = **−0.256 [−0.317, −0.194]** (126
+questions). No digester ties with RAG: gemma2 −0.114 [−0.183, −0.045],
+qwen2.5 −0.212 [−0.288, −0.138] and llama3.2 −0.442 [−0.529, −0.354]. By
+type: `simple` −0.257 [−0.329, −0.186] (83 questions), `cross` −0.508
+[−0.603, −0.405] (14), `updated` −0.341 [−0.563, −0.135] (14),
+`contradiction` −0.044 [−0.400, +0.267] (5), `deleted` +0.156 [−0.067,
++0.378] (5) and `unanswerable` +0.089 [−0.067, +0.333] (5). Without the
+three questions whose key is superseded (N1, Amendment 6 b) the figure
+barely changes: −0.260 [−0.323, −0.198] (123 questions).
+
+**Memory against nothing.** On the 116 answerable questions, A3 − A0 =
++0.479 [+0.420, +0.537] and A2 − A0 = +0.767 [+0.704, +0.828]. Local memory
+helps a great deal; the wiki helps less than raw RAG.
+
+**The cost of Γ.** A4 against the A3 diagonal of the same digester: gemma2
++0.016, llama3.2 −0.008, qwen2.5 −0.063. It is small and digester-dependent;
+A4 is not fully isolated because it shares A3's retrieval.
+
+**Abstention, always together with accuracy (N2).**
+
+| Arm | Answerable accuracy | Abstention `deleted` | Abstention `unanswerable` |
+|---|---|---|---|
+| A0 | 0.000 | 1.000 | 1.000 |
+| A2 | 0.767 | 0.600 | 0.867 |
+| A3 qwen2.5 | 0.520 | 0.933 | 0.933 |
+| A3 llama3.2 | 0.276 | 0.733 | 1.000 |
+| A3 gemma2 | 0.641 | 0.600 | 0.933 |
+
+The arm that knows nothing always abstains, and the gemma2 wiki, the one that
+retrieves most, abstains exactly as RAG does on `deleted`. The +0.156 comes
+from the wikis that retrieve less. Moreover, no arm ever saw the deleted
+source: `deleted` measures abstention in the face of related information,
+not forgetting. This section does not claim that the wiki wins on
+forgetting; the F-forget test measures that (Amendment 6 c).
+
+**Where the wiki loses.** On answerable questions the key is in RAG's
+context in 99.1 % of cases and in the wiki's in 83.6 % (gemma2), 81.0 %
+(qwen2.5) and 34.5 % (llama3.2). Given that coverage, the gemma2 wiki
+converts almost as RAG does (0.641 out of 0.836 against 0.767 out of 0.991).
+The loss is in digestion, which leaves out between 16 % and 65 % of the
+answers depending on the digester, not in the representation or in
+answering. Coverage needs the cached wikis (not versioned), which is why it
+is the only figure in this section that `run_derive` does not recompute.
+
+**Reading.** On question-answering accuracy over this material, raw RAG
+beats the wiki and the wiki does not win on updates: the direction of the
+death condition holds, as a pilot and without a pre-registered verdict. The
+measured cause is digestion coverage, which depends strongly on the
+digester. What justifies the wiki (anchoring, versioning, verifiable
+forgetting, a safe basis for Γ and for training) is not measured by an
+accuracy benchmark. The confirmatory run needs at least 250 questions, at
+least 30 per type, the LongMemEval subset, the corpus without the three
+superseded keys and the real forgetting test.
 
 *Text CC BY 4.0.*

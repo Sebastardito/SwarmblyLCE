@@ -10,6 +10,19 @@ kind: exploratory
 Enmienda 5 · PILOTO EXPLORATORIO: no dispara la condición de muerte, pero
 fija su dirección**
 
+> **Aviso (10 de octubre de 2026): conclusiones RETIRADAS.** La revisión (E6)
+> mostró que este piloto no es una prueba justa del adaptador: el adaptador
+> colapsó sobre su lote (sus respuestas reproducen el encabezado del documento
+> de procedimientos); cerca de la mitad de las tareas son inválidas (las 6
+> preguntas de procedimiento son las mismas para todos los usuarios y vienen de
+> otros dominios; el oro de «Describe cómo escribes» es la regla entera sin
+> espacios, inalcanzable); hay 15–17 tareas por usuario en lugar de ≥30 y el
+> código no calcula intervalos; el brazo «recuperación + Γ» no lleva Γ; y la
+> prueba I1 usa preguntas de conocimiento general, de modo que mide la
+> interferencia de un adaptador colapsado y no la fuga de hechos del usuario.
+> Nada de lo que sigue debe citarse como evidencia sobre H-C6, H-C10 ni I1. Se
+> conserva como historial; el rediseño va en la siguiente fase.
+
 ## Cifras
 
 12 adaptadores qwen2.5-3b (3 usuarios × 2 semillas × repaso sí/no), lote de

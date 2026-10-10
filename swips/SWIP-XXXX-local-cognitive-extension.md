@@ -1537,27 +1537,33 @@ labelled exploratory in their own scripts.
 | H-C2 lexicon | adherence 0.667 with Γ vs 0.033 without; diff 0.633 [0.500, 0.750] | 3 synthetic users × 20 topics, real models | holds |
 | H-C17 (a) | homogeneity 0.879 → 0.806; exceeds placebo by 0.048 [0.023, 0.070] | same | holds, with qualification |
 | H-C17 (b) | error agreement Δ = 0.039 [0.009, 0.069] inside ±0.10 | 1,500 MMLU items, 3 families | holds as equivalence; Γ has a small accuracy cost |
-| H-C1 at scale | mean gain of memory +0.500 by question, 95 % CI [0.420, 0.578] (question-clustered; 60 questions × 5 families; TRULY clean .md-only sources after E4) | 5 synthetic users × 12 questions × 5 families, wiki statistics stored per family and user | holds descriptively; per-family gain spans +0.083 (phi3.5, 3 of 5 users REFUSED below the anchored-claim floor) to +0.717 (gemma2) — attribution to the digester remains confounded and awaits the crossed design |
+| H-C1 at scale | mean gain of memory +0.500 by question, 95 % CI [0.420, 0.578] (question-clustered; 60 questions × 5 families; clean .md-only sources after E4; +0.511 [0.431, 0.591] without the three superseded keys, N1) | 5 synthetic users × 12 questions × 5 families, wiki statistics stored per family and user | holds descriptively; per-family gain spans +0.083 (phi3.5, 3 of 5 users REFUSED below the anchored-claim floor) to +0.717 (gemma2) — attribution to the digester remains confounded and awaits the crossed design |
 | H-C2 ρ | with the current protocol (Γ in every packet) the projection adds +4–8 % ρ across users (median +7 %, worst +7.8 %, real Projector); Δρ ≈ size of Γ ÷ packet size and does not dilute with longer documents | real planner/packer over 5 user procedure documents, real Projector | the comparison with the projection's GAIN (the actual death condition of H-C2) and the cost of per-request injection or Γ caching remain pending |
 | H-C6 (behavior) | a rank-8 LoRA trains in 36 s on consumer hardware and memorises its batch | LoRA rank 8, 200 iters, 13 pairs, Qwen2.5-3B-Instruct (qwen-research licence; weights not distributed) | feasibility only: the adherence comparison is not conclusive (batch contamination, unequal arms, no CI); the fair test is the next phase |
 | H-C11 direction (C9-lite) | utility adoption circuit works mechanically; prevalence threshold never fires on rare tails | 5 real nodes, unverified canary drafts | inconclusive by design (identity probe without capsules; tail mass by construction; prevalence counts the correct gloss, not the majority variant); two post-run deviations declared in the script |
 
 **Status of R11–R14 (review of 2026-10-09, repaired and re-measured
-2026-10-10): piloted, not closed.** R13, re-measured after repairing three
-review defects (digester-keyed analysis, inverted recency ordering, the
-forgotten source still digested): the wiki stays behind raw RAG overall —
-A3 − A2 = −0.256 [−0.317, −0.194] by question, with a large digester effect
-(gemma2 0.651, qwen2.5 0.553, llama3.2 0.323) — and does not win `updated`
-(−0.341 [−0.556, −0.135]), but it WINS `deleted` (+0.156: with the
-forgotten source truly excluded, the wiki abstains better than RAG) and Γ's
-accuracy cost is small and digester-dependent (A4−A3 per digester: +0.016 /
-−0.008 / −0.063). R11's adapter pilot is NOT a fair test yet (the adapter
-collapsed onto its training batch; invalid tasks; no CIs) and its negative
-is not publishable. R12's exploratory run shows the adoption circuit works
-but does not turn I4 into a measurement (0/40 correct by construction; no
-F_ST; the canary is unverified). R14 is partial (provenance digests and the
-A/A sampler test pending). The confirmatory runs of R11–R13 remain the next
-phase.
+2026-10-10; Amendment 6): piloted, not closed.** R13 was re-measured after
+repairing three review defects (digester-keyed analysis, recency ordering
+inverted, the deleted source still digested). The wiki stays behind raw RAG:
+A3 − A2 = −0.256 [−0.317, −0.194] by question, and no digester ties (gemma2
+−0.114 [−0.183, −0.045], qwen2.5 −0.212, llama3.2 −0.442). It does not win
+`updated` (−0.341 [−0.563, −0.135]). The `deleted` type does not measure
+forgetting (no arm ever saw the deleted source) and its +0.156 [−0.067,
++0.378] over five questions comes from the wikis that retrieve less; the
+real forgetting test (F-forget) is pre-registered in Amendment 6. The
+measured cause of the gap is digestion coverage: the key is in the context
+for 99.1 % of answerable questions with RAG and 83.6 % / 81.0 % / 34.5 %
+with the gemma2 / qwen2.5 / llama3.2 wikis. Local memory itself helps (A3 −
+A0 = +0.479 [+0.420, +0.537] on answerable questions) and Γ's accuracy cost
+is small and digester-dependent (A4 − A3 per digester: +0.016 / −0.008 /
+−0.063). R11's adapter pilot is not a fair test (the adapter collapsed onto
+its batch; invalid tasks; no CIs) and its conclusions are retracted. R12's
+exploratory run shows the adoption circuit works but does not turn I4 into a
+measurement (0/40 correct by construction; no F_ST; unverified canary). R14
+is partial: model digests are now checked against a versioned manifest; the
+A/A test is pre-registered and pending. The confirmatory runs of R11–R13
+remain the next phase.
 
 **Design consequences forced by the measurements.**
 
@@ -1570,15 +1576,15 @@ phase.
    (Γ is constant between requests) could bring it towards zero, which is a
    hypothesis. This SWIP records the recommendation and leaves the mechanism to
    review (protocol-level, since it benefits every Γ user).
-2. **Digester-quality gate (proposal; preliminary and confounded evidence).**
-   The digester gate is a proposal backed by preliminary evidence: the
-   family-level spread of the memory gain and the fact that phi3.5 fell below
-   the five-anchored-claim floor in 3 of 5 users and was REFUSED. The exact
-   F1a figures are being re-measured with clean .md-only sources (the
-   published +0.506 was contaminated, E4). The evidence supports at most a
-   floor on anchored claims, not a threshold, and it remains confounded while
-   the same family digests and answers; the
-   crossed design of the next phase separates the two. The gate is proposed,
+2. **Digester-quality gate (proposal, now with crossed evidence).** In
+   R13's crossed design every wiki is answered by the same three responders,
+   so the digester effect is no longer confounded with answering: A3 is
+   0.651 with gemma2 wikis, 0.553 with qwen2.5 and 0.323 with llama3.2, and
+   the key reaches the context for 83.6 %, 81.0 % and 34.5 % of answerable
+   questions respectively. In F1a, phi3.5 fell below the five-anchored-claim
+   floor in 3 of 5 users and was refused. The evidence supports a gate on
+   digestion coverage (measured against held-out questions), not a raw claim
+   count; its threshold is not derived from these pilots and is proposed,
    not established.
 3. **Adapter feasibility.** A rank-8 LoRA trains on consumer hardware in 36 s
    (200 iterations, 13 pairs) and memorises its batch. Whether behaviour —

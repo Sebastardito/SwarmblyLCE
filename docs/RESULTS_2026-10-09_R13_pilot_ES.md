@@ -9,6 +9,8 @@ kind: exploratory
 **9 de octubre de 2026 · preregistro `PREREGISTRATION_BENCH_R1X_ES.md` con
 Enmienda 1 · corrida PILOTO EXPLORATORIA: no emite veredictos preregistrados**
 
+> **Aviso (10 de octubre de 2026).** Las secciones 1 a 6 conservan el historial del ciclo piloto y contienen cifras RETIRADAS por los defectos E1–E3 de la revisión (A3 de un solo digestor, vigencia ordenada al revés, fuente borrada digerida en la wiki). No deben citarse. Las cifras vigentes son las de la sección 7.
+
 **Qué dice el piloto en una línea.** La tubería de los cinco brazos funciona
 de punta a punta y la rúbrica por tipo se comporta (abstención en
 sin-respuesta ≈ 0.95). La comparación decisiva todavía NO es justa: los
@@ -169,29 +171,76 @@ actualización (empate) ni olvido— y el veredicto del preregistro para la
 v0.2 es: la justificación por compresión muere; la capa epistémica queda
 intacta y sin medir por un benchmark de exactitud.
 
-## 7. Cifras corregidas (E1/E2/E3 reparados, re-medidas el 10 de octubre)
+## 7. Cifras vigentes (re-medidas el 10 de octubre, con E1, E2 y E3 reparados)
 
-**A3 total: 0.509** — por digestor: gemma2 0.651, qwen2.5 0.553, llama3.2
-0.323 (el efecto del digestor es grande: la compuerta del digestor tiene
-sustancia). Emparejado **A3 − A2 por pregunta: −0.256 [−0.317, −0.194]**
-(n=126).
+Corrida en el commit `7363881` con el árbol limpio, digests verificados y las
+15 wikis digeridas de nuevo sin la fuente borrada. El intérprete fue Python
+3.9.6, una desviación de R14 (el lock fija 3.11). Todas las cifras de esta
+sección salen de `results/bench_r13/analysis.json`, que `run_derive`
+recalcula desde las celdas guardadas; el intervalo es un bootstrap agrupado
+por pregunta (10.000 remuestreos, semilla 20261005).
 
-**Por tipo (tres digestores, por pregunta):** `updated` −0.341 [−0.556,
-−0.135] — el «empate» anterior era el artefacto de un solo digestor (E1);
-`deleted` **+0.156 [−0.067, +0.378]** — con borrada excluida de la wiki
-(E3), la wiki abstiene mejor que el RAG en olvido; `cross` −0.508;
-`simple` −0.257; `contradiction` −0.044; `unanswerable` +0.089.
+| Brazo | Exactitud |
+|---|---|
+| A0 sin memoria | 0.079 |
+| A1 primeras 200 palabras | 0.206 |
+| A2 RAG crudo | 0.765 |
+| A3 wiki (tres digestores) | 0.509 (qwen2.5 0.553 · llama3.2 0.323 · gemma2 0.651) |
+| A4 wiki + Γ | 0.471 |
 
-**A4 − A3 por digestor (diagonal):** gemma +0.016, llama −0.008, qwen
-−0.063 — el costo de exactitud de Γ es pequeño y depende del digestor (E5
-confirmado).
+**La wiki frente al RAG.** A3 − A2 = **−0.256 [−0.317, −0.194]** (126
+preguntas). Ningún digestor empata con el RAG: gemma2 −0.114 [−0.183,
+−0.045], qwen2.5 −0.212 [−0.288, −0.138] y llama3.2 −0.442 [−0.529,
+−0.354]. Por tipo: `simple` −0.257 [−0.329, −0.186] (83 preguntas), `cross`
+−0.508 [−0.603, −0.405] (14), `updated` −0.341 [−0.563, −0.135] (14),
+`contradiction` −0.044 [−0.400, +0.267] (5), `deleted` +0.156 [−0.067,
++0.378] (5) y `unanswerable` +0.089 [−0.067, +0.333] (5). Sin las tres
+preguntas con clave superada (N1, Enmienda 6 b) la cifra apenas cambia:
+−0.260 [−0.323, −0.198] (123 preguntas).
 
-**Lectura corregida.** La dirección de la condición de muerte se mantiene
-—el RAG crudo supera a la wiki en el total y la wiki no gana en
-actualización— pero con matices que la versión anterior no veía: (a) la
-magnitud depende del digestor (gemma casi empata); (b) la wiki SÍ gana en
-olvido (+0.156, IC tocando cero); (c) el costo de Γ es menor de lo
-reportado. La confirmatoria (≥250 preguntas, ≥30 por tipo, LongMemEval)
-decidirá.
+**La memoria frente a nada.** En las 116 preguntas con respuesta, A3 − A0 =
++0.479 [+0.420, +0.537] y A2 − A0 = +0.767 [+0.704, +0.828]. Tener memoria
+local ayuda mucho; la wiki ayuda menos que el RAG crudo.
+
+**El costo de Γ.** A4 frente a la diagonal de A3 del mismo digestor: gemma2
++0.016, llama3.2 −0.008, qwen2.5 −0.063. Es pequeño y depende del
+digestor; A4 no se aísla del todo porque comparte la recuperación de A3.
+
+**La abstención, siempre junto con la exactitud (N2).**
+
+| Brazo | Exactitud con respuesta | Abstención `deleted` | Abstención `unanswerable` |
+|---|---|---|---|
+| A0 | 0.000 | 1.000 | 1.000 |
+| A2 | 0.767 | 0.600 | 0.867 |
+| A3 qwen2.5 | 0.520 | 0.933 | 0.933 |
+| A3 llama3.2 | 0.276 | 0.733 | 1.000 |
+| A3 gemma2 | 0.641 | 0.600 | 0.933 |
+
+El brazo que no sabe nada se abstiene siempre, y la wiki de gemma2, la que
+más recupera, se abstiene igual que el RAG en `deleted`. El +0.156 viene de
+las wikis que recuperan menos. Además, ningún brazo vio nunca la fuente
+borrada: `deleted` mide abstención ante información relacionada, no olvido.
+Esta sección no afirma que la wiki gane en olvido; eso lo mide la prueba
+F-forget (Enmienda 6 c).
+
+**Dónde pierde la wiki.** En las preguntas con respuesta, la clave aparece
+en el contexto del RAG en el 99.1 % de los casos y en el de la wiki en el
+83.6 % (gemma2), el 81.0 % (qwen2.5) y el 34.5 % (llama3.2). Con esa
+cobertura, la wiki de gemma2 convierte casi como el RAG (0.641 sobre 0.836
+frente a 0.767 sobre 0.991). La pérdida está en la digestión, que deja fuera
+entre el 16 % y el 65 % de las respuestas según el digestor, no en la
+representación ni en la respuesta. La cobertura necesita las wikis en caché
+(no versionadas) y por eso es la única cifra de esta sección que
+`run_derive` no recalcula.
+
+**Lectura.** En exactitud de preguntas y respuestas sobre este material, el
+RAG crudo supera a la wiki y la wiki no gana en actualizaciones: la
+dirección de la condición de muerte se mantiene, como piloto y sin
+veredicto preregistrado. La causa medida es la cobertura de la digestión,
+que depende mucho del digestor. Lo que justifica la wiki (anclaje,
+versionado, olvido verificable, base segura para Γ y para entrenar) no lo
+mide un benchmark de exactitud. La confirmatoria necesita al menos 250
+preguntas, al menos 30 por tipo, el subconjunto de LongMemEval, el corpus
+sin las tres claves superadas y la prueba de olvido real.
 
 *Texto CC BY 4.0.*

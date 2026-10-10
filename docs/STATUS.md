@@ -16,24 +16,29 @@
 | [`SPEC_LCE_EN.md`](SPEC_LCE_EN.md) | 0.1 | en | 2026-10-04 | *Provisional* parameters unmeasured. Section 21: code map. |
 | [`../swips/SWIP-XXXX-local-cognitive-extension.md`](../swips/SWIP-XXXX-local-cognitive-extension.md) | rev. 3 | en | 2026-10-05 | Con «Validation status» medido; sin issue de discusión abierto; `XXXX` pendiente. |
 
-## Vigente · Current — 9
+## Vigente · Current — 19
 
 | Documento | Fecha | Nota |
 |---|---|---|
 | [`REFERENCES_LCE.md`](REFERENCES_LCE.md) | 2026-10-04 | Tres entradas ⚠️ ([37], [59], [61]) con un campo sin confirmar; `[STD]` según registro estándar. |
-| [`RESULTS_2026-10-05_C1_C2_run2_ES.md`](RESULTS_2026-10-05_C1_C2_run2_ES.md) | 2026-10-05 | Corrida confirmatoria 2: H-C2 (léxico), H-C17a y H-C17b se sostienen, con matices; ρ no probada. |
-| [`RESULTS_2026-10-05_C1_C2_run2_EN.md`](RESULTS_2026-10-05_C1_C2_run2_EN.md) | 2026-10-05 | Confirmatory run 2: H-C2 (lexicon), H-C17a and H-C17b hold, with qualifications; ρ not tested. |
-| [`RESULTS_2026-10-05_C1_C2_run1_ES.md`](RESULTS_2026-10-05_C1_C2_run1_ES.md) | 2026-10-05 | Corrida confirmatoria 1: manipulación fallida (proyección vacía); C2 rechazada; errores compartidos entre familias medidos (descriptivo). |
-| [`RESULTS_2026-10-09_R13_pilot_ES.md`](RESULTS_2026-10-09_R13_pilot_ES.md) | 2026-10-09 | Piloto exploratorio de R13: tubería validada; presupuestos desiguales y recuperación sin vigencia identificados como confundidos; Enmienda 2 pendiente. |
-| [`RESULTS_2026-10-09_R11_pilot_ES.md`](RESULTS_2026-10-09_R11_pilot_ES.md) | 2026-10-09 | Piloto R11: la recuperación+Γ domina al adaptador (−0.43 a −0.48); fuga I1 en dirección segura con costo factual; granite saltada por digestor. |
-| [`RESULTS_2026-10-09_R12_exploratory_ES.md`](RESULTS_2026-10-09_R12_exploratory_ES.md) | 2026-10-09 | R12 exploratorio: circuito de adopción funciona; cápsulas de modelos propagan ignorancia (respaldo de I4); identidad insuficiente. |
-| [`PREREGISTRATION_R12_ES.md`](PREREGISTRATION_R12_ES.md) | 2026-10-09 | Preregistro separado del plano social; confirmatoria exige canario verificado. |
-| [`PREREGISTRATION_BENCH_R1X_ES.md`](PREREGISTRATION_BENCH_R1X_ES.md) | 2026-10-05 | Preregistro consolidado de R14, R13 y R11 (escrito antes de correr); R12 se preregistra aparte tras verificar el canario. |
-| [`RESULTS_2026-10-05_C1_C2_run1_EN.md`](RESULTS_2026-10-05_C1_C2_run1_EN.md) | 2026-10-05 | Confirmatory run 1: manipulation failed (empty projection); C2 refused; cross-family shared errors measured (descriptive). |
 | [`PREREGISTRATION_C1_C2_ES.md`](PREREGISTRATION_C1_C2_ES.md) | 2026-10-05 | Preregistro de C1/C2 con modelos reales; enmiendas 1–3. |
 | [`PREREGISTRATION_C1_C2_EN.md`](PREREGISTRATION_C1_C2_EN.md) | 2026-10-05 | Pre-registration of C1/C2 with real models; amendments 1–3. |
-| [`../results/BENCH_REPORT.md`](../results/BENCH_REPORT.md) | 2026-10-05 | **Exploratorio**, generado por `lce_validation/bench_report.py`: H-C1 a escala, ρ de la proyección, adaptador (factibilidad), C9-lite. No es resultado confirmatorio. |
-| [`../lce_validation/README.md`](../lce_validation/README.md) | 2026-10-04 | Arnés: siete instrumentos aprobados en simulación; corridas reales C1/C2 en `RESULTS_2026-10-05_C1_C2_run2`. |
+| [`RESULTS_2026-10-05_C1_C2_run1_ES.md`](RESULTS_2026-10-05_C1_C2_run1_ES.md) | 2026-10-05 | Corrida confirmatoria 1: manipulación fallida (proyección vacía); C2 rechazada; errores compartidos entre familias medidos (descriptivo). |
+| [`RESULTS_2026-10-05_C1_C2_run1_EN.md`](RESULTS_2026-10-05_C1_C2_run1_EN.md) | 2026-10-05 | Confirmatory run 1: manipulation failed (empty projection); C2 refused; cross-family shared errors measured (descriptive). |
+| [`RESULTS_2026-10-05_C1_C2_run2_ES.md`](RESULTS_2026-10-05_C1_C2_run2_ES.md) | 2026-10-05 | Corrida confirmatoria 2: H-C2 (léxico), H-C17a y H-C17b se sostienen, con matices; ρ no probada. |
+| [`RESULTS_2026-10-05_C1_C2_run2_EN.md`](RESULTS_2026-10-05_C1_C2_run2_EN.md) | 2026-10-05 | Confirmatory run 2: H-C2 (lexicon), H-C17a and H-C17b hold, with qualifications; ρ not tested. |
+| [`PREREGISTRATION_BENCH_R1X_ES.md`](PREREGISTRATION_BENCH_R1X_ES.md) | 2026-10-10 | Preregistro consolidado de R14, R13 y R11; enmiendas 1–6 (la 6 declara las reparaciones E1–E5, N1 y N2, y preregistra F-forget y la A/A antes de correr). |
+| [`PREREGISTRATION_BENCH_R1X_EN.md`](PREREGISTRATION_BENCH_R1X_EN.md) | 2026-10-10 | Consolidated pre-registration of R14, R13 and R11; amendments 1–6 (6 declares repairs E1–E5, N1 and N2, and pre-registers F-forget and the A/A before running). |
+| [`PREREGISTRATION_R12_ES.md`](PREREGISTRATION_R12_ES.md) | 2026-10-09 | Preregistro separado del plano social; la confirmatoria exige el canario verificado. |
+| [`PREREGISTRATION_R12_EN.md`](PREREGISTRATION_R12_EN.md) | 2026-10-09 | Separate pre-registration of the social plane; the confirmatory run requires the verified canary. |
+| [`RESULTS_2026-10-09_R13_pilot_ES.md`](RESULTS_2026-10-09_R13_pilot_ES.md) | 2026-10-10 | Piloto exploratorio de R13. Vigente solo la sección 7: A3 − A2 = −0.256 [−0.317, −0.194]; la pérdida está en la cobertura de la digestión; `deleted` no mide olvido. Secciones 1–6 retiradas. |
+| [`RESULTS_2026-10-09_R13_pilot_EN.md`](RESULTS_2026-10-09_R13_pilot_EN.md) | 2026-10-10 | R13 exploratory pilot. Only Section 7 is current: A3 − A2 = −0.256 [−0.317, −0.194]; the loss is in digestion coverage; `deleted` does not measure forgetting. Sections 1–6 retracted. |
+| [`RESULTS_2026-10-09_R11_pilot_ES.md`](RESULTS_2026-10-09_R11_pilot_ES.md) | 2026-10-10 | Piloto R11: conclusiones RETIRADAS (E6: adaptador colapsado, tareas inválidas, sin Γ en el brazo de recuperación, I1 mal planteada). Solo historial. |
+| [`RESULTS_2026-10-09_R11_pilot_EN.md`](RESULTS_2026-10-09_R11_pilot_EN.md) | 2026-10-10 | R11 pilot: conclusions RETRACTED (E6: collapsed adapter, invalid tasks, no Γ in the retrieval arm, ill-posed I1). History only. |
+| [`RESULTS_2026-10-09_R12_exploratory_ES.md`](RESULTS_2026-10-09_R12_exploratory_ES.md) | 2026-10-10 | R12 exploratorio: el circuito de adopción funciona; el 0/40 es por construcción; compatible con la I4, no la mide (E7). |
+| [`RESULTS_2026-10-09_R12_exploratory_EN.md`](RESULTS_2026-10-09_R12_exploratory_EN.md) | 2026-10-10 | R12 exploratory: the adoption circuit works; 0/40 is by construction; compatible with I4, does not measure it (E7). |
+| [`../results/BENCH_REPORT.md`](../results/BENCH_REPORT.md) | 2026-10-10 | **Exploratorio**, generado por `lce_validation/bench_report.py`: F1a (H-C1 a escala), R13, ρ de la proyección, estado de R11 y R12. No es resultado confirmatorio. |
+| [`../lce_validation/README.md`](../lce_validation/README.md) | 2026-10-04 | Arnés: diez instrumentos aprobados en simulación; corridas reales C1/C2 en `RESULTS_2026-10-05_C1_C2_run2`. |
 
 ## Superado · Superseded — 4
 

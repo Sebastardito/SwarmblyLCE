@@ -23,6 +23,9 @@ This directory holds the validation harness of the Swarmbly LCE. It follows the 
 | `selection_bias` | H-C15 | realised gain ≈ i·r·σ; the selection-set estimate is inflated; a fresh set is unbiased |
 | `collapse` | H-C7, H-C12 | replace erodes the tail; accumulate bounds it; anchored variation preserves it |
 | `error_agreement` | H-C17 (second clause) | independent wrong answers sit at chance (≈ 1/3); shared ones above it; with 1,500 items and no true change the paired-bootstrap CI falls inside ±0.10 in ≥ 80 % of replicates; a real change is detected in ≥ 80 % |
+| `r13_abstention` | R13 types 5–6 (rubric) | 12/12 fabricated cases: abstentions vs answers, including numbers repeated from the question and an adversative continuation with content |
+| `r13_contradiction` | R13 type 4 (rubric) | accepts the current value or a flagged disagreement and rejects the old value, ≥ 6/7 fabricated cases |
+| `i1_equivalence` | I1 / LC6 leak procedure | an injected leak is detected in ≥ 95 % of replicates with ≤ 5 % false alarms |
 
 `run_all` exits with status 1 if any instrument fails.
 

@@ -19,6 +19,9 @@ kind: exploratory
 | H-C2 ρ: ¿la proyección encarece la redundancia? | Δρ por paquete +7.8% (peor, medido); por solicitud ≈+2.6% (estimación aritmética, diseño no implementado) | **con el protocolo actual (Γ en cada paquete) la proyección añade +8–8 % de ρ (mediana +7 %); la comparación con su ganancia (la condición de muerte real de H-C2) y el costo del diseño por-solicitud o con caché quedan pendientes** |
 | H-C6 (adaptador real) | LoRA rank 8 en 36 s; adherencia bruta 0.62 vs 0.38 (brazos NO comparables) | **no concluyente (lote contaminado, brazos no comparables); factibilidad demostrada** |
 | H-C11 (dirección, C9-lite) | circuito de adopción por utilidad ejercitado; identidad 1+1 es la misma respuesta dos veces | **señal insuficiente (violaciones totales < 5)** |
+| R13 (piloto): ¿la wiki anclada supera a un RAG crudo? | A3 − A2 = **−0.256** [−0.317, −0.194] sobre 126 preguntas, tres digestores × tres respondedores | **el RAG crudo gana en exactitud; la pérdida está en la cobertura de la digestión** |
+| R11 (piloto): adaptador justo | conclusiones retiradas (E6: adaptador colapsado, tareas inválidas, sin Γ en el brazo de recuperación) | **sin evidencia; rediseño en la siguiente fase** |
+| R12 (exploratorio): plano social | 0/40 por construcción; utilidad implementada como novedad; sin F_ST (E7) | **compatible con la I4, no la mide** |
 
 ## 2. Detalle por benchmark
 
@@ -75,6 +78,18 @@ kind: exploratory
 
 **Ajuste propuesto (siguiente fase).** Tareas separadas del lote con otra redacción, lote solo de afirmaciones entrenables (I1) con ExampleBuilder, repaso y prueba nueva, ≥30 tareas con IC, y una segunda familia base de licencia permisiva.
 
+### 2.5 R13 (piloto exploratorio, cifras vigentes)
+
+**Cifra central.** A3 − A2 = **−0.256** [−0.317, −0.194] por pregunta (126 preguntas; bootstrap agrupado por pregunta). Por digestor: `qwen2.5:3b` −0.212 [−0.288, −0.138]; `llama3.2:3b` −0.442 [−0.529, −0.354]; `gemma2:2b` −0.114 [−0.183, −0.045].
+
+**Por tipo:** `simple` −0.257 [−0.329, −0.186] (n=83); `cross` −0.508 [−0.603, −0.405] (n=14); `updated` −0.341 [−0.563, −0.135] (n=14); `contradiction` −0.044 [−0.400, +0.267] (n=5); `deleted` +0.156 [−0.067, +0.378] (n=5); `unanswerable` +0.089 [−0.067, +0.333] (n=5).
+
+**Memoria frente a nada (preguntas con respuesta):** A3 − A0 = +0.479 [+0.420, +0.537]; A2 − A0 = +0.767 [+0.704, +0.828].
+
+**Dónde pierde la wiki.** Clave presente en el contexto (preguntas con respuesta): A2 0.991; A3|qwen2.5:3b 0.810; A3|llama3.2:3b 0.345; A3|gemma2:2b 0.836. La diferencia está en la cobertura de la digestión.
+
+**Qué NO concluye.** `deleted` no mide olvido (ningún brazo vio la fuente borrada) y la abstención premia al brazo que recupera menos; la prueba de olvido real es F-forget (Enmienda 6). Sin las tres claves superadas (N1): −0.260 [−0.323, −0.198].
+
 ## 3. Cierre
 
-La LCE tiene ahora: memoria local medida a escala (F1a, con estadísticas guardadas y CI por pregunta), el costo de ρ de la proyección medido con el camino de despacho real (F1b, con el Projector real y sin umbrales inventados), el circuito social ejercitado con nodos reales (F1d, no concluyente por diseño y con sus desviaciones declaradas) y la factibilidad del adaptador en hardware de consumo (F1c, sin pesos en el repositorio). Las cifras preregistradas de la corrida 2 siguen siendo el único resultado confirmatorio.
+La LCE tiene ahora: memoria local medida a escala con fuentes limpias (F1a) y en el piloto R13 (A3 − A0 y A2 − A0), la comparación de la wiki con un RAG crudo (R13: el RAG gana en exactitud; la pérdida está en la cobertura de la digestión), el costo de ρ de la proyección medido con el camino de despacho real (F1b) y la factibilidad del adaptador en hardware de consumo (F1c). R11 y R12 no aportan evidencia todavía (E6, E7). Las cifras preregistradas de la corrida 2 siguen siendo el único resultado confirmatorio.

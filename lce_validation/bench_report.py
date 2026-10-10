@@ -20,6 +20,15 @@ sys.path.insert(0, str(ROOT))
 OUT = ROOT / "results" / "BENCH_REPORT.md"
 
 
+def _s(x: float) -> str:
+    """+0.123 / −0.123 con menos tipográfico."""
+    return f"{x:+.3f}".replace("-", "−")
+
+
+def _ci(ci) -> str:
+    return "[" + ", ".join(_s(v) for v in ci) + "]"
+
+
 def _load(path: Path) -> dict | None:
     try:
         return json.loads(path.read_text(encoding="utf-8"))
@@ -100,6 +109,22 @@ def main() -> int:
             f"| H-C11 (dirección, C9-lite) | circuito de adopción por "
             f"utilidad ejercitado; identidad 1+1 es la misma respuesta dos "
             f"veces | **{ss['h11_direction']}** |")
+    an = _load(ROOT / "results" / "bench_r13" / "analysis.json")
+    if an:
+        d = an["a3_minus_a2"]
+        lines.append(
+            "| R13 (piloto): ¿la wiki anclada supera a un RAG crudo? | A3 − A2 = "
+            f"**{_s(d['mean'])}** {_ci(d['ci95'])} sobre {d['n_questions']} "
+            "preguntas, tres digestores × tres respondedores | **el RAG crudo gana "
+            "en exactitud; la pérdida está en la cobertura de la digestión** |")
+    lines.append(
+        "| R11 (piloto): adaptador justo | conclusiones retiradas (E6: adaptador "
+        "colapsado, tareas inválidas, sin Γ en el brazo de recuperación) | "
+        "**sin evidencia; rediseño en la siguiente fase** |")
+    lines.append(
+        "| R12 (exploratorio): plano social | 0/40 por construcción; utilidad "
+        "implementada como novedad; sin F_ST (E7) | **compatible con la I4, no la "
+        "mide** |")
     lines += ["", "## 2. Detalle por benchmark", ""]
 
     # 2.1 H-C1 a escala
@@ -241,16 +266,45 @@ def main() -> int:
                   "nueva, ≥30 tareas con IC, y una segunda familia base de "
                   "licencia permisiva."]
 
+    if an:
+        d = an["a3_minus_a2"]
+        dg = an["a3_minus_a2_by_digester"]
+        ty = an["a3_minus_a2_by_type"]
+        cov = an.get("gold_in_context_answerable", {})
+        lines += ["", "### 2.5 R13 (piloto exploratorio, cifras vigentes)", "",
+                  f"**Cifra central.** A3 − A2 = **{_s(d['mean'])}** {_ci(d['ci95'])} "
+                  f"por pregunta ({d['n_questions']} preguntas; bootstrap agrupado por "
+                  "pregunta). Por digestor: " + "; ".join(
+                      f"`{g}` {_s(v['mean'])} {_ci(v['ci95'])}" for g, v in dg.items()) + ".",
+                  "",
+                  "**Por tipo:** " + "; ".join(
+                      f"`{k}` {_s(v['mean'])} {_ci(v['ci95'])} (n={v['n_questions']})"
+                      for k, v in ty.items()) + ".",
+                  "",
+                  "**Memoria frente a nada (preguntas con respuesta):** A3 − A0 = "
+                  f"{_s(an['a3_minus_a0_answerable']['mean'])} {_ci(an['a3_minus_a0_answerable']['ci95'])}; "
+                  f"A2 − A0 = {_s(an['a2_minus_a0_answerable']['mean'])} {_ci(an['a2_minus_a0_answerable']['ci95'])}.",
+                  "",
+                  "**Dónde pierde la wiki.** Clave presente en el contexto (preguntas "
+                  "con respuesta): " + "; ".join(f"{k} {v:.3f}" for k, v in cov.items()
+                                                 if k != "n_questions") + ". " +
+                  "La diferencia está en la cobertura de la digestión.",
+                  "",
+                  "**Qué NO concluye.** `deleted` no mide olvido (ningún brazo vio "
+                  "la fuente borrada) y la abstención premia al brazo que recupera "
+                  "menos; la prueba de olvido real es F-forget (Enmienda 6). Sin las "
+                  "tres claves superadas (N1): "
+                  f"{_s(an['n1_a3_minus_a2_without_stale']['mean'])} "
+                  f"{_ci(an['n1_a3_minus_a2_without_stale']['ci95'])}."]
     lines += ["", "## 3. Cierre", "",
-              "La LCE tiene ahora: memoria local medida a escala (F1a, con "
-              "estadísticas guardadas y CI por pregunta), el costo de ρ de la "
-              "proyección medido con el camino de despacho real (F1b, con el "
-              "Projector real y sin umbrales inventados), el circuito social "
-              "ejercitado con nodos reales (F1d, no concluyente por diseño y "
-              "con sus desviaciones declaradas) y la factibilidad del "
-              "adaptador en hardware de consumo (F1c, sin pesos en el "
-              "repositorio). Las cifras preregistradas de la corrida 2 "
-              "siguen siendo el único resultado confirmatorio.", ""]
+              "La LCE tiene ahora: memoria local medida a escala con fuentes "
+              "limpias (F1a) y en el piloto R13 (A3 − A0 y A2 − A0), la comparación "
+              "de la wiki con un RAG crudo (R13: el RAG gana en exactitud; la "
+              "pérdida está en la cobertura de la digestión), el costo de ρ de la "
+              "proyección medido con el camino de despacho real (F1b) y la "
+              "factibilidad del adaptador en hardware de consumo (F1c). R11 y R12 "
+              "no aportan evidencia todavía (E6, E7). Las cifras preregistradas de "
+              "la corrida 2 siguen siendo el único resultado confirmatorio.", ""]
     OUT.write_text("\n".join(lines), encoding="utf-8")
     print(f"reporte escrito: {OUT}")
     return 0

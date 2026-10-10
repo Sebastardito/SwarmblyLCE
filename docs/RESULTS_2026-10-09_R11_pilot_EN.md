@@ -6,46 +6,48 @@ kind: exploratory
 
 # Results — R11 pilot (the fair adapter)
 
-**9 de octubre de 2026 · preregistro `PREREGISTRATION_BENCH_R1X_ES.md` sección 3, con
-Enmienda 5 · PILOTO EXPLORATORIO: no dispara la condición de muerte, pero
-fija su dirección**
+**9 October 2026 · pre-registration `PREREGISTRATION_BENCH_R1X_EN.md` Section 3,
+with Amendment 5 · EXPLORATORY PILOT**
 
-## Figures
+> **Notice (10 October 2026): conclusions RETRACTED.** The review (E6) showed
+> that this pilot is not a fair test of the adapter: the adapter collapsed onto
+> its batch (its answers reproduce the header of the procedures document);
+> about half of the tasks are invalid (the 6 procedure questions are the same
+> for every user and come from other domains; the gold of "Describe how you
+> write" is the whole rule with spaces removed, which cannot be matched); there
+> are 15–17 tasks per user instead of ≥30 and the code computes no intervals;
+> the "retrieval + Γ" arm carries no Γ; and the I1 test uses general-knowledge
+> questions, so it measures the interference of a collapsed adapter, not the
+> leak of the user's facts. Nothing below may be cited as evidence about H-C6,
+> H-C10 or I1. It is kept as history; the redesign belongs to the next phase.
 
-12 adaptadores qwen2.5-3b (3 usuarios × 2 semillas × repaso sí/no), lote de
-6–17 pares SOLO de claims entrenables (I1), 300 iteraciones, evaluación de
-CUATRO brazos sobre tareas re-redactadas. granite-3.1-2b **saltada**: su
-digestor produjo solo 4 claims entrenables por usuario (defecto del digestor
-a reportar, no del adaptador).
+## Figures (as originally reported)
 
-| Brazo (media por usuario) | mara | julian | carmen |
+12 qwen2.5-3b adapters (3 users × 2 seeds × replay yes/no), batch of 6–17
+pairs ONLY from trainable claims (I1), 300 iterations, evaluation of FOUR
+arms on reworded tasks. granite-3.1-2b was **skipped**: its digester produced
+only 4 trainable claims per user (a digester defect, not an adapter one).
+
+| Arm (mean per user) | mara | julian | carmen |
 |---|---|---|---|
 | base | 0.12 | 0.19 | 0.02 |
-| recuperación + Γ | 0.54 | 0.55 | 0.52 |
-| adaptador | 0.11 | 0.07 | 0.10 |
-| adaptador + recuperación | 0.28 | 0.21 | 0.13 |
+| retrieval (labelled "+ Γ", without Γ) | 0.54 | 0.55 | 0.52 |
+| adapter | 0.11 | 0.07 | 0.10 |
+| adapter + retrieval | 0.28 | 0.21 | 0.13 |
 
-**H-C6 (adaptador − recuperación+Γ):** mara −0.435, julian −0.477, carmen
-−0.429 — las tres cotas del IC por debajo de cero. **0/3 usuarios cumplen el
-margen (+0.10 con cota > 0).**
+As originally written: "H-C6 (adapter − retrieval): mara −0.435, julian
+−0.477, carmen −0.429; 0/3 users meet the margin", and "I1 leak: adapter −
+base = −0.367 (n = 60), safe direction but outside the ±0.10 equivalence".
+Both statements are retracted for the reasons in the notice.
 
-**Fuga I1:** adaptador − base = −0.367 (n=60) — dirección SEGURA (el
-adaptador no responde hechos mejor que el base), pero fuera de la
-equivalencia ±0.10: entrenar estilo hace OLVIDAR hechos del modelo base
-(interferencia catastrófica visible, la patología que la CLS predice).
+## Reading (as originally written, retracted)
 
-## Reading
+The original reading claimed that retrieval dominated the adapter by about 45
+points and that the confirmatory run would very probably withdraw layer 2.
+That reading compared retrieval against a collapsed adapter on partly
+invalid tasks and is withdrawn. The next phase needs valid, user-specific
+tasks (≥30 per user), iterations and learning rate chosen on a validation
+split, retrieval arms with and without Γ, and an I1 test on the user's own
+facts that were left out of the batch.
 
-La recuperación+Γ domina al adaptador por ~45 puntos en este régimen (lotes
-pequeños, 300 iteraciones, una familia). La condición de muerte del
-preregistro («si el adaptador no supera a la recuperación por el margen
-preregistrado, la capa 2 se retira») NO se dispara aquí (piloto), pero la
-dirección es inequívoca y coincide con la expectativa del propio whitepaper
-(«la recuperación captura la mayor parte del beneficio»). La confirmatoria
-(≥30 tareas, ambas familias con el rendimiento del digestor corregido, LC6)
-decidiría muy probablemente el retiro de la capa 2 — un negativo publicable
-que simplifica el diseño sin tocarlo: memoria + proyección quedan intactas.
-
-*Texto CC BY 4.0.*
-
-*English summary: the R11 pilot is NOT a fair adapter test yet (E6 of the review): the adapter collapsed onto its training batch; ~half the tasks are invalid; no CIs; the retrieval+Γ arm lacked Γ; I1 used general-knowledge items. Its negative is not publishable. The confirmatory needs the redesigned batch and tasks.*
+*Text CC BY 4.0.*
