@@ -1537,10 +1537,22 @@ labelled exploratory in their own scripts.
 | H-C2 lexicon | adherence 0.667 with Γ vs 0.033 without; diff 0.633 [0.500, 0.750] | 3 synthetic users × 20 topics, real models | holds |
 | H-C17 (a) | homogeneity 0.879 → 0.806; exceeds placebo by 0.048 [0.023, 0.070] | same | holds, with qualification |
 | H-C17 (b) | error agreement Δ = 0.039 [0.009, 0.069] inside ±0.10 | 1,500 MMLU items, 3 families | holds as equivalence; Γ has a small accuracy cost |
-| H-C1 at scale | mean gain of memory +0.506 by question, 95 % CI [0.429, 0.583] (question-clustered; 60 questions × 5 families, clean .md-only sources, Amendment 4) | 5 synthetic users × 12 questions × 5 families, wiki statistics stored per family and user | holds descriptively; per-family gain spans +0.083 (phi3.5, with 3 of 5 users REFUSED: its digester fell below the 5-anchored-claim floor) to +0.717 (gemma2) — the attribution to the digester is confounded (the family digests AND answers) and needs the crossed design of the next phase |
+| H-C1 at scale | SUPERSEDED: the published +0.506 was computed by a benchmark whose wiki still ingested the question files (E4 of the 2026-10-09 review); the clean .md-only re-run is in progress and its figure will replace this row | 5 synthetic users × 12 questions × 5 families | memory helps decisively (R13 arms: A2 − A0 = +0.767, A3 − A0 = +0.373); the F1a figure is being re-measured clean |
 | H-C2 ρ | with the current protocol (Γ in every packet) the projection adds +4–8 % ρ across users (median +7 %, worst +7.8 %, real Projector); Δρ ≈ size of Γ ÷ packet size and does not dilute with longer documents | real planner/packer over 5 user procedure documents, real Projector | the comparison with the projection's GAIN (the actual death condition of H-C2) and the cost of per-request injection or Γ caching remain pending |
 | H-C6 (behavior) | a rank-8 LoRA trains in 36 s on consumer hardware and memorises its batch | LoRA rank 8, 200 iters, 13 pairs, Qwen2.5-3B-Instruct (qwen-research licence; weights not distributed) | feasibility only: the adherence comparison is not conclusive (batch contamination, unequal arms, no CI); the fair test is the next phase |
 | H-C11 direction (C9-lite) | utility adoption circuit works mechanically; prevalence threshold never fires on rare tails | 5 real nodes, unverified canary drafts | inconclusive by design (identity probe without capsules; tail mass by construction; prevalence counts the correct gloss, not the majority variant); two post-run deviations declared in the script |
+
+**Status of R11–R14 (review of 2026-10-09): piloted, not closed.** The R13
+pilot cycle (four declared amendments) is being re-measured after the review
+fixed three defects (digester-keyed analysis, inverted recency ordering, the
+forgotten source still digested); the corrected figures will replace the
+retracted ones. R11's adapter pilot is NOT a fair test yet (the adapter
+collapsed onto its training batch; invalid tasks; no CIs) and its negative
+is not publishable. R12's exploratory run shows the adoption circuit works
+but does not turn I4 into a measurement (0/40 correct by construction; no
+F_ST; the canary is unverified). R14 is partial (provenance digests and the
+A/A sampler test pending). The confirmatory runs of R11–R13 remain the next
+phase.
 
 **Design consequences forced by the measurements.**
 
@@ -1554,15 +1566,13 @@ labelled exploratory in their own scripts.
    hypothesis. This SWIP records the recommendation and leaves the mechanism to
    review (protocol-level, since it benefits every Γ user).
 2. **Digester-quality gate (proposal; preliminary and confounded evidence).**
-   In the clean re-measurement (Amendment 4), phi3.5:3.8b fell below the
-   five-anchored-claim floor in 3 of 5 users and those cells were REFUSED —
-   the proposed floor is already operating as a gate in the benchmark. Among
-   the other four families the gain spans +0.317 (llama3.2) to +0.717
-   (gemma2) with claim counts and anchor rates that do not order the families
-   (granite proposes the most claims, 65–93, anchors 47–51 % of them and gains
-   +0.483). The evidence supports at most a floor on anchored claims, not a
-   threshold, and it remains confounded while the same family digests and
-   answers; the
+   The digester gate is a proposal backed by preliminary evidence: the
+   family-level spread of the memory gain and the fact that phi3.5 fell below
+   the five-anchored-claim floor in 3 of 5 users and was REFUSED. The exact
+   F1a figures are being re-measured with clean .md-only sources (the
+   published +0.506 was contaminated, E4). The evidence supports at most a
+   floor on anchored claims, not a threshold, and it remains confounded while
+   the same family digests and answers; the
    crossed design of the next phase separates the two. The gate is proposed,
    not established.
 3. **Adapter feasibility.** A rank-8 LoRA trains on consumer hardware in 36 s

@@ -79,6 +79,7 @@ sys.path.insert(0, str(ROOT))
 from swarmbly_lce.backends import OpenAICompatBackend  # noqa: E402
 from swarmbly_lce.diversity import CanarySet  # noqa: E402
 from swarmbly_lce import social  # noqa: E402
+from lce_validation.provenance import record as _record  # noqa: E402
 
 OUT = ROOT / "results" / "bench_social"
 CANARY = HERE / "data" / "canary_es-EC.json"
@@ -142,6 +143,9 @@ def main(argv: list[str] | None = None) -> int:
                 for m in models}
     report: dict[str, Any] = {"kind": "exploratory-benchmark",
                               "benchmark": "C9-lite social", "items": []}
+    prereg12 = ROOT / "docs" / "PREREGISTRATION_R12_ES.md"
+    report["provenance"] = (_record(prereg12, models)
+                           if prereg12.exists() else "preregistro ausente")
 
     # pre-test
     pre = {m: {} for m in models}

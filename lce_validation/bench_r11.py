@@ -37,6 +37,7 @@ from swarmbly_lce.training import ExampleBuilder  # noqa: E402
 from swarmbly_lce.retrieval import BM25Retriever  # noqa: E402
 from swarmbly_lce.backends import OpenAICompatBackend  # noqa: E402
 from lce_validation.bench_corpus_gen import USERS as CORPUS  # noqa: E402
+from lce_validation.provenance import record as _record  # noqa: E402
 
 MLX_LORA = "/opt/homebrew/bin/mlx_lm.lora"
 MLX_GEN = "/opt/homebrew/bin/mlx_lm.generate"
@@ -150,6 +151,8 @@ def main(argv: list[str] | None = None) -> int:
     OUT.mkdir(parents=True, exist_ok=True)
 
     report: dict[str, Any] = {"cells": [], "trainings": []}
+    prereg = ROOT / "docs" / "PREREGISTRATION_BENCH_R1X_ES.md"
+    report["provenance"] = _record(prereg, fams) if prereg.exists() else "preregistro ausente"
     for fam in fams:
         base_model = BASE[fam]
         for uid in users:
