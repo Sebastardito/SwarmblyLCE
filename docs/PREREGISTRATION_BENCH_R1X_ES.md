@@ -280,4 +280,16 @@ A1 (documento completo) se fija en 2.400 palabras truncadas para el piloto y
 se reporta por pregunta. Cualquier cambio se registra aquí con fecha y razón antes
 de correr; un cambio silencioso no cuenta.*
 
+**Enmienda 2 — 9 de octubre de 2026, después del piloto y antes del
+re-piloto.** El piloto identificó dos confundidos; se corrigen así:
+(a) presupuesto de contexto IGUAL para todos los brazos: 200 tokens (el del
+RAG del piloto), incluido A1 que se trunca a las primeras 200 palabras;
+(b) recuperación de la wiki POR VIGENCIA: entre las 10 claims más cercanas
+por BM25 se ordena por la fecha explícita más tardía de su fuente (las
+fuentes con fecha van antes de las que no la tienen), luego por madurez y
+luego por score. El re-piloto re-corre solo los brazos A1, A3 y A4 (A0 y A2
+no cambian y sus celdas se heredan del piloto) con las wikis ya cacheadas.
+La Enmienda 3 (subconjunto público) sigue pendiente antes de la
+confirmatoria.
+
 *Texto CC BY 4.0; código AGPL-3.0-or-later.*

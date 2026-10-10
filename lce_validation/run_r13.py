@@ -75,6 +75,24 @@ class _Shim:
         return self.text
 
 
+_MESES = {"enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5,
+          "junio": 6, "julio": 7, "agosto": 8, "septiembre": 9,
+          "octubre": 10, "noviembre": 11, "diciembre": 12}
+
+
+def _source_date_ordinal(text: str):
+    """Fecha explícita más tardía de una fuente (None si no tiene)."""
+    best = None
+    for m in re.finditer(r"(\d{1,2}) de ([a-záéíóúñ]+) de (\d{4})", text,
+                         re.IGNORECASE):
+        mes = _MESES.get(m.group(2).lower())
+        if mes:
+            best = max(best or 0, int(m.group(3)) * 100 + mes)
+    for m in re.finditer(r"(\d{4})-(\d{2})-(\d{2})", text):
+        best = max(best or 0, int(m.group(1)) * 100 + int(m.group(2)))
+    return best
+
+
 def score_answer(q: dict, answer: str) -> bool:
     """Rúbrica de R13 §2.3 por tipo."""
     t = q.get("type", "simple")
@@ -111,6 +129,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--confirm", action="store_true")
     ap.add_argument("--users", default=None)
     ap.add_argument("--no-cache", action="store_true")
+    ap.add_argument("--arms", default="A0,A1,A2,A3,A4",
+                    help="subconjunto de brazos a correr (el resto se hereda)")
+    ap.add_argument("--base-json", default=None,
+                    help="results.json previo del que heredar celdas")
     args = ap.parse_args(argv)
 
     digesters = [m.strip() for m in args.digesters.split(",") if m.strip()]
@@ -128,6 +150,7 @@ def main(argv: list[str] | None = None) -> int:
               "respondedores", prov)
         return 1
 
+    arms_run = {a.strip() for a in args.arms.split(",") if a.strip()}
     OUT.mkdir(parents=True, exist_ok=True)
     cache_dir = OUT / "wikis_cache"
     cache_dir.mkdir(exist_ok=True)
@@ -171,6 +194,11 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  wiki {uid}×{d}: {st['claims']} claims", flush=True)
 
     cells = []
+    if args.base_json:
+        prev = json.loads(Path(args.base_json).read_text(encoding="utf-8"))
+        inherited = [c for c in prev["cells"] if c["arm"] not in arms_run]
+        cells.extend(inherited)
+        print(f"heredadas {len(inherited)} celdas de brazos no re-corridos")
     for uid in users:
         base = USERS_DIR / uid
         qs = []
@@ -181,55 +209,100 @@ def main(argv: list[str] | None = None) -> int:
                     q = dict(q)
                     q.setdefault("type", "simple")
                     qs.append(q)
+        src_dates = {}
+        for sp in sorted((base / "teach").rglob("*.md")):
+            src_dates[sp.relative_to(base).as_posix()] = (
+                _source_date_ordinal(sp.read_text(encoding="utf-8")) or 0)
         for q in qs:
             # A0: sin memoria, cada respondedor
-            for r in responders:
+            if "A0" not in arms_run:
+                continue_arm = True
+            else:
+                continue_arm = False
+            for r in ([] if continue_arm else responders):
                 ans, tok = _ask(backends[r], q)
                 cells.append({"user": uid, "arm": "A0", "responder": r,
                               "q": q, "ok": score_answer(q, ans),
                               "tokens": tok, "answer": ans[:200]})
-            # A1: documento completo (truncado al presupuesto: 2400 tokens)
-            doc = " ".join(docs[uid].split()[:2400])
-            for r in responders:
-                ans, tok = _ask(backends[r], q, context=doc)
-                cells.append({"user": uid, "arm": "A1", "responder": r,
-                              "q": q, "ok": score_answer(q, ans),
-                              "tokens": tok, "answer": ans[:200]})
-            # A2: RAG crudo (BM25 sobre oraciones de las fuentes)
-            sents = re.split(r"(?<=[.!?])\s+", docs[uid])
-            retr_raw = BM25Retriever().index([_Shim(s) for s in sents])
-            ctx2 = "\n".join(h.text for h in retr_raw.search(q["q"], k=6))
-            for r in responders:
-                ans, tok = _ask(backends[r], q, context=ctx2)
-                cells.append({"user": uid, "arm": "A2", "responder": r,
-                              "q": q, "ok": score_answer(q, ans),
-                              "tokens": tok, "answer": ans[:200]})
-            # A3: wiki (cruzado digestor × respondedor)
-            for d in digesters:
-                wiki = wikis[(uid, d)]
-                retr_w = BM25Retriever().index(wiki.claims.values())
-                ctx3 = "\n".join(h.text for h in retr_w.search(q["q"], k=3))
+            # A1: documento completo, truncado al presupuesto común (200)
+            if "A1" in arms_run:
+                doc = " ".join(docs[uid].split()[:200])
                 for r in responders:
-                    ans, tok = _ask(backends[r], q, context=ctx3)
-                    cells.append({"user": uid, "arm": "A3", "digester": d,
-                                  "responder": r, "q": q,
+                    ans, tok = _ask(backends[r], q, context=doc)
+                    cells.append({"user": uid, "arm": "A1", "responder": r,
+                                  "q": q, "ok": score_answer(q, ans),
+                                  "tokens": tok, "answer": ans[:200]})
+            # A2: RAG crudo (BM25 sobre oraciones), hasta 200 tokens
+            if "A2" in arms_run:
+                sents = re.split(r"(?<=[.!?])\s+", docs[uid])
+                retr_raw = BM25Retriever().index([_Shim(s) for s in sents])
+                ctx2 = ""
+                for h in retr_raw.search(q["q"], k=12):
+                    if _tokens(ctx2 + h.text) > 200:
+                        break
+                    ctx2 += h.text + "\n"
+                for r in responders:
+                    ans, tok = _ask(backends[r], q, context=ctx2)
+                    cells.append({"user": uid, "arm": "A2", "responder": r,
+                                  "q": q, "ok": score_answer(q, ans),
+                                  "tokens": tok, "answer": ans[:200]})
+            # A3: wiki (cruzado digestor × respondedor), hasta 200 tokens,
+            # con recuperación por vigencia: fecha de la fuente (más reciente
+            # primero), luego madurez, luego score BM25
+            if "A3" in arms_run:
+                for d in digesters:
+                    wiki = wikis[(uid, d)]
+                    retr_w = BM25Retriever().index(wiki.claims.values())
+                    hits = retr_w.search(q["q"], k=10)
+                    ranked = sorted(
+                        hits,
+                        key=lambda h: (
+                            src_dates.get(
+                                h.claim.anchors[0].source
+                                if getattr(h.claim, "anchors", None) else "", 0),
+                            h.claim.maturity.rank,
+                            h.score))
+                    ctx3 = ""
+                    for h in ranked:
+                        if _tokens(ctx3 + h.text) > 200:
+                            break
+                        ctx3 += h.text + "\n"
+                    for r in responders:
+                        ans, tok = _ask(backends[r], q, context=ctx3)
+                        cells.append({"user": uid, "arm": "A3", "digester": d,
+                                      "responder": r, "q": q,
+                                      "ok": score_answer(q, ans),
+                                      "tokens": tok, "answer": ans[:200]})
+            # A4: wiki + Gamma (proyección real; diagonal digester=responder),
+            # misma recuperación por vigencia y presupuesto que A3
+            if "A4" in arms_run:
+                from swarmbly_lce.projection import Projector
+                for d in digesters:
+                    if d not in responders:
+                        continue
+                    wiki = wikis[(uid, d)]
+                    retr_w4 = BM25Retriever().index(wiki.claims.values())
+                    hits4 = retr_w4.search(q["q"], k=10)
+                    ranked4 = sorted(
+                        hits4,
+                        key=lambda h: (
+                            src_dates.get(
+                                h.claim.anchors[0].source
+                                if getattr(h.claim, "anchors", None) else "", 0),
+                            h.claim.maturity.rank,
+                            h.score))
+                    ctx4 = ""
+                    for h in ranked4:
+                        if _tokens(ctx4 + h.text) > 200:
+                            break
+                        ctx4 += h.text + "\n"
+                    proj = Projector().project(q["q"], list(wiki.claims.values()))
+                    gamma = proj.projection.as_text()
+                    ans, tok = _ask(backends[d], q, context=ctx4, gamma=gamma)
+                    cells.append({"user": uid, "arm": "A4", "digester": d,
+                                  "responder": d, "q": q,
                                   "ok": score_answer(q, ans),
                                   "tokens": tok, "answer": ans[:200]})
-            # A4: wiki + Gamma (proyección real; diagonal digester=responder)
-            from swarmbly_lce.projection import Projector
-            for d in digesters:
-                if d not in responders:
-                    continue
-                wiki = wikis[(uid, d)]
-                retr_w4 = BM25Retriever().index(wiki.claims.values())
-                ctx4 = "\n".join(h.text for h in retr_w4.search(q["q"], k=3))
-                proj = Projector().project(q["q"], list(wiki.claims.values()))
-                gamma = proj.projection.as_text()
-                ans, tok = _ask(backends[d], q, context=ctx4, gamma=gamma)
-                cells.append({"user": uid, "arm": "A4", "digester": d,
-                              "responder": d, "q": q,
-                              "ok": score_answer(q, ans),
-                              "tokens": tok, "answer": ans[:200]})
         print(f"  {uid}: {len(qs)} preguntas respondidas por {len(responders)} "
               f"respondedores", flush=True)
 

@@ -274,4 +274,15 @@ custom terms without a standard licence and is discarded barring legal
 review). The A1 (full-document) token budget is fixed at 2,400 truncated
 words for the pilot and reported per question.
 
+**Amendment 2 — 9 October 2026, after the pilot and before the
+re-pilot.** The pilot identified two confounds; they are corrected as
+follows: (a) EQUAL context budget for all arms: 200 tokens (the pilot's RAG
+budget), including A1 truncated to the first 200 words; (b) recency-aware
+wiki retrieval: among the 10 closest BM25 claims, order by the latest
+explicit date of their source (dated sources before undated ones), then by
+maturity, then by score. The re-pilot re-runs only arms A1, A3 and A4 (A0
+and A2 are unchanged and their cells are inherited from the pilot) with the
+already cached wikis. Amendment 3 (public subset) remains pending before
+the confirmatory run.
+
 *Text CC BY 4.0; code AGPL-3.0-or-later.*
