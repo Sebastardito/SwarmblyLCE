@@ -301,4 +301,19 @@ in the confirmatory's expansion). The verification re-pilot re-digests the
 wikis (the digester changed) and re-runs the five arms over the 126
 questions.
 
+**Amendment 4 — 9 October 2026, after the verification re-pilot and
+before the clean re-measurement.** SOURCE CONTAMINATION was found: the
+source space scanned the whole user directory and ingested the benchmark's
+question files (`questions*.json`, with their gold keys) as wiki sources —
+the wiki contained leaked answers and the comparison was not clean.
+Corrected: the user's sources are ONLY `.md` documents
+(`build_wiki(suffixes={".md"})`). The same contamination affects benchmark
+F1a (same `build_wiki`): its central figure (+0.477) is SUPERSEDED until
+the clean re-measurement, relaunched together with the R13 re-pilot.
+`bench_rho` used the same wikis but measures projection SIZE (arithmetic),
+not content: its verdict stands and is re-run for cleanliness. In addition:
+the wiki arms' abstention now requires the context to contain the EXACT
+answer (targeting the `deleted` type, where the wiki answered with the
+related current claim).
+
 *Text CC BY 4.0; code AGPL-3.0-or-later.*

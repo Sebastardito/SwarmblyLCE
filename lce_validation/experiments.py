@@ -47,8 +47,12 @@ def _norm(ans: str) -> str:
 
 
 def build_wiki(corpus: Path, policy_path: Path, backend: Backend, cycles: int = 4,
-               anchor_mode: str = "offsets", reconcile_types: bool = False) -> tuple[Wiki, dict[str, Any]]:
-    space = SourceSpace(corpus)
+               anchor_mode: str = "offsets", reconcile_types: bool = False,
+               suffixes: frozenset[str] | None = None) -> tuple[Wiki, dict[str, Any]]:
+    # suffixes: las fuentes del usuario son documentos (.md); los archivos de
+    # preguntas del benchmark (.json) NO son fuentes y contaminaban la wiki
+    # con sus claves (Enmienda 4).
+    space = SourceSpace(corpus) if suffixes is None else SourceSpace(corpus, suffixes=suffixes)
     policy = LearningPolicy.load(policy_path)
     wiki = Wiki(policy=policy)
     verifier = AnchorVerifier(space)

@@ -308,4 +308,19 @@ pagar; los documentos multi-mil palabras entran en la ampliación de la
 confirmatoria). El re-piloto de verificación re-digiere las wikis (el
 digestor cambió) y re-corre los cinco brazos sobre las 126 preguntas.
 
+**Enmienda 4 — 9 de octubre de 2026, después del re-piloto de
+verificación y antes de la re-medición limpia.** Se encontró CONTAMINACIÓN
+de fuentes: el espacio de fuentes escaneaba todo el directorio del usuario e
+ingirió los archivos de preguntas del benchmark (`questions*.json`, con sus
+claves de oro) como fuentes de la wiki — la wiki contenía respuestas
+filtradas y la comparación no era limpia. Se corrige: las fuentes del
+usuario son SOLO documentos `.md` (`build_wiki(suffixes={".md"})`). La
+misma contaminación afecta al benchmark F1a (mismo `build_wiki`): su cifra
+central (+0.477) queda SUPERSEDIDA hasta la re-medición limpia, que se
+relanza junto con el re-piloto de R13. `bench_rho` usó las mismas wikis pero
+mide TAMAÑO de proyección (aritmética), no contenido: su veredicto se
+mantiene y se re-ejecuta por limpieza. Además: la abstención de los brazos
+de wiki exige ahora que el contexto contenga la respuesta EXACTA (apunta al
+tipo `deleted`, donde la wiki respondía con la claim vigente relacionada).
+
 *Texto CC BY 4.0; código AGPL-3.0-or-later.*

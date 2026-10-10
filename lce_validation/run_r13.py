@@ -140,9 +140,10 @@ def score_answer(q: dict, answer: str) -> bool:
 
 
 def _ask(backend, q: dict, context: str = "", gamma: str = "") -> tuple[str, int]:
-    prompt = ("Responde en una o dos oraciones. Si la información no está en "
-              "el contexto o en las fuentes, di «no está en mis fuentes» y "
-              "nada más.\n")
+    prompt = ("Responde en una o dos oraciones SOLO si el contexto contiene "
+              "la respuesta exacta a la pregunta. Si el contexto solo tiene "
+              "información relacionada pero no la respuesta, di «no está en "
+              "mis fuentes» y nada más.\n")
     if gamma:
         prompt += f"ESTILO DEL USUARIO: {gamma}\n"
     if context:
@@ -215,7 +216,8 @@ def main(argv: list[str] | None = None) -> int:
                       flush=True)
                 continue
             wiki, st = build_wiki(base, base / "policy.json", backends[d],
-                                  anchor_mode="quote", reconcile_types=True)
+                                  anchor_mode="quote", reconcile_types=True,
+                                  suffixes=frozenset({".md"}))
             wiki.save(cache_file)
             wikis[(uid, d)] = wiki
             stats[f"{uid}|{d}"] = {"claims": st["claims"],
