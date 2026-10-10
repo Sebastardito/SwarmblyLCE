@@ -114,7 +114,8 @@ def main(argv: list[str] | None = None) -> int:
             try:
                 wiki, stats = build_wiki(base, base / "policy.json", backend,
                                          anchor_mode="quote",
-                                         reconcile_types=True)
+                                         reconcile_types=True,
+                                         suffixes=frozenset({".md"}))
             except Exception as exc:  # pragma: no cover
                 print(f"  {uid}: wiki falló ({exc})", flush=True)
                 refused.append((model, uid, str(exc)))

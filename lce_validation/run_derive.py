@@ -1,6 +1,6 @@
 """run_derive — regenera todas las cifras derivadas desde las salidas crudas.
 
-Prerregistro R14 §1.3.1: un solo comando, sin modelos, que recalcula las
+Prerregistro R14 sec.1.3.1: un solo comando, sin modelos, que recalcula las
 cifras publicadas y termina con código distinto de cero si alguna no
 coincide. Recalcula desde las celdas crudas:
 
@@ -39,7 +39,7 @@ def _boot_ci(values, B=10_000, seed=20261005):
 
 
 def _check(name: str, got, want, tol=1e-6):
-    if got is None or abs(got - want) > tol:
+    if got is None or want is None or abs(got - want) > tol:
         FAILURES.append(f"{name}: derivado {got} != guardado {want}")
         return False
     return True
@@ -90,6 +90,39 @@ def derive_run2() -> None:
                             f"guardado {v.get('verdict')}")
 
 
+def derive_r13() -> None:
+    """Recomputa el resumen de R13 desde las celdas (por digestor, emparejado
+    por pregunta) y lo compara con el guardado."""
+    import numpy as np
+    p = ROOT / "results" / "bench_r13" / "results.json"
+    if not p.exists():
+        return
+    d = json.loads(p.read_text(encoding="utf-8"))
+    cells = d["cells"]
+    a2 = {(c["user"], c["q"]["q"], c["responder"]): float(c["ok"])
+          for c in cells if c["arm"] == "A2"}
+    qd: dict[tuple, list[float]] = {}
+    for c in cells:
+        if c["arm"] == "A3" and (c["user"], c["q"]["q"], c["responder"]) in a2:
+            qd.setdefault((c["user"], c["q"]["q"]), []).append(
+                float(c["ok"]) - a2[(c["user"], c["q"]["q"], c["responder"])])
+    q_gains = np.array([float(np.mean(v)) for v in qd.values()])
+    rng = np.random.default_rng(20261005)
+    q_means = np.array([rng.choice(q_gains, len(q_gains), replace=True).mean()
+                        for _ in range(10000)])
+    s = d.get("summary", {})
+    _check("R13 a3_minus_a2_by_question", round(float(q_gains.mean()), 3),
+           round(s.get("a3_minus_a2_by_question"), 3))
+    _check("R13 ci_lo", round(float(np.percentile(q_means, 2.5)), 3),
+           round(s.get("a3_minus_a2_ci95", [None])[0], 3))
+    _check("R13 ci_hi", round(float(np.percentile(q_means, 97.5)), 3),
+           round(s.get("a3_minus_a2_ci95", [None, None])[1], 3))
+    for dig, want in (s.get("a3_by_digester") or {}).items():
+        got = round(float(np.mean([c["ok"] for c in cells if c["arm"] == "A3"
+                                   and c["digester"] == dig])), 3)
+        _check(f"R13 A3 por digestor {dig}", got, round(want, 3))
+
+
 def derive_report() -> None:
     import lce_validation.bench_report as br
     import tempfile
@@ -115,6 +148,7 @@ def main() -> int:
     derive_hc1()
     derive_rho()
     derive_run2()
+    derive_r13()
     derive_report()
     if FAILURES:
         print("✘ DERIVA DETECTADA:")

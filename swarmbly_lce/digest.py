@@ -13,6 +13,7 @@ failure this layer exists to contain.
 from __future__ import annotations
 
 import json
+from pathlib import Path
 import re
 from dataclasses import dataclass, field
 
@@ -174,6 +175,9 @@ class Digester:
         return out
 
     def digest_source(self, wiki: Wiki, rel: str) -> list[Claim]:
+        if Path(rel).name in getattr(self.space, "_excluded", frozenset()):
+            self.stats.skipped_policy += 1
+            return []
         wiki.register_source(rel, self.space.file_hash(rel))
         claims: list[Claim] = []
         for span in self.space.spans(rel):

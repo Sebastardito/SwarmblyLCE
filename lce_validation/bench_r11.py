@@ -1,4 +1,4 @@
-"""R11 — el adaptador justo (H-C6, H-C10, I1), conforme al preregistro §3.
+"""R11 — el adaptador justo (H-C6, H-C10, I1), conforme al preregistro sec.3.
 
 Lote SOLO de afirmaciones TRAINABLES vía ExampleBuilder (I1: nunca hechos),
 con y sin repaso (H-C10); dos familias base (qwen2.5-3b, licencia

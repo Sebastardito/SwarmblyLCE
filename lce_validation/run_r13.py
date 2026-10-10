@@ -9,7 +9,7 @@ por brazo.
 
 MODOS:
   --confirm  corrida CONFIRMATORIA: exige preregistro confirmado, árbol
-             limpio, digests verificados y ≥3 respondedores (R14 §1.1);
+             limpio, digests verificados y ≥3 respondedores (R14 sec.1.1);
   (por defecto) PILOTO EXPLORATORIO: corre igual, reporta todo, y declara
   que no emite veredictos preregistrados (Enmienda 1).
 
@@ -125,7 +125,7 @@ def _source_date_ordinal(text: str):
 
 
 def score_answer(q: dict, answer: str) -> bool:
-    """Rúbrica de R13 §2.3 por tipo."""
+    """Rúbrica de R13 sec.2.3 por tipo."""
     t = q.get("type", "simple")
     if t in ("deleted", "unanswerable"):
         return I._classify_abstention(answer) == "abstain"
@@ -177,10 +177,17 @@ def main(argv: list[str] | None = None) -> int:
     prov = _record(PREREG, sorted(set(digesters + responders)),
                    url=args.url, extra={"mode": "confirmatory" if args.confirm
                                         else "exploratory-pilot"})
-    if args.confirm and (prov["git_dirty"] or len(responders) < 3):
-        print("NEGADA: la corrida confirmatoria exige árbol limpio y ≥3 "
-              "respondedores", prov)
-        return 1
+    if args.confirm:
+        problems = []
+        if prov["git_dirty"]:
+            problems.append("árbol sucio")
+        if len(responders) < 3:
+            problems.append("menos de 3 respondedores")
+        from lce_validation.provenance import check_digests
+        problems += check_digests(prov, {})
+        if problems:
+            print("NEGADA (confirmatoria):", "; ".join(problems))
+            return 1
 
     arms_run = {a.strip() for a in args.arms.split(",") if a.strip()}
     OUT.mkdir(parents=True, exist_ok=True)
@@ -217,7 +224,8 @@ def main(argv: list[str] | None = None) -> int:
                 continue
             wiki, st = build_wiki(base, base / "policy.json", backends[d],
                                   anchor_mode="quote", reconcile_types=True,
-                                  suffixes=frozenset({".md"}))
+                                  suffixes=frozenset({".md"}),
+                                  exclude_names=frozenset({"borrada.md"}))
             wiki.save(cache_file)
             wikis[(uid, d)] = wiki
             stats[f"{uid}|{d}"] = {"claims": st["claims"],
@@ -295,7 +303,9 @@ def main(argv: list[str] | None = None) -> int:
                                 h.claim.anchors[0].source
                                 if getattr(h.claim, "anchors", None) else "", 0),
                             h.claim.maturity.rank,
-                            h.score))
+                            h.score),
+                        reverse=True)   # E2: la vigencia iba al revés
+                    ranked = _latest_per_fact(ranked, src_dates)  # E2: faltaba en A3
                     ctx3 = ""
                     for h in ranked:
                         if _tokens(ctx3 + h.text) > 200:
@@ -324,7 +334,8 @@ def main(argv: list[str] | None = None) -> int:
                                 h.claim.anchors[0].source
                                 if getattr(h.claim, "anchors", None) else "", 0),
                             h.claim.maturity.rank,
-                            h.score))
+                            h.score),
+                        reverse=True)
                     ranked4 = _latest_per_fact(ranked4, src_dates)
                     ctx4 = ""
                     for h in ranked4:
@@ -347,23 +358,37 @@ def main(argv: list[str] | None = None) -> int:
         "digesters": digesters, "responders": responders,
         "wiki_stats": stats, "cells": cells,
     }
-    # resumen por brazo (emparejado por pregunta y respondedor)
-    by_q: dict[tuple, dict[str, float]] = {}
-    for c in cells:
-        key = (c["user"], c["q"]["q"], c["responder"])
-        by_q.setdefault(key, {})[c["arm"]] = float(c["ok"])
+    # resumen: A3 por digestor; emparejado por (usuario, pregunta,
+    # respondedor, digestor) agrupado por pregunta (E1)
     arms = ["A0", "A1", "A2", "A3", "A4"]
-    means = {a: float(np.mean([v.get(a, 0.0) for v in by_q.values()]))
+    means = {a: float(np.mean([c["ok"] for c in cells if c["arm"] == a]))
              for a in arms}
-    # A3 diagonal (mismo digestor=respondedor) vs cruzado completo
+    by_dig = {d: float(np.mean([c["ok"] for c in cells if c["arm"] == "A3"
+                                and c["digester"] == d]))
+              for d in digesters}
     diag = [c for c in cells if c["arm"] == "A3"
             and c["digester"] == c["responder"]]
     a3_all = [c for c in cells if c["arm"] == "A3"]
+    a2 = {(c["user"], c["q"]["q"], c["responder"]): float(c["ok"])
+          for c in cells if c["arm"] == "A2"}
+    qd: dict[tuple, list[float]] = {}
+    for c in cells:
+        if c["arm"] == "A3" and (c["user"], c["q"]["q"], c["responder"]) in a2:
+            qd.setdefault((c["user"], c["q"]["q"]), []).append(
+                float(c["ok"]) - a2[(c["user"], c["q"]["q"], c["responder"])])
+    q_gains = np.array([float(np.mean(v)) for v in qd.values()])
+    rng = np.random.default_rng(20261005)
+    q_means = np.array([rng.choice(q_gains, len(q_gains), replace=True).mean()
+                        for _ in range(10000)])
+    q_lo, q_hi = np.percentile(q_means, 2.5), np.percentile(q_means, 97.5)
     report["summary"] = {
-        "questions": len(by_q),
+        "questions": len(qd),
         "mean_by_arm": {a: round(means[a], 3) for a in arms},
+        "a3_by_digester": {d: round(by_dig[d], 3) for d in digesters},
         "a3_diagonal_mean": round(float(np.mean([c["ok"] for c in diag])), 3),
         "a3_crossed_mean": round(float(np.mean([c["ok"] for c in a3_all])), 3),
+        "a3_minus_a2_by_question": round(float(q_gains.mean()), 3),
+        "a3_minus_a2_ci95": [round(float(q_lo), 3), round(float(q_hi), 3)],
         "tokens_by_arm": {a: round(float(np.mean(
             [c["tokens"] for c in cells if c["arm"] == a])), 1) for a in arms},
         "mode": report["kind"],
@@ -375,8 +400,10 @@ def main(argv: list[str] | None = None) -> int:
     for a in arms:
         print(f"  {a}: exactitud {s['mean_by_arm'][a]:.3f} "
               f"(tokens medios {s['tokens_by_arm'][a]:.0f})")
-    print(f"  A3 diagonal: {s['a3_diagonal_mean']:.3f} | A3 cruzado: "
-          f"{s['a3_crossed_mean']:.3f}")
+    print("  A3 por digestor: " + ", ".join(
+        f"{d} {v:.3f}" for d, v in s["a3_by_digester"].items()))
+    print(f"  A3−A2 por pregunta: {s['a3_minus_a2_by_question']:+.3f} "
+          f"[{s['a3_minus_a2_ci95'][0]:+.3f}, {s['a3_minus_a2_ci95'][1]:+.3f}]")
     print(f"resultados: {OUT/'results.json'}")
     return 0
 

@@ -165,11 +165,12 @@ def main(argv: list[str] | None = None) -> int:
     med_req = sorted(deltas_req)[len(deltas_req) // 2]
     worst = max(deltas)
     worst_req = max(deltas_req)
+    lo_pct, hi_pct = min(deltas), max(deltas)
+    rango = f"+{lo_pct:.0f} %" if lo_pct == hi_pct else f"+{lo_pct:.0f}–{hi_pct:.0f} %"
     verdict = (f"con el protocolo actual (Γ en cada paquete) la proyección "
-               f"añade +{worst:.0f}–{max(deltas):.0f} % de ρ (mediana "
-               f"+{med:.0f} %); la comparación con su ganancia (la condición "
-               f"de muerte real de H-C2) y el costo del diseño por-solicitud "
-               f"o con caché quedan pendientes")
+               f"añade {rango} de ρ (mediana +{med:.0f} %); la comparación "
+               f"con su ganancia (la condición de muerte real de H-C2) y el "
+               f"costo del diseño por-solicitud o con caché quedan pendientes")
     report["summary"] = {
         "median_delta_pct": round(med, 2), "worst_delta_pct": round(worst, 2),
         "median_delta_pct_per_request": round(med_req, 2),

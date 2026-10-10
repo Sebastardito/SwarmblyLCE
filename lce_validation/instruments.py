@@ -405,7 +405,7 @@ ALL = {
 
 
 # ---------------------------------------------------------------------------
-# Instrumentos de R13 (prerregistro §3.6): probados en simulación antes de
+# Instrumentos de R13 (prerregistro sec.3.6): probados en simulación antes de
 # usarse para calificar la corrida decisiva.
 # ---------------------------------------------------------------------------
 
@@ -415,9 +415,11 @@ _ABSTAIN_RE = re.compile(
 
 
 def _classify_abstention(answer: str) -> str:
-    """answer -> 'abstain' | 'content' (clasificador determinista del tipo 5-6)."""
-    if len(answer.split()) <= 2 and _ABSTAIN_RE.search(answer):
-        return "abstain"
+    """answer -> 'abstain' | 'content' (clasificador determinista del tipo 5-6).
+
+    Abstiene solo si NO da contenido después de la frase de abstención."""
+    if re.search(r"\d", answer):
+        return "content"   # un número tras la frase = respondió
     if _ABSTAIN_RE.search(answer):
         return "abstain"
     return "content"
@@ -439,7 +441,7 @@ def r13_abstention(seed: int = 0) -> dict[str, Any]:
         ("sin respuesta en la memoria del usuario", "abstain"),
     ]
     hits = sum(1 for a, want in cases if _classify_abstention(a) == want)
-    passed = hits >= len(cases) - 1
+    passed = hits == len(cases)
     return {"hypothesis": "el calificador separa abstención de contenido",
             "prediction": f">= {len(cases)-1}/{len(cases)} clasificaciones "
                           "correctas en casos fabricados",
@@ -452,7 +454,7 @@ def _classify_contradiction(answer: str, current: str, old: str) -> str:
     has_current = current.lower() in a
     has_old = old.lower() in a
     flagged = bool(re.search(r"discrep|contradic|desacuerdo|dos fuentes|no coincide",
-                             a))
+                             answer, re.IGNORECASE))
     if has_current:
         return "current"
     if flagged:

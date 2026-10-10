@@ -1,4 +1,4 @@
-"""Provenance común de los benchmarks (preregistro R14, §1.3.3).
+"""Provenance común de los benchmarks (preregistro R14, sec.1.3.3).
 
 Cada benchmark real registra con esto: commit de git, SHA-256 del
 preregistro, versión de Ollama y digests de los modelos usados. La
@@ -35,15 +35,18 @@ def record(prereg: Path, models: list[str], url: str = "http://localhost:11434/v
     """Metadatos de procedencia de una corrida."""
     info = _ollama(url, "/api/version")
     digests: dict[str, str] = {}
-    for m in models:
-        try:
-            req = urllib.request.Request(f"{url.rstrip('/').removesuffix('/v1')}/api/show",
-                                         data=json.dumps({"name": m}).encode(),
-                                         headers={"Content-Type": "application/json"})
-            with urllib.request.urlopen(req, timeout=60) as r:
-                digests[m] = json.loads(r.read()).get("details", {}).get(
-                    "parent_model", "") or "n/d"
-        except Exception:
+    try:
+        tags = _ollama(url, "/api/tags")["models"]
+        by_name = {t.get("name", ""): t for t in tags}
+        for m in models:
+            digests[m] = (by_name.get(m) or {}).get("digest", "") or "n/d"
+            if m not in by_name:
+                for n, t in by_name.items():
+                    if n.split(":")[0] == m.split(":")[0]:
+                        digests[m] = t.get("digest", "") or "n/d"
+                        break
+    except Exception:
+        for m in models:
             digests[m] = "n/d"
     out: dict[str, Any] = {
         "git_commit": _git("rev-parse", "HEAD"),

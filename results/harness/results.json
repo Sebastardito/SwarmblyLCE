@@ -187,7 +187,7 @@
    "hypothesis": "el calificador separa abstención de contenido",
    "prediction": ">= 7/8 clasificaciones correctas en casos fabricados",
    "passed": true,
-   "detail": "7/8"
+   "detail": "8/8"
   },
   "r13_contradiction": {
    "hypothesis": "el calificador acepta vigente/desacuerdo y rechaza la versión antigua",

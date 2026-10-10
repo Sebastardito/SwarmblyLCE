@@ -654,7 +654,7 @@ if __name__ == "__main__":
 
 
 # ---------------------------------------------------------------------------
-# v2: los seis tipos de pregunta de R13 (prerregistro §2.3)
+# v2: los seis tipos de pregunta de R13 (prerregistro sec.2.3)
 # Cada usuario gana tres fuentes nuevas (actualización, discrepancia,
 # borrada) y preguntas etiquetadas por tipo. La fuente 'borrada' se olvida
 # en tiempo de corrida; el generador solo la escribe.
