@@ -324,4 +324,81 @@ regeneration) and is declared here rather than improvised. The R11 pilot
 covers H-C6 (four arms), H-C10 (replay yes/no) and the I1 leak test
 (equivalence ±0.10, instrument tested in simulation).
 
+**Amendment 6 — 10 October 2026, after the R13 review and BEFORE running
+the forgetting test and the A/A test.** It has three parts.
+
+*(a) Declaration of post-data repairs.* The 9–10 October review found
+implementation defects that changed published figures, and they were
+repaired after seeing the data: E1 (the R13 summary overwrote digesters and
+A3 reflected gemma2 only), E2 (recency retrieval sorted in reverse and A3
+did not use the per-fact retrieval of Amendment 3), E3 (the deleted source
+was digested into the wiki but not into RAG), E4 (F1a still ingested the
+`questions*.json` files) and E5 (A4 was compared against A3 of a single
+digester). The affected figures are retracted and replaced by those
+re-measured on 10 October; none of these repairs changed the rubric or the
+thresholds. From now on every repair carries a test that fails if the defect
+returns (`tests/test_r13_repairs.py`).
+
+*(b) Two defects of the material, declared rather than silently fixed.* N1:
+three v1 "simple" questions (andres: risk ratio 0.85; carmen: Manantial
++6.8; mara: F_ST 0.036) have as their key the value that
+`actualizacion.md` declares superseded; the key is not changed (that would
+be editing the gold after seeing the data): F1a and R13 are reported with
+and without those three questions, and the confirmatory run removes them
+from the corpus before running. N2: in R13 the `deleted` type does not
+measure forgetting, because no arm ever saw the deleted source; it is
+reinterpreted as "unanswerable with related information" and, as with
+`unanswerable`, abstention rewards the arm that retrieves less (A0, without
+memory, scores 1.00). From now on abstention is reported together with the
+same arm's accuracy on answerable questions, never alone.
+
+*(c) Forgetting test (F-forget) and A/A test, pre-registered here.*
+
+**F-forget.** For each user (5) and digester (qwen2.5:3b, llama3.2:3b,
+gemma2:2b): W_full = wiki digested with ALL `.md` sources, `borrada.md`
+included; W_forget = W_full after `Wiki.forget_source` of that source (the
+SPEC 7.8.1 mechanism); W_never = wiki digested in the same run without that
+source. Structural measures (no responders; primary): S1 manipulation check,
+W_full has ≥1 claim anchored to the source (otherwise the cell is refused);
+S2 residue, claims of W_forget anchored to the forgotten source (must be 0 in
+100 % of cells); S3 collateral damage, claims of W_full not anchored to that
+source that are missing or changed in W_forget (must be 0 in 100 %); S4
+equivalence, equality of the claim sets of W_forget and W_never and of the
+context each gives to the 126 R13 questions (descriptive: it depends on the
+determinism of digestion, which the A/A measures). Sweep: S2 and S3 are
+repeated forgetting each source of each W_full. Behavioural measures
+(secondary, low power: 5 questions × 3 × 3): abstention rate on the
+questions about the deleted source with W_full, W_forget and W_never, same
+prompt and rubric as R13. B1 (manipulation): abstention with W_full must be
+at least 0.10 lower than with W_never; otherwise the behavioural test is
+uninformative and is declared so. B2: forgetting is behaviourally complete
+if abstention with W_forget exceeds that of W_full and lies within ±0.10 of
+that of W_never. **Verdicts:** structural forgetting holds if S2 = 0 and
+S3 = 0 in every non-refused cell and across the whole sweep; it is falsified
+if any cell leaves residue or collateral damage.
+
+**A/A.** AA1 (deterministic generation): arm A2 of R13 is repeated (126
+questions × 3 responders, temperature 0, same context) and compared with the
+stored answers (first 200 characters, which is what that run stored); it
+passes if ≥ 99 % are identical and accuracy changes by no more than 0.01. AA2
+(deterministic digestion): the W_never wikis of F-forget are compared with
+the stored R13 wikis (same digester, same sources); it passes if the claim
+set matches in ≥ 14 of 15 wikis. AA3 (seed): qwen2.5:3b writes the 20 C2
+topics at T = 0.7 with seeds 1000–1002, twice with the same seeds, through
+the OpenAI-compatible endpoint and the native one (`/api/generate`,
+`options.seed`); the seed is effective on an endpoint if ≥ 95 % of the texts
+repeat identically. AA4 (stochastic measure): homogeneity across the three
+seeds per topic (`nomic-embed-text` embeddings) is computed on the two
+repetitions of the OpenAI-compatible endpoint; it passes if the mean
+difference between repetitions is ≤ 0.01 in absolute value (bootstrap CI over
+topics, reported). **R14 is closed on its re-run criterion** if AA1, AA2 and
+AA4 pass; a seeded server is adopted only if AA3 passes, by amendment.
+
+**Common.** Both tests run in the locked environment (Python 3.11 from the
+repository's `.venv`), check digests against
+`lce_validation/data/model_digests.json` before starting and refuse if they
+do not match, record their provenance and store every answer in full. They
+are exploratory tests of mechanism and reproducibility: they emit no verdict
+on H-C1.
+
 *Text CC BY 4.0; code AGPL-3.0-or-later.*

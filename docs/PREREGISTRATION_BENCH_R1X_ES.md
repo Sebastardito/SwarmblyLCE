@@ -331,4 +331,82 @@ regeneración) y se declara aquí en lugar de improvisarlo. El piloto R11
 cubre H-C6 (cuatro brazos), H-C10 (repaso sí/no) y la prueba de fuga I1
 (equivalencia ±0.10, instrumento probado en simulación).
 
+**Enmienda 6 — 10 de octubre de 2026, después de la revisión de R13 y
+ANTES de correr la prueba de olvido y la prueba A/A.** Tiene tres partes.
+
+*(a) Declaración de reparaciones posteriores a los datos.* La revisión
+del 9–10 de octubre encontró defectos de implementación que cambiaban cifras
+publicadas, y se repararon después de ver los datos: E1 (el resumen de R13
+sobrescribía digestores y A3 quedaba solo con gemma2), E2 (la recuperación
+por vigencia ordenaba al revés y A3 no usaba la recuperación por hecho de la
+Enmienda 3), E3 (la fuente borrada se digería en la wiki y no en el RAG), E4
+(F1a seguía ingiriendo los `questions*.json`) y E5 (A4 se comparaba contra
+A3 de un solo digestor). Las cifras afectadas se retiran y se sustituyen por
+las re-medidas el 10 de octubre; ninguna de estas reparaciones cambió la
+rúbrica ni los umbrales. Desde ahora cada reparación lleva una prueba que
+falla si el defecto vuelve (`tests/test_r13_repairs.py`).
+
+*(b) Dos defectos del material, declarados y no corregidos en silencio.*
+N1: tres preguntas «simples» de la v1 (andres: razón de riesgos 0.85;
+carmen: Manantial +6.8; mara: F_ST 0.036) tienen como clave el valor que
+`actualizacion.md` declara superado; la clave no se cambia (sería editar el
+oro después de ver los datos): F1a y R13 se reportan con y sin esas tres
+preguntas, y la confirmatoria las retira del corpus antes de correr. N2: en
+R13, el tipo `deleted` no mide olvido, porque ningún brazo vio nunca la
+fuente borrada; se reinterpreta como «sin respuesta con información
+relacionada» y, como en `unanswerable`, la abstención premia al brazo que
+recupera menos (A0, sin memoria, obtiene 1.00). Desde ahora la abstención se
+reporta junto con la exactitud en las preguntas con respuesta del mismo
+brazo, nunca sola.
+
+*(c) Prueba de olvido (F-forget) y prueba A/A, preregistradas aquí.*
+
+**F-forget.** Para cada usuario (5) y digestor (qwen2.5:3b, llama3.2:3b,
+gemma2:2b): W_full = wiki digerida con TODAS las fuentes `.md`, incluida
+`borrada.md`; W_forget = W_full tras `Wiki.forget_source` de esa fuente (el
+mecanismo de la SPEC 7.8.1); W_never = wiki digerida en la misma corrida sin
+esa fuente. Medidas estructurales (sin respondedores; principales): S1
+comprobación de manipulación, W_full tiene ≥1 claim anclada a la fuente (si
+no, la celda se rechaza); S2 residuo, claims de W_forget ancladas a la fuente
+olvidada (debe ser 0 en el 100 % de las celdas); S3 daño colateral, claims de
+W_full no ancladas a esa fuente que faltan o cambian en W_forget (debe ser 0
+en el 100 %); S4 equivalencia, igualdad del conjunto de claims de W_forget y
+W_never y del contexto que cada una entrega a las 126 preguntas de R13
+(descriptiva: depende del determinismo de la digestión, que mide la A/A).
+Barrido: S2 y S3 se repiten olvidando cada una de las fuentes de cada W_full.
+Medidas de conducta (secundarias, potencia baja: 5 preguntas × 3 × 3): tasa
+de abstención en las preguntas sobre la fuente borrada con W_full, W_forget
+y W_never, mismo prompt y rúbrica que R13. B1 (manipulación): la abstención
+con W_full debe ser al menos 0.10 menor que con W_never; si no, la prueba de
+conducta no es informativa y se declara así. B2: el olvido es completo en
+conducta si la abstención con W_forget supera a la de W_full y queda a
+±0.10 de la de W_never. **Veredictos:** el olvido estructural se sostiene si
+S2 = 0 y S3 = 0 en todas las celdas no rechazadas y en todo el barrido; se
+falsifica si alguna celda deja residuo o daño colateral.
+
+**A/A.** AA1 (generación determinista): se repite el brazo A2 de R13 (126
+preguntas × 3 respondedores, temperatura 0, mismo contexto) y se compara con
+las respuestas guardadas (primeros 200 caracteres, que es lo que guardó la
+corrida); pasa si ≥ 99 % son idénticas y la exactitud no cambia más de 0.01.
+AA2 (digestión determinista): las W_never de F-forget se comparan con las
+wikis guardadas de R13 (mismo digestor, mismas fuentes); pasa si el conjunto
+de claims coincide en ≥ 14 de 15 wikis. AA3 (semilla): qwen2.5:3b escribe a
+T = 0.7 los 20 temas de C2 con las semillas 1000–1002, dos veces con las
+mismas semillas, por el endpoint compatible con OpenAI y por el nativo
+(`/api/generate`, `options.seed`); la semilla es efectiva en un endpoint si
+≥ 95 % de los textos se repiten idénticos. AA4 (medida estocástica): la
+homogeneidad entre las tres semillas por tema (embeddings
+`nomic-embed-text`) se calcula en las dos repeticiones del endpoint
+compatible con OpenAI; pasa si la diferencia media entre repeticiones es
+≤ 0.01 en valor absoluto (IC por bootstrap sobre temas, reportado). **R14
+queda cerrado en su criterio de re-corrida** si AA1, AA2 y AA4 pasan; un
+servidor con semilla se adopta solo si AA3 pasa, por enmienda.
+
+**Comunes.** Ambas pruebas corren con el entorno bloqueado (Python 3.11 del
+`.venv` del repositorio), comprueban los digests contra
+`lce_validation/data/model_digests.json` antes de empezar y se niegan si no
+coinciden, registran su procedencia y guardan todas las respuestas
+completas. Son exploratorias de mecanismo y reproducibilidad: no emiten
+veredictos sobre H-C1.
+
 *Texto CC BY 4.0; código AGPL-3.0-or-later.*
