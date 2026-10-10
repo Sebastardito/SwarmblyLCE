@@ -142,4 +142,31 @@ versionado, capa epistémica, base segura de entrenamiento (I1) y de la
 proyección Γ—. La v0.2 debe decir ambas cosas: en QA pura, el RAG simple
 gana; la wiki se justifica por su capa epistémica, no por compresión.
 
+## 6. Re-piloto limpio (Enmienda 4: fuentes solo .md + abstención exacta)
+
+**Cifras.** A0 0.079 · A1 0.206 · A2 0.765 · **A3 0.611** · A4 0.378.
+Emparejado **A3 − A2 = −0.153, IC95 [−0.209, −0.098]** (n=378).
+
+**Trayectoria de las cuatro rondas declaradas** (A3−A2 por tipo):
+
+| tipo | ronda 1-2 | verificación | LIMPIO |
+|---|---|---|---|
+| updated | −0.733 | −0.143 | **−0.071 [−0.238, +0.095]** |
+| unanswerable | 0.000 | 0.000 | **+0.067** |
+| total | −0.322 | −0.183 | **−0.153** |
+| deleted | −0.533 | −0.533 | −0.600 |
+| v3 largo | — | −0.286 | −0.219 |
+
+**Lectura final del ciclo.** Cada reparación convergió sobre su objetivo: la
+atomicidad y la recuperación por hecho llevaron `updated` de −0.733 a un
+empate estadístico con el RAG (el IC incluye el cero), y la abstención
+exacta volvió a la wiki MEJOR absteniéndose en sin-respuesta (+0.067). El
+residuo es estructural: en `cross` (−0.381), `deleted` (−0.600) y el
+material largo (−0.219), el trozo verbatim del RAG conserva la respuesta
+literal que la claim comprimida no conserva. La condición de muerte se
+mantiene en dirección —RAG ≥ wiki en el total; sin victoria de la wiki en
+actualización (empate) ni olvido— y el veredicto del preregistro para la
+v0.2 es: la justificación por compresión muere; la capa epistémica queda
+intacta y sin medir por un benchmark de exactitud.
+
 *Texto CC BY 4.0.*

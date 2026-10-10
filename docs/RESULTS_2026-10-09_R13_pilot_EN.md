@@ -139,4 +139,30 @@ typing, versioning, the epistemic layer, the safe basis for training (I1)
 and for Γ projection. v0.2 must say both things: on pure QA, simple RAG
 wins; the wiki is justified by its epistemic layer, not by compression.
 
+## 6. Clean re-pilot (Amendment 4: .md-only sources + exact abstention)
+
+**Figures.** A0 0.079 · A1 0.206 · A2 0.765 · **A3 0.611** · A4 0.378.
+Paired **A3 − A2 = −0.153, 95 % CI [−0.209, −0.098]** (n=378).
+
+**Trajectory of the four declared rounds** (A3−A2 per type):
+
+| type | rounds 1-2 | verification | CLEAN |
+|---|---|---|---|
+| updated | −0.733 | −0.143 | **−0.071 [−0.238, +0.095]** |
+| unanswerable | 0.000 | 0.000 | **+0.067** |
+| total | −0.322 | −0.183 | **−0.153** |
+| deleted | −0.533 | −0.533 | −0.600 |
+| v3 long | — | −0.286 | −0.219 |
+
+**Final reading of the cycle.** Each repair converged on its target:
+atomicity and per-fact retrieval took `updated` from −0.733 to a statistical
+tie with RAG (the CI includes zero), and exact abstention made the wiki
+BETTER at abstaining on unanswerable (+0.067). The residue is structural: on
+`cross` (−0.381), `deleted` (−0.600) and long material (−0.219), RAG's
+verbatim chunk preserves the literal answer that the compressed claim does
+not. The death condition holds in direction — RAG ≥ wiki overall; no wiki
+win on updates (tie) or forgetting — and the pre-registration's verdict for
+v0.2 is: the compression justification dies; the epistemic layer stands,
+unmeasured by an accuracy benchmark.
+
 *Text CC BY 4.0.*
