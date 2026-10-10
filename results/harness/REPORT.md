@@ -15,6 +15,8 @@ Version 0.2.0.dev0 · seed 0
 | `persistence` | H-C5 / H-C13 (instrument) | simulated loss matches q**r analytics; shared-operator placement is far worse | yes |
 | `selection_bias` | H-C15 (instrument) | realised ≈ i·r·σ; selection-set estimate inflated; fresh-set estimate unbiased | yes |
 | `collapse` | H-C7 / H-C12 (instrument) | replace erodes the tail; accumulate bounds it; anchored variation preserves or recovers it | yes |
+| `r13_abstention` | el calificador separa abstención de contenido | >= 7/8 clasificaciones correctas en casos fabricados | yes |
+| `r13_contradiction` | el calificador acepta vigente/desacuerdo y rechaza la versión antigua | >= 6/7 en casos fabricados | yes |
 
 ## Mock experiments (plumbing only)
 

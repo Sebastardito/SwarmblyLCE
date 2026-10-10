@@ -651,3 +651,179 @@ def generate() -> Path:
 
 if __name__ == "__main__":
     generate()
+
+
+# ---------------------------------------------------------------------------
+# v2: los seis tipos de pregunta de R13 (prerregistro §2.3)
+# Cada usuario gana tres fuentes nuevas (actualización, discrepancia,
+# borrada) y preguntas etiquetadas por tipo. La fuente 'borrada' se olvida
+# en tiempo de corrida; el generador solo la escribe.
+# ---------------------------------------------------------------------------
+
+V2_SOURCES = {
+    "mara": {
+        "actualizacion": """Actualización de laboratorio, 3 de octubre de 2026
+El F_ST entre Volcán Barú y Cerro Fábrega fue 0.036 en el primer análisis;
+con los 8 individuos nuevos de Fábrega el valor corregido es 0.041.
+La heterocigosidad esperada media del conjunto se recalcula en 0.291.
+""",
+        "nota_discrepante": """Nota metodológica de la corrida
+La cobertura media del cuaderno es 21x. El informe del secuenciador indica
+19x para las bibliotecas de Fábrega. Ambas fuentes están vigentes y la
+discrepancia no se ha resuelto.
+""",
+        "borrada": """Dato provisional (borrador de 2025)
+El flujo entre Chirripó y Cerro de la Muerte se estimó en 0.4 migrantes por
+generación con el modelo preliminar. Este valor quedó obsoleto y no debe
+usarse.
+""",
+        "questions": [
+            {"q": "¿Qué cobertura media indica el informe del secuenciador para Fábrega?",
+             "type": "simple", "gold": ["19x"]},
+            {"q": "¿Cuál es la heterocigosidad esperada media recalculada del conjunto?",
+             "type": "simple", "gold": ["0.291"]},
+            {"q": "¿Qué F_ST corregido mediste entre Barú y Fábrega y cuántos individuos nuevos se añadieron?",
+             "type": "cross", "gold": ["0.041", "8"]},
+            {"q": "¿Cuál es el F_ST vigente entre Barú y Fábrega?",
+             "type": "updated", "gold": ["0.041"], "old": ["0.036"]},
+            {"q": "¿Qué cobertura media usas para las bibliotecas de Fábrega?",
+             "type": "contradiction", "gold": ["19x"], "allow_flag": True},
+            {"q": "¿Qué flujo entre Chirripó y Cerro de la Muerte estimó el modelo preliminar?",
+             "type": "deleted", "gold": [], "abstain": True},
+            {"q": "¿Cuál es la tasa de mutación de novo del pinzón serrano?",
+             "type": "unanswerable", "gold": [], "abstain": True},
+        ],
+    },
+    "julian": {
+        "actualizacion": """Cambio de operación, 2 de octubre de 2026
+El p95 histórico del listado era 268 ms; tras el cambio de grupo de
+conexiones, el p95 medido de los últimos 30 días es 241 ms.
+""",
+        "nota_discrepante": """Nota de incidente abierta
+La tasa de errores móvil de 30 días es 0.41 por ciento en el panel; el
+exportador de métricas reporta 0.53 por ciento para el mismo período. La
+discrepancia sigue abierta.
+""",
+        "borrada": """Configuración provisional (2025)
+El límite de 800 peticiones por segundo por instancia se probó en una etapa
+piloto y quedó descartado; el valor vigente es 400.
+""",
+        "questions": [
+            {"q": "¿Qué p95 del listado reporta el panel de los últimos 30 días?",
+             "type": "simple", "gold": ["0.53"]},
+            {"q": "¿Cuál es el p95 vigente tras el cambio de grupo de conexiones?",
+             "type": "updated", "gold": ["241"], "old": ["268"]},
+            {"q": "¿Qué tasa de errores móvil reporta el panel y qué reporta el exportador?",
+             "type": "contradiction", "gold": ["0.53"], "allow_flag": True},
+            {"q": "¿Cuántas peticiones por segundo sostenía la instancia en la etapa piloto?",
+             "type": "deleted", "gold": [], "abstain": True},
+            {"q": "¿Qué cuota de almacenamiento tiene cada inquilino y qué p95 exige la prueba de carga?",
+             "type": "cross", "gold": ["5", "300"]},
+            {"q": "¿Cuál es el SLA de disponibilidad del servicio de facturación?",
+             "type": "unanswerable", "gold": [], "abstain": True},
+        ],
+    },
+    "carmen": {
+        "actualizacion": """Cierre corregido, 1 de octubre de 2026
+El Fondo Manantial cerró en 9.6 millones con variación de +6.8 por ciento
+en el borrador; el cierre firmado lo fija en 9.9 millones, +7.4 por ciento.
+""",
+        "nota_discrepante": """Conciliación pendiente
+El retorno ponderado del trimestre es +2.9 por ciento según el modelo; la
+conciliación bancaria lo calcula en +2.6 por ciento. Pendiente de resolver.
+""",
+        "borrada": """Estimación preliminar (borrador interno)
+La provisión por deterioro se estimó en 2.0 por ciento de la cartera en un
+borrador que no se publicó; el valor vigente es 1.6.
+""",
+        "questions": [
+            {"q": "¿Cuánto cierra Manantial según el cierre firmado?",
+             "type": "updated", "gold": ["9.9"], "old": ["9.6"]},
+            {"q": "¿Qué retorno trimestral calcula la conciliación bancaria?",
+             "type": "simple", "gold": ["2.6"]},
+            {"q": "¿Qué retorno ponderado del trimestre reportas?",
+             "type": "contradiction", "gold": ["2.6"], "allow_flag": True},
+            {"q": "¿Cuál era la provisión del borrador interno no publicado?",
+             "type": "deleted", "gold": [], "abstain": True},
+            {"q": "¿Qué variación de Manantial exige nota individual y cuál es la variación firmada?",
+             "type": "cross", "gold": ["5", "7.4"]},
+            {"q": "¿Cuál es el retorno proyectado del próximo trimestre?",
+             "type": "unanswerable", "gold": [], "abstain": True},
+        ],
+    },
+    "andres": {
+        "actualizacion": """Actualización de la revisión, 30 de septiembre de 2026
+La razón de riesgos del resultado principal era 0.85; al incorporar el
+ensayo publicado en septiembre queda en 0.83, con intervalo de 0.73 a 0.95.
+""",
+        "nota_discrepante": """Nota de extracción abierta
+El estudio mayor aporta 24,310 participantes según el formulario; el
+documento fuente reporta 24,312. La diferencia está en revisión.
+""",
+        "borrada": """Cálculo preliminar (borrador)
+El número necesario a tamizar se estimó en 180 en un borrador preliminar;
+el valor publicado es 200.
+""",
+        "questions": [
+            {"q": "¿Cuál es la razón de riesgos vigente del resultado principal?",
+             "type": "updated", "gold": ["0.83"], "old": ["0.85"]},
+            {"q": "¿Cuántos participantes reporta el documento fuente del estudio mayor?",
+             "type": "simple", "gold": ["24,312"]},
+            {"q": "¿Cuántos participantes aporta el estudio mayor?",
+             "type": "contradiction", "gold": ["24,312"], "allow_flag": True},
+            {"q": "¿Qué número necesario a tamizar daba el borrador preliminar?",
+             "type": "deleted", "gold": [], "abstain": True},
+            {"q": "¿Qué razón de riesgos vigente reportas y con qué intervalo?",
+             "type": "cross", "gold": ["0.83", "0.73", "0.95"]},
+            {"q": "¿Cuál fue la adherencia al tamizaje en las comunas piloto?",
+             "type": "unanswerable", "gold": [], "abstain": True},
+        ],
+    },
+    "luisa": {
+        "actualizacion": """Corrección de transcripción, 28 de septiembre de 2026
+La retención de la ese final en hablantes rurales era 61 por ciento; la
+revisión de las transcripciones la corrige a 58 por ciento.
+""",
+        "nota_discrepante": """Nota de campo abierta
+El corpus registra 41 ocurrencias de foco; el diario de campo anota 44.
+Ambas anotaciones están vigentes.
+""",
+        "borrada": """Dato provisional (piloto)
+En el piloto de 2024 se anotó que la asibilación de la erre aparecía en el
+80 por ciento de los menores de 30; el valor del corpus es 71.
+""",
+        "questions": [
+            {"q": "¿Cuál es la retención corregida de la ese final en hablantes rurales?",
+             "type": "updated", "gold": ["58"], "old": ["61"]},
+            {"q": "¿Cuántas ocurrencias de foco anota el diario de campo?",
+             "type": "simple", "gold": ["44"]},
+            {"q": "¿Cuántas ocurrencias de foco tiene tu corpus?",
+             "type": "contradiction", "gold": ["44"], "allow_flag": True},
+            {"q": "¿Qué porcentaje de asibilación anotó el piloto de 2024?",
+             "type": "deleted", "gold": [], "abstain": True},
+            {"q": "¿Qué porcentaje de retención corrigió la revisión y cuál era el valor previo?",
+             "type": "cross", "gold": ["58", "61"]},
+            {"q": "¿Cuál es la frecuencia del voseo en tu corpus?",
+             "type": "unanswerable", "gold": [], "abstain": True},
+        ],
+    },
+}
+
+
+def generate_v2() -> None:
+    base = OUT
+    for uid, v2 in V2_SOURCES.items():
+        kdir = base / uid / "teach" / "knowledge"
+        for name in ("actualizacion", "nota_discrepante", "borrada"):
+            (kdir / f"{name}.md").write_text(v2[name], encoding="utf-8")
+        (base / uid / "questions_v2.json").write_text(
+            json.dumps({"questions": v2["questions"]}, ensure_ascii=False,
+                       indent=2), encoding="utf-8")
+    n = sum(len(v["questions"]) for v in V2_SOURCES.values())
+    print(f"v2 generado: {len(V2_SOURCES)} usuarios × fuentes nuevas, "
+          f"{n} preguntas etiquetadas por tipo")
+
+
+if __name__ == "__main__":
+    generate()
+    generate_v2()

@@ -19,6 +19,7 @@ Mapping to the whitepaper:
 from __future__ import annotations
 
 import math
+import re
 from typing import Any
 
 import numpy as np
@@ -400,4 +401,102 @@ ALL = {
     "persistence": persistence,
     "selection_bias": selection_bias,
     "collapse": collapse,
+}
+
+
+# ---------------------------------------------------------------------------
+# Instrumentos de R13 (prerregistro §3.6): probados en simulación antes de
+# usarse para calificar la corrida decisiva.
+# ---------------------------------------------------------------------------
+
+_ABSTAIN_RE = re.compile(
+    r"no (está|esta|tengo|tiene|consta|figura|aparece)|no está en mis fuentes|"
+    r"no lo sé|no lo se|sin respuesta|absten", re.IGNORECASE)
+
+
+def _classify_abstention(answer: str) -> str:
+    """answer -> 'abstain' | 'content' (clasificador determinista del tipo 5-6)."""
+    if len(answer.split()) <= 2 and _ABSTAIN_RE.search(answer):
+        return "abstain"
+    if _ABSTAIN_RE.search(answer):
+        return "abstain"
+    return "content"
+
+
+def r13_abstention(seed: int = 0) -> dict[str, Any]:
+    """El calificador de abstención separa abstenciones de respuestas con
+    contenido en los tipos 5-6 (fuente borrada / sin respuesta)."""
+    rgen = np.random.default_rng(seed)
+    cases = [
+        ("no está en mis fuentes", "abstain"),
+        ("No tengo esa información en las fuentes del usuario.", "abstain"),
+        ("no lo sé", "abstain"),
+        ("Prefiero abstenerme: no consta.", "abstain"),
+        ("El protocolo exige QUAL >= 30.", "content"),
+        ("El valor es 0.036.", "content"),
+        ("No está en mis fuentes, pero en la literatura se reporta 0.05.",
+         "content"),   # abstiene y luego contesta: cuenta como contenido
+        ("sin respuesta en la memoria del usuario", "abstain"),
+    ]
+    hits = sum(1 for a, want in cases if _classify_abstention(a) == want)
+    passed = hits >= len(cases) - 1
+    return {"hypothesis": "el calificador separa abstención de contenido",
+            "prediction": f">= {len(cases)-1}/{len(cases)} clasificaciones "
+                          "correctas en casos fabricados",
+            "passed": passed, "detail": f"{hits}/{len(cases)}"}
+
+
+def _classify_contradiction(answer: str, current: str, old: str) -> str:
+    """answer -> 'current' | 'flagged' | 'old' para el tipo 4."""
+    a = answer.lower()
+    has_current = current.lower() in a
+    has_old = old.lower() in a
+    flagged = bool(re.search(r"discrep|contradic|desacuerdo|dos fuentes|no coincide",
+                             a))
+    if has_current:
+        return "current"
+    if flagged:
+        return "flagged"
+    if has_old:
+        return "old"
+    return "other"
+
+
+def r13_contradiction(seed: int = 0) -> dict[str, Any]:
+    """El calificador de contradicción acepta la versión vigente o el
+    desacuerdo señalado, y rechaza la versión antigua sin señalarlo."""
+    cases = [
+        ("El valor vigente es 0.036.", "current", True),
+        ("Las fuentes discrepan: una dice 0.02 y otra 0.036.", "flagged", True),
+        ("El valor es 0.02.", "old", False),
+        ("No coincide entre fuentes; reporto el desacuerdo.", "flagged", True),
+        ("El protocolo fija 0.036.", "current", True),
+        ("La fuente antigua decía 0.02.", "old", False),
+        ("El valor es 0.02 (la fuente actualizada lo corrige a 0.036).",
+         "current", True),
+    ]
+    hits = 0
+    for ans, want, ok in cases:
+        got = _classify_contradiction(ans, "0.036", "0.02")
+        # correcto = (caso positivo y clasifica como se espera) o
+        # (caso negativo y NO lo acepta como vigente ni señalado)
+        correct = (got == want) if ok else (got not in ("current", "flagged"))
+        hits += correct
+    passed = hits >= len(cases) - 1
+    return {"hypothesis": "el calificador acepta vigente/desacuerdo y rechaza "
+                          "la versión antigua",
+            "prediction": f">= {len(cases)-1}/{len(cases)} en casos fabricados",
+            "passed": passed, "detail": f"{hits}/{len(cases)}"}
+
+
+ALL = {
+    "error_agreement": error_agreement,
+    "anchor_gate": anchor_gate,
+    "conformity": conformity,
+    "migration": migration,
+    "persistence": persistence,
+    "selection_bias": selection_bias,
+    "collapse": collapse,
+    "r13_abstention": r13_abstention,
+    "r13_contradiction": r13_contradiction,
 }
