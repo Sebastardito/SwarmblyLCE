@@ -75,6 +75,37 @@ class _Shim:
         return self.text
 
 
+_STOP = set("el la los las un una de del en y o a con por para que se su sus al lo es son fue han como entre sobre más este esta estos estas".split())
+
+
+def _content_words(text: str) -> set[str]:
+    return {w for w in re.findall(r"[a-záéíóúñ0-9]+", text.lower())
+            if len(w) > 3 and w not in _STOP}
+
+
+def _latest_per_fact(ranked: list, dates: dict) -> list:
+    """Del ranking (fecha, madurez, score), conserva por HECHO solo la claim
+    más reciente: si una claim fechada comparte >=2 palabras de contenido con
+    una claim ya conservada, la anterior se descarta (la actualización
+    sustituye a la antigua)."""
+    kept: list = []
+    kept_words: list[set] = []
+    for h in ranked:
+        src = h.claim.anchors[0].source if getattr(h.claim, "anchors", None) else ""
+        dated = dates.get(src, 0) > 0
+        words = _content_words(h.text)
+        shadowed = False
+        for kw in kept_words:
+            if len(words & kw) >= 2 and dated:
+                shadowed = True
+                break
+        if shadowed:
+            continue
+        kept.append(h)
+        kept_words.append(words)
+    return kept
+
+
 _MESES = {"enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5,
           "junio": 6, "julio": 7, "agosto": 8, "septiembre": 9,
           "octubre": 10, "noviembre": 11, "diciembre": 12}
