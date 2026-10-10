@@ -131,7 +131,8 @@ def main(argv: list[str] | None = None) -> int:
     # el mismo backend nativo para las preguntas de conducta
     backends = {m: OllamaNativeBackend(model=m, base_url=args.url.replace("/v1", ""))
                 for m in models}
-    users = sorted(p.name for p in R.USERS_DIR.iterdir() if p.is_dir())
+    users = sorted(p.name for p in R.USERS_DIR.iterdir()
+                   if p.is_dir() and (p / FORGET).exists())
     if args.users:
         users = [u for u in users if u in {x.strip() for x in args.users.split(",")}]
 

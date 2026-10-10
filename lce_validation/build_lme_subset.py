@@ -52,14 +52,10 @@ def main(argv: list[str] | None = None) -> int:
     base = FIX / "lme"
     conv = base / "teach" / "conversations"
     conv.mkdir(parents=True, exist_ok=True)
-    policy = {
-        "version": "0.1",
-        "defaults": {
-            "authored_by_user": True, "wiki": True, "learn_style": False,
-            "learn_procedure": False, "learn_preference": False,
-            "retain_episodic": True, "train": False, "reference_only": False},
-        "sources": {},
-    }
+    policy = {"learning_policy": {"v": "0.1",
+                                 "defaults": {"reference_only": True},
+                                 "sources": {"teach/conversations": {
+                                     "authored_by_user": True, "wiki": True}}}}
     (base / "policy.json").write_text(json.dumps(policy, ensure_ascii=False, indent=2),
                                       encoding="utf-8")
 
