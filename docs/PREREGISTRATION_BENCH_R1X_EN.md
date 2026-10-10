@@ -413,4 +413,21 @@ W_never versus a second digestion of the same 15 wikis with the same
 backend); its criterion is unchanged (≥14 of 15 identical claim sets). The
 R14 re-run criterion remains AA1 + AA2 + AA4.
 
+**Amendment 8 — 10 October 2026, BEFORE the R13 confirmatory run.**
+Freezes the confirmatory's data: (a) the own corpus is extended with a
+version 4 (120 questions: 13 simple, 16 cross, 16 updated, 25 contradiction,
+25 deleted, 25 unanswerable) and the corresponding sources (extended
+borrada.md and actualizacion.md plus a new revision_interna.md per user);
+(b) the 3 N1 questions are excluded from all runs; (c) the public subset is
+LongMemEval (xiaowu0162/longmemeval, MIT licence, split longmemeval_s,
+source SHA-256 08d8dad4be43ee20…, verified): 8 questions (7 simple, 1
+updated) with their relevant session + 2 distractors, the updated question
+also keeping the session with the previous value; trimming the full
+haystack (~50 sessions) is declared here as a budget decision, not a corpus
+improvement. The frozen subset lives in
+lce_validation/fixtures/bench_users/lme/ with SHA-256 ae727be6ff7f29ba… in
+lce_validation/data/lme_subset.json. Confirmatory totals: 251 questions —
+simple 100, cross 30, updated 31, contradiction 30, deleted 30,
+unanswerable 30 (≥30 per type).
+
 *Text CC BY 4.0; code AGPL-3.0-or-later.*

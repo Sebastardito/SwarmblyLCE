@@ -422,4 +422,22 @@ digestión de las mismas 15 wikis con el mismo backend); su criterio no
 cambia (≥14 de 15 conjuntos de claims idénticos). El criterio de re-corrida
 de R14 sigue siendo AA1 + AA2 + AA4.
 
+**Enmienda 8 — 10 de octubre de 2026, ANTES de la confirmatoria de R13.**
+Congela los datos de la confirmatoria: (a) el corpus propio se extiende con
+una versión 4 (120 preguntas: 13 simples, 16 cruzadas, 16 actualizadas, 25
+contradicciones, 25 borradas, 25 sin respuesta) y con las fuentes
+correspondientes (borrada.md y actualizacion.md extendidas y una nueva
+revision_interna.md por usuario); (b) las 3 preguntas de N1 se excluyen de
+todas las corridas; (c) el subconjunto público es LongMemEval
+(xiaowu0162/longmemeval, licencia MIT, split longmemeval_s, SHA-256 de la
+fuente 08d8dad4be43ee20…, verificado): 8 preguntas (7 simples, 1
+actualizada) con su sesión relevante + 2 distractoras, y la pregunta
+actualizada conserva además la sesión con el valor anterior; el recorte del
+haystack completo (~50 sesiones) se declara aquí como decisión de
+presupuesto, no como mejora del corpus. El subconjunto congelado está en
+lce_validation/fixtures/bench_users/lme/ con SHA-256 ae727be6ff7f29ba… en
+lce_validation/data/lme_subset.json. Totales confirmatorios: 251 preguntas
+— simples 100, cruzadas 30, actualizadas 31, contradicciones 30, borradas
+30, sin respuesta 30 (≥30 por tipo).
+
 *Texto CC BY 4.0; código AGPL-3.0-or-later.*

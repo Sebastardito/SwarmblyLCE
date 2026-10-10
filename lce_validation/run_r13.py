@@ -42,6 +42,15 @@ from lce_validation import instruments as I  # noqa: E402
 
 PREREG = ROOT / "docs" / "PREREGISTRATION_BENCH_R1X_ES.md"
 USERS_DIR = HERE / "fixtures" / "bench_users"
+
+# N1 (Enmienda 6 b): claves «simples» de la v1 que actualizacion.md declara
+# superadas — se excluyen de todas las corridas.
+STALE = {
+    ("andres", "¿Cuál fue la razón de riesgos de tu resultado principal y su intervalo de confianza?"),
+    ("carmen", "¿Qué fondo superó el umbral de materialidad este trimestre y cuál fue su variación?"),
+    ("mara", "Según tu criterio de abandono, ¿bajo qué valor de F_ST declararías muerta la "
+             "hipótesis de aislamiento y cuál fue el valor medido entre Barú y Fábrega?"),
+}
 OUT = ROOT / "results" / "bench_r13"
 
 ABSTAIN_RE = I._ABSTAIN_RE
@@ -326,7 +335,8 @@ def main(argv: list[str] | None = None) -> int:
         base = USERS_DIR / uid
         qs = []
         for fname in ("questions.json", "questions_v2.json",
-                      "questions_v3.json"):
+                      "questions_v3.json", "questions_v4.json",
+                      "questions_lme.json"):
             p = base / fname
             if p.exists():
                 for q in json.loads(p.read_text(encoding="utf-8"))["questions"]:
@@ -338,6 +348,8 @@ def main(argv: list[str] | None = None) -> int:
             src_dates[sp.relative_to(base).as_posix()] = (
                 _source_date_ordinal(sp.read_text(encoding="utf-8")) or 0)
         for q in qs:
+            if (uid, q["q"]) in STALE:
+                continue   # N1 (Enmienda 6 b): clave superada, no se pregunta
             # A0: sin memoria, cada respondedor
             if "A0" not in arms_run:
                 continue_arm = True

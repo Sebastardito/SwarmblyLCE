@@ -1105,3 +1105,341 @@ if __name__ == "__main__":
     generate()
     generate_v2()
     generate_v3()
+
+# ============================================================
+# v4 — ampliación para la CONFIRMATORIA de R13 (Enmienda 8):
+# ≥30 preguntas por tipo. Borrada extendida (5 hechos de borrador por
+# usuario), actualizacion extendida (3 pares), revision_interna nueva
+# (5 contradicciones), 3-4 cruzadas y 5 sin respuesta por usuario.
+# ============================================================
+
+EXTRA4 = {
+    "mara": {
+        "borrada": (
+            "Dato provisional (borrador de 2025)\n"
+            "El flujo entre Chirripó y Cerro de la Muerte se estimó en 0.4 migrantes por\n"
+            "generación con el modelo preliminar. Este valor quedó obsoleto y no debe\n"
+            "usarse.\n"
+            "El tamaño efectivo preliminar de la población de Chirripó fue 311 individuos.\n"
+            "La diversidad nucleotídica preliminar del conjunto fue 0.0072.\n"
+            "El borrador atribuía el exceso de variantes privadas de Cerro de la Muerte a 9\n"
+            "loci candidatos.\n"
+            "El aislamiento reproductivo preliminar de Fábrega se cuantificó en 0.19.\n"
+            "La tasa de endogamia preliminar del conjunto se estimó en 0.03.\n"
+        ),
+        "actualizacion": (
+            "El umbral QUAL mínimo sube de 30 a 40 tras la recalibración de octubre.\n"
+            "La profundidad mínima por sitio sube de 8 a 12 lecturas.\n"
+            "El umbral de missingness para retirar sitios baja de 0.10 a 0.08.\n"
+            "El F_ST por pares más alto entre Fábrega y Chirripó pasa de 0.048 a 0.052 con los individuos nuevos de Chirripó.\n"
+        ),
+        "revision": (
+            "# Revisión interna del laboratorio (sin fecha)\n"
+            "El umbral de missingness para retirar sitios es 0.20.\n"
+            "El F_ST entre Barú y Fábrega quedó en 0.09 en la última corrida.\n"
+            "El conjunto final de trabajo retuvo 9,800 variantes.\n"
+            "La frecuencia mínima del alelo menor exigida es 0.02.\n"
+            "Las muestras de Cerro de la Muerte analizadas fueron 52.\n"
+        ),
+        "deleted": [
+            {"q": "¿Qué tamaño efectivo preliminar estimaste para la población de Chirripó?", "abstain": True},
+            {"q": "¿Qué diversidad nucleotídica preliminar calculaste para el conjunto?", "abstain": True},
+            {"q": "¿A cuántos loci atribuía el borrador el exceso de variantes privadas de Cerro de la Muerte?", "abstain": True},
+            {"q": "¿En cuánto cuantificó el borrador el aislamiento reproductivo de Fábrega?", "abstain": True},
+            {"q": "¿Qué tasa de endogamia preliminar estimó el borrador para el conjunto?", "abstain": True},
+        ],
+        "updated": [
+            {"q": "¿Cuál es el umbral QUAL mínimo vigente y cuál era antes de la recalibración?", "gold": ["40", "30"]},
+            {"q": "¿Cuál es la profundidad mínima por sitio vigente y cuál era antes?", "gold": ["12", "8"]},
+            {"q": "¿Cuál es el umbral de missingness vigente y cuál era antes?", "gold": ["0.08", "0.10"]},
+            {"q": "¿Cuál es el F_ST vigente entre Fábrega y Chirripó y cuál era antes?", "gold": ["0.052", "0.048"]},
+        ],
+        "contradiction": [
+            {"q": "Según tus fuentes, ¿cuál es el umbral de missingness para retirar sitios y hay fuentes que discrepan?", "contradict": True, "pair": ["0.08", "0.20"]},
+            {"q": "Según tus fuentes, ¿cuál es el F_ST entre Barú y Fábrega y hay fuentes que discrepan?", "contradict": True, "pair": ["0.041", "0.09"]},
+            {"q": "Según tus fuentes, ¿cuántas variantes retuvo el conjunto final y hay fuentes que discrepan?", "contradict": True, "pair": ["11,203", "9,800"]},
+            {"q": "Según tus fuentes, ¿qué frecuencia mínima del alelo menor exiges y hay fuentes que discrepan?", "contradict": True, "pair": ["0.01", "0.02"]},
+            {"q": "Según tus fuentes, ¿cuántas muestras de Cerro de la Muerte analizaste y hay fuentes que discrepan?", "contradict": True, "pair": ["41", "52"]},
+        ],
+        "cross": [
+            {"q": "¿Cuántas variantes retuvo tu conjunto final de trabajo y qué umbral QUAL mínimo exige tu protocolo?", "gold": ["11,203", "40"]},
+            {"q": "¿Qué valor de F_ST mediste entre Barú y Fábrega y bajo qué valor declararías muerta la hipótesis de aislamiento?", "gold": ["0.041", "0.01"]},
+            {"q": "¿Cuántas muestras de Cerro de la Muerte analizaste y con qué ventana podas por desequilibrio de ligamiento?", "gold": ["41", "50"]},
+            {"q": "¿Qué proporción de variantes privadas mostró Cerro de la Muerte y cuántas variantes mínimas exige tu conjunto final?", "gold": ["3.1", "5,000"]},
+        ],
+        "simple": [{"q": "¿Qué proporción de variantes privadas mostró Cerro de la Muerte?", "gold": ["3.1"]},
+                   {"q": "¿Cuántas muestras de Cerro de la Muerte analizaste?", "gold": ["41"]},
+                   {"q": "¿Con qué frecuencia mínima del alelo menor retuviste las variantes del pinzón serrano?", "gold": ["0.01"]}],
+        "no_answer": [
+            "¿Cuál fue el índice de Shannon del bosque nuboso en tu último muestreo de vegetación?",
+            "¿Qué cebadores usaste para amplificar el intrón 7 del gen de la rodopsina?",
+            "¿Cuál fue la tasa de captura-recaptura del pinzón serrano en 2026?",
+            "¿Qué porcentaje de juveniles marcaste con anillas metálicas?",
+            "¿Cuántos transectos de vegetación levantaste en Chirripó?",
+        ],
+    },
+    "julian": {
+        "borrada": (
+            'Configuración provisional (2025)\nEl límite de 800 peticiones por segundo por instancia se probó en una etapa\npiloto y quedó descartado; el valor vigente es 400.\n'
+            "Dato provisional (borrador de 2025)\n"
+            "El borrador proponía un p95 de latencia de 180 ms para la API de consultas.\n"
+            "La vista materializada preliminar se refrescaba cada 45 minutos.\n"
+            "El borrador sembraba las pruebas de carga con 4,500 registros.\n"
+            "El límite preliminar de la cuota de almacenamiento era 2 TB.\n"
+            "El borrador fijaba el despliegue azul-verde en incrementos de 15 por ciento.\n"
+        ),
+        "actualizacion": (
+            "La cobertura mínima de pruebas sube de 80 a 85 por ciento tras el incidente de octubre.\n"
+            "El p95 de latencia exigido baja de 300 a 250 ms.\n"
+            "Los registros sembrados en la prueba de carga suben de 10,000 a 12,000.\n"
+        ),
+        "revision": (
+            "# Revisión interna de infraestructura (sin fecha)\n"
+            "La cobertura mínima de pruebas es 70 por ciento.\n"
+            "La tabla de variantes del inquilino mayor tiene 38 millones de filas.\n"
+            "El p95 de latencia exigido es 350 ms.\n"
+            "La vista materializada se refresca cada 30 minutos.\n"
+            "El despliegue azul-verde mueve el tráfico en incrementos de 40 por ciento.\n"
+        ),
+        "deleted": [
+            {"q": "¿Qué p95 de latencia proponía el borrador para la API de consultas?", "abstain": True},
+            {"q": "¿Cada cuánto se refrescaba la vista materializada según el borrador?", "abstain": True},
+            {"q": "¿Con cuántos registros sembraba el borrador las pruebas de carga?", "abstain": True},
+            {"q": "¿Qué límite de cuota de almacenamiento fijaba el borrador?", "abstain": True},
+            {"q": "¿En qué incrementos movía el tráfico el despliegue según el borrador?", "abstain": True},
+        ],
+        "updated": [
+            {"q": "¿Cuál es la cobertura mínima de pruebas vigente y cuál era antes del incidente?", "gold": ["85", "80"]},
+            {"q": "¿Cuál es el p95 de latencia exigido vigente y cuál era antes?", "gold": ["250", "300"]},
+            {"q": "¿Con cuántos registros siembras la prueba de carga y con cuántos lo hacías antes?", "gold": ["12,000", "10,000"]},
+        ],
+        "contradiction": [
+            {"q": "Según tus fuentes, ¿cuál es la cobertura mínima de pruebas y hay fuentes que discrepan?", "contradict": True, "pair": ["85", "70"]},
+            {"q": "Según tus fuentes, ¿cuántas filas tiene la tabla del inquilino mayor y hay fuentes que discrepan?", "contradict": True, "pair": ["41 millones", "38 millones"]},
+            {"q": "Según tus fuentes, ¿qué p95 de latencia exiges y hay fuentes que discrepan?", "contradict": True, "pair": ["250", "350"]},
+            {"q": "Según tus fuentes, ¿cada cuánto se refresca la vista materializada y hay fuentes que discrepan?", "contradict": True, "pair": ["15", "30"]},
+            {"q": "Según tus fuentes, ¿en qué incrementos mueves el tráfico en el despliegue y hay fuentes que discrepan?", "contradict": True, "pair": ["25", "40"]},
+        ],
+        "cross": [
+            {"q": "¿Cuántas filas tiene la tabla del inquilino mayor y qué p95 de latencia exiges en la prueba de carga?", "gold": ["41 millones", "250"]},
+            {"q": "¿Qué formato usas para los errores y con cuántos registros siembras la prueba de carga?", "gold": ["problema", "12,000"]},
+            {"q": "¿Qué código tiene la variante huérfana y cada cuánto se refresca la vista materializada?", "gold": ["CAT-102", "15"]},
+        ],
+        "simple": [{"q": "¿Cuánto duró tu último incidente mayor?", "gold": ["47"]},
+                   {"q": "¿Qué p95 de latencia exiges en la prueba de carga?", "gold": ["250"]},
+                   {"q": "¿Cada cuánto se refresca la vista materializada?", "gold": ["15"]}],
+        "no_answer": [
+            "¿Cuántos nodos tiene tu clúster de Kafka de producción?",
+            "¿Qué versión de PostgreSQL corre tu réplica de lectura?",
+            "¿Cuál fue el presupuesto de infraestructura del trimestre?",
+            "¿Qué proveedor de DNS usas para el dominio de producción?",
+            "¿Cuántos ingenieros rotan la guardia de disponibilidad?",
+        ],
+    },
+    "carmen": {
+        "borrada": (
+            'Estimación preliminar (borrador interno)\nLa provisión por deterioro se estimó en 2.0 por ciento de la cartera en un\nborrador que no se publicó; el valor vigente es 1.6.\n'
+            "Dato provisional (borrador de 2025)\n"
+            "El borrador fijaba la materialidad del informe trimestral en 3 por ciento.\n"
+            "La provisión por deterioro preliminar del trimestre fue 0.6 millones.\n"
+            "El valor en riesgo preliminar a un día fue 2.6 millones.\n"
+            "El borrador reportaba la cartera en 79.5 millones.\n"
+            "El porcentaje de la cartera en euros según el borrador era 24.\n"
+        ),
+        "actualizacion": (
+            "La materialidad del informe trimestral sube de 5 a 6 por ciento.\n"
+            "El límite de política del valor en riesgo baja de 2.4 a 2.2 millones.\n"
+            "La cartera cierra el trimestre en 86.1 millones tras la revisión.\n"
+        ),
+        "revision": (
+            "# Revisión interna de tesorería (sin fecha)\n"
+            "La materialidad del informe trimestral es 4 por ciento.\n"
+            "El fondo Manantial subió 9.4 por ciento este trimestre.\n"
+            "El valor en riesgo a un día al 99 por ciento fue 1.2 millones.\n"
+            "La cartera cierra en 82.7 millones.\n"
+            "El porcentaje de la cartera en euros es 15.\n"
+        ),
+        "deleted": [
+            {"q": "¿Qué materialidad fijaba el borrador para el informe trimestral?", "abstain": True},
+            {"q": "¿Cuánto fue la provisión por deterioro preliminar del trimestre según el borrador?", "abstain": True},
+            {"q": "¿Qué valor en riesgo preliminar a un día reportaba el borrador?", "abstain": True},
+            {"q": "¿En cuánto reportaba el borrador la cartera?", "abstain": True},
+            {"q": "¿Qué porcentaje de la cartera en euros reportaba el borrador?", "abstain": True},
+        ],
+        "updated": [
+            {"q": "¿Cuál es la materialidad vigente del informe trimestral y cuál era antes?", "gold": ["6", "5"]},
+            {"q": "¿Cuál es el límite de política vigente del valor en riesgo y cuál era antes?", "gold": ["2.2", "2.4"]},
+            {"q": "¿En cuánto cierra la cartera el trimestre y en cuánto cerraba antes de la revisión?", "gold": ["86.1", "84.3"]},
+        ],
+        "contradiction": [
+            {"q": "Según tus fuentes, ¿cuál es la materialidad del informe trimestral y hay fuentes que discrepan?", "contradict": True, "pair": ["6", "4"]},
+            {"q": "Según tus fuentes, ¿cuánto subió el fondo Manantial este trimestre y hay fuentes que discrepan?", "contradict": True, "pair": ["6.8", "9.4"]},
+            {"q": "Según tus fuentes, ¿cuál fue el valor en riesgo a un día y hay fuentes que discrepan?", "contradict": True, "pair": ["1.9", "1.2"]},
+            {"q": "Según tus fuentes, ¿en cuánto cierra la cartera y hay fuentes que discrepan?", "contradict": True, "pair": ["86.1", "82.7"]},
+            {"q": "Según tus fuentes, ¿qué porcentaje de la cartera está en euros y hay fuentes que discrepan?", "contradict": True, "pair": ["19", "15"]},
+        ],
+        "cross": [
+            {"q": "¿Cuál es la materialidad vigente del informe y cuánto subió la provisión por deterioro entre trimestres?", "gold": ["6", "1.1", "1.6"]},
+            {"q": "¿Qué fondo superó el umbral de materialidad y en qué orden escribes las notas de los informes?", "gold": ["Manantial", "causa"]},
+            {"q": "¿En cuánto cierra la cartera y qué porcentaje está en euros?", "gold": ["86.1", "19"]},
+        ],
+        "simple": [{"q": "¿Cuánto subió la provisión por deterioro entre trimestres?", "gold": ["1.1", "1.6"]},
+                   {"q": "¿Qué sectores variaron más del 10 por ciento este trimestre?", "gold": ["tecnología", "salud"]},
+                   {"q": "¿Qué porcentaje de la cartera está en euros?", "gold": ["19"]}],
+        "no_answer": [
+            "¿Cuántos analistas integran el comité de inversiones?",
+            "¿Qué banco custodio usa la cartera internacional?",
+            "¿Cuál fue el costo de transacción medio del trimestre?",
+            "¿Qué calificación crediticia tiene el fondo Manantial?",
+            "¿Cuántas reuniones del directorio hubo este trimestre?",
+        ],
+    },
+    "andres": {
+        "borrada": (
+            'Cálculo preliminar (borrador)\nEl número necesario a tamizar se estimó en 180 en un borrador preliminar;\nel valor publicado es 200.\n'
+            "Dato provisional (borrador de 2025)\n"
+            "El borrador fijaba el tamaño muestral mínimo en 40 participantes.\n"
+            "La razón de riesgos preliminar del resultado principal fue 0.79.\n"
+            "El número necesario a tamizar preliminar fue 240.\n"
+            "El borrador reportaba 61,500 participantes en los 12 estudios.\n"
+            "El efecto en trabajadores según el borrador tenía una razón de riesgos de 0.72.\n"
+        ),
+        "actualizacion": (
+            "El tamaño muestral mínimo de los criterios de inclusión sube de 50 a 60 participantes.\n"
+            "El estudio mayor aportó 24,310 participantes; tras la auditoría se recontó en 24,505.\n"
+            "El número necesario a tamizar se recalcula de 200 a 210.\n"
+        ),
+        "revision": (
+            "# Revisión interna del protocolo (sin fecha)\n"
+            "El tamaño muestral mínimo de inclusión es 45 participantes.\n"
+            "Los 12 estudios sumaron 70,100 participantes.\n"
+            "La razón de riesgos del resultado principal fue 0.88.\n"
+            "El número necesario a tamizar fue 180.\n"
+            "El efecto en trabajadores tuvo una razón de riesgos de 0.66.\n"
+        ),
+        "deleted": [
+            {"q": "¿Qué tamaño muestral mínimo fijaba el borrador para los criterios de inclusión?", "abstain": True},
+            {"q": "¿Qué razón de riesgos preliminar reportaba el borrador para el resultado principal?", "abstain": True},
+            {"q": "¿Qué número necesario a tamizar preliminar calculó el borrador?", "abstain": True},
+            {"q": "¿Cuántos participantes reportaba el borrador en los 12 estudios?", "abstain": True},
+            {"q": "¿Qué razón de riesgos atribuía el borrador al efecto en trabajadores?", "abstain": True},
+        ],
+        "updated": [
+            {"q": "¿Cuál es el tamaño muestral mínimo vigente de los criterios de inclusión y cuál era antes?", "gold": ["60", "50"]},
+            {"q": "¿Cuántos participantes aportó el estudio mayor tras la auditoría y cuántos antes?", "gold": ["24,505", "24,310"]},
+            {"q": "¿Cuál es el número necesario a tamizar vigente y cuál era antes?", "gold": ["210", "200"]},
+        ],
+        "contradiction": [
+            {"q": "Según tus fuentes, ¿cuál es el tamaño muestral mínimo de inclusión y hay fuentes que discrepan?", "contradict": True, "pair": ["60", "45"]},
+            {"q": "Según tus fuentes, ¿cuántos participantes sumaron los 12 estudios y hay fuentes que discrepan?", "contradict": True, "pair": ["68,214", "70,100"]},
+            {"q": "Según tus fuentes, ¿cuál fue la razón de riesgos del resultado principal y hay fuentes que discrepan?", "contradict": True, "pair": ["0.85", "0.88"]},
+            {"q": "Según tus fuentes, ¿cuál es el número necesario a tamizar y hay fuentes que discrepan?", "contradict": True, "pair": ["210", "180"]},
+            {"q": "Según tus fuentes, ¿qué razón de riesgos tuvo el efecto en trabajadores y hay fuentes que discrepan?", "contradict": True, "pair": ["0.78", "0.66"]},
+        ],
+        "cross": [
+            {"q": "¿Cuántos participantes sumaron tus 12 estudios y qué coeficiente mides el acuerdo entre revisores?", "gold": ["68,214", "kappa"]},
+            {"q": "¿En qué subgrupo fue mayor el efecto y con qué razón de riesgos se recalculó el número necesario a tamizar?", "gold": ["trabajadores", "210"]},
+            {"q": "¿Cuándo re-ejecutas la revisión y qué tamaño muestral mínimo exigen tus criterios?", "gold": ["500", "60"]},
+        ],
+        "simple": [{"q": "¿Cuántos participantes aportó el estudio mayor tras la auditoría?", "gold": ["24,505"]},
+                   {"q": "¿Qué coeficiente mides el acuerdo entre revisores?", "gold": ["kappa"]}],
+        "no_answer": [
+            "¿Cuántos revisores independientes tamizaron los títulos?",
+            "¿Qué gestor de referencias usaste para la búsqueda sistemática?",
+            "¿Cuál fue el índice de citación del estudio mayor?",
+            "¿Qué institución financió la revisión?",
+            "¿Cuántos desacuerdos de tamizaje resolvió el tercer revisor?",
+        ],
+    },
+    "luisa": {
+        "borrada": (
+            'Dato provisional (piloto)\nEn el piloto de 2024 se anotó que la asibilación de la erre aparecía en el\n80 por ciento de los menores de 30; el valor del corpus es 71.\n'
+            "Dato provisional (borrador de 2025)\n"
+            "El borrador repartía la sesión en 30 minutos de teoría y 40 de práctica.\n"
+            "El examen final preliminar pesaba 50 por ciento.\n"
+            "El corpus propio preliminar tenía 96 horas de grabaciones.\n"
+            "El borrador fijaba la rúbrica en cinco niveles.\n"
+            "El borrador reportaba 84 ocurrencias de chompa en el corpus.\n"
+        ),
+        "actualizacion": (
+            "El examen final pasa de 40 a 35 por ciento y las tareas de 45 a 40.\n"
+            "El corpus propio ampliado pasa de 160 a 175 horas de grabaciones.\n"
+            "La rúbrica pasa de cuatro a cinco niveles tras la revisión de criterios.\n"
+        ),
+        "revision": (
+            "# Revisión interna del curso (sin fecha)\n"
+            "La sesión se reparte en 15 minutos de teoría y 55 de práctica.\n"
+            "El examen final pesa 45 por ciento.\n"
+            "El corpus propio tiene 130 horas de grabaciones.\n"
+            "La asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\n"
+            "La rúbrica tiene tres niveles.\n"
+        ),
+        "deleted": [
+            {"q": "¿Cómo repartía el borrador los minutos de la sesión?", "abstain": True},
+            {"q": "¿Cuánto pesaba el examen final según el borrador?", "abstain": True},
+            {"q": "¿Cuántas horas de grabaciones tenía el corpus propio según el borrador?", "abstain": True},
+            {"q": "¿Cuántos niveles fijaba el borrador para la rúbrica?", "abstain": True},
+            {"q": "¿Cuántas ocurrencias de chompa reportaba el borrador?", "abstain": True},
+        ],
+        "updated": [
+            {"q": "¿Cuánto pesa el examen final vigente y cuánto pesaba antes?", "gold": ["35", "40"]},
+            {"q": "¿Cuántas horas de grabaciones tiene el corpus propio vigente y cuántas antes?", "gold": ["175", "160"]},
+            {"q": "¿Cuántos niveles tiene la rúbrica vigente y cuántos antes?", "gold": ["cinco", "cuatro"]},
+        ],
+        "contradiction": [
+            {"q": "Según tus fuentes, ¿cómo repartes los minutos de la sesión y hay fuentes que discrepan?", "contradict": True, "pair": ["20", "15"]},
+            {"q": "Según tus fuentes, ¿cuánto pesa el examen final y hay fuentes que discrepan?", "contradict": True, "pair": ["35", "45"]},
+            {"q": "Según tus fuentes, ¿cuántas horas de grabaciones tiene el corpus propio y hay fuentes que discrepan?", "contradict": True, "pair": ["175", "130"]},
+            {"q": "Según tus fuentes, ¿en qué porcentaje de menores de 30 aparece la asibilación y hay fuentes que discrepan?", "contradict": True, "pair": ["71", "62"]},
+            {"q": "Según tus fuentes, ¿cuántos niveles tiene la rúbrica y hay fuentes que discrepan?", "contradict": True, "pair": ["cinco", "tres"]},
+        ],
+        "cross": [
+            {"q": "¿Cuánto pesan el examen final y las tareas en tu curso y en cuántas horas de grabaciones se apoya tu corpus?", "gold": ["35", "40", "175"]},
+            {"q": "¿En cuántas ocurrencias del corpus aparece chompa y qué porcentaje de menores de 30 muestra asibilación?", "gold": ["89", "71"]},
+            {"q": "¿Qué haces si más de un tercio del curso reprueba una tarea y cuántos criterios tiene tu rúbrica?", "gold": ["re-enseña", "tres"]},
+        ],
+        "simple": [{"q": "¿En cuántas ocurrencias del corpus aparece chompa frente a chaqueta?", "gold": ["89"]},
+                   {"q": "¿Qué porcentaje de hablantes asocia chompa y guagua con el registro familiar?", "gold": ["54"]}],
+        "no_answer": [
+            "¿Cuántos estudiantes se inscribieron al curso de fonética avanzada?",
+            "¿Qué software de anotación usas para el corpus?",
+            "¿Cuál fue la nota media del examen del año pasado?",
+            "¿Qué universidad auspicia el proyecto del corpus?",
+            "¿Cuántas horas de tutoría ofreces por semana?",
+        ],
+    },
+}
+
+
+def generate_v4() -> None:
+    for uid, x in EXTRA4.items():
+        base = OUT / uid
+        ldir = base / "teach" / "knowledge"
+        borrada = (ldir / "borrada.md")
+        borrada.write_text(x["borrada"], encoding="utf-8")
+        actual = (ldir / "actualizacion.md")
+        prev = actual.read_text(encoding="utf-8")
+        actual.write_text(prev.rstrip() + "\n\n" + x["actualizacion"] + "\n")
+        (ldir / "revision_interna.md").write_text(x["revision"], encoding="utf-8")
+        qs = []
+        for sq in x.get("simple", []):
+            qs.append({"q": sq["q"], "type": "simple", "gold": sq["gold"]})
+        for dq in x["deleted"]:
+            qs.append({"q": dq["q"], "type": "deleted", "gold": [], "abstain": True})
+        for uq in x["updated"]:
+            qs.append({"q": uq["q"], "type": "updated", "gold": uq["gold"]})
+        for cq in x["contradiction"]:
+            qs.append({"q": cq["q"], "type": "contradiction",
+                       "gold": cq["pair"], "contradict": True,
+                       "contradiction_pair": cq["pair"]})
+        for cr in x["cross"]:
+            qs.append({"q": cr["q"], "type": "cross", "gold": cr["gold"]})
+        for nq in x["no_answer"]:
+            qs.append({"q": nq, "type": "unanswerable", "gold": [], "abstain": True})
+        (base / "questions_v4.json").write_text(
+            json.dumps({"questions": qs}, ensure_ascii=False, indent=2),
+            encoding="utf-8")
+    n = sum(len(x["deleted"]) + len(x["updated"]) + len(x["contradiction"])
+            + len(x["cross"]) + len(x["no_answer"]) for x in EXTRA4.values())
+    print(f"v4 generado: {len(EXTRA4)} usuarios, {n} preguntas "
+          "(16 cruzadas, 15+1 actualizadas, 25 contradicciones, 25 borradas, 25 sin respuesta)")

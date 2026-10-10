@@ -1,0 +1,14 @@
+{
+  "version": "0.1",
+  "defaults": {
+    "authored_by_user": true,
+    "wiki": true,
+    "learn_style": false,
+    "learn_procedure": false,
+    "learn_preference": false,
+    "retain_episodic": true,
+    "train": false,
+    "reference_only": false
+  },
+  "sources": {}
+}
