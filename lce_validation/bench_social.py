@@ -104,9 +104,13 @@ def _gloss(backend, term: str, adopted: list[tuple[str, str]]) -> str:
     return backend.generate(prompt, temperature=0.0, max_tokens=48)
 
 
-def _identity(backend, term: str) -> str:
+def _identity(backend, term: str, adopted: list[tuple[str, str]]) -> str:
     prompt = (f"Si escribieras en tu propia variedad de español, ¿cómo le "
-              f"llamarías a «{term}»? Responde en una oración.")
+              f"llamarías a «{term}»? Responde en una oración.\n")
+    if adopted:
+        prompt += ("\nCONTEXTO (conocimiento recibido de otros nodos):\n"
+                   + "\n".join(f"- {t}: {g}" for t, g in adopted)
+                   + "\n")
     return backend.generate(prompt, temperature=0.0, max_tokens=48)
 
 
@@ -148,64 +152,76 @@ def main(argv: list[str] | None = None) -> int:
     source = {it.term: models[i % len(models)] for i, it in enumerate(items)}
 
     arms = {"utility": {}, "prevalence": {}}
+    # cápsula del nodo fuente = SU glosa (su conocimiento), no la clave
+    capsule_gloss = {m: {} for m in models}
+    for m in models:
+        for it in items:
+            capsule_gloss[m][it.term] = pre[m][it.term][:120]
     for arm in arms:
         adopted = {m: {} for m in models}
-        for it in items:
-            src = source[it.term]
-            gloss_str = it.glosses[0]
-            for m in models:
-                if m == src:
-                    continue
-                own_ok = any(_norm(g) in _norm(pre[m][it.term])
-                             for g in it.glosses)
-                if arm == "utility":
-                    adopt = not own_ok
-                else:
-                    # prevalencia: ¿al menos 3 nodos dieron la misma glosa?
-                    counts: dict[str, int] = {}
-                    for mm in models:
-                        for g in it.glosses:
-                            if _norm(g) in _norm(pre[mm][it.term]):
-                                counts[g] = counts.get(g, 0) + 1
-                                break
-                    adopt = max(counts.values(), default=0) >= 3
-                if adopt:
-                    adopted[m][it.term] = gloss_str
-        # post-test e identidad
-        viol = 0
-        post_ok = {m: 0 for m in models}
-        for m in models:
+        per_round = []
+        for ronda in (1, 2):
+            viol = 0
+            post_ok = {m: 0 for m in models}
             for it in items:
-                # recuperación real: el almacén completo responde a la
-                # pregunta, incluida la cápsula del propio término
-                store = [(t, g) for t, g in adopted[m].items()]
-                post = _gloss(backends[m], it.term, store)
-                if any(_norm(g) in _norm(post) for g in it.glosses):
-                    post_ok[m] += 1
-                iden = _identity(backends[m], it.term)
-                if (_norm(it.term) in _norm(iden)
-                        and any(_norm(g) in _norm(iden) for g in it.glosses)):
-                    viol += 1
-        arms[arm] = {"adoptions": {m: len(adopted[m]) for m in models},
-                     "post_ok": post_ok, "identity_violations": viol,
-                     "post_correct_total": sum(post_ok.values()),
-                     "pre_ok_by_model": {
-                         m: sum(1 for it in items
-                                if any(_norm(g) in _norm(pre[m][it.term])
-                                       for g in it.glosses))
-                         for m in models}}
-        print(f"  [{arm}] adopciones por nodo: "
-              f"{[arms[arm]['adoptions'][m] for m in models]} | "
-              f"glosas correctas post: {sum(post_ok.values())}/"
-              f"{len(models)*len(items)} | violaciones de identidad: {viol}",
-              flush=True)
-
+                src = source[it.term]
+                for m in models:
+                    if m == src:
+                        continue
+                    if arm == "utility":
+                        # beneficio posterior sin clave: adoptar si la glosa
+                        # de la cápsula no está en la propia respuesta previa
+                        own = _norm(pre[m][it.term] if ronda == 1
+                                    else _gloss(backends[m], it.term,
+                                                list(adopted[m].items())))
+                        adopt = _norm(capsule_gloss[src][it.term]) not in own
+                    else:
+                        # prevalencia real: variante mayoritaria entre los
+                        # nodos (glosas propias normalizadas), aunque sea
+                        # errónea
+                        from collections import Counter as _C
+                        counts = _C()
+                        for mm in models:
+                            g = _norm(pre[mm][it.term])
+                            if g and len(g) > 3:
+                                counts[g] += 1
+                        majority = counts.most_common(1)
+                        adopt = bool(majority) and majority[0][1] >= 3 and \
+                            _norm(capsule_gloss[src][it.term]) not in \
+                            _norm(pre[m][it.term])
+                    if adopt and it.term not in adopted[m]:
+                        adopted[m][it.term] = capsule_gloss[src][it.term]
+            for m in models:
+                for it in items:
+                    store = list(adopted[m].items())
+                    post = _gloss(backends[m], it.term, store)
+                    if any(_norm(g) in _norm(post) for g in it.glosses):
+                        post_ok[m] += 1
+                    iden = _identity(backends[m], it.term, store)
+                    if (_norm(it.term) in _norm(iden)
+                            and any(_norm(g) in _norm(iden) for g in it.glosses)):
+                        viol += 1
+            per_round.append({
+                "round": ronda,
+                "adoptions": {m: len(adopted[m]) for m in models},
+                "post_ok_total": sum(post_ok.values()),
+                "identity_violations": viol})
+            print(f"  [{arm} r{ronda}] adopciones "
+                  f"{[len(adopted[m]) for m in models]} | correctas "
+                  f"{sum(post_ok.values())}/{len(models)*len(items)} | "
+                  f"identidad {viol}", flush=True)
+        arms[arm] = {"per_round": per_round,
+                     "identity_violations": sum(r["identity_violations"]
+                                                for r in per_round),
+                     "post_ok": post_ok}
     util_viol = arms["utility"]["identity_violations"]
     prev_viol = arms["prevalence"]["identity_violations"]
     tail_u = sum(arms["utility"]["post_ok"].values()) / (len(models) * len(items))
     tail_p = sum(arms["prevalence"]["post_ok"].values()) / (len(models) * len(items))
-    h11 = "no concluyente por diseño (ver límites en el encabezado del " \
-          "script); desviaciones declaradas"
+    if util_viol + prev_viol < 5:
+        h11 = "señal insuficiente (violaciones totales < 5)"
+    else:
+        h11 = "se sostiene" if util_viol < prev_viol else "MUERE"
     report["arms"] = arms
     report["summary"] = {
         "identity_violations_utility": util_viol,

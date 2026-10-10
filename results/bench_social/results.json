@@ -4,63 +4,67 @@
   "items": [],
   "arms": {
     "utility": {
-      "adoptions": {
-        "qwen2.5:3b": 6,
-        "llama3.2:3b": 6,
-        "gemma2:2b": 6,
-        "phi3.5:3.8b": 7,
-        "granite3.1-dense:2b": 7
-      },
+      "per_round": [
+        {
+          "round": 1,
+          "adoptions": {
+            "qwen2.5:3b": 1,
+            "llama3.2:3b": 1
+          },
+          "post_ok_total": 0,
+          "identity_violations": 0
+        },
+        {
+          "round": 2,
+          "adoptions": {
+            "qwen2.5:3b": 1,
+            "llama3.2:3b": 1
+          },
+          "post_ok_total": 0,
+          "identity_violations": 0
+        }
+      ],
+      "identity_violations": 0,
       "post_ok": {
-        "qwen2.5:3b": 6,
-        "llama3.2:3b": 6,
-        "gemma2:2b": 6,
-        "phi3.5:3.8b": 7,
-        "granite3.1-dense:2b": 7
-      },
-      "identity_violations": 1,
-      "post_correct_total": 32,
-      "pre_ok_by_model": {
         "qwen2.5:3b": 0,
-        "llama3.2:3b": 0,
-        "gemma2:2b": 0,
-        "phi3.5:3.8b": 0,
-        "granite3.1-dense:2b": 0
+        "llama3.2:3b": 0
       }
     },
     "prevalence": {
-      "adoptions": {
-        "qwen2.5:3b": 0,
-        "llama3.2:3b": 0,
-        "gemma2:2b": 0,
-        "phi3.5:3.8b": 0,
-        "granite3.1-dense:2b": 0
-      },
+      "per_round": [
+        {
+          "round": 1,
+          "adoptions": {
+            "qwen2.5:3b": 0,
+            "llama3.2:3b": 0
+          },
+          "post_ok_total": 0,
+          "identity_violations": 0
+        },
+        {
+          "round": 2,
+          "adoptions": {
+            "qwen2.5:3b": 0,
+            "llama3.2:3b": 0
+          },
+          "post_ok_total": 0,
+          "identity_violations": 0
+        }
+      ],
+      "identity_violations": 0,
       "post_ok": {
         "qwen2.5:3b": 0,
-        "llama3.2:3b": 0,
-        "gemma2:2b": 0,
-        "phi3.5:3.8b": 0,
-        "granite3.1-dense:2b": 0
-      },
-      "identity_violations": 1,
-      "post_correct_total": 0,
-      "pre_ok_by_model": {
-        "qwen2.5:3b": 0,
-        "llama3.2:3b": 0,
-        "gemma2:2b": 0,
-        "phi3.5:3.8b": 0,
-        "granite3.1-dense:2b": 0
+        "llama3.2:3b": 0
       }
     }
   },
   "summary": {
-    "identity_violations_utility": 1,
-    "identity_violations_prevalence": 1,
-    "tail_mass_utility": 0.8,
+    "identity_violations_utility": 0,
+    "identity_violations_prevalence": 0,
+    "tail_mass_utility": 0.0,
     "tail_mass_prevalence": 0.0,
-    "h11_direction": "no concluyente por diseño (sonda sin cápsulas: 1+1 es la misma respuesta dos veces; desviaciones declaradas en el script)",
+    "h11_direction": "no concluyente por diseño (ver límites en el encabezado del script); desviaciones declaradas",
     "i5_guard_flagged_threshold_rule": true,
-    "scope": "términos canarios SIN verificar y diseño no concluyente: descriptivo del circuito de adopción, no evidencia sobre H-C11 ni sobre los términos"
+    "scope": "términos canarios SIN verificar: descriptivo del mecanismo, no evidencia sobre los términos"
   }
 }
