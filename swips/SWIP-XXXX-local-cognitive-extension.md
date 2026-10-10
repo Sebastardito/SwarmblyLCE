@@ -1542,11 +1542,16 @@ labelled exploratory in their own scripts.
 | H-C6 (behavior) | a rank-8 LoRA trains in 36 s on consumer hardware and memorises its batch | LoRA rank 8, 200 iters, 13 pairs, Qwen2.5-3B-Instruct (qwen-research licence; weights not distributed) | feasibility only: the adherence comparison is not conclusive (batch contamination, unequal arms, no CI); the fair test is the next phase |
 | H-C11 direction (C9-lite) | utility adoption circuit works mechanically; prevalence threshold never fires on rare tails | 5 real nodes, unverified canary drafts | inconclusive by design (identity probe without capsules; tail mass by construction; prevalence counts the correct gloss, not the majority variant); two post-run deviations declared in the script |
 
-**Status of R11–R14 (review of 2026-10-09): piloted, not closed.** The R13
-pilot cycle (four declared amendments) is being re-measured after the review
-fixed three defects (digester-keyed analysis, inverted recency ordering, the
-forgotten source still digested); the corrected figures will replace the
-retracted ones. R11's adapter pilot is NOT a fair test yet (the adapter
+**Status of R11–R14 (review of 2026-10-09, repaired and re-measured
+2026-10-10): piloted, not closed.** R13, re-measured after repairing three
+review defects (digester-keyed analysis, inverted recency ordering, the
+forgotten source still digested): the wiki stays behind raw RAG overall —
+A3 − A2 = −0.256 [−0.317, −0.194] by question, with a large digester effect
+(gemma2 0.651, qwen2.5 0.553, llama3.2 0.323) — and does not win `updated`
+(−0.341 [−0.556, −0.135]), but it WINS `deleted` (+0.156: with the
+forgotten source truly excluded, the wiki abstains better than RAG) and Γ's
+accuracy cost is small and digester-dependent (A4−A3 per digester: +0.016 /
+−0.008 / −0.063). R11's adapter pilot is NOT a fair test yet (the adapter
 collapsed onto its training batch; invalid tasks; no CIs) and its negative
 is not publishable. R12's exploratory run shows the adoption circuit works
 but does not turn I4 into a measurement (0/40 correct by construction; no

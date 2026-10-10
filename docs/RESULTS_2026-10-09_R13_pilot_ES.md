@@ -169,14 +169,29 @@ actualización (empate) ni olvido— y el veredicto del preregistro para la
 v0.2 es: la justificación por compresión muere; la capa epistémica queda
 intacta y sin medir por un benchmark de exactitud.
 
-## 7. Retracción parcial (revisión del 9 de octubre)
+## 7. Cifras corregidas (E1/E2/E3 reparados, re-medidas el 10 de octubre)
 
-Las cifras de A3 y de la tabla de trayectorias tienen defectos detectados
-en la revisión: el resumen agrupaba sin digestor (A3 quedaba solo con
-gemma2, E1), la ordenación por vigencia iba al revés (E2) y la fuente
-borrada se digirió igualmente (E3). Las cifras correctas —A3 con los tres
-digestores, emparejado por pregunta, con vigencia al derecho y borrada
-excluida— se re-miden en la corrida limpia en curso y sustituirán a esta
-sección. Mientras tanto, ninguna cifra de este documento debe citarse.
+**A3 total: 0.509** — por digestor: gemma2 0.651, qwen2.5 0.553, llama3.2
+0.323 (el efecto del digestor es grande: la compuerta del digestor tiene
+sustancia). Emparejado **A3 − A2 por pregunta: −0.256 [−0.317, −0.194]**
+(n=126).
+
+**Por tipo (tres digestores, por pregunta):** `updated` −0.341 [−0.556,
+−0.135] — el «empate» anterior era el artefacto de un solo digestor (E1);
+`deleted` **+0.156 [−0.067, +0.378]** — con borrada excluida de la wiki
+(E3), la wiki abstiene mejor que el RAG en olvido; `cross` −0.508;
+`simple` −0.257; `contradiction` −0.044; `unanswerable` +0.089.
+
+**A4 − A3 por digestor (diagonal):** gemma +0.016, llama −0.008, qwen
+−0.063 — el costo de exactitud de Γ es pequeño y depende del digestor (E5
+confirmado).
+
+**Lectura corregida.** La dirección de la condición de muerte se mantiene
+—el RAG crudo supera a la wiki en el total y la wiki no gana en
+actualización— pero con matices que la versión anterior no veía: (a) la
+magnitud depende del digestor (gemma casi empata); (b) la wiki SÍ gana en
+olvido (+0.156, IC tocando cero); (c) el costo de Γ es menor de lo
+reportado. La confirmatoria (≥250 preguntas, ≥30 por tipo, LongMemEval)
+decidirá.
 
 *Texto CC BY 4.0.*
