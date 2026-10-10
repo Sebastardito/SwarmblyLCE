@@ -91,37 +91,26 @@ def derive_run2() -> None:
 
 
 def derive_r13() -> None:
-    """Recomputa el resumen de R13 desde las celdas (por digestor, emparejado
-    por pregunta) y lo compara con el guardado."""
-    import numpy as np
+    """R13: re-califica cada celda con la rúbrica actual y recomputa el
+    resumen con la MISMA función que usa run_r13 (``summarize``), que no
+    sobrescribe digestores (E1). Las celdas de corridas anteriores guardaban
+    la respuesta truncada a 200 caracteres; solo esas pueden diferir al
+    re-calificar y se cuentan aparte."""
     p = ROOT / "results" / "bench_r13" / "results.json"
     if not p.exists():
         return
+    from lce_validation.run_r13 import score_answer, summarize
     d = json.loads(p.read_text(encoding="utf-8"))
     cells = d["cells"]
-    a2 = {(c["user"], c["q"]["q"], c["responder"]): float(c["ok"])
-          for c in cells if c["arm"] == "A2"}
-    qd: dict[tuple, list[float]] = {}
-    for c in cells:
-        if c["arm"] == "A3" and (c["user"], c["q"]["q"], c["responder"]) in a2:
-            qd.setdefault((c["user"], c["q"]["q"]), []).append(
-                float(c["ok"]) - a2[(c["user"], c["q"]["q"], c["responder"])])
-    q_gains = np.array([float(np.mean(v)) for v in qd.values()])
-    rng = np.random.default_rng(20261005)
-    q_means = np.array([rng.choice(q_gains, len(q_gains), replace=True).mean()
-                        for _ in range(10000)])
-    s = d.get("summary", {})
-    _check("R13 a3_minus_a2_by_question", round(float(q_gains.mean()), 3),
-           round(s.get("a3_minus_a2_by_question"), 3))
-    _check("R13 ci_lo", round(float(np.percentile(q_means, 2.5)), 3),
-           round(s.get("a3_minus_a2_ci95", [None])[0], 3))
-    _check("R13 ci_hi", round(float(np.percentile(q_means, 97.5)), 3),
-           round(s.get("a3_minus_a2_ci95", [None, None])[1], 3))
-    for dig, want in (s.get("a3_by_digester") or {}).items():
-        got = round(float(np.mean([c["ok"] for c in cells if c["arm"] == "A3"
-                                   and c["digester"] == dig])), 3)
-        _check(f"R13 A3 por digestor {dig}", got, round(want, 3))
-
+    bad = [c for c in cells if score_answer(c["q"], c["answer"]) != c["ok"]]
+    if any(len(c["answer"]) != 200 for c in bad):
+        FAILURES.append(f"R13: {sum(len(c['answer']) != 200 for c in bad)} celdas "
+                        "no se re-califican igual (rúbrica cambiada o celda editada)")
+    got = summarize(cells, d["digesters"])
+    want = d.get("summary", {})
+    for k, v in got.items():
+        if want.get(k) != v:
+            FAILURES.append(f"R13 {k}: derivado {v} != guardado {want.get(k)}")
 
 def derive_report() -> None:
     import lce_validation.bench_report as br

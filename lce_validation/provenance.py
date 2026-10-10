@@ -71,12 +71,35 @@ def _sha(path: Path) -> str:
     return h.hexdigest()
 
 
-def check_digests(prov: dict, expected: dict[str, str]) -> list[str]:
-    """Lista de modelos cuyo digest no coincide con el esperado."""
+MANIFEST = ROOT / "lce_validation" / "data" / "model_digests.json"
+
+
+def expected_digests(path: Path = MANIFEST) -> dict[str, str]:
+    """Digests preregistrados (manifiesto versionado)."""
+    try:
+        return dict(json.loads(path.read_text(encoding="utf-8"))["models"])
+    except Exception:
+        return {}
+
+
+def check_digests(prov: dict, expected: dict[str, str] | None = None,
+                  models: list[str] | None = None) -> list[str]:
+    """Lista de problemas de digest; vacía solo si TODOS los modelos usados
+    están en el manifiesto y coinciden. Un manifiesto vacío es un problema
+    (antes devolvía [] y la comprobación no comprobaba nada: N3)."""
+    expected = expected_digests() if expected is None else expected
+    used = models if models is not None else list(prov.get("models", {}))
+    if not expected:
+        return ["manifiesto de digests vacío o ausente"]
+    if not used:
+        return ["la procedencia no registra modelos"]
     problems = []
-    for m, want in expected.items():
+    for m in used:
+        want = expected.get(m)
         got = prov.get("models", {}).get(m)
-        if got is None or got == "n/d":
+        if want is None:
+            problems.append(f"{m}: no está en el manifiesto")
+        elif got is None or got == "n/d":
             problems.append(f"{m}: sin digest")
         elif got != want:
             problems.append(f"{m}: {got[:12]}… != {want[:12]}…")

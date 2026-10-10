@@ -414,15 +414,25 @@ _ABSTAIN_RE = re.compile(
     r"no lo sé|no lo se|sin respuesta|absten", re.IGNORECASE)
 
 
-def _classify_abstention(answer: str) -> str:
-    """answer -> 'abstain' | 'content' (clasificador determinista del tipo 5-6).
+def _classify_abstention(answer: str, question: str = "") -> str:
+    """answer -> 'abstain' | 'content' (clasificador determinista de los tipos 5-6).
 
-    Abstiene solo si NO da contenido después de la frase de abstención."""
-    if re.search(r"\d", answer):
-        return "content"   # un número tras la frase = respondió
-    if _ABSTAIN_RE.search(answer):
-        return "abstain"
-    return "content"
+    Abstiene solo si dice que no está en sus fuentes y NO aporta contenido:
+    un número que no aparece en la pregunta, o una continuación adversativa
+    («pero», «sin embargo») con contenido, cuentan como respuesta. Los números
+    que la respuesta repite de la pregunta («el piloto de 2024») no cuentan."""
+    q_nums = set(re.findall(r"\d+(?:[.,]\d+)?", question))
+    a_nums = set(re.findall(r"\d+(?:[.,]\d+)?", answer))
+    if a_nums - q_nums:
+        return "content"
+    m = _ABSTAIN_RE.search(answer)
+    if not m:
+        return "content"
+    tail = answer[m.end():]
+    adv = re.search(r"\b(pero|sin embargo|aunque)\b", tail, re.IGNORECASE)
+    if adv and len(tail[adv.end():].split()) >= 4:
+        return "content"
+    return "abstain"
 
 
 def r13_abstention(seed: int = 0) -> dict[str, Any]:
@@ -430,20 +440,28 @@ def r13_abstention(seed: int = 0) -> dict[str, Any]:
     contenido en los tipos 5-6 (fuente borrada / sin respuesta)."""
     rgen = np.random.default_rng(seed)
     cases = [
-        ("no está en mis fuentes", "abstain"),
-        ("No tengo esa información en las fuentes del usuario.", "abstain"),
-        ("no lo sé", "abstain"),
-        ("Prefiero abstenerme: no consta.", "abstain"),
-        ("El protocolo exige QUAL >= 30.", "content"),
-        ("El valor es 0.036.", "content"),
-        ("No está en mis fuentes, pero en la literatura se reporta 0.05.",
-         "content"),   # abstiene y luego contesta: cuenta como contenido
-        ("sin respuesta en la memoria del usuario", "abstain"),
+        ("no está en mis fuentes", "", "abstain"),
+        ("No tengo esa información en las fuentes del usuario.", "", "abstain"),
+        ("no lo sé", "", "abstain"),
+        ("Prefiero abstenerme: no consta.", "", "abstain"),
+        ("El protocolo exige QUAL >= 30.", "", "content"),
+        ("El valor es 0.036.", "", "content"),
+        # abstiene y luego contesta: cuenta como contenido
+        ("No está en mis fuentes, pero en la literatura se reporta 0.05.", "", "content"),
+        ("No está en mis fuentes, pero el borrador hablaba de un tamizaje amplio.", "", "content"),
+        ("sin respuesta en la memoria del usuario", "", "abstain"),
+        # repite un número de la pregunta: sigue siendo abstención
+        ("No tengo información sobre el piloto de 2024.",
+         "¿Qué porcentaje anotó el piloto de 2024?", "abstain"),
+        ("No está en mis fuentes; el piloto de 2024 no figura.",
+         "¿Qué porcentaje anotó el piloto de 2024?", "abstain"),
+        ("El piloto de 2024 anotó 63 por ciento.",
+         "¿Qué porcentaje anotó el piloto de 2024?", "content"),
     ]
-    hits = sum(1 for a, want in cases if _classify_abstention(a) == want)
+    hits = sum(1 for a, q, want in cases if _classify_abstention(a, q) == want)
     passed = hits == len(cases)
     return {"hypothesis": "el calificador separa abstención de contenido",
-            "prediction": f">= {len(cases)-1}/{len(cases)} clasificaciones "
+            "prediction": f"{len(cases)}/{len(cases)} clasificaciones "
                           "correctas en casos fabricados",
             "passed": passed, "detail": f"{hits}/{len(cases)}"}
 

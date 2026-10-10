@@ -106,6 +106,85 @@ def _latest_per_fact(ranked: list, dates: dict) -> list:
     return kept
 
 
+def wiki_context(wiki, question: str, src_dates: dict, budget: int = 200) -> str:
+    """Contexto de los brazos de wiki (A3/A4), una sola implementación.
+
+    Top-10 BM25 sobre las claims; orden por vigencia DESCENDENTE (fecha de la
+    fuente, luego madurez, luego score: Enmienda 2, corregida en E2); una
+    claim por hecho (``_latest_per_fact``, Enmienda 3); hasta ``budget``
+    tokens (palabras)."""
+    hits = BM25Retriever().index(wiki.claims.values()).search(question, k=10)
+    ranked = sorted(
+        hits,
+        key=lambda h: (
+            src_dates.get(h.claim.anchors[0].source
+                          if getattr(h.claim, "anchors", None) else "", 0),
+            h.claim.maturity.rank,
+            h.score),
+        reverse=True)
+    ranked = _latest_per_fact(ranked, src_dates)
+    ctx = ""
+    for h in ranked:
+        if _tokens(ctx + h.text) > budget:
+            break
+        ctx += h.text + "\n"
+    return ctx
+
+
+def rag_context(doc: str, question: str, budget: int = 200) -> str:
+    """Contexto del brazo A2: BM25 sobre las oraciones crudas del usuario."""
+    sents = re.split(r"(?<=[.!?])\s+", doc)
+    ctx = ""
+    for h in BM25Retriever().index([_Shim(s) for s in sents]).search(question, k=12):
+        if _tokens(ctx + h.text) > budget:
+            break
+        ctx += h.text + "\n"
+    return ctx
+
+
+def summarize(cells: list[dict], digesters: list[str], B: int = 10_000,
+              seed: int = 20261005) -> dict:
+    """Resumen de R13 (E1): A3 por digestor, sin sobrescribir celdas, y
+    A3 − A2 emparejado por (pregunta, respondedor), promediado por pregunta y
+    con bootstrap agrupado por pregunta. Lo usan run_r13 y run_derive."""
+    arms = ["A0", "A1", "A2", "A3", "A4"]
+    present = [a for a in arms if any(c["arm"] == a for c in cells)]
+    means = {a: float(np.mean([c["ok"] for c in cells if c["arm"] == a]))
+             for a in present}
+    by_dig = {d: float(np.mean([c["ok"] for c in cells if c["arm"] == "A3"
+                                and c.get("digester") == d]))
+              for d in digesters
+              if any(c["arm"] == "A3" and c.get("digester") == d for c in cells)}
+    diag = [c for c in cells if c["arm"] == "A3"
+            and c.get("digester") == c["responder"]]
+    a3_all = [c for c in cells if c["arm"] == "A3"]
+    a2 = {(c["user"], c["q"]["q"], c["responder"]): float(c["ok"])
+          for c in cells if c["arm"] == "A2"}
+    qd: dict[tuple, list[float]] = {}
+    for c in a3_all:
+        k = (c["user"], c["q"]["q"], c["responder"])
+        if k in a2:
+            qd.setdefault(k[:2], []).append(float(c["ok"]) - a2[k])
+    out = {
+        "questions": len(qd),
+        "mean_by_arm": {a: round(means[a], 3) for a in present},
+        "a3_by_digester": {d: round(v, 3) for d, v in by_dig.items()},
+        "a3_diagonal_mean": round(float(np.mean([c["ok"] for c in diag])), 3) if diag else None,
+        "a3_crossed_mean": round(float(np.mean([c["ok"] for c in a3_all])), 3) if a3_all else None,
+        "tokens_by_arm": {a: round(float(np.mean(
+            [c["tokens"] for c in cells if c["arm"] == a])), 1) for a in present},
+    }
+    if qd:
+        q_gains = np.array([float(np.mean(v)) for v in qd.values()])
+        rng = np.random.default_rng(seed)
+        q_means = np.array([rng.choice(q_gains, len(q_gains), replace=True).mean()
+                            for _ in range(B)])
+        out["a3_minus_a2_by_question"] = round(float(q_gains.mean()), 3)
+        out["a3_minus_a2_ci95"] = [round(float(np.percentile(q_means, 2.5)), 3),
+                                   round(float(np.percentile(q_means, 97.5)), 3)]
+    return out
+
+
 _MESES = {"enero": 1, "febrero": 2, "marzo": 3, "abril": 4, "mayo": 5,
           "junio": 6, "julio": 7, "agosto": 8, "septiembre": 9,
           "octubre": 10, "noviembre": 11, "diciembre": 12}
@@ -128,7 +207,7 @@ def score_answer(q: dict, answer: str) -> bool:
     """Rúbrica de R13 sec.2.3 por tipo."""
     t = q.get("type", "simple")
     if t in ("deleted", "unanswerable"):
-        return I._classify_abstention(answer) == "abstain"
+        return I._classify_abstention(answer, q.get("q", "")) == "abstain"
     a = _norm(answer)
     if t == "updated":
         return all(_norm(g) in a for g in q["gold"])
@@ -184,7 +263,7 @@ def main(argv: list[str] | None = None) -> int:
         if len(responders) < 3:
             problems.append("menos de 3 respondedores")
         from lce_validation.provenance import check_digests
-        problems += check_digests(prov, {})
+        problems += check_digests(prov)
         if problems:
             print("NEGADA (confirmatoria):", "; ".join(problems))
             return 1
@@ -265,7 +344,7 @@ def main(argv: list[str] | None = None) -> int:
                 ans, tok = _ask(backends[r], q)
                 cells.append({"user": uid, "arm": "A0", "responder": r,
                               "q": q, "ok": score_answer(q, ans),
-                              "tokens": tok, "answer": ans[:200]})
+                              "tokens": tok, "answer": ans})
             # A1: documento completo, truncado al presupuesto común (200)
             if "A1" in arms_run:
                 doc = " ".join(docs[uid].split()[:200])
@@ -273,50 +352,28 @@ def main(argv: list[str] | None = None) -> int:
                     ans, tok = _ask(backends[r], q, context=doc)
                     cells.append({"user": uid, "arm": "A1", "responder": r,
                                   "q": q, "ok": score_answer(q, ans),
-                                  "tokens": tok, "answer": ans[:200]})
+                                  "tokens": tok, "answer": ans})
             # A2: RAG crudo (BM25 sobre oraciones), hasta 200 tokens
             if "A2" in arms_run:
-                sents = re.split(r"(?<=[.!?])\s+", docs[uid])
-                retr_raw = BM25Retriever().index([_Shim(s) for s in sents])
-                ctx2 = ""
-                for h in retr_raw.search(q["q"], k=12):
-                    if _tokens(ctx2 + h.text) > 200:
-                        break
-                    ctx2 += h.text + "\n"
+                ctx2 = rag_context(docs[uid], q["q"])
                 for r in responders:
                     ans, tok = _ask(backends[r], q, context=ctx2)
                     cells.append({"user": uid, "arm": "A2", "responder": r,
                                   "q": q, "ok": score_answer(q, ans),
-                                  "tokens": tok, "answer": ans[:200]})
+                                  "tokens": tok, "answer": ans})
             # A3: wiki (cruzado digestor × respondedor), hasta 200 tokens,
             # con recuperación por vigencia: fecha de la fuente (más reciente
             # primero), luego madurez, luego score BM25
             if "A3" in arms_run:
                 for d in digesters:
                     wiki = wikis[(uid, d)]
-                    retr_w = BM25Retriever().index(wiki.claims.values())
-                    hits = retr_w.search(q["q"], k=10)
-                    ranked = sorted(
-                        hits,
-                        key=lambda h: (
-                            src_dates.get(
-                                h.claim.anchors[0].source
-                                if getattr(h.claim, "anchors", None) else "", 0),
-                            h.claim.maturity.rank,
-                            h.score),
-                        reverse=True)   # E2: la vigencia iba al revés
-                    ranked = _latest_per_fact(ranked, src_dates)  # E2: faltaba en A3
-                    ctx3 = ""
-                    for h in ranked:
-                        if _tokens(ctx3 + h.text) > 200:
-                            break
-                        ctx3 += h.text + "\n"
+                    ctx3 = wiki_context(wiki, q["q"], src_dates)
                     for r in responders:
                         ans, tok = _ask(backends[r], q, context=ctx3)
                         cells.append({"user": uid, "arm": "A3", "digester": d,
                                       "responder": r, "q": q,
                                       "ok": score_answer(q, ans),
-                                      "tokens": tok, "answer": ans[:200]})
+                                      "tokens": tok, "answer": ans})
             # A4: wiki + Gamma (proyección real; diagonal digester=responder),
             # misma recuperación por vigencia y presupuesto que A3
             if "A4" in arms_run:
@@ -325,30 +382,14 @@ def main(argv: list[str] | None = None) -> int:
                     if d not in responders:
                         continue
                     wiki = wikis[(uid, d)]
-                    retr_w4 = BM25Retriever().index(wiki.claims.values())
-                    hits4 = retr_w4.search(q["q"], k=10)
-                    ranked4 = sorted(
-                        hits4,
-                        key=lambda h: (
-                            src_dates.get(
-                                h.claim.anchors[0].source
-                                if getattr(h.claim, "anchors", None) else "", 0),
-                            h.claim.maturity.rank,
-                            h.score),
-                        reverse=True)
-                    ranked4 = _latest_per_fact(ranked4, src_dates)
-                    ctx4 = ""
-                    for h in ranked4:
-                        if _tokens(ctx4 + h.text) > 200:
-                            break
-                        ctx4 += h.text + "\n"
+                    ctx4 = wiki_context(wiki, q["q"], src_dates)
                     proj = Projector().project(q["q"], list(wiki.claims.values()))
                     gamma = proj.projection.as_text()
                     ans, tok = _ask(backends[d], q, context=ctx4, gamma=gamma)
                     cells.append({"user": uid, "arm": "A4", "digester": d,
                                   "responder": d, "q": q,
                                   "ok": score_answer(q, ans),
-                                  "tokens": tok, "answer": ans[:200]})
+                                  "tokens": tok, "answer": ans})
         print(f"  {uid}: {len(qs)} preguntas respondidas por {len(responders)} "
               f"respondedores", flush=True)
 
@@ -358,41 +399,8 @@ def main(argv: list[str] | None = None) -> int:
         "digesters": digesters, "responders": responders,
         "wiki_stats": stats, "cells": cells,
     }
-    # resumen: A3 por digestor; emparejado por (usuario, pregunta,
-    # respondedor, digestor) agrupado por pregunta (E1)
     arms = ["A0", "A1", "A2", "A3", "A4"]
-    means = {a: float(np.mean([c["ok"] for c in cells if c["arm"] == a]))
-             for a in arms}
-    by_dig = {d: float(np.mean([c["ok"] for c in cells if c["arm"] == "A3"
-                                and c["digester"] == d]))
-              for d in digesters}
-    diag = [c for c in cells if c["arm"] == "A3"
-            and c["digester"] == c["responder"]]
-    a3_all = [c for c in cells if c["arm"] == "A3"]
-    a2 = {(c["user"], c["q"]["q"], c["responder"]): float(c["ok"])
-          for c in cells if c["arm"] == "A2"}
-    qd: dict[tuple, list[float]] = {}
-    for c in cells:
-        if c["arm"] == "A3" and (c["user"], c["q"]["q"], c["responder"]) in a2:
-            qd.setdefault((c["user"], c["q"]["q"]), []).append(
-                float(c["ok"]) - a2[(c["user"], c["q"]["q"], c["responder"])])
-    q_gains = np.array([float(np.mean(v)) for v in qd.values()])
-    rng = np.random.default_rng(20261005)
-    q_means = np.array([rng.choice(q_gains, len(q_gains), replace=True).mean()
-                        for _ in range(10000)])
-    q_lo, q_hi = np.percentile(q_means, 2.5), np.percentile(q_means, 97.5)
-    report["summary"] = {
-        "questions": len(qd),
-        "mean_by_arm": {a: round(means[a], 3) for a in arms},
-        "a3_by_digester": {d: round(by_dig[d], 3) for d in digesters},
-        "a3_diagonal_mean": round(float(np.mean([c["ok"] for c in diag])), 3),
-        "a3_crossed_mean": round(float(np.mean([c["ok"] for c in a3_all])), 3),
-        "a3_minus_a2_by_question": round(float(q_gains.mean()), 3),
-        "a3_minus_a2_ci95": [round(float(q_lo), 3), round(float(q_hi), 3)],
-        "tokens_by_arm": {a: round(float(np.mean(
-            [c["tokens"] for c in cells if c["arm"] == a])), 1) for a in arms},
-        "mode": report["kind"],
-    }
+    report["summary"] = {**summarize(cells, digesters), "mode": report["kind"]}
     (OUT / "results.json").write_text(json.dumps(report, ensure_ascii=False,
                                                  indent=2), encoding="utf-8")
     s = report["summary"]
