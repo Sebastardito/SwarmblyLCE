@@ -140,6 +140,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--families", default="qwen2.5:3b,granite3.1-dense:2b")
     ap.add_argument("--seeds", default="20261005,20261006")
     ap.add_argument("--replay", default="yes,no")
+    ap.add_argument("--eval-only", action="store_true")
     args = ap.parse_args(argv)
 
     users = [u.strip() for u in args.users.split(",")]
@@ -179,19 +180,25 @@ def main(argv: list[str] | None = None) -> int:
                 for seed in seeds:
                     tag = f"{uid}__{fam}__s{seed}__r{replay}"
                     adir = OUT / tag
-                    t0 = time.time()
-                    try:
-                        adapter = train(base_model, batch, adir, seed)
-                    except RuntimeError as e:
-                        print(f"  {tag}: entrenamiento falló: {e}")
-                        report["trainings"].append({"tag": tag, "ok": False})
+                    if not args.eval_only:
+                        t0 = time.time()
+                        try:
+                            adapter = train(base_model, batch, adir, seed)
+                        except RuntimeError as e:
+                            print(f"  {tag}: entrenamiento falló: {e}")
+                            report["trainings"].append(
+                                {"tag": tag, "ok": False})
+                            continue
+                        report["trainings"].append(
+                            {"tag": tag, "ok": True,
+                             "seconds": round(time.time() - t0, 1),
+                             "batch": len(batch)})
+                        print(f"  {tag}: {len(batch)} pares, "
+                              f"{time.time()-t0:.0f}s", flush=True)
+                    adapter = adir / "adapter"
+                    if not adapter.exists():
+                        print(f"  {tag}: adaptador ausente, salto")
                         continue
-                    report["trainings"].append(
-                        {"tag": tag, "ok": True,
-                         "seconds": round(time.time() - t0, 1),
-                         "batch": len(batch)})
-                    print(f"  {tag}: {len(batch)} pares, "
-                          f"{time.time()-t0:.0f}s", flush=True)
                     if replay == "no":
                         # H-C10: solo las 6 primeras tareas y 2 brazos
                         eval_tasks = tasks[:6]
@@ -204,6 +211,8 @@ def main(argv: list[str] | None = None) -> int:
                             h.text for h in BM25Retriever().index(
                                 wiki.claims.values()).search(t["q"], k=3))
                         ans_b = generate(t["q"], None, base_model)
+                        ans_r = generate(t["q"] + "\nCONTEXTO:\n" + ctx,
+                                         None, base_model)
                         ans_a = generate(t["q"], adapter, base_model)
                         ans_ar = generate(t["q"] + "\nCONTEXTO:\n" + ctx,
                                           adapter, base_model)
@@ -211,6 +220,8 @@ def main(argv: list[str] | None = None) -> int:
                             "tag": tag, "q": t["q"], "gold": t["gold"],
                             "base_ok": all(_norm(g) in _norm(ans_b)
                                            for g in t["gold"]),
+                            "retrieval_ok": all(_norm(g) in _norm(ans_r)
+                                                for g in t["gold"]),
                             "adapter_ok": all(_norm(g) in _norm(ans_a)
                                               for g in t["gold"]),
                             "adapter_retr_ok": all(_norm(g) in _norm(ans_ar)
