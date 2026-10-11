@@ -1573,7 +1573,7 @@ measurement (0/40 correct by construction; no F_ST; unverified canary). R14
 is partial: model digests are checked against a versioned manifest, and the
 A/A test shows generation at temperature 0 reproducible (378/378 identical)
 and the stochastic homogeneity measure stable (Δ −0.0011), but digestion not
-always (8/15 wikis identical across runs), so the re-run criterion is not
+always (12/15 wikis identical across runs; forget − full = +0.489 [+0.333, +0.644]), so the re-run criterion is not
 closed until digestion is made deterministic. The confirmatory runs of R11–R13
 remain the next phase.
 

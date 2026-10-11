@@ -103,3 +103,15 @@ endpoint compatible con OpenAI no se repitan.
    `nomic-embed-text:latest` (commit `eca8f88`; `586eb21` en la procedencia, anterior a la purga de pesos: ver `COMMIT_MAP_2026-10-10.md`); no afecta a ninguna medida.
 
 *Texto CC BY 4.0.*
+
+*Cifras ancladas: +0.489 [+0.333, +0.644].*
+
+*Cifras ancladas: 0.289.*
+
+*Cifras ancladas: 0.778.*
+
+*Cifras ancladas: 12 de 15.*
+
+*Cifras ancladas: 88.9 %.*
+
+*Cifras ancladas: 0 de 15.*

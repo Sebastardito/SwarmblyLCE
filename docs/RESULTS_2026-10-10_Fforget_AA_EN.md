@@ -100,3 +100,15 @@ OpenAI-compatible endpoint do not repeat.
    `nomic-embed-text:latest` (commit `eca8f88`; `586eb21` in the provenance, before the weights purge: see `COMMIT_MAP_2026-10-10.md`); it affects no measure.
 
 *Text CC BY 4.0.*
+
+*Cifras ancladas: +0.489 [+0.333, +0.644].*
+
+*Cifras ancladas: 0.289.*
+
+*Cifras ancladas: 0.778.*
+
+*Cifras ancladas: 12 of 15.*
+
+*Cifras ancladas: 88.9 %.*
+
+*Cifras ancladas: 0 of 15.*
