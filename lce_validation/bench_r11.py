@@ -185,13 +185,28 @@ def train(base_model: str, rows: list[dict], out_dir: Path, seed: int,
 MLX_SERVER = "/opt/homebrew/bin/mlx_lm.server"
 _SERVERS: dict[tuple, tuple] = {}
 _PORT = 18080
+_CUR: tuple | None = None
 
 
 def _server(base_model: str, adapter: Path | None) -> tuple:
+    """UN solo servidor activo a la vez: al arrancar uno nuevo se mata el
+    anterior. El pool acumulaba procesos (2 por configuración, nunca
+    cerrados) y saturaba la RAM hasta forzar el reinicio del equipo."""
+    global _PORT, _CUR
     key = (base_model, str(adapter) if adapter else "")
     if key in _SERVERS:
         return _SERVERS[key]
-    global _PORT
+    if _CUR is not None:
+        _proc, _port = _CUR
+        try:
+            _proc.terminate()
+            _proc.wait(timeout=30)
+        except Exception:
+            try:
+                _proc.kill()
+            except Exception:
+                pass
+        _SERVERS.pop(_CUR[2], None) if False else None
     port = _PORT
     _PORT += 1
     cmd = [MLX_SERVER, "--model", base_model, "--port", str(port),
@@ -211,6 +226,7 @@ def _server(base_model: str, adapter: Path | None) -> tuple:
         except Exception:
             _time.sleep(1.0)
     _SERVERS[key] = (proc, port)
+    _CUR = (proc, port, key)
     return (proc, port)
 
 
