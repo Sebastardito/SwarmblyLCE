@@ -112,3 +112,5 @@ OpenAI-compatible endpoint do not repeat.
 *Cifras ancladas: 88.9 %.*
 
 *Cifras ancladas: 0 of 15.*
+
+*Cifras ancladas: 369.*

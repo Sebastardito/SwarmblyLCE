@@ -1,432 +1,321 @@
 {
-  "source_sha_note": "derivado de results/bench_r13/results.json",
-  "a3_minus_a2": {
-    "mean": -0.146,
+ "source_sha_note": "derivado de results/bench_r13/results.json",
+ "a3_minus_a2": {
+  "mean": -0.146,
+  "ci95": [
+   -0.186,
+   -0.106
+  ],
+  "n_questions": 251
+ },
+ "a3_minus_a2_by_digester": {
+  "qwen2.5:3b": {
+   "mean": -0.113,
+   "ci95": [
+    -0.159,
+    -0.066
+   ],
+   "n_questions": 251
+  },
+  "llama3.2:3b": {
+   "mean": -0.227,
+   "ci95": [
+    -0.286,
+    -0.17
+   ],
+   "n_questions": 251
+  },
+  "gemma2:2b": {
+   "mean": -0.098,
+   "ci95": [
+    -0.141,
+    -0.057
+   ],
+   "n_questions": 251
+  }
+ },
+ "a3_minus_a2_by_type": {
+  "simple": {
+   "mean": -0.231,
+   "ci95": [
+    -0.292,
+    -0.169
+   ],
+   "n_questions": 100
+  },
+  "cross": {
+   "mean": -0.304,
+   "ci95": [
+    -0.419,
+    -0.189
+   ],
+   "n_questions": 30
+  },
+  "updated": {
+   "mean": -0.222,
+   "ci95": [
+    -0.358,
+    -0.082
+   ],
+   "n_questions": 31
+  },
+  "contradiction": {
+   "mean": -0.056,
+   "ci95": [
+    -0.148,
+    0.03
+   ],
+   "n_questions": 30
+  },
+  "deleted": {
+   "mean": 0.115,
+   "ci95": [
+    0.044,
+    0.189
+   ],
+   "n_questions": 30
+  },
+  "unanswerable": {
+   "mean": 0.022,
+   "ci95": [
+    -0.015,
+    0.07
+   ],
+   "n_questions": 30
+  }
+ },
+ "a3_minus_a0_answerable": {
+  "mean": 0.368,
+  "ci95": [
+   0.323,
+   0.412
+  ],
+  "n_questions": 191
+ },
+ "a2_minus_a0_answerable": {
+  "mean": 0.581,
+  "ci95": [
+   0.525,
+   0.637
+  ],
+  "n_questions": 191
+ },
+ "a4_minus_a3_diagonal": {
+  "qwen2.5:3b": -0.036,
+  "llama3.2:3b": -0.024,
+  "gemma2:2b": 0.016
+ },
+ "abstention_with_accuracy": {
+  "A0": {
+   "answerable_accuracy": 0.0,
+   "abstention_deleted": 1.0,
+   "abstention_unanswerable": 0.989
+  },
+  "A1": {
+   "answerable_accuracy": 0.162,
+   "abstention_deleted": 0.633,
+   "abstention_unanswerable": 0.978
+  },
+  "A2": {
+   "answerable_accuracy": 0.581,
+   "abstention_deleted": 0.456,
+   "abstention_unanswerable": 0.933
+  },
+  "A3|qwen2.5:3b": {
+   "answerable_accuracy": 0.401,
+   "abstention_deleted": 0.633,
+   "abstention_unanswerable": 0.956
+  },
+  "A3|llama3.2:3b": {
+   "answerable_accuracy": 0.257,
+   "abstention_deleted": 0.578,
+   "abstention_unanswerable": 0.978
+  },
+  "A3|gemma2:2b": {
+   "answerable_accuracy": 0.445,
+   "abstention_deleted": 0.5,
+   "abstention_unanswerable": 0.933
+  }
+ },
+ "n1_a3_minus_a2_without_stale": {
+  "mean": -0.146,
+  "ci95": [
+   -0.186,
+   -0.106
+  ],
+  "n_questions": 251
+ },
+ "n1_stale_questions": 3,
+ "f1a_n1": {
+  "all": {
+   "mean": 0.5,
+   "ci95": [
+    0.42,
+    0.578
+   ],
+   "n_questions": 60
+  },
+  "without_stale": {
+   "mean": 0.511,
+   "ci95": [
+    0.431,
+    0.591
+   ],
+   "n_questions": 57
+  }
+ },
+ "decision_rules": {
+  "r13_h1": {
+   "hypothesis": "R13-H1: la wiki supera al RAG crudo",
+   "mean": -0.146,
+   "ci95": [
+    -0.186,
+    -0.106
+   ],
+   "verdict": "muere"
+  },
+  "r13_h2": {
+   "hypothesis": "R13-H2: la wiki gana en actualización y olvido",
+   "updated": {
+    "mean": -0.222,
     "ci95": [
-      -0.186,
-      -0.106
+     -0.358,
+     -0.082
     ],
-    "n_questions": 251
-  },
-  "a3_minus_a2_by_digester": {
-    "qwen2.5:3b": {
-      "mean": -0.113,
-      "ci95": [
-        -0.159,
-        -0.066
-      ],
-      "n_questions": 251
-    },
-    "llama3.2:3b": {
-      "mean": -0.227,
-      "ci95": [
-        -0.286,
-        -0.17
-      ],
-      "n_questions": 251
-    },
-    "gemma2:2b": {
-      "mean": -0.098,
-      "ci95": [
-        -0.141,
-        -0.057
-      ],
-      "n_questions": 251
-    }
-  },
-  "a3_minus_a2_by_type": {
-    "simple": {
-      "mean": -0.231,
-      "ci95": [
-        -0.292,
-        -0.169
-      ],
-      "n_questions": 100
-    },
-    "cross": {
-      "mean": -0.304,
-      "ci95": [
-        -0.419,
-        -0.189
-      ],
-      "n_questions": 30
-    },
-    "updated": {
-      "mean": -0.222,
-      "ci95": [
-        -0.358,
-        -0.082
-      ],
-      "n_questions": 31
-    },
-    "contradiction": {
-      "mean": -0.056,
-      "ci95": [
-        -0.148,
-        0.03
-      ],
-      "n_questions": 30
-    },
-    "deleted": {
-      "mean": 0.115,
-      "ci95": [
-        0.044,
-        0.189
-      ],
-      "n_questions": 30
-    },
-    "unanswerable": {
-      "mean": 0.022,
-      "ci95": [
-        -0.015,
-        0.07
-      ],
-      "n_questions": 30
-    }
-  },
-  "a3_minus_a0_answerable": {
-    "mean": 0.368,
+    "n_questions": 31
+   },
+   "deleted": {
+    "mean": 0.115,
     "ci95": [
-      0.323,
-      0.412
+     0.044,
+     0.189
     ],
-    "n_questions": 191
+    "n_questions": 30
+   },
+   "verdict": "no concluyente"
   },
-  "a2_minus_a0_answerable": {
-    "mean": 0.581,
-    "ci95": [
-      0.525,
-      0.637
-    ],
-    "n_questions": 191
-  },
-  "a4_minus_a3_diagonal": {
-    "qwen2.5:3b": -0.036,
-    "llama3.2:3b": -0.024,
-    "gemma2:2b": 0.016
-  },
-  "abstention_with_accuracy": {
-    "A0": {
-      "answerable_accuracy": 0.0,
-      "abstention_deleted": 1.0,
-      "abstention_unanswerable": 0.989
+  "r13_h3": {
+   "hypothesis": "R13-H3: un piso de claims ancladas explica la utilidad",
+   "rows": [
+    {
+     "user": "andres",
+     "digester": "gemma2:2b",
+     "mean_ok": 0.496,
+     "vs_a2": -0.078
     },
-    "A1": {
-      "answerable_accuracy": 0.162,
-      "abstention_deleted": 0.633,
-      "abstention_unanswerable": 0.978
+    {
+     "user": "andres",
+     "digester": "llama3.2:3b",
+     "mean_ok": 0.362,
+     "vs_a2": -0.213
     },
-    "A2": {
-      "answerable_accuracy": 0.581,
-      "abstention_deleted": 0.456,
-      "abstention_unanswerable": 0.933
+    {
+     "user": "andres",
+     "digester": "qwen2.5:3b",
+     "mean_ok": 0.433,
+     "vs_a2": -0.142
     },
-    "A3|qwen2.5:3b": {
-      "answerable_accuracy": 0.401,
-      "abstention_deleted": 0.633,
-      "abstention_unanswerable": 0.956
+    {
+     "user": "carmen",
+     "digester": "gemma2:2b",
+     "mean_ok": 0.493,
+     "vs_a2": -0.132
     },
-    "A3|llama3.2:3b": {
-      "answerable_accuracy": 0.257,
-      "abstention_deleted": 0.578,
-      "abstention_unanswerable": 0.978
+    {
+     "user": "carmen",
+     "digester": "llama3.2:3b",
+     "mean_ok": 0.368,
+     "vs_a2": -0.257
     },
-    "A3|gemma2:2b": {
-      "answerable_accuracy": 0.445,
-      "abstention_deleted": 0.5,
-      "abstention_unanswerable": 0.933
+    {
+     "user": "carmen",
+     "digester": "qwen2.5:3b",
+     "mean_ok": 0.556,
+     "vs_a2": -0.069
+    },
+    {
+     "user": "julian",
+     "digester": "gemma2:2b",
+     "mean_ok": 0.449,
+     "vs_a2": -0.163
+    },
+    {
+     "user": "julian",
+     "digester": "llama3.2:3b",
+     "mean_ok": 0.483,
+     "vs_a2": -0.129
+    },
+    {
+     "user": "julian",
+     "digester": "qwen2.5:3b",
+     "mean_ok": 0.51,
+     "vs_a2": -0.102
+    },
+    {
+     "user": "lme",
+     "digester": "gemma2:2b",
+     "mean_ok": 0.125,
+     "vs_a2": -0.25
+    },
+    {
+     "user": "lme",
+     "digester": "llama3.2:3b",
+     "mean_ok": 0.125,
+     "vs_a2": -0.25
+    },
+    {
+     "user": "lme",
+     "digester": "qwen2.5:3b",
+     "mean_ok": 0.292,
+     "vs_a2": -0.083
+    },
+    {
+     "user": "luisa",
+     "digester": "gemma2:2b",
+     "mean_ok": 0.528,
+     "vs_a2": -0.09
+    },
+    {
+     "user": "luisa",
+     "digester": "llama3.2:3b",
+     "mean_ok": 0.389,
+     "vs_a2": -0.229
+    },
+    {
+     "user": "luisa",
+     "digester": "qwen2.5:3b",
+     "mean_ok": 0.479,
+     "vs_a2": -0.139
+    },
+    {
+     "user": "mara",
+     "digester": "gemma2:2b",
+     "mean_ok": 0.641,
+     "vs_a2": -0.007
+    },
+    {
+     "user": "mara",
+     "digester": "llama3.2:3b",
+     "mean_ok": 0.346,
+     "vs_a2": -0.301
+    },
+    {
+     "user": "mara",
+     "digester": "qwen2.5:3b",
+     "mean_ok": 0.529,
+     "vs_a2": -0.118
     }
+   ],
+   "verdict": "pendiente de los conteos anclados por celda (wikis_cache)"
   },
-  "n1_a3_minus_a2_without_stale": {
-    "mean": -0.146,
-    "ci95": [
-      -0.186,
-      -0.106
-    ],
-    "n_questions": 251
-  },
-  "n1_stale_questions": 3,
-  "f1a_n1": {
-    "all": {
-      "mean": 0.5,
-      "ci95": [
-        0.42,
-        0.578
-      ],
-      "n_questions": 60
-    },
-    "without_stale": {
-      "mean": 0.511,
-      "ci95": [
-        0.431,
-        0.591
-      ],
-      "n_questions": 57
-    }
-  },
-  "decision_rules": {
-    "r13_h1": {
-      "hypothesis": "R13-H1: la wiki supera al RAG crudo",
-      "mean": -0.146,
-      "ci95": [
-        -0.186,
-        -0.106
-      ],
-      "verdict": "muere"
-    },
-    "r13_h2": {
-      "hypothesis": "R13-H2: la wiki gana en actualización y olvido",
-      "updated": {
-        "mean": -0.222,
-        "ci95": [
-          -0.358,
-          -0.082
-        ],
-        "n_questions": 31
-      },
-      "deleted": {
-        "mean": 0.115,
-        "ci95": [
-          0.044,
-          0.189
-        ],
-        "n_questions": 30
-      },
-      "verdict": "no concluyente"
-    },
-    "r13_h3": {
-      "hypothesis": "R13-H3: un piso de claims ancladas explica la utilidad",
-      "rows": [
-        {
-          "user": "andres",
-          "digester": "gemma2:2b",
-          "mean_ok": 0.496,
-          "vs_a2": -0.078
-        },
-        {
-          "user": "andres",
-          "digester": "llama3.2:3b",
-          "mean_ok": 0.362,
-          "vs_a2": -0.213
-        },
-        {
-          "user": "andres",
-          "digester": "qwen2.5:3b",
-          "mean_ok": 0.433,
-          "vs_a2": -0.142
-        },
-        {
-          "user": "carmen",
-          "digester": "gemma2:2b",
-          "mean_ok": 0.493,
-          "vs_a2": -0.132
-        },
-        {
-          "user": "carmen",
-          "digester": "llama3.2:3b",
-          "mean_ok": 0.368,
-          "vs_a2": -0.257
-        },
-        {
-          "user": "carmen",
-          "digester": "qwen2.5:3b",
-          "mean_ok": 0.556,
-          "vs_a2": -0.069
-        },
-        {
-          "user": "julian",
-          "digester": "gemma2:2b",
-          "mean_ok": 0.449,
-          "vs_a2": -0.163
-        },
-        {
-          "user": "julian",
-          "digester": "llama3.2:3b",
-          "mean_ok": 0.483,
-          "vs_a2": -0.129
-        },
-        {
-          "user": "julian",
-          "digester": "qwen2.5:3b",
-          "mean_ok": 0.51,
-          "vs_a2": -0.102
-        },
-        {
-          "user": "lme",
-          "digester": "gemma2:2b",
-          "mean_ok": 0.125,
-          "vs_a2": -0.25
-        },
-        {
-          "user": "lme",
-          "digester": "llama3.2:3b",
-          "mean_ok": 0.125,
-          "vs_a2": -0.25
-        },
-        {
-          "user": "lme",
-          "digester": "qwen2.5:3b",
-          "mean_ok": 0.292,
-          "vs_a2": -0.083
-        },
-        {
-          "user": "luisa",
-          "digester": "gemma2:2b",
-          "mean_ok": 0.528,
-          "vs_a2": -0.09
-        },
-        {
-          "user": "luisa",
-          "digester": "llama3.2:3b",
-          "mean_ok": 0.389,
-          "vs_a2": -0.229
-        },
-        {
-          "user": "luisa",
-          "digester": "qwen2.5:3b",
-          "mean_ok": 0.479,
-          "vs_a2": -0.139
-        },
-        {
-          "user": "mara",
-          "digester": "gemma2:2b",
-          "mean_ok": 0.641,
-          "vs_a2": -0.007
-        },
-        {
-          "user": "mara",
-          "digester": "llama3.2:3b",
-          "mean_ok": 0.346,
-          "vs_a2": -0.301
-        },
-        {
-          "user": "mara",
-          "digester": "qwen2.5:3b",
-          "mean_ok": 0.529,
-          "vs_a2": -0.118
-        }
-      ],
-      "verdict": "el piso de 5 no discrimina: todas las celdas tienen >=39 claims ancladas y la utilidad varía sin relación con el piso -> la compuerta se retira como regla",
-      "anchored_counts": [
-        {
-          "user": "andres",
-          "digester": "gemma2:2b",
-          "anchored": 67,
-          "claims": 68
-        },
-        {
-          "user": "andres",
-          "digester": "llama3.2:3b",
-          "anchored": 39,
-          "claims": 44
-        },
-        {
-          "user": "andres",
-          "digester": "qwen2.5:3b",
-          "anchored": 55,
-          "claims": 55
-        },
-        {
-          "user": "carmen",
-          "digester": "gemma2:2b",
-          "anchored": 74,
-          "claims": 75
-        },
-        {
-          "user": "carmen",
-          "digester": "llama3.2:3b",
-          "anchored": 68,
-          "claims": 73
-        },
-        {
-          "user": "carmen",
-          "digester": "qwen2.5:3b",
-          "anchored": 58,
-          "claims": 59
-        },
-        {
-          "user": "julian",
-          "digester": "gemma2:2b",
-          "anchored": 59,
-          "claims": 59
-        },
-        {
-          "user": "julian",
-          "digester": "llama3.2:3b",
-          "anchored": 73,
-          "claims": 75
-        },
-        {
-          "user": "julian",
-          "digester": "qwen2.5:3b",
-          "anchored": 68,
-          "claims": 68
-        },
-        {
-          "user": "lme",
-          "digester": "gemma2:2b",
-          "anchored": 2181,
-          "claims": 2189
-        },
-        {
-          "user": "lme",
-          "digester": "llama3.2:3b",
-          "anchored": 2400,
-          "claims": 2501
-        },
-        {
-          "user": "lme",
-          "digester": "qwen2.5:3b",
-          "anchored": 1909,
-          "claims": 1920
-        },
-        {
-          "user": "luisa",
-          "digester": "gemma2:2b",
-          "anchored": 60,
-          "claims": 60
-        },
-        {
-          "user": "luisa",
-          "digester": "llama3.2:3b",
-          "anchored": 39,
-          "claims": 39
-        },
-        {
-          "user": "luisa",
-          "digester": "qwen2.5:3b",
-          "anchored": 54,
-          "claims": 54
-        },
-        {
-          "user": "mara",
-          "digester": "gemma2:2b",
-          "anchored": 90,
-          "claims": 90
-        },
-        {
-          "user": "mara",
-          "digester": "llama3.2:3b",
-          "anchored": 49,
-          "claims": 52
-        },
-        {
-          "user": "mara",
-          "digester": "qwen2.5:3b",
-          "anchored": 71,
-          "claims": 71
-        }
-      ],
-      "cells_below_floor": 0
-    },
-    "hc1_death_global": "muerte parcial: falta la doble derrota en tipos 3 y 5"
-  },
-  "gold_in_context_answerable": {
-    "A2": 0.983,
-    "A3|qwen2.5:3b": 0.81,
-    "A3|llama3.2:3b": 0.509,
-    "A3|gemma2:2b": 0.836,
-    "n_questions": 116
-  },
-  "gold_in_context_note": "requiere results/bench_r13/wikis_cache (no versionada)"
+  "hc1_death_global": "muerte parcial: falta la doble derrota en tipos 3 y 5"
+ },
+ "gold_in_context_answerable": {
+  "A2": 0.983,
+  "A3|qwen2.5:3b": 0.81,
+  "A3|llama3.2:3b": 0.509,
+  "A3|gemma2:2b": 0.836,
+  "n_questions": 116
+ },
+ "gold_in_context_note": "requiere results/bench_r13/wikis_cache (no versionada)"
 }

@@ -100,7 +100,7 @@ kind: exploratory
 
 ### 2.7 A/A de reproducibilidad (R14, Enmienda 6 c)
 
-AA1 generación a T = 0: 58.7 % de 378 respuestas idénticas, Δ exactitud -0.0714 (falla). AA2 digestión: 12/15 wikis idénticas, Jaccard medio 0.985 (falla). AA3 semilla a T = 0.7: endpoint nativo 100 % idénticas, compatible con OpenAI 80 %. AA4 homogeneidad: Δ −0.001 [−0.007, +0.005] (pasa).
+AA1 generación a T = 0: 98.4 % de 369 respuestas idénticas, Δ exactitud +0.0027 (falla). AA2 digestión: 8/15 wikis idénticas, Jaccard medio 0.961 (falla). AA3 semilla a T = 0.7: endpoint nativo 100 % idénticas, compatible con OpenAI 80 %. AA4 homogeneidad: Δ −0.001 [−0.007, +0.005] (pasa).
 
 **El criterio de re-corrida de R14 NO queda cerrado:** la generación es reproducible, la digestión no siempre. Cerrarlo requiere una digestión determinista (endpoint nativo con semilla, que AA3 muestra efectivo, o canonicalización de claims), por enmienda.
 

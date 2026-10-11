@@ -121,9 +121,9 @@ def derive_r13_analysis() -> None:
     if not p.exists():
         FAILURES.append("R13: falta results/bench_r13/analysis.json")
         return
-    from lce_validation.r13_analysis import analyse, R13
+    from lce_validation.r13_analysis import analyse
     want = json.loads(p.read_text(encoding="utf-8"))
-    got = analyse(json.loads((R13 / "results.json").read_text(encoding="utf-8")))
+    got = analyse(json.loads((p.parent / "results.json").read_text(encoding="utf-8")))
     for k, v in got.items():
         if want.get(k) != v:
             FAILURES.append(f"R13 analysis {k}: derivado != guardado")
