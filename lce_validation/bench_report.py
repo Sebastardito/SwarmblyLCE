@@ -125,27 +125,32 @@ def main() -> int:
         "| R12 (exploratorio): plano social | 0/40 por construcción; utilidad "
         "implementada como novedad; sin F_ST (E7) | **compatible con la I4, no la "
         "mide** |")
-    c2b = _load(ROOT / "results" / "bench_c2bis" / "results.json")
-    if c2b and "summary" in c2b:
-        cs = c2b["summary"]
+    ca = _load(ROOT / "results" / "bench_r13_confirm" / "analysis.json")
+    if ca:
+        d, dr = ca["a3_minus_a2"], ca["decision_rules"]
         lines.append(
-            "| C2-bis: ¿la Γ reduce homogeneidad más que un placebo igualado? | "
-            f"reducción Γ − placebo **{_s(cs['mean_reduction'])}** "
-            f"{_ci(cs['ci95'])} ({cs['n_cells']} celdas) | **{cs['h17a']}** |")
-    hc2 = _load(ROOT / "results" / "bench_hc2_closure" / "results.json")
-    if hc2 and "summary" in hc2:
-        hs = hc2["summary"]
-        lines.append(
-            "| Cierre H-C2: ¿la proyección paga su ρ en QA? | ganancia media "
-            f"{_s(hs['mean_gain'])}; Δρ mediana {hs['median_delta_rho_pct']:.0f} %; "
-            f"fracción (ganancia>0 y Δρ≤10 %) {hs['frac_both']:.2f} | **"
-            f"{hs['verdict']}** |")
-    r11 = _load(ROOT / "results" / "bench_r11_confirm" / "results.json")
-    if r11 and "cells" in r11:
-        lines.append(
-            "| R11 confirmatoria: adaptador justo vs recuperación+Γ | adaptador − "
-            "base = +0.000 (n=720, inerte); H-C6: 0/3 usuarios (−0.52 a −0.63); "
-            "I1 +0.000 | **la capa 2 se retira** |")
+            "| R13 CONFIRMATORIA: ¿la wiki anclada supera a un RAG crudo? | A3 − A2 = "
+            f"**{_s(d['mean'])}** {_ci(d['ci95'])} sobre {d['n_questions']} preguntas | "
+            f"**R13-H1 {dr['r13_h1']['verdict']}**; H2 {dr['r13_h2']['verdict']} (el tipo "
+            "`deleted` no mide olvido, N2); H3: la compuerta se retira como regla |")
+    lines.append(
+        "| F-forget: ¿olvidar una fuente borra lo aprendido de ella? | residuo 0, "
+        "colateral 0; abstención W_full → W_forget ≈ W_never | **el olvido se "
+        "sostiene (mecanismo)** |")
+    lines.append(
+        "| A/A de reproducibilidad (R14) | generación casi idéntica, digestión no "
+        "reproducible entre corridas | **R14 abierto (negativo documentado)** |")
+    lines.append(
+        "| C2-bis | mide la homogeneidad entre SEMILLAS de un mismo usuario, no "
+        "entre usuarios | **no prueba H-C17a (constructo distinto)** |")
+    lines.append(
+        "| Cierre H-C2 (2.9) | ganancia medida en exactitud de QA, no en adherencia; "
+        "regla inalcanzable con ganancias binarias por tarea | **descriptivo: Γ "
+        "cuesta ρ y no mejora QA; H-C2 sin decidir para escritura** |")
+    lines.append(
+        "| R11 CONFIRMATORIA: adaptador justo | adaptador y base dan respuestas "
+        "idénticas byte a byte en las 1454 celdas | **rechazada: falla de "
+        "manipulación (el adaptador no se aplicó en la evaluación)** |")
     lines += ["", "## 2. Detalle por benchmark", ""]
 
     # 2.1 H-C1 a escala
@@ -292,7 +297,7 @@ def main() -> int:
         dg = an["a3_minus_a2_by_digester"]
         ty = an["a3_minus_a2_by_type"]
         cov = an.get("gold_in_context_answerable", {})
-        lines += ["", "### 2.5 R13 (piloto exploratorio, cifras vigentes)", "",
+        lines += ["", "### 2.5 R13 (piloto exploratorio, superado por la confirmatoria de la sección 2.8)", "",
                   f"**Cifra central.** A3 − A2 = **{_s(d['mean'])}** {_ci(d['ci95'])} "
                   f"por pregunta ({d['n_questions']} preguntas; bootstrap agrupado por "
                   "pregunta). Por digestor: " + "; ".join(
@@ -321,93 +326,119 @@ def main() -> int:
     fa = _load(ROOT / "results" / "bench_forget" / "analysis.json")
     if ff and fa:
         fs, bp = ff["summary"], fa["behaviour_prereg"]
-        eq = fa.get("independent_equivalence")
         lines += ["", "### 2.6 F-forget (olvido real, Enmienda 6 c)", "",
-                  "**Estructura.** Tres wikis por celda (W_full con todas las fuentes, "
-                  "W_forget tras `forget_source` de `borrada.md`, W_never digerida sin "
-                  f"ella). Residuo S2 = {fs['S2_residue_total']} y daño colateral "
-                  f"S3 = {fs['S3_collateral_total']} en las celdas válidas y en los "
-                  f"{fs['sweep_forgets']} olvidos del barrido; {fs['refused_cells']} celdas "
-                  "rechazadas por S1 (la wiki no tenía claims de esa fuente). S2 y S3 "
-                  "verifican la implementación sobre wikis reales: `forget_source` borra "
-                  "por anclaje, así que cero es lo esperado. **Veredicto estructural: "
-                  f"{fs['verdict_structural']}.**",
+                  f"**Estructura.** {fs['cells'] - fs['refused_cells']} celdas válidas "
+                  f"(usuario × digestor): residuo S2 = {fs['S2_residue_total']} y daño "
+                  f"colateral S3 = {fs['S3_collateral_total']}; barrido de "
+                  f"{fs['sweep_forgets']} olvidos sin residuo ni daño. `forget_source` "
+                  "borra por anclaje, así que S2 y S3 verifican la implementación sobre "
+                  f"wikis reales. **Veredicto estructural: {fs['verdict_structural']}.** "
+                  f"W_forget coincide con la W_never de la misma corrida en "
+                  f"{fs['S4_identical_claim_sets']}/{fs['cells']} wikis: la diferencia es "
+                  "el no determinismo de la digestión (AA2).",
                   "",
-                  "**Equivalencia con no haber digerido nunca.** W_forget coincide con la "
-                  f"W_never de la misma corrida en {fs['S4_identical_claim_sets']}/15 wikis"
-                  + (f", pero con la wiki de R13 digerida sin la fuente en otra corrida en "
-                     f"{eq['forget_eq_r13']}/{eq['wikis']}; las diferencias vienen de la W_never "
-                     f"de esta corrida ({eq['never_eq_r13']}/{eq['wikis']} frente a R13), es decir, "
-                     "del no determinismo de la digestión que mide AA2, no del olvido "
-                     "(análisis posterior a los datos)." if eq else "."),
-                  "",
-                  "**Conducta (sin las celdas rechazadas, como pide el preregistro).** "
-                  f"Abstención en las {bp['n_questions']} preguntas sobre la fuente borrada: "
-                  f"W_full {bp['abstention']['full']:.3f}, W_forget {bp['abstention']['forget']:.3f}, "
-                  f"W_never {bp['abstention']['never']:.3f}; forget − full = "
-                  f"{_s(bp['forget_minus_full'])} {_ci(bp['forget_minus_full_ci95'])}, "
-                  f"forget − never = {_s(bp['forget_minus_never'])}. B1 y B2 se cumplen. "
-                  "Son 5 preguntas: la potencia es baja y el resultado es de mecanismo."]
+                  "**Conducta.** Abstención en las preguntas sobre la fuente borrada: "
+                  f"W_full {bp['abstention']['full']:.3f}, W_forget "
+                  f"{bp['abstention']['forget']:.3f}, W_never {bp['abstention']['never']:.3f}; "
+                  f"forget − full = {_s(bp['forget_minus_full'])} {_ci(bp['forget_minus_full_ci95'])}, "
+                  f"forget − never = {_s(bp['forget_minus_never'])} "
+                  f"{_ci(bp['forget_minus_never_ci95'])} ({bp['n_questions']} preguntas; mecanismo)."]
     aa = _load(ROOT / "results" / "aa_test" / "results.json")
     if aa and "summary" in aa:
         s = aa["summary"]
         yn = lambda b: "pasa" if b else "falla"  # noqa: E731
-        lines += ["", "### 2.7 A/A de reproducibilidad (R14, Enmienda 6 c)", "",
-                  f"AA1 generación a T = 0: {100 * s['AA1']['identical_rate']:.1f} % de "
-                  f"{s['AA1']['n']} respuestas idénticas, Δ exactitud "
-                  f"{s['AA1']['accuracy_delta']:+.4f} ({yn(s['AA1']['passed'])}). AA2 digestión: "
-                  f"{s['AA2']['identical']}/{s['AA2']['wikis']} wikis idénticas, Jaccard medio "
-                  f"{s['AA2']['mean_jaccard']:.3f} ({yn(s['AA2']['passed'])}). AA3 semilla a "
-                  f"T = 0.7: endpoint nativo {100 * s['AA3']['native']['identical_rate']:.0f} % "
-                  f"idénticas, compatible con OpenAI {100 * s['AA3']['openai']['identical_rate']:.0f} %. "
+        lines += ["", "### 2.7 A/A de reproducibilidad (R14)", "",
+                  f"AA1 generación a T = 0 contra la confirmatoria de R13: "
+                  f"{100 * s['AA1']['identical_rate']:.1f} % de {s['AA1']['n']} respuestas "
+                  f"idénticas, Δ exactitud {s['AA1']['accuracy_delta']:+.4f} "
+                  f"({yn(s['AA1']['passed'])}, el umbral es 99 %). AA2 digestión: "
+                  f"{s['AA2']['identical']}/{s['AA2']['wikis']} wikis idénticas entre corridas, "
+                  f"Jaccard {s['AA2']['mean_jaccard']:.3f} ({yn(s['AA2']['passed'])}). AA3: "
+                  f"semilla del endpoint nativo {100 * s['AA3']['native']['identical_rate']:.0f} % "
+                  f"idéntica, compatible con OpenAI {100 * s['AA3']['openai']['identical_rate']:.0f} %. "
                   f"AA4 homogeneidad: Δ {_s(s['AA4']['mean_diff'])} {_ci(s['AA4']['ci95'])} "
                   f"({yn(s['AA4']['passed'])}).",
                   "",
-                  "**El criterio de re-corrida de R14 "
-                  + ("queda cerrado." if s["R14_rerun_criterion_closed"] else
-                     "NO queda cerrado:** la generación es reproducible, la digestión no "
-                     "siempre. Cerrarlo requiere una digestión determinista (endpoint nativo "
-                     "con semilla, que AA3 muestra efectivo, o canonicalización de claims), "
-                     "por enmienda.")]
-    lines += ["", "## 3. Cierre", "",
-              "La LCE tiene ahora: memoria local medida a escala con fuentes "
-              "limpias (F1a) y en el piloto R13 (A3 − A0 y A2 − A0), la comparación "
-              "de la wiki con un RAG crudo (R13: el RAG gana en exactitud; la "
-              "pérdida está en la cobertura de la digestión), el olvido de una "
-              "fuente verificado en estructura y en conducta (F-forget), la "
-              "generación reproducible a temperatura 0 pero no siempre la digestión "
-              "(A/A), el costo de ρ de la proyección medido con el camino de "
-              "despacho real (F1b) y la factibilidad del adaptador en hardware de "
-              "consumo (F1c). R11 y R12 no aportan evidencia todavía (E6, E7). Las "
-              "cifras preregistradas de la corrida 2 siguen siendo el único "
-              "resultado confirmatorio.", ""]
+                  "**R14 queda abierto como negativo documentado (Enmienda 12):** la "
+                  "digestión con Ollama no es reproducible entre corridas en este equipo "
+                  "en ninguna de las cuatro configuraciones probadas."]
+    if ca:
+        d, dr = ca["a3_minus_a2"], ca["decision_rules"]
+        ty, dg, aw = ca["a3_minus_a2_by_type"], ca["a3_minus_a2_by_digester"], ca["abstention_with_accuracy"]
+        cov = ca.get("gold_in_context_answerable", {})
+        g = dr["hc1_death_global"]
+        lines += ["", "### 2.8 R13 confirmatoria (preregistro 2.7, enmiendas 7–12)", "",
+                  f"**Cifra central.** A3 − A2 = **{_s(d['mean'])}** {_ci(d['ci95'])} sobre "
+                  f"{d['n_questions']} preguntas (≥ 30 por tipo, LongMemEval incluido, N1 "
+                  "excluido). Por digestor: " + "; ".join(
+                      f"`{k}` {_s(v['mean'])} {_ci(v['ci95'])}" for k, v in dg.items()) + ".",
+                  "",
+                  "**Por tipo:** " + "; ".join(
+                      f"`{k}` {_s(v['mean'])} {_ci(v['ci95'])} (n={v['n_questions']})"
+                      for k, v in ty.items()) + ".",
+                  "",
+                  "**Cobertura de la respuesta en el contexto (preguntas con respuesta):** "
+                  + "; ".join(f"{k} {v:.3f}" for k, v in cov.items() if k != "n_questions") + ".",
+                  "",
+                  f"**Veredictos.** R13-H1 {dr['r13_h1']['verdict']}. R13-H2 "
+                  f"{dr['r13_h2']['verdict']}: la wiki pierde en actualización y su "
+                  "«victoria» en `deleted` es el artefacto N2 (A0, sin memoria, se abstiene "
+                  f"en el {100 * aw['A0']['abstention_deleted']:.0f} %). R13-H3: la compuerta "
+                  "se retira como regla. Muerte global de H-C1: "
+                  f"{g['reading_wins_neither']} con la lectura «no gana en ninguno», "
+                  f"{g['reading_not_both']} con «no gana en ambos»; sin el tipo 5, que no mide "
+                  "olvido, la justificación por exactitud cae."]
     c2b = _load(ROOT / "results" / "bench_c2bis" / "results.json")
     if c2b and "summary" in c2b:
         cs = c2b["summary"]
-        lines += [
-            "",
-            "### 2.8 C2-bis (placebo igualado en instrucción, H-C17a)",
-            "",
-            f"5 usuarios x 20 temas x 3 semillas, escritura nativa determinista, "
-            f"Γ completa (21-45 tokens) y placebo de la MISMA cantidad de tokens. "
-            f"Reducción Γ − placebo = **{_s(cs['mean_reduction'])}** "
-            f"{_ci(cs['ci95'])} ({cs['n_cells']} celdas usuario×tema). "
-            f"**{cs['h17a']}.**",
-            "",
-        ]
+        lines += ["", "### 2.9 C2-bis (placebo igualado en instrucción)", "",
+                  f"Reducción Γ − placebo = {_s(cs['mean_reduction'])} {_ci(cs['ci95'])} "
+                  f"({cs['n_cells']} celdas usuario × tema). La homogeneidad se calculó entre "
+                  "las tres SEMILLAS de un mismo usuario y tema, no entre usuarios: mide la "
+                  "variedad de muestreo dentro de un usuario, no lo que H-C17a pregunta "
+                  "(la convergencia de la población). **No prueba H-C17a**; el rediseño "
+                  "necesita homogeneidad entre usuarios, brazo sin contrato y un placebo "
+                  "distinto por usuario. Los números de la primera corrida (invalidada por "
+                  "la Enmienda 14) no se conservaron. Ver `docs/RESULTS_2026-10-11_C2bis_ES.md`."]
     hc2 = _load(ROOT / "results" / "bench_hc2_closure" / "results.json")
     if hc2 and "summary" in hc2:
         hs = hc2["summary"]
-        lines += [
-            "",
-            "### 2.9 Cierre H-C2 (ρ frente a ganancia, preregistro 2.9)",
-            "",
-            f"{hs['n_tasks']} tareas de la confirmatoria: ganancia media "
-            f"{_s(hs['mean_gain'])}, Δρ mediana {hs['median_delta_rho_pct']:.0f} %, "
-            f"fracción (ganancia > 0 y Δρ ≤ 10 %) {hs['frac_both']:.2f}. "
-            f"**{hs['verdict']}.**",
-            "",
-        ]
+        lines += ["", "### 2.10 Cierre de H-C2 (preregistro 2.9)", "",
+                  f"{hs['n_tasks']} tareas: ganancia media {_s(hs['mean_gain'])} (A4 − A3 en "
+                  f"exactitud de QA), Δρ mediana {hs['median_delta_rho_pct']:.0f} % con "
+                  f"contextos de 200 tokens (cota aritmética: tokens de Γ por fragmento, sin "
+                  f"el packer); fracción con ganancia > 0 y Δρ ≤ 10 % = "
+                  f"{hs['frac_both']:.2f}. La regla dispara mecánicamente, pero mide otra cosa: "
+                  "la ganancia preregistrada era de adherencia (léxico) y aquí es exactitud de "
+                  "QA, y con ganancias binarias por tarea la regla del 80 % es casi "
+                  "inalcanzable. **Descriptivo:** en QA, Γ añade ρ sin mejorar la exactitud; "
+                  "H-C2 queda sin decidir para su uso propio, la escritura. Ver "
+                  "`docs/RESULTS_2026-10-11_HC2_closure_ES.md`."]
+    r11 = _load(ROOT / "results" / "bench_r11_confirm" / "results.json")
+    if r11 and "cells" in r11:
+        cells = r11["cells"]
+        txt = [c for c in cells if "base" in c and "adapter" in c]
+        same_txt = sum(c["base"] == c["adapter"] for c in txt)
+        same_ok = sum(c["base_ok"] == c["adapter_ok"] for c in cells)
+        lines += ["", "### 2.11 R11 confirmatoria (Enmiendas 9 y 13)", "",
+                  f"En {same_txt} de {len(txt)} tareas el texto del adaptador es idéntico "
+                  f"byte a byte al del modelo base, y en {same_ok} de {len(cells)} celdas "
+                  "(tareas, I1, LC6, H-C10) coinciden los aciertos; el brazo adaptador + "
+                  "recuperación coincide exactamente con recuperación. Con pesos LoRA "
+                  "distintos de cero, eso indica que el adaptador no se aplicó en la "
+                  "evaluación (servidor MLX con el nombre del modelo base en cada petición; "
+                  "además, la evaluación usa completions sin la plantilla de chat con la que "
+                  "se entrenó). **La corrida se rechaza por falla de manipulación**, como la "
+                  "corrida 1 de C2: no dice nada sobre H-C6, H-C10, I1 ni LC6, y la capa 2 "
+                  "no queda retirada por esta evidencia."]
+    lines += ["", "## 3. Cierre", "",
+              "Lo confirmado: la corrida 2 de C1/C2 (léxico, homogeneidad entre usuarios "
+              "frente a placebo, equivalencia de errores compartidos) y R13-H1 (la wiki "
+              "anclada pierde frente a un RAG crudo en exactitud, por la cobertura de la "
+              "digestión). Lo medido como mecanismo: la memoria local ayuda (F1a), el olvido "
+              "funciona (F-forget). Lo abierto: R14 (digestión no reproducible), H-C17a con "
+              "un placebo igualado entre usuarios, H-C2 para escritura, y la capa 2, cuya "
+              "confirmatoria se rechazó por falla de manipulación.", ""]
     OUT.write_text("\n".join(lines), encoding="utf-8")
     print(f"reporte escrito: {OUT}")
     return 0

@@ -13,7 +13,7 @@ ancladas del usuario. La proyección con modelo ya está medida en la corrida
 confirmatoria 2 (media 97 bytes); este script mide qué hace ESE tamaño al ρ.
 
 QUÉ SE REPORTA (y qué no): con el protocolo actual (Γ replicado en cada
-paquete), la proyección añade un +9–12 % de ρ. La comparación con su
+paquete), la proyección añade un +6–8 % de ρ (corrida guardada). La comparación con su
 GANANCIA (la condición de muerte real de H-C2 en el whitepaper: «muere si
 el aumento de ρ supera la ganancia») NO se hace aquí y queda pendiente; el
 escenario por solicitud y el caché de Γ describen diseños no existentes y
@@ -166,7 +166,7 @@ def main(argv: list[str] | None = None) -> int:
     worst = max(deltas)
     worst_req = max(deltas_req)
     lo_pct, hi_pct = min(deltas), max(deltas)
-    rango = f"+{lo_pct:.0f} %" if lo_pct == hi_pct else f"+{lo_pct:.0f}–{hi_pct:.0f} %"
+    rango = f"+{lo_pct:.1f} %" if lo_pct == hi_pct else f"+{lo_pct:.1f}–{hi_pct:.1f} %"
     verdict = (f"con el protocolo actual (Γ en cada paquete) la proyección "
                f"añade {rango} de ρ (mediana +{med:.0f} %); la comparación "
                f"con su ganancia (la condición de muerte real de H-C2) y el "

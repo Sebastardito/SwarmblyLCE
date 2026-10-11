@@ -290,14 +290,19 @@
    ],
    "verdict": "pendiente de los conteos anclados por celda (wikis_cache)"
   },
-  "hc1_death_global": "muerte parcial: falta la doble derrota en tipos 3 y 5"
+  "hc1_death_global": {
+   "reading_wins_neither": "dispara",
+   "reading_not_both": "dispara",
+   "a0_abstention_deleted": 1.0,
+   "note": "con la lectura literal más estricta no dispara solo por el tipo 5, que la Enmienda 6 (b) declara inválido como medida de olvido"
+  }
  },
  "gold_in_context_answerable": {
-  "A2": 0.983,
+  "A2": 0.991,
   "A3|qwen2.5:3b": 0.81,
   "A3|llama3.2:3b": 0.345,
   "A3|gemma2:2b": 0.836,
   "n_questions": 116
  },
- "gold_in_context_note": "requiere results/bench_r13/wikis_cache (no versionada)"
+ "gold_in_context_note": "calculada el 10-10-2026 con el corpus del piloto (v1–v3); el corpus cambió después (Enmienda 8) y la cifra no se recalcula sobre él"
 }

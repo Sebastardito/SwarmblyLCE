@@ -9,6 +9,8 @@ kind: exploratory
 **9 October 2026 · pre-registration `PREREGISTRATION_BENCH_R1X_EN.md` with
 Amendment 1 · EXPLORATORY PILOT run: no pre-registered verdicts**
 
+> **Notice (11 October 2026).** This pilot is superseded by the R13 confirmatory run (`RESULTS_2026-10-11_R13_confirm_EN.md`, 251 questions). Its figures, including those of Section 7, are kept as the record of the pilot cycle; the current ones are those of the confirmatory run.
+>
 > **Notice (10 October 2026).** Sections 1 to 6 keep the history of the pilot cycle and contain figures RETRACTED because of review defects E1–E3 (A3 from a single digester, recency sorted in reverse, deleted source digested into the wiki). Do not cite them. The current figures are those of Section 7.
 
 **What the pilot says in one line.** The five-arm pipeline works end to end
@@ -220,7 +222,7 @@ not forgetting. This section does not claim that the wiki wins on
 forgetting; the F-forget test measures that (Amendment 6 c).
 
 **Where the wiki loses.** On answerable questions the key is in RAG's
-context in 98.3 % of cases and in the wiki's in 83.6 % (gemma2), 81.0 %
+context in 99.1 % of cases and in the wiki's in 83.6 % (gemma2), 81.0 %
 (qwen2.5) and 34.5 % (llama3.2). Given that coverage, the gemma2 wiki
 converts almost as RAG does (0.641 out of 0.836 against 0.767 out of 0.991).
 The loss is in digestion, which leaves out between 16 % and 65 % of the

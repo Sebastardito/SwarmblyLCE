@@ -25,3 +25,5 @@ results/bench_r11/*/data/
 results/bench_forget/wikis_cache/
 results/aa_test/second_digest/
 results/*/run.log
+results/bench_r11_confirm/*/adapter/
+results/bench_r11_confirm/*/data/

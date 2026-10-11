@@ -502,4 +502,56 @@ one user's lexicon empty). The re-run uses the empty request; the placebo
 stays length-matched; the
 first run's numbers are reported as an instrument check, not a verdict.
 
+**Amendment 15 — 11 October 2026, AFTER the confirmatory runs: review
+declarations.** It changes no design or threshold; it declares what the
+review found in the runs of 10 and 11 October and how they are reported.
+
+1. *Environment.* The R13 and R11 confirmatory runs, C2-bis, the H-C2
+   closure and the A/A ran with Python 3.9.6, not with the locked 3.11
+   (R14 1.1); only F-forget used the 3.11 `.venv`. It is a deviation of the
+   environment, not of the measures, and every document declares it.
+2. *R13, type 5.* The confirmatory `deleted` type keeps defect N2
+   (Amendment 6 b): no arm ever saw the deleted source, the questions have
+   related information in other sources, and A0, without memory, abstains
+   100 % of the time. Its +0.115 is not a win on forgetting. Forgetting is
+   measured in F-forget.
+3. *R13, global death.* The rule "RAG ≥ wiki overall AND the wiki does not
+   win on 3 and 5" admits two readings (wins on neither / does not win on
+   both); both are reported, with the observation in point 2.
+4. *R11.* In the 1454 cells of the confirmatory run the adapter and the base
+   model score identically, and in the 720 tasks they produce byte-identical
+   text, although the LoRA weights are non-zero: the adapter was not applied
+   during evaluation (the MLX server receives the base model's name in every
+   request, and the evaluation uses completions without the chat template
+   used in training). The run is refused for a manipulation failure, like
+   run 1 of C2. The next run requires a prior check: the adapter must change
+   the output on its own training examples before anything is evaluated.
+5. *C2-bis.* The implementation computes homogeneity across the three seeds
+   of one user and topic, not across users, and has no no-contract arm; it
+   does not test H-C17a as Section 2.8 defines it. The numbers of the first
+   run, which Amendment 14 says are reported, were not kept.
+6. *H-C2 closure.* The gain was measured as QA accuracy (A4 − A3), not as
+   adherence; and the rule "fraction of tasks with gain > 0 and Δρ ≤ 10 % ≥
+   0.8", written in this pre-registration, is almost unattainable with binary
+   per-task gains. Moreover, the implementation does not use the Swarmbly
+   planner and packer that Section 2.9 requires: Δρ is computed by word
+   arithmetic (Γ tokens per fragment over the context tokens); each task's
+   gain comes from a single digester = responder pair (the per-question
+   dictionary keeps the last diagonal cell), and Γ is projected with the
+   request "resumir el material del usuario" over the qwen2.5 wiki. The
+   result is reported as a description (in QA, Γ adds ρ without improving
+   accuracy) and H-C2 remains undecided for writing.
+7. *A/A.* AA1 against the confirmatory run: 98.4 % identical (n = 369),
+   below the 99 % threshold; AA2: 8 of 15. R14 remains open (Amendment 12).
+8. *History.* The weights of the 50 R11 adapters (partly derived from
+   Qwen2.5-3B-Instruct, qwen-research licence) and their batches had been
+   committed to the repository; they were purged from history before
+   publication. `docs/COMMIT_MAP_2026-10-11.md` maps the identifiers.
+9. *Arm A2.* Section 2.2 defines A2 as the k nearest chunks by
+   embeddings; since the pilot, A2 retrieves raw sentences with BM25 (the
+   same lexical retriever A3 uses over claims). The deviation had not been
+   declared. It makes the A3 − A2 comparison fairer (same retriever,
+   different material), but A2 is not the embedding RAG the
+   pre-registration describes; an embedding RAG remains unmeasured.
+
 *Text CC BY 4.0; code AGPL-3.0-or-later.*

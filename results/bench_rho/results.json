@@ -90,7 +90,7 @@
     "worst_delta_pct": 7.85,
     "median_delta_pct_per_request": 2.31,
     "worst_delta_pct_per_request": 2.6,
-    "verdict_hc2_rho": "con el protocolo actual (Γ en cada paquete) la proyección añade +8–8 % de ρ (mediana +7 %); la comparación con su ganancia (la condición de muerte real de H-C2) y el costo del diseño por-solicitud o con caché quedan pendientes",
+    "verdict_hc2_rho": "con el protocolo actual (Γ en cada paquete) la proyección añade +5.8–7.8 % de ρ (mediana +7 %); la comparación con su ganancia (la condición de muerte real de H-C2) y el costo del diseño por-solicitud o con caché quedan pendientes",
     "note": "Delta-rho es estructural: ~ tamano de Gamma / tamano de cada paquete; no se diluye con documentos mas largos. Los escenarios por-solicitud y con cache describen disenos no existentes y no estan medidos."
   }
 }

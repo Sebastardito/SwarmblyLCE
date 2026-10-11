@@ -134,7 +134,9 @@ def main(argv: list[str] | None = None) -> int:
         "n_cells": len(cells),
         "mean_reduction": round(mean, 4),
         "ci95": [lo, hi],
-        "h17a": "se sostiene" if lo > 0 else ("muere" if mean <= 0 else "no concluyente"),
+        # Enmienda 15.5: la homogeneidad se calcula entre las semillas de un
+        # mismo usuario, no entre usuarios; no decide H-C17a.
+        "h17a": "sin veredicto (mide homogeneidad entre semillas; Enmienda 15.5)",
     }
     (OUT / "results.json").write_text(json.dumps(report, ensure_ascii=False,
                                                  indent=2), encoding="utf-8")

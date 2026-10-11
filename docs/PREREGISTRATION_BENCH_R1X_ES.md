@@ -516,4 +516,60 @@ un usuario). La re-corrida usa la petición vacía;
 el placebo sigue pareado en longitud; los números de la primera corrida se
 reportan como comprobación del instrumento, no como veredicto.
 
+**Enmienda 15 — 11 de octubre de 2026, DESPUÉS de las confirmatorias:
+declaraciones de la revisión.** No cambia ningún diseño ni umbral; declara
+lo que la revisión encontró en las corridas del 10 y 11 de octubre y cómo
+se reportan.
+
+1. *Entorno.* La confirmatoria de R13, la de R11, C2-bis, el cierre de H-C2
+   y la A/A corrieron con Python 3.9.6, no con el 3.11 bloqueado (R14 1.1);
+   solo F-forget usó el `.venv` 3.11. Es una desviación del entorno, no de
+   las medidas, y se declara en cada documento.
+2. *R13, tipo 5.* El tipo `deleted` de la confirmatoria mantiene el defecto
+   N2 (Enmienda 6 b): ningún brazo vio nunca la fuente borrada, las
+   preguntas tienen información relacionada en otras fuentes y A0, sin
+   memoria, se abstiene en el 100 %. Su +0.115 no es una victoria en
+   olvido. El olvido se mide en F-forget.
+3. *R13, muerte global.* La regla «RAG ≥ wiki en el total Y la wiki no gana
+   en 3 y 5» admite dos lecturas (no gana en ninguno / no gana en ambos);
+   se reportan las dos, con la observación del punto 2.
+4. *R11.* En las 1454 celdas de la confirmatoria el adaptador y el modelo
+   base dan los mismos aciertos, y en las 720 tareas el mismo texto byte a
+   byte, aunque los pesos LoRA son distintos de cero: el adaptador no se
+   aplicó en la evaluación (el servidor MLX recibe el nombre del modelo
+   base en cada petición, y la evaluación usa completions sin la plantilla
+   de chat del entrenamiento). La corrida se rechaza por falla de
+   manipulación, como la corrida 1 de C2. La próxima corrida exige una
+   comprobación previa: el adaptador debe cambiar la salida en sus propios
+   ejemplos de entrenamiento antes de evaluar nada.
+5. *C2-bis.* La implementación calcula la homogeneidad entre las tres
+   semillas de un mismo usuario y tema, no entre usuarios, y no tiene brazo
+   sin contrato; no prueba H-C17a tal como la define la sección 2.8. Los
+   números de la primera corrida, que la Enmienda 14 dice reportar, no se
+   conservaron.
+6. *Cierre de H-C2.* La ganancia se midió como exactitud de QA (A4 − A3), no
+   como adherencia; y la regla «fracción de tareas con ganancia > 0 y Δρ ≤
+   10 % ≥ 0.8», escrita en este preregistro, es casi inalcanzable con
+   ganancias binarias por tarea. Además, la implementación no usa el
+   planificador ni el packer de Swarmbly que pide la sección 2.9: Δρ se
+   calcula por aritmética de palabras (tokens de Γ por fragmento sobre los
+   tokens del contexto); la ganancia por tarea sale de un solo par
+   digestor = respondedor (el diccionario por pregunta conserva la última
+   celda de la diagonal), y la Γ se proyecta con la petición «resumir el
+   material del usuario» sobre la wiki de qwen2.5. El resultado se reporta
+   como descripción (en QA, Γ añade ρ sin mejorar la exactitud) y H-C2
+   queda sin decidir para la escritura.
+7. *A/A.* AA1 contra la confirmatoria: 98.4 % idénticas (n = 369), por
+   debajo del umbral del 99 %; AA2: 8 de 15. R14 sigue abierto (Enmienda 12).
+8. *Historial.* Los pesos de los 50 adaptadores de R11 (derivados en parte
+   de Qwen2.5-3B-Instruct, licencia qwen-research) y sus lotes se habían
+   confirmado en el repositorio; se purgaron del historial antes de
+   publicar. `docs/COMMIT_MAP_2026-10-11.md` traduce los identificadores.
+9. *Brazo A2.* La sección 2.2 define A2 como los k fragmentos más cercanos
+   por embeddings; desde el piloto, A2 recupera oraciones crudas con BM25
+   (el mismo recuperador léxico que A3 usa sobre las claims). La desviación
+   no se había declarado. Hace la comparación A3 − A2 más pareja (mismo
+   recuperador, distinto material), pero A2 no es el RAG por embeddings
+   que el preregistro describe; un RAG por embeddings queda sin medir.
+
 *Texto CC BY 4.0; código AGPL-3.0-or-later.*

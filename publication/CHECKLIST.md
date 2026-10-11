@@ -35,20 +35,28 @@ Este repositorio se publica en dos depósitos de Zenodo, igual que Swarmbly v2: 
 
 - [x] Anotar el DOI del software en `CITATION.cff` (`doi`) y en el README; añadir la insignia de DOI (v0.1.1: `10.5281/zenodo.23289041`).
 - [ ] En el depósito del artículo, añadir la relación *isSupplementedBy* con el DOI del software `10.5281/zenodo.23289041` (editar metadatos en Zenodo, sin cambiar archivos).
-- [ ] Actualizar `docs/STATUS.md` y `PROJECT_CONTEXT.md` con ambos DOI.
+- [x] Actualizar `docs/STATUS.md` con ambos DOI.
 
 ## 5. Hacia la versión 0.2 · Towards v0.2
 
 - [x] Preregistro de C1/C2 confirmado antes de cualquier corrida real (`docs/PREREGISTRATION_C1_C2_ES.md` / `_EN.md`), con las reglas de decisión como código (`lce_validation/decide.py`).
 - [x] Corridas confirmatorias en el Mac: la 1 falló por proyección vacía (`docs/RESULTS_2026-10-05_C1_C2_run1_*`); la 2, tras las enmiendas 2 y 3, decidió H-C2 (léxico), H-C17a y H-C17b (`docs/RESULTS_2026-10-05_C1_C2_run2_*`).
-- [x] Preregistro consolidado de R14, R13 y R11 (`docs/PREREGISTRATION_BENCH_R1X_*`, enmiendas 1–6) y preregistro de R12.
-- [x] Pilotos exploratorios: F1a limpio (+0.500), R13 (la wiki pierde frente al RAG crudo, −0.256), R11 y R12 con conclusiones retiradas o corregidas (E6, E7).
+- [x] Preregistro consolidado de R14, R13 y R11 (`docs/PREREGISTRATION_BENCH_R1X_*`, enmiendas 1–15) y preregistro de R12.
+- [x] Pilotos exploratorios: F1a limpio (+0.500), R13 (la wiki pierde frente al RAG crudo, −0.256; superado por la confirmatoria), R11 y R12 con conclusiones retiradas o corregidas (E6, E7).
 - [x] Reparaciones de la revisión (E1–E5, N3) con pruebas; anclaje de cifras citadas (`tests/test_doc_figures.py`) y digests verificados.
-- [x] Prueba de olvido (F-forget) y prueba A/A (Enmienda 6 c): el olvido se sostiene; la A/A deja R14 sin cerrar por la digestión (`docs/RESULTS_2026-10-10_Fforget_AA_*`).
-- [ ] Digestión determinista (endpoint nativo con semilla o canonicalización de claims), por enmienda, y repetir AA2.
-- [ ] Confirmatorias de R13 (≥250 preguntas, ≥30 por tipo, LongMemEval, sin las claves N1) y R11 (tareas válidas, ≥30 por usuario, brazos con y sin Γ).
+- [x] Prueba de olvido (F-forget) y prueba A/A (Enmienda 6 c), re-corridas en la configuración confirmatoria: el olvido se sostiene como mecanismo; AA1 (98.4 %) y AA2 (8/15) fallan, R14 sin cerrar (`docs/RESULTS_2026-10-10_Fforget_AA_*`).
+- [x] Digestión determinista intentada por enmienda (endpoint nativo con semilla, parser tolerante, doble pasada revertida; Enmiendas 7, 10–12): no reproducible corrida a corrida; R14 queda abierto como negativo documentado.
+- [ ] Canonicalización de claims (o digestión con otro servidor) y repetir AA1/AA2.
+- [x] Confirmatoria de R13 (251 preguntas, LongMemEval MIT, sin N1): R13-H1 muere, A3 − A2 = −0.146 [−0.186, −0.106] (`docs/RESULTS_2026-10-11_R13_confirm_*`).
+- [x] Revisión de las confirmatorias y Enmienda 15: R11 rechazada por falla de manipulación; C2-bis y cierre de H-C2 sin veredicto; purga del historial de los adaptadores de R11 (`docs/COMMIT_MAP_2026-10-11.md`).
+- [ ] Re-correr R11 con la comprobación de manipulación previa (el adaptador debe cambiar la salida en sus propios ejemplos, con la plantilla de chat del entrenamiento).
+- [ ] Re-correr C2-bis con homogeneidad entre usuarios, brazo sin contrato y placebo neutro, por enmienda.
+- [ ] Cierre de H-C2 con adherencia por tarea y Δρ del packer real, con la regla de compensación reescrita por enmienda antes de correr.
 - [x] Release `v0.1.1` (resultados y benchmarks), push y DOI del software: `10.5281/zenodo.23289041` (el tag apunta a `1c5e3f5`; su `CITATION.cff` aún decía 0.1.0, corregido en el commit siguiente).
 - [ ] Verificación del conjunto canario por tres o más hablantes nativos (`lce_validation/data/canary_verification/`), y `python -m lce_validation.canary_verify verificador_*.csv`.
 - [ ] Issue de discusión del SWIP en Swarmbly-AI con el texto de `publication/SWIP_ISSUE_Swarmbly-AI.md`; después renombrar el SWIP con el número del issue.
 - [ ] Opcional: probar `MLXLoRATrainer` (extra `mlx`) en Apple Silicon.
-- [ ] Whitepaper v0.2 con los veredictos (incluidos los negativos) y las correcciones del arnés declaradas.
+- [x] Whitepaper v0.2 con los veredictos (incluidos los negativos) y las correcciones del arnés declaradas (`docs/WHITEPAPER_LCE_v0.2_ES.md` / `_EN.md`).
+- [x] PDF de la v0.2 (`scripts/build_pdfs.py`).
+- [ ] Depósito de la v0.2 en Zenodo como nueva versión del registro del whitepaper (10.5281/zenodo.23150478), con la relación *isSupplementedBy* al software.
+- [ ] Release `v0.2.0` del software: antes del tag, poner `version` y `date-released` en `CITATION.cff`; después, el DOI nuevo en `CITATION.cff` y el README.

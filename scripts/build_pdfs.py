@@ -6,7 +6,7 @@ matter (status/lang) is stripped before conversion so it does not print as
 text, and the PDF metadata (title, author, subject, keywords) is set afterwards.
 
 Requirements: pandoc, playwright (with a Chromium build), pypdf.
-Usage:  python scripts/build_pdfs.py            # both whitepapers
+Usage:  python scripts/build_pdfs.py            # both v0.2 whitepapers (v0.1 is frozen)
         python scripts/build_pdfs.py docs/X.md  # specific files
 """
 
@@ -24,6 +24,8 @@ KEYWORDS = "local-first; personalization; small language models; continual learn
 META = {
     "WHITEPAPER_LCE_EN": ("Local Cognition and Anchored Transmission", "Swarmbly LCE — whitepaper v0.1, draft (2026-10-04)"),
     "WHITEPAPER_LCE_ES": ("Cognición local y transmisión anclada", "Swarmbly LCE — whitepaper v0.1, borrador (2026-10-04)"),
+    "WHITEPAPER_LCE_v0.2_EN": ("Local Cognition and Anchored Transmission", "Swarmbly LCE — whitepaper v0.2, draft with results (2026-10-11)"),
+    "WHITEPAPER_LCE_v0.2_ES": ("Cognición local y transmisión anclada", "Swarmbly LCE — whitepaper v0.2, borrador con resultados (2026-10-11)"),
 }
 
 CSS = """
@@ -86,7 +88,7 @@ def build(md: Path, page) -> Path:
 def main(argv: list[str]) -> int:
     from playwright.sync_api import sync_playwright
 
-    files = [Path(a) for a in argv] or [ROOT / "docs/WHITEPAPER_LCE_EN.md", ROOT / "docs/WHITEPAPER_LCE_ES.md"]
+    files = [Path(a) for a in argv] or [ROOT / "docs/WHITEPAPER_LCE_v0.2_EN.md", ROOT / "docs/WHITEPAPER_LCE_v0.2_ES.md"]
     with sync_playwright() as p:
         browser = p.chromium.launch()
         page = browser.new_page()

@@ -1,5 +1,5 @@
 {
- "source_sha_note": "derivado de results/bench_r13/results.json",
+ "source_sha_note": "derivado de results/bench_r13_confirm/results.json",
  "a3_minus_a2": {
   "mean": -0.146,
   "ci95": [
@@ -306,16 +306,25 @@
      "vs_a2": -0.118
     }
    ],
-   "verdict": "pendiente de los conteos anclados por celda (wikis_cache)"
+   "verdict": "la compuerta se retira como regla (el piso de 5 nunca se alcanza)",
+   "min_anchored": 39,
+   "max_anchored": 90,
+   "cells_below_floor": 0,
+   "spearman_anchored_vs_accuracy_own_users": 0.568
   },
-  "hc1_death_global": "muerte parcial: falta la doble derrota en tipos 3 y 5"
+  "hc1_death_global": {
+   "reading_wins_neither": "no dispara",
+   "reading_not_both": "dispara",
+   "a0_abstention_deleted": 1.0,
+   "note": "con la lectura literal más estricta no dispara solo por el tipo 5, que la Enmienda 6 (b) declara inválido como medida de olvido"
+  }
  },
  "gold_in_context_answerable": {
-  "A2": 0.983,
-  "A3|qwen2.5:3b": 0.81,
-  "A3|llama3.2:3b": 0.509,
-  "A3|gemma2:2b": 0.836,
-  "n_questions": 116
+  "A2": 0.948,
+  "A3|qwen2.5:3b": 0.827,
+  "A3|llama3.2:3b": 0.455,
+  "A3|gemma2:2b": 0.843,
+  "n_questions": 191
  },
- "gold_in_context_note": "requiere results/bench_r13/wikis_cache (no versionada)"
+ "gold_in_context_note": "preguntas con respuesta de la corrida; requiere bench_r13_confirm/wikis_cache"
 }

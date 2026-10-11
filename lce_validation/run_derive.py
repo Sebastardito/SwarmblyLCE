@@ -72,6 +72,9 @@ def derive_rho() -> None:
     _check("F1b worst", max(deltas), d["summary"].get("worst_delta_pct"))
     _check("F1b median", sorted(deltas)[len(deltas) // 2],
            d["summary"].get("median_delta_pct"))
+    rango = f"+{min(deltas):.1f}–{max(deltas):.1f} %"
+    if rango not in d["summary"].get("verdict_hc2_rho", ""):
+        FAILURES.append(f"F1b veredicto: el rango {rango} no está en el texto guardado")
 
 
 def derive_run2() -> None:
@@ -115,18 +118,22 @@ def derive_r13() -> None:
             FAILURES.append(f"R13 {k}: derivado {v} != guardado {want.get(k)}")
 
 def derive_r13_analysis() -> None:
-    """Las cifras de R13 que citan los documentos (analysis.json) deben salir
-    de las celdas guardadas; la cobertura (requiere caché) no se recalcula."""
-    p = ROOT / "results" / "bench_r13" / "analysis.json"
-    if not p.exists():
-        FAILURES.append("R13: falta results/bench_r13/analysis.json")
-        return
+    """Las cifras de R13 que citan los documentos (analysis.json del piloto y
+    de la confirmatoria) deben salir de las celdas guardadas; la cobertura
+    (requiere las wikis) no se recalcula aquí."""
     from lce_validation.r13_analysis import analyse
-    want = json.loads(p.read_text(encoding="utf-8"))
-    got = analyse(json.loads((p.parent / "results.json").read_text(encoding="utf-8")))
-    for k, v in got.items():
-        if want.get(k) != v:
-            FAILURES.append(f"R13 analysis {k}: derivado != guardado")
+    for name in ("bench_r13", "bench_r13_confirm"):
+        p = ROOT / "results" / name / "analysis.json"
+        if not (p.parent / "results.json").exists():
+            continue
+        if not p.exists():
+            FAILURES.append(f"{name}: falta analysis.json")
+            continue
+        want = json.loads(p.read_text(encoding="utf-8"))
+        got = analyse(json.loads((p.parent / "results.json").read_text(encoding="utf-8")), base=p.parent)
+        for k, v in got.items():
+            if want.get(k) != v:
+                FAILURES.append(f"{name} analysis {k}: derivado != guardado")
 
 
 def derive_forget() -> None:

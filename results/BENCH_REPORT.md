@@ -16,15 +16,18 @@ kind: exploratory
 | C1 (control positivo, preregistrado) | exactitud 0.80 con memoria vs 0.00 sin ella | **se sostiene** |
 | H-C2 léxico (preregistrado) | adherencia 0.667 con Γ vs 0.033 sin Γ | **se sostiene** |
 | H-C17a / H-C17b (preregistrado) | reducción de homogeneidad 0.073 supera placebo; Δ acuerdo de errores 0.039 dentro de ±0.10 | **se sostiene, con matices** |
-| H-C2 ρ: ¿la proyección encarece la redundancia? | Δρ por paquete +7.8% (peor, medido); por solicitud ≈+2.6% (estimación aritmética, diseño no implementado) | **con el protocolo actual (Γ en cada paquete) la proyección añade +8–8 % de ρ (mediana +7 %); la comparación con su ganancia (la condición de muerte real de H-C2) y el costo del diseño por-solicitud o con caché quedan pendientes** |
+| H-C2 ρ: ¿la proyección encarece la redundancia? | Δρ por paquete +7.8% (peor, medido); por solicitud ≈+2.6% (estimación aritmética, diseño no implementado) | **con el protocolo actual (Γ en cada paquete) la proyección añade +5.8–7.8 % de ρ (mediana +7 %); la comparación con su ganancia (la condición de muerte real de H-C2) y el costo del diseño por-solicitud o con caché quedan pendientes** |
 | H-C6 (adaptador real) | LoRA rank 8 en 36 s; adherencia bruta 0.62 vs 0.38 (brazos NO comparables) | **no concluyente (lote contaminado, brazos no comparables); factibilidad demostrada** |
 | H-C11 (dirección, C9-lite) | circuito de adopción por utilidad ejercitado; identidad 1+1 es la misma respuesta dos veces | **señal insuficiente (violaciones totales < 5)** |
 | R13 (piloto): ¿la wiki anclada supera a un RAG crudo? | A3 − A2 = **−0.256** [−0.317, −0.194] sobre 126 preguntas, tres digestores × tres respondedores | **el RAG crudo gana en exactitud; la pérdida está en la cobertura de la digestión** |
 | R11 (piloto): adaptador justo | conclusiones retiradas (E6: adaptador colapsado, tareas inválidas, sin Γ en el brazo de recuperación) | **sin evidencia; rediseño en la siguiente fase** |
 | R12 (exploratorio): plano social | 0/40 por construcción; utilidad implementada como novedad; sin F_ST (E7) | **compatible con la I4, no la mide** |
-| C2-bis: ¿la Γ reduce homogeneidad más que un placebo igualado? | reducción Γ − placebo **+0.065** [+0.056, +0.074] (100 celdas) | **se sostiene** |
-| Cierre H-C2: ¿la proyección paga su ρ en QA? | ganancia media +0.016; Δρ mediana 41 %; fracción (ganancia>0 y Δρ≤10 %) 0.00 | **la proyección NO sobrevive (regla de compensación)** |
-| R11 confirmatoria: adaptador justo vs recuperación+Γ | adaptador − base = +0.000 (n=720, inerte); H-C6: 0/3 usuarios (−0.52 a −0.63); I1 +0.000 | **la capa 2 se retira** |
+| R13 CONFIRMATORIA: ¿la wiki anclada supera a un RAG crudo? | A3 − A2 = **−0.146** [−0.186, −0.106] sobre 251 preguntas | **R13-H1 muere**; H2 no concluyente (el tipo `deleted` no mide olvido, N2); H3: la compuerta se retira como regla |
+| F-forget: ¿olvidar una fuente borra lo aprendido de ella? | residuo 0, colateral 0; abstención W_full → W_forget ≈ W_never | **el olvido se sostiene (mecanismo)** |
+| A/A de reproducibilidad (R14) | generación casi idéntica, digestión no reproducible entre corridas | **R14 abierto (negativo documentado)** |
+| C2-bis | mide la homogeneidad entre SEMILLAS de un mismo usuario, no entre usuarios | **no prueba H-C17a (constructo distinto)** |
+| Cierre H-C2 (2.9) | ganancia medida en exactitud de QA, no en adherencia; regla inalcanzable con ganancias binarias por tarea | **descriptivo: Γ cuesta ρ y no mejora QA; H-C2 sin decidir para escritura** |
+| R11 CONFIRMATORIA: adaptador justo | adaptador y base dan respuestas idénticas byte a byte en las 1454 celdas | **rechazada: falla de manipulación (el adaptador no se aplicó en la evaluación)** |
 
 ## 2. Detalle por benchmark
 
@@ -81,7 +84,7 @@ kind: exploratory
 
 **Ajuste propuesto (siguiente fase).** Tareas separadas del lote con otra redacción, lote solo de afirmaciones entrenables (I1) con ExampleBuilder, repaso y prueba nueva, ≥30 tareas con IC, y una segunda familia base de licencia permisiva.
 
-### 2.5 R13 (piloto exploratorio, cifras vigentes)
+### 2.5 R13 (piloto exploratorio, superado por la confirmatoria de la sección 2.8)
 
 **Cifra central.** A3 − A2 = **−0.256** [−0.317, −0.194] por pregunta (126 preguntas; bootstrap agrupado por pregunta). Por digestor: `qwen2.5:3b` −0.212 [−0.288, −0.138]; `llama3.2:3b` −0.442 [−0.529, −0.354]; `gemma2:2b` −0.114 [−0.183, −0.045].
 
@@ -89,34 +92,44 @@ kind: exploratory
 
 **Memoria frente a nada (preguntas con respuesta):** A3 − A0 = +0.479 [+0.420, +0.537]; A2 − A0 = +0.767 [+0.704, +0.828].
 
-**Dónde pierde la wiki.** Clave presente en el contexto (preguntas con respuesta): A2 0.983; A3|qwen2.5:3b 0.810; A3|llama3.2:3b 0.345; A3|gemma2:2b 0.836. La diferencia está en la cobertura de la digestión.
+**Dónde pierde la wiki.** Clave presente en el contexto (preguntas con respuesta): A2 0.991; A3|qwen2.5:3b 0.810; A3|llama3.2:3b 0.345; A3|gemma2:2b 0.836. La diferencia está en la cobertura de la digestión.
 
 **Qué NO concluye.** `deleted` no mide olvido (ningún brazo vio la fuente borrada) y la abstención premia al brazo que recupera menos; la prueba de olvido real es F-forget (Enmienda 6). Sin las tres claves superadas (N1): −0.260 [−0.323, −0.198].
 
 ### 2.6 F-forget (olvido real, Enmienda 6 c)
 
-**Estructura.** Tres wikis por celda (W_full con todas las fuentes, W_forget tras `forget_source` de `borrada.md`, W_never digerida sin ella). Residuo S2 = 0 y daño colateral S3 = 0 en las celdas válidas y en los 116 olvidos del barrido; 0 celdas rechazadas por S1 (la wiki no tenía claims de esa fuente). S2 y S3 verifican la implementación sobre wikis reales: `forget_source` borra por anclaje, así que cero es lo esperado. **Veredicto estructural: se sostiene.**
+**Estructura.** 15 celdas válidas (usuario × digestor): residuo S2 = 0 y daño colateral S3 = 0; barrido de 116 olvidos sin residuo ni daño. `forget_source` borra por anclaje, así que S2 y S3 verifican la implementación sobre wikis reales. **Veredicto estructural: se sostiene.** W_forget coincide con la W_never de la misma corrida en 8/15 wikis: la diferencia es el no determinismo de la digestión (AA2).
 
-**Equivalencia con no haber digerido nunca.** W_forget coincide con la W_never de la misma corrida en 8/15 wikis, pero con la wiki de R13 digerida sin la fuente en otra corrida en 0/15; las diferencias vienen de la W_never de esta corrida (0/15 frente a R13), es decir, del no determinismo de la digestión que mide AA2, no del olvido (análisis posterior a los datos).
+**Conducta.** Abstención en las preguntas sobre la fuente borrada: W_full 0.289, W_forget 0.778, W_never 0.756; forget − full = +0.489 [+0.333, +0.644], forget − never = +0.022 [+0.000, +0.067] (5 preguntas; mecanismo).
 
-**Conducta (sin las celdas rechazadas, como pide el preregistro).** Abstención en las 5 preguntas sobre la fuente borrada: W_full 0.289, W_forget 0.778, W_never 0.756; forget − full = +0.489 [+0.333, +0.644], forget − never = +0.022. B1 y B2 se cumplen. Son 5 preguntas: la potencia es baja y el resultado es de mecanismo.
+### 2.7 A/A de reproducibilidad (R14)
 
-### 2.7 A/A de reproducibilidad (R14, Enmienda 6 c)
+AA1 generación a T = 0 contra la confirmatoria de R13: 98.4 % de 369 respuestas idénticas, Δ exactitud +0.0027 (falla, el umbral es 99 %). AA2 digestión: 8/15 wikis idénticas entre corridas, Jaccard 0.961 (falla). AA3: semilla del endpoint nativo 100 % idéntica, compatible con OpenAI 80 %. AA4 homogeneidad: Δ −0.001 [−0.007, +0.005] (pasa).
 
-AA1 generación a T = 0: 98.4 % de 369 respuestas idénticas, Δ exactitud +0.0027 (falla). AA2 digestión: 8/15 wikis idénticas, Jaccard medio 0.961 (falla). AA3 semilla a T = 0.7: endpoint nativo 100 % idénticas, compatible con OpenAI 80 %. AA4 homogeneidad: Δ −0.001 [−0.007, +0.005] (pasa).
+**R14 queda abierto como negativo documentado (Enmienda 12):** la digestión con Ollama no es reproducible entre corridas en este equipo en ninguna de las cuatro configuraciones probadas.
 
-**El criterio de re-corrida de R14 NO queda cerrado:** la generación es reproducible, la digestión no siempre. Cerrarlo requiere una digestión determinista (endpoint nativo con semilla, que AA3 muestra efectivo, o canonicalización de claims), por enmienda.
+### 2.8 R13 confirmatoria (preregistro 2.7, enmiendas 7–12)
+
+**Cifra central.** A3 − A2 = **−0.146** [−0.186, −0.106] sobre 251 preguntas (≥ 30 por tipo, LongMemEval incluido, N1 excluido). Por digestor: `qwen2.5:3b` −0.113 [−0.159, −0.066]; `llama3.2:3b` −0.227 [−0.286, −0.170]; `gemma2:2b` −0.098 [−0.141, −0.057].
+
+**Por tipo:** `simple` −0.231 [−0.292, −0.169] (n=100); `cross` −0.304 [−0.419, −0.189] (n=30); `updated` −0.222 [−0.358, −0.082] (n=31); `contradiction` −0.056 [−0.148, +0.030] (n=30); `deleted` +0.115 [+0.044, +0.189] (n=30); `unanswerable` +0.022 [−0.015, +0.070] (n=30).
+
+**Cobertura de la respuesta en el contexto (preguntas con respuesta):** A2 0.948; A3|qwen2.5:3b 0.827; A3|llama3.2:3b 0.455; A3|gemma2:2b 0.843.
+
+**Veredictos.** R13-H1 muere. R13-H2 no concluyente: la wiki pierde en actualización y su «victoria» en `deleted` es el artefacto N2 (A0, sin memoria, se abstiene en el 100 %). R13-H3: la compuerta se retira como regla. Muerte global de H-C1: no dispara con la lectura «no gana en ninguno», dispara con «no gana en ambos»; sin el tipo 5, que no mide olvido, la justificación por exactitud cae.
+
+### 2.9 C2-bis (placebo igualado en instrucción)
+
+Reducción Γ − placebo = +0.065 [+0.056, +0.074] (100 celdas usuario × tema). La homogeneidad se calculó entre las tres SEMILLAS de un mismo usuario y tema, no entre usuarios: mide la variedad de muestreo dentro de un usuario, no lo que H-C17a pregunta (la convergencia de la población). **No prueba H-C17a**; el rediseño necesita homogeneidad entre usuarios, brazo sin contrato y un placebo distinto por usuario. Los números de la primera corrida (invalidada por la Enmienda 14) no se conservaron. Ver `docs/RESULTS_2026-10-11_C2bis_ES.md`.
+
+### 2.10 Cierre de H-C2 (preregistro 2.9)
+
+251 tareas: ganancia media +0.016 (A4 − A3 en exactitud de QA), Δρ mediana 41 % con contextos de 200 tokens (cota aritmética: tokens de Γ por fragmento, sin el packer); fracción con ganancia > 0 y Δρ ≤ 10 % = 0.00. La regla dispara mecánicamente, pero mide otra cosa: la ganancia preregistrada era de adherencia (léxico) y aquí es exactitud de QA, y con ganancias binarias por tarea la regla del 80 % es casi inalcanzable. **Descriptivo:** en QA, Γ añade ρ sin mejorar la exactitud; H-C2 queda sin decidir para su uso propio, la escritura. Ver `docs/RESULTS_2026-10-11_HC2_closure_ES.md`.
+
+### 2.11 R11 confirmatoria (Enmiendas 9 y 13)
+
+En 720 de 720 tareas el texto del adaptador es idéntico byte a byte al del modelo base, y en 1454 de 1454 celdas (tareas, I1, LC6, H-C10) coinciden los aciertos; el brazo adaptador + recuperación coincide exactamente con recuperación. Con pesos LoRA distintos de cero, eso indica que el adaptador no se aplicó en la evaluación (servidor MLX con el nombre del modelo base en cada petición; además, la evaluación usa completions sin la plantilla de chat con la que se entrenó). **La corrida se rechaza por falla de manipulación**, como la corrida 1 de C2: no dice nada sobre H-C6, H-C10, I1 ni LC6, y la capa 2 no queda retirada por esta evidencia.
 
 ## 3. Cierre
 
-La LCE tiene ahora: memoria local medida a escala con fuentes limpias (F1a) y en el piloto R13 (A3 − A0 y A2 − A0), la comparación de la wiki con un RAG crudo (R13: el RAG gana en exactitud; la pérdida está en la cobertura de la digestión), el olvido de una fuente verificado en estructura y en conducta (F-forget), la generación reproducible a temperatura 0 pero no siempre la digestión (A/A), el costo de ρ de la proyección medido con el camino de despacho real (F1b) y la factibilidad del adaptador en hardware de consumo (F1c). R11 y R12 no aportan evidencia todavía (E6, E7). Las cifras preregistradas de la corrida 2 siguen siendo el único resultado confirmatorio.
-
-
-### 2.8 C2-bis (placebo igualado en instrucción, H-C17a)
-
-5 usuarios x 20 temas x 3 semillas, escritura nativa determinista, Γ completa (21-45 tokens) y placebo de la MISMA cantidad de tokens. Reducción Γ − placebo = **+0.065** [+0.056, +0.074] (100 celdas usuario×tema). **se sostiene.**
-
-
-### 2.9 Cierre H-C2 (ρ frente a ganancia, preregistro 2.9)
-
-251 tareas de la confirmatoria: ganancia media +0.016, Δρ mediana 41 %, fracción (ganancia > 0 y Δρ ≤ 10 %) 0.00. **la proyección NO sobrevive (regla de compensación).**
+Lo confirmado: la corrida 2 de C1/C2 (léxico, homogeneidad entre usuarios frente a placebo, equivalencia de errores compartidos) y R13-H1 (la wiki anclada pierde frente a un RAG crudo en exactitud, por la cobertura de la digestión). Lo medido como mecanismo: la memoria local ayuda (F1a), el olvido funciona (F-forget). Lo abierto: R14 (digestión no reproducible), H-C17a con un placebo igualado entre usuarios, H-C2 para escritura, y la capa 2, cuya confirmatoria se rechazó por falla de manipulación.

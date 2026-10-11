@@ -9,6 +9,8 @@ kind: exploratory
 **9 de octubre de 2026 · preregistro `PREREGISTRATION_BENCH_R1X_ES.md` con
 Enmienda 1 · corrida PILOTO EXPLORATORIA: no emite veredictos preregistrados**
 
+> **Aviso (11 de octubre de 2026).** Este piloto queda superado por la corrida confirmatoria de R13 (`RESULTS_2026-10-11_R13_confirm_ES.md`, 251 preguntas). Sus cifras, incluidas las de la sección 7, se conservan como registro del ciclo piloto; las vigentes son las de la confirmatoria.
+>
 > **Aviso (10 de octubre de 2026).** Las secciones 1 a 6 conservan el historial del ciclo piloto y contienen cifras RETIRADAS por los defectos E1–E3 de la revisión (A3 de un solo digestor, vigencia ordenada al revés, fuente borrada digerida en la wiki). No deben citarse. Las cifras vigentes son las de la sección 7.
 
 **Qué dice el piloto en una línea.** La tubería de los cinco brazos funciona
@@ -224,7 +226,7 @@ Esta sección no afirma que la wiki gane en olvido; eso lo mide la prueba
 F-forget (Enmienda 6 c).
 
 **Dónde pierde la wiki.** En las preguntas con respuesta, la clave aparece
-en el contexto del RAG en el 98.3 % de los casos y en el de la wiki en el
+en el contexto del RAG en el 99.1 % de los casos y en el de la wiki en el
 83.6 % (gemma2), el 81.0 % (qwen2.5) y el 34.5 % (llama3.2). Con esa
 cobertura, la wiki de gemma2 convierte casi como el RAG (0.641 sobre 0.836
 frente a 0.767 sobre 0.991). La pérdida está en la digestión, que deja fuera

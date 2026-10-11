@@ -65,10 +65,10 @@ def _diff(pq, typ, a, b, types=None):
     return {"mean": round(float(np.mean(x)), 3), "ci95": _boot(x), "n_questions": len(ks)}
 
 
-def analyse(d: dict) -> dict:
+def analyse(d: dict, base: Path | None = None) -> dict:
     cells = d["cells"]
     pq, typ = _per_question(cells)
-    out: dict = {"source_sha_note": "derivado de results/bench_r13/results.json"}
+    out: dict = {"source_sha_note": f"derivado de results/{(base or R13).name}/results.json"}
     out["a3_minus_a2"] = _diff(pq, typ, "A3", "A2")
     out["a3_minus_a2_by_digester"] = {g: _diff(pq, typ, "A3|" + g, "A2") for g in DIGESTERS}
     out["a3_minus_a2_by_type"] = {t: _diff(pq, typ, "A3", "A2", (t,)) for t in TYPES}
@@ -100,6 +100,10 @@ def analyse(d: dict) -> dict:
     out["n1_stale_questions"] = len(STALE)
     out["f1a_n1"] = f1a_sensitivity()
     out["decision_rules"] = decision_rules(out, cells)
+    acp = (base or R13) / "anchored_counts.json"
+    if acp.exists():
+        out["decision_rules"]["r13_h3"] = h3_from_counts(
+            out["decision_rules"]["r13_h3"], json.loads(acp.read_text(encoding="utf-8")))
     return out
 
 
@@ -145,12 +149,38 @@ def decision_rules(out: dict, cells: list) -> dict:
     r3 = {"hypothesis": "R13-H3: un piso de claims ancladas explica la utilidad",
           "rows": rows,
           "verdict": "pendiente de los conteos anclados por celda (wikis_cache)"}
-    death = (total["mean"] <= 0 and upd and upd["mean"] <= 0 and dele
-             and dele["mean"] <= 0)
+    # Condición de muerte global (prereg 2.7): «RAG ≥ wiki en el total Y la wiki
+    # no gana en 3 y 5». La redacción admite dos lecturas; se reportan las dos.
+    # Además (Enmienda 6 b, N2): el tipo 5 no mide olvido (ningún brazo vio la
+    # fuente borrada) y su abstención premia al brazo que recupera menos.
+    win3 = bool(upd and upd["ci95"][0] > 0)
+    win5 = bool(dele and dele["ci95"][0] > 0)
+    rag_ge = total["mean"] <= 0
     return {"r13_h1": r1, "r13_h2": r2, "r13_h3": r3,
-            "hc1_death_global": "el diseño se simplifica (resultado publicable)"
-            if death else ("no se cumple la condición de muerte"
-                           if not total["mean"] <= 0 else "muerte parcial: falta la doble derrota en tipos 3 y 5")}
+            "hc1_death_global": {
+                "reading_wins_neither": "dispara" if (rag_ge and not win3 and not win5) else "no dispara",
+                "reading_not_both": "dispara" if (rag_ge and not (win3 and win5)) else "no dispara",
+                "a0_abstention_deleted": out.get("abstention_with_accuracy", {}).get("A0", {}).get("abstention_deleted"),
+                "note": "con la lectura literal más estricta no dispara solo por el tipo 5, que la Enmienda 6 (b) declara inválido como medida de olvido"}}
+
+
+def h3_from_counts(r3: dict, ac: dict) -> dict:
+    """R13-H3 (prereg 2.7): ¿el piso de 5 claims ancladas explica la utilidad?
+    Se sostiene si la utilidad cae bajo el piso; muere si no hay relación
+    monótona; si el piso nunca se alcanza, la compuerta se retira como regla."""
+    n = {(r["user"], r["digester"]): r["anchored"] for r in ac["rows"]}
+    pts = [(n[(r["user"], r["digester"])], r["mean_ok"]) for r in r3["rows"]
+           if (r["user"], r["digester"]) in n and r["user"] != "lme"]
+    below = [p for p in pts if p[0] < 5]
+    x = np.argsort(np.argsort([p[0] for p in pts])); y = np.argsort(np.argsort([p[1] for p in pts]))
+    rho = float(np.corrcoef(x, y)[0, 1]) if len(pts) > 2 else None
+    r3 = dict(r3)
+    r3.update({"min_anchored": min(p[0] for p in pts), "max_anchored": max(p[0] for p in pts),
+               "cells_below_floor": len(below),
+               "spearman_anchored_vs_accuracy_own_users": round(rho, 3) if rho is not None else None,
+               "verdict": "la compuerta se retira como regla (el piso de 5 nunca se alcanza)"
+               if not below else r3.get("verdict")})
+    return r3
 
 
 def f1a_sensitivity() -> dict:
@@ -168,24 +198,31 @@ def f1a_sensitivity() -> dict:
 
 
 def coverage(d: dict) -> dict | None:
-    """Fracción de preguntas con respuesta cuya clave está en el contexto (requiere la caché)."""
+    """Fracción de preguntas CON RESPUESTA de la corrida cuya clave está en el
+    contexto que recibe cada brazo (requiere las wikis de la corrida)."""
     cache = R13 / "wikis_cache"
     if not cache.exists():
         return None
     from swarmbly_lce.policy import LearningPolicy
     from swarmbly_lce.wiki import Wiki
     from lce_validation import run_r13 as R
-    from lce_validation.bench_forget import load_questions, source_dates
+    from lce_validation.bench_forget import source_dates
+    asked: dict = {}
+    for c in d["cells"]:
+        q = c["q"]
+        if q.get("type", "simple") in ANSWERABLE:
+            asked[(c["user"], q["q"])] = q
     res: dict = defaultdict(list)
-    for uid in sorted(p.name for p in R.USERS_DIR.iterdir() if p.is_dir()):
+    for uid in sorted({u for u, _ in asked}):
         base = R.USERS_DIR / uid
         doc = "\n\n".join(p.read_text(encoding="utf-8") for p in sorted((base / "teach").rglob("*.md"))
-                          if p.name != "borrada.md")
+                           if p.name != "borrada.md")
         dates = source_dates(base)
-        wikis = {g: Wiki.load(cache / f"{uid}__{g}_wiki.json", LearningPolicy.load(base / "policy.json"))
+        pol = base / "policy.json"
+        wikis = {g: Wiki.load(cache / f"{uid}__{g}_wiki.json", LearningPolicy.load(pol))
                  for g in DIGESTERS if (cache / f"{uid}__{g}_wiki.json").exists()}
-        for q in load_questions(base):
-            if q["type"] not in ANSWERABLE:
+        for (u, _), q in asked.items():
+            if u != uid:
                 continue
             gold = [R._norm(x) for x in q["gold"]]
             has = lambda ctx: all(g in R._norm(ctx) for g in gold)  # noqa: E731
@@ -195,22 +232,47 @@ def coverage(d: dict) -> dict | None:
     return {k: round(float(np.mean(v)), 3) for k, v in res.items()} | {"n_questions": len(res["A2"])}
 
 
-def main() -> int:
+def anchored_counts() -> dict | None:
+    """Claims ancladas por (usuario, digestor) en las wikis de la corrida."""
+    cache = R13 / "wikis_cache"
+    if not cache.exists():
+        return None
+    rows = []
+    for f in sorted(cache.glob("*_wiki.json")):
+        uid, dg = f.name[:-len("_wiki.json")].split("__")
+        claims = json.loads(f.read_text(encoding="utf-8"))["claims"]
+        anch = sum(1 for c in claims if c.get("anchors"))
+        rows.append({"user": uid, "digester": dg, "anchored": anch, "claims": len(claims)})
+    return {"rows": rows}
+
+
+def main(argv: list[str] | None = None) -> int:
+    global R13
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--dir", default=None, help="bench_r13 (piloto) o bench_r13_confirm")
+    args = ap.parse_args(argv)
+    if args.dir:
+        R13 = ROOT / "results" / args.dir
     d = json.loads((R13 / "results.json").read_text(encoding="utf-8"))
-    a = analyse(d)
+    ac = anchored_counts()
+    if ac is not None:
+        (R13 / "anchored_counts.json").write_text(json.dumps(ac, ensure_ascii=False, indent=1) + "\n",
+                                                 encoding="utf-8")
+    a = analyse(d, base=R13)
     cov = coverage(d)
     if cov is not None:
         a["gold_in_context_answerable"] = cov
-        a["gold_in_context_note"] = "requiere results/bench_r13/wikis_cache (no versionada)"
+        a["gold_in_context_note"] = f"preguntas con respuesta de la corrida; requiere {R13.name}/wikis_cache"
     else:
         prev = R13 / "analysis.json"
         if prev.exists():
             old = json.loads(prev.read_text(encoding="utf-8"))
-            if "gold_in_context_answerable" in old:
-                a["gold_in_context_answerable"] = old["gold_in_context_answerable"]
-                a["gold_in_context_note"] = old.get("gold_in_context_note", "")
+            for k in ("gold_in_context_answerable", "gold_in_context_note"):
+                if k in old:
+                    a[k] = old[k]
     (R13 / "analysis.json").write_text(json.dumps(a, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    print(json.dumps(a, ensure_ascii=False, indent=1))
+    print(json.dumps({k: a[k] for k in ("a3_minus_a2", "decision_rules")}, ensure_ascii=False, indent=1)[:2000])
     return 0
 
 

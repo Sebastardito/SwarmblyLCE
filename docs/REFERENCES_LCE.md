@@ -36,6 +36,7 @@ Cada entrada lleva una línea **Uso en LCE**: para qué se cita y qué decisión
 9. **[EVA]** Evaluación adaptativa y pluralismo · `[55]–[56]`
 10. **[PRV]** Privacidad, memorización, desaprendizaje y Sybil · `[57]–[61]`
 11. **[DCL]** Aprendizaje descentralizado y computación voluntaria · `[62]–[65]`
+12. **[V02]** Añadidas en la versión 0.2 del whitepaper / Added in whitepaper v0.2 · `[66]–[68]`
 
 ---
 
@@ -336,3 +337,21 @@ Uso en LCE: componer adaptadores es posible, pero exige misma familia y versión
 [65] Anderson, D. P., & Fedak, G. (2006). The computational and storage potential of volunteer computing. En *CCGRID'06* (pp. 73–80). IEEE. https://doi.org/10.1109/CCGRID.2006.101
 
 Uso en LCE: vida media de host de 91 días; base del cálculo de r_memory.
+
+---
+
+## 12. [V02] Añadidas en la versión 0.2 del whitepaper / Added in whitepaper v0.2
+
+*Añadidas el 2026-10-11. / Added 2026-10-11.*
+
+[66] Wu, D., Wang, H., Yu, W., Zhang, Y., Chang, K.-W., & Yu, D. (2025). LongMemEval: Benchmarking chat assistants on long-term interactive memory. *arXiv*. https://arxiv.org/abs/2410.10813 ⚠️
+
+Uso en LCE: subconjunto público (licencia MIT, 8 preguntas) de la confirmatoria de R13 (Enmienda 8), para comprobar que la dirección de A3 − A2 no es un artefacto del corpus sintético. ⚠️ lugar de publicación final no confirmado (versión 2 de arXiv, 2025-03-04).
+
+[67] Espinoza-Ulloa, S. A. (2026). *Swarmbly LCE: reference implementation, validation harness and pre-registered runs* (Version 0.1.1) [Software]. Zenodo. https://doi.org/10.5281/zenodo.23289041
+
+Uso en LCE: registro del software con las salidas crudas de las corridas hasta el 10 de octubre de 2026.
+
+[68] Espinoza-Ulloa, S. A. (2026). *Local cognition and anchored transmission: A local-first cognitive extension for Swarmbly* (Version 0.1, draft). Zenodo. https://doi.org/10.5281/zenodo.23150478
+
+Uso en LCE: la versión 0.1 del whitepaper, publicada sin resultados; la versión 0.2 la sustituye en contenido y la conserva congelada.

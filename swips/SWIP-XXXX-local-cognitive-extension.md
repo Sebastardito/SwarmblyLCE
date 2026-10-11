@@ -11,9 +11,11 @@ spec-version: 0.3
 
 # SWIP-XXXX: Local Cognitive Extension and Optional Knowledge Capsules
 
-> **Revision 3, validation status updated 2026-10-10.** The "Validation status" section now
-> reports the R13 pilot, F1a re-measured with clean sources and the retraction of the R11 and R12
-> conclusions (pre-registration Amendment 6); the normative specification is unchanged.
+> **Revision 3, validation status updated 2026-10-11.** The "Validation status" section now
+> reports the confirmatory runs of R13, R11, C2-bis, the H-C2 closure, F-forget and the A/A test,
+> with the declarations of pre-registration Amendment 15: R13-H1 dies (the wiki loses to raw RAG),
+> forgetting holds as a mechanism, R14 stays open, and the R11, C2-bis and H-C2 runs issue no
+> verdict. The normative specification is unchanged.
 >
 > **Revision 3 — 2026-10-05.** Adds the first measured findings (the
 > pre-registered confirmatory run 2 of C1/C2 and the exploratory benchmarks with
@@ -1528,7 +1530,7 @@ and Experiment C9 measures that prediction (H-C16).
 
 ---
 
-## Validation status (measured, 2026-10-05)
+## Validation status (measured, 2026-10-05; R11–R14 updated 2026-10-11)
 
 Nothing below is claimed as a performance improvement; each number carries its
 declared scope. The confirmatory run follows the pre-registration
@@ -1541,91 +1543,88 @@ labelled exploratory in their own scripts.
 | H-C2 lexicon | adherence 0.667 with Γ vs 0.033 without; diff 0.633 [0.500, 0.750] | 3 synthetic users × 20 topics, real models | holds |
 | H-C17 (a) | homogeneity 0.879 → 0.806; exceeds placebo by 0.048 [0.023, 0.070] | same | holds, with qualification |
 | H-C17 (b) | error agreement Δ = 0.039 [0.009, 0.069] inside ±0.10 | 1,500 MMLU items, 3 families | holds as equivalence; Γ has a small accuracy cost |
-| H-C1 at scale | mean gain of memory +0.500 by question, 95 % CI [0.420, 0.578] (question-clustered; 60 questions × 5 families; clean .md-only sources after E4; +0.511 [0.431, 0.591] without the three superseded keys, N1) | 5 synthetic users × 12 questions × 5 families, wiki statistics stored per family and user | holds descriptively; per-family gain spans +0.083 (phi3.5, 3 of 5 users REFUSED below the anchored-claim floor) to +0.717 (gemma2) — attribution to the digester remains confounded and awaits the crossed design |
-| H-C2 ρ | with the current protocol (Γ in every packet) the projection adds +4–8 % ρ across users (median +7 %, worst +7.8 %, real Projector); Δρ ≈ size of Γ ÷ packet size and does not dilute with longer documents | real planner/packer over 5 user procedure documents, real Projector | the comparison with the projection's GAIN (the actual death condition of H-C2) and the cost of per-request injection or Γ caching remain pending |
+| H-C1 at scale | mean gain of memory +0.500 by question, 95 % CI [0.420, 0.578] (question-clustered; 60 questions × 5 families; clean .md-only sources after E4; +0.511 [0.431, 0.591] without the three superseded keys, N1) | 5 synthetic users × 12 questions × 5 families, wiki statistics stored per family and user | holds descriptively; per-family gain spans +0.083 (phi3.5, 3 of 5 users REFUSED below the anchored-claim floor) to +0.717 (gemma2) — the digester effect is separated from answering by R13's crossed design (below) |
+| H-C2 ρ | with the current protocol (Γ in every packet) the projection adds +5.8 to +7.8 % ρ across users (median +7 %, real Projector); Δρ ≈ size of Γ ÷ packet size and does not dilute with longer documents | real planner/packer over 5 user procedure documents, real Projector | the comparison with the projection's GAIN (the actual death condition of H-C2) and the cost of per-request injection or Γ caching remain pending |
 | H-C6 (behavior) | a rank-8 LoRA trains in 36 s on consumer hardware and memorises its batch | LoRA rank 8, 200 iters, 13 pairs, Qwen2.5-3B-Instruct (qwen-research licence; weights not distributed) | feasibility only: the adherence comparison is not conclusive (batch contamination, unequal arms, no CI); the fair test is the next phase |
 | H-C11 direction (C9-lite) | utility adoption circuit works mechanically; prevalence threshold never fires on rare tails | 5 real nodes, unverified canary drafts | inconclusive by design (identity probe without capsules; tail mass by construction; prevalence counts the correct gloss, not the majority variant); two post-run deviations declared in the script |
 
-**Status of R11–R14 (review of 2026-10-09, repaired and re-measured
-2026-10-10; Amendment 6): piloted, not closed.** R13 was re-measured after
-repairing three review defects (digester-keyed analysis, recency ordering
-inverted, the deleted source still digested). The wiki stays behind raw RAG:
-A3 − A2 = −0.256 [−0.317, −0.194] by question, and no digester ties (gemma2
-−0.114 [−0.183, −0.045], qwen2.5 −0.212, llama3.2 −0.442). It does not win
-`updated` (−0.341 [−0.563, −0.135]). The `deleted` type does not measure
-forgetting (no arm ever saw the deleted source) and its +0.156 [−0.067,
-+0.378] over five questions comes from the wikis that retrieve less. The
-real forgetting test (F-forget, Amendment 6) passes: after
-`forget_source`, no claim of the source survives and no other claim changes
-(13 valid cells and a 93-forget sweep), the wiki equals one digested without
-the source (15/15 against an independent digestion), and abstention on the
-deleted-source questions rises from 0.359 to 0.718, the never-ingested
-level (+0.356 [+0.222, +0.489]; 5 questions, mechanism only). The
-measured cause of the gap is digestion coverage: the key is in the context
-for 99.1 % of answerable questions with RAG and 83.6 % / 81.0 % / 34.5 %
-with the gemma2 / qwen2.5 / llama3.2 wikis. Local memory itself helps (A3 −
-A0 = +0.479 [+0.420, +0.537] on answerable questions) and Γ's accuracy cost
-is small and digester-dependent (A4 − A3 per digester: +0.016 / −0.008 /
-−0.063). R11's adapter pilot is not a fair test (the adapter collapsed onto
-its batch; invalid tasks; no CIs) and its conclusions are retracted. R12's
-exploratory run shows the adoption circuit works but does not turn I4 into a
-measurement (0/40 correct by construction; no F_ST; unverified canary). R14
-is partial: model digests are checked against a versioned manifest, and the
-A/A test shows generation at temperature 0 reproducible (369/369 identical)
-and the stochastic homogeneity measure stable (Δ −0.0011), but digestion not
-always (8/15 wikis identical across runs; forget − full = +0.489 [+0.333, +0.644]), so the re-run criterion is not
-closed until digestion is made deterministic. The confirmatory runs of R11–R13
-remain the next phase.
+**Status of R11–R14 (confirmatory runs of 2026-10-11; pre-registration
+`docs/PREREGISTRATION_BENCH_R1X_EN.md`, Amendments 6–15).** Each result
+document is in `docs/RESULTS_2026-10-1*`; Amendment 15 declares what the
+review of these runs found (environment Python 3.9.6 instead of the locked
+3.11 in every run except F-forget; arm A2 is BM25 over sentences, not
+embeddings).
 
-**Confirmatories (2026-10-11).** R13 (251 questions, ≥30 per type,
-LongMemEval MIT subset, N1 excluded): R13-H1 DIES — A3 − A2 = −0.146
-[−0.186, −0.106] by question (qwen2.5 −0.113, llama3.2 −0.227, gemma2
-−0.098). R13-H2 inconclusive with a decisive split: the wiki LOSES updates
-(−0.222 [−0.358, −0.082], n=31) and WINS forgetting (+0.115 [0.044, 0.189],
-n=30). R13-H3 withdraws the digester gate as a rule (every cell has 39–2400
-anchored claims; the floor of 5 does not discriminate). The global death
-condition does NOT fire (no double defeat), so the epistemic-layer
-justification survives while the QA-accuracy one is retired. H-C2 closure
-(2.9): the projection does NOT survive the compensation rule on QA (mean
-adherence gain +0.016 vs median Δρ +41 %; fraction with gain > 0 and
-Δρ ≤ 10 % = 0.0). C2-bis (2.8): H-C17a HOLDS — homogeneity reduction by Γ
-over an instruction-matched placebo is +0.0652 [+0.0557, +0.0742] (100
-cells); the run-2 reduction was a real projection effect, not instruction
-length. R11 (Amendment 9): the FAIR adapter is INERT — adapter − base =
-+0.000 exactly (n=720), no collapse and no effect; H-C6 does not hold (0/3
-users, −0.52 to −0.63) and the pre-registered death rule RETIRES layer 2;
-retrieval+Γ (0.62–0.65) carries all behaviour; I1 equivalence +0.000. R12's
-confirmatory still needs the verified canary. The design stands on measured
-pillars — local memory (+0.500 clean), projection (valuable for writing,
-withdrawn for QA by the compensation rule), controlled forgetting (+0.115)
-— with two layers retired (the wiki's QA-accuracy justification and the
-behaviour LoRA).
+- **R13 (H-C1 decisive).** 251 questions, ≥30 per type, a frozen
+  LongMemEval subset (MIT), the three N1 questions removed. R13-H1 DIES:
+  A3 − A2 = −0.146 [−0.186, −0.106] by question, and no digester ties
+  (qwen2.5 −0.113, llama3.2 −0.227, gemma2 −0.098). The wiki loses on
+  updates (−0.222 [−0.358, −0.082]); its +0.115 on `deleted` is the N2
+  artefact declared before the run (no arm ever saw the deleted source and
+  the memoryless arm abstains on 100 %), not a forgetting win, so R13-H2
+  is inconclusive by its rule and the global death condition fires in
+  substance (one of its two readings fires; the other is saved only by the
+  invalid type). The gap is digestion coverage: the key reaches the
+  context for 94.8 % of answerable questions with raw RAG and 84.3 % /
+  82.7 % / 45.5 % with the gemma2 / qwen2.5 / llama3.2 wikis. Local memory
+  itself helps (A3 − A0 = +0.368 [+0.323, +0.412]; A2 − A0 = +0.581
+  [+0.525, +0.637]). R13-H3 withdraws the digester gate as a rule (no cell
+  is below the 5-claim floor). The wiki's justification by QA accuracy is
+  retired; default retrieval should run over the sources, with the wiki
+  as a governance layer (provenance, forgetting, training).
+- **F-forget (mechanism).** After `forget_source`, no claim of the source
+  survives and no other claim changes in all 15 cells and a 116-forget
+  sweep; abstention on the deleted-source questions rises from 0.289 to
+  0.778, the never-ingested level (forget − full = +0.489 [+0.333, +0.644];
+  forget − never +0.022; 5 questions, mechanism only). Exact equality with
+  a wiki that never saw the source cannot be checked while digestion is
+  not deterministic (8/15 claim sets).
+- **R14 (A/A).** Not closed, as a documented negative: generation at
+  temperature 0 is 98.4 % identical (369 answers; threshold 99 %),
+  digestion is not reproducible run to run even with a seed (8/15 wikis
+  identical), and the stochastic homogeneity measure is stable (Δ
+  −0.0011). Model digests are checked against a versioned manifest.
+- **H-C2 closure (Section 2.9).** Descriptive only: the run measured QA
+  accuracy instead of adherence and Δρ by word arithmetic instead of the
+  packer, and the pre-registered compensation rule is nearly unattainable
+  with binary gains. In QA, Γ adds context and barely changes accuracy
+  (mean +0.016). H-C2 remains undecided for writing.
+- **C2-bis (Section 2.8).** No verdict: the run (+0.0652 [+0.0557,
+  +0.0742]) measures homogeneity across the seeds of the same user, not
+  across users, and has no no-contract arm. H-C17a stays as after run 2,
+  with its qualification open.
+- **R11 (fair adapter).** REFUSED for manipulation failure: adapter and
+  base give byte-identical text on all 720 tasks although the LoRA weights
+  are non-zero, so the adapter never reached the evaluation. No verdict on
+  H-C6, I1, LC6 or H-C10; layer 2 is not withdrawn by this run. The next
+  run requires a manipulation check first.
+- **R12.** The confirmatory run still needs the verified canary.
 
 **Design consequences forced by the measurements.**
 
 1. **Γ caching (open question).** The projection cost multiplies by the number
    of fragments because Γ travels in every packet: measured with the real
-   planner and Projector, it adds +4.0 to +7.8 % to ρ per packet (median +7 %).
-   Injecting Γ once per request would lower it to about +1.1 to +2.6 % by
+   planner and Projector, it adds +5.8 to +7.8 % to ρ per packet (median +7 %).
+   Injecting Γ once per request would lower it to about +1.5 to +2.6 % by
    arithmetic on the same token counts; that design does not exist and the
    figure is an estimate, not a measurement. A per-user Γ cache on the node
    (Γ is constant between requests) could bring it towards zero, which is a
    hypothesis. This SWIP records the recommendation and leaves the mechanism to
    review (protocol-level, since it benefits every Γ user).
-2. **Digester-quality gate (proposal, now with crossed evidence).** In
-   R13's crossed design every wiki is answered by the same three responders,
-   so the digester effect is no longer confounded with answering: A3 is
-   0.651 with gemma2 wikis, 0.553 with qwen2.5 and 0.323 with llama3.2, and
-   the key reaches the context for 83.6 %, 81.0 % and 34.5 % of answerable
-   questions respectively. In F1a, phi3.5 fell below the five-anchored-claim
-   floor in 3 of 5 users and was refused. The evidence supports a gate on
-   digestion coverage (measured against held-out questions), not a raw claim
-   count; its threshold is not derived from these pilots and is proposed,
-   not established.
-3. **Adapter feasibility.** A rank-8 LoRA trains on consumer hardware in 36 s
-   (200 iterations, 13 pairs) and memorises its batch. Whether behaviour —
-   and only behaviour — can live in the weights is exactly what the fair
-   comparison of the next phase must show; this run does not.
+2. **Digester-quality gate (withdrawn as a claim-count rule).** In
+   R13's crossed design every wiki is answered by the same three
+   responders, so the digester effect is not confounded with answering:
+   A3 is 0.510 with gemma2 wikis, 0.495 with qwen2.5 and 0.381 with
+   llama3.2, and the key reaches the context for 84.3 %, 82.7 % and 45.5 %
+   of answerable questions respectively; every wiki has at least 39
+   anchored claims. A raw claim-count floor does not discriminate. If a
+   gate is kept, it must be on digestion coverage measured against
+   held-out questions; its threshold is not derived from these runs.
+3. **Adapter feasibility.** A rank-8 LoRA trains on consumer hardware in
+   seconds and memorises its batch. Whether behaviour — and only
+   behaviour — can live in the weights is still untested: the
+   confirmatory comparison was refused because the adapter was not applied
+   at evaluation.
 
 ## Measurement plan
 

@@ -1,14 +1,16 @@
 """Cierre de H-C2: ρ frente a su ganancia (R13 preregistro 2.9).
 
 Con las celdas de la CONFIRMATORIA de R13 y el camino de despacho de
-Swarmbly (planificador + packer reales, como en F1b), se mide por tarea el
-par (ganancia de adherencia con Γ, Δρ):
+Swarmbly que pide la sección 2.9, se mide por tarea el par (ganancia con
+Γ, Δρ). Enmienda 15.6: esta implementación mide la ganancia en exactitud de
+QA (no adherencia) y Δρ por aritmética de palabras (no con el packer), así
+que su salida es descriptiva:
 
   * ganancia = A4 − A3 por tarea (diagonal digestor = respondedor), con la
     rúbrica de R13 — el A4 añade Γ sobre la misma recuperación que A3;
-  * Δρ por tarea = ρ de los paquetes construidos con la Γ del usuario − ρ de
-    los paquetes sin Γ, sobre las claims recuperadas para esa tarea, con el
-    packer registrado (misma ruta que F1b).
+  * Δρ por tarea = tokens de Γ añadidos a cada fragmento del contexto
+    recuperado (hasta 4 fragmentos de 400 caracteres) sobre los tokens de
+    ese contexto; es una cota aritmética, no una medida con el packer.
 
 Regla de compensación preregistrada: **la proyección sobrevive si la
 fracción de tareas con ganancia > 0 Y Δρ ≤ 10 % es ≥ 0.8**; se reporta el
@@ -122,8 +124,10 @@ def main(argv: list[str] | None = None) -> int:
             "frac_gain_positive": round(float(np.mean(gains > 0)), 4),
             "frac_drho_le_10": round(float(np.mean(drho <= 10.0)), 4),
             "frac_both": round(frac, 4),
-            "verdict": ("la proyección sobrevive" if frac >= 0.8
-                        else "la proyección NO sobrevive (regla de compensación)"),
+            # Sin veredicto (Enmienda 15.6): la ganancia es exactitud de QA y
+            # no adherencia, y Δρ es una cota aritmética, no la del packer.
+            "verdict": "descriptivo, sin veredicto (Enmienda 15.6)",
+            "rule_fraction_ge_0_8": frac >= 0.8,
             "mean_gain": round(float(np.mean(gains)), 4),
             "median_delta_rho_pct": round(float(np.median(drho)), 2),
         }
