@@ -168,6 +168,8 @@ def train(base_model: str, rows: list[dict], out_dir: Path, seed: int,
         "\n".join(json.dumps(r, ensure_ascii=False) for r in rows[:n_valid])
         + "\n", encoding="utf-8")
     adapter = out_dir / "adapter"
+    if adapter.exists() and any(adapter.glob("*.safetensors")):
+        return adapter   # reanudación: el adaptador ya se entrenó
     iters = max(8, 2 * math.ceil(len(rows) / 2))   # 2 épocas: sin colapso
     iters = max(4, round(iters * budget_frac))
     cmd = [MLX_LORA, "--model", base_model, "--train", "--data", str(data),
@@ -180,15 +182,53 @@ def train(base_model: str, rows: list[dict], out_dir: Path, seed: int,
     return adapter
 
 
-def generate(prompt: str, adapter: Path | None, base_model: str,
-             max_tokens: int = 60) -> str:
-    cmd = [MLX_GEN, "--model", base_model, "--prompt", prompt,
-           "--max-tokens", str(max_tokens), "--temp", "0.0"]
+MLX_SERVER = "/opt/homebrew/bin/mlx_lm.server"
+_SERVERS: dict[tuple, tuple] = {}
+_PORT = 18080
+
+
+def _server(base_model: str, adapter: Path | None) -> tuple:
+    key = (base_model, str(adapter) if adapter else "")
+    if key in _SERVERS:
+        return _SERVERS[key]
+    global _PORT
+    port = _PORT
+    _PORT += 1
+    cmd = [MLX_SERVER, "--model", base_model, "--port", str(port),
+           "--temp", "0.0", "--max-tokens", "512"]
     if adapter:
         cmd += ["--adapter-path", str(adapter)]
-    r = subprocess.run(cmd, capture_output=True, text=True, env=_env(),
-                       timeout=600)
-    return r.stdout.strip()
+    proc = subprocess.Popen(cmd, stdout=subprocess.DEVNULL,
+                            stderr=subprocess.DEVNULL, env=_env())
+    import urllib.request
+    import time as _time
+    for _ in range(240):     # hasta 4 min para cargar el modelo
+        try:
+            with urllib.request.urlopen(f"http://127.0.0.1:{port}/v1/models",
+                                        timeout=2) as r:
+                if r.status == 200:
+                    break
+        except Exception:
+            _time.sleep(1.0)
+    _SERVERS[key] = (proc, port)
+    return (proc, port)
+
+
+def generate(prompt: str, adapter: Path | None, base_model: str,
+             max_tokens: int = 60) -> str:
+    # evaluación servida por un proceso MLX persistente: mismos pesos,
+    # mismo prompt, temperatura 0 — solo cambia el mecanismo de servir
+    # (la CLI recargaba el modelo por llamada y granite tardaba ~45 s).
+    import urllib.request
+    _proc, port = _server(base_model, adapter)
+    body = json.dumps({"model": base_model, "prompt": prompt,
+                       "temperature": 0.0, "max_tokens": max_tokens}).encode()
+    req = urllib.request.Request(f"http://127.0.0.1:{port}/v1/completions",
+                                 data=body,
+                                 headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=600) as r:
+        data = json.loads(r.read().decode())
+    return (data["choices"][0]["text"] or "").strip()
 
 
 def _ok(golds: list[str], answer: str) -> bool:

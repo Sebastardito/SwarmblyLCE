@@ -482,4 +482,14 @@ seeded digestion plus the tolerant parser (the best configuration:
 12-13/15) and its wikis are saved as auditable artifacts; the
 pre-registration does not condition the confirmatory on R14's closure.
 
+**Amendment 13 — 11 October 2026, during the R11 confirmatory run
+(before re-evaluating; does not touch the design).** R11's evaluation moves
+from the MLX CLI to a persistent MLX SERVER per (model, adapter): same
+weights, same prompts, temperature 0 and the same gold thresholds. The CLI
+reloaded the model per call and granite (2B) took ~45 s per call (~20 h of
+evaluation); the server reuses the load (~1-2 s per call). The 26 already
+completed trainings are reused (resume per existing adapter); only the
+evaluations re-run. This is an execution-mechanism change, not a change to
+the pre-registered design.
+
 *Text CC BY 4.0; code AGPL-3.0-or-later.*

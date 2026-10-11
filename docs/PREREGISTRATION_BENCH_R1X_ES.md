@@ -495,4 +495,14 @@ nativa con semilla y parser tolerante (la mejor configuración: 12-13/15) y
 sus wikis se guardan como artefactos auditables; el preregistro no
 condiciona la confirmatoria al cierre de R14.
 
+**Enmienda 13 — 11 de octubre de 2026, durante la confirmatoria de R11
+(antes de re-evaluar; no toca el diseño).** La evaluación de R11 migra de la
+CLI de MLX a un SERVIDOR MLX persistente por (modelo, adaptador): mismos
+pesos, mismos prompts, temperatura 0 y mismos umbrales de oro. La CLI
+recargaba el modelo por llamada y granite (2B) tardaba ~45 s por llamada
+(~20 h de evaluación); el servidor reutiliza la carga (~1-2 s por llamada).
+Los 26 entrenamientos ya completados se reutilizan (reanudación por
+adaptador existente); solo se re-ejecutan las evaluaciones. Es un cambio de
+mecanismo de ejecución, no del diseño preregistrado.
+
 *Texto CC BY 4.0; código AGPL-3.0-or-later.*
