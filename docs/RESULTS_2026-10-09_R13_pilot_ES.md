@@ -224,7 +224,7 @@ Esta sección no afirma que la wiki gane en olvido; eso lo mide la prueba
 F-forget (Enmienda 6 c).
 
 **Dónde pierde la wiki.** En las preguntas con respuesta, la clave aparece
-en el contexto del RAG en el 99.1 % de los casos y en el de la wiki en el
+en el contexto del RAG en el 98.3 % de los casos y en el de la wiki en el
 83.6 % (gemma2), el 81.0 % (qwen2.5) y el 34.5 % (llama3.2). Con esa
 cobertura, la wiki de gemma2 convierte casi como el RAG (0.641 sobre 0.836
 frente a 0.767 sobre 0.991). La pérdida está en la digestión, que deja fuera

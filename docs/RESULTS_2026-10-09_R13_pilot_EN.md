@@ -220,7 +220,7 @@ not forgetting. This section does not claim that the wiki wins on
 forgetting; the F-forget test measures that (Amendment 6 c).
 
 **Where the wiki loses.** On answerable questions the key is in RAG's
-context in 99.1 % of cases and in the wiki's in 83.6 % (gemma2), 81.0 %
+context in 98.3 % of cases and in the wiki's in 83.6 % (gemma2), 81.0 %
 (qwen2.5) and 34.5 % (llama3.2). Given that coverage, the gemma2 wiki
 converts almost as RAG does (0.641 out of 0.836 against 0.767 out of 0.991).
 The loss is in digestion, which leaves out between 16 % and 65 % of the
