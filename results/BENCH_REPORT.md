@@ -92,7 +92,7 @@ kind: exploratory
 
 ### 2.6 F-forget (olvido real, Enmienda 6 c)
 
-**Estructura.** Tres wikis por celda (W_full con todas las fuentes, W_forget tras `forget_source` de `borrada.md`, W_never digerida sin ella). Residuo S2 = 0 y daño colateral S3 = 0 en las celdas válidas y en los 93 olvidos del barrido; 2 celdas rechazadas por S1 (la wiki no tenía claims de esa fuente). S2 y S3 verifican la implementación sobre wikis reales: `forget_source` borra por anclaje, así que cero es lo esperado. **Veredicto estructural: se sostiene.**
+**Estructura.** Tres wikis por celda (W_full con todas las fuentes, W_forget tras `forget_source` de `borrada.md`, W_never digerida sin ella). Residuo S2 = 0 y daño colateral S3 = 0 en las celdas válidas y en los 116 olvidos del barrido; 0 celdas rechazadas por S1 (la wiki no tenía claims de esa fuente). S2 y S3 verifican la implementación sobre wikis reales: `forget_source` borra por anclaje, así que cero es lo esperado. **Veredicto estructural: se sostiene.**
 
 **Equivalencia con no haber digerido nunca.** W_forget coincide con la W_never de la misma corrida en 8/15 wikis, pero con la wiki de R13 digerida sin la fuente en otra corrida en 15/15; las diferencias vienen de la W_never de esta corrida (8/15 frente a R13), es decir, del no determinismo de la digestión que mide AA2, no del olvido (análisis posterior a los datos).
 
@@ -100,7 +100,7 @@ kind: exploratory
 
 ### 2.7 A/A de reproducibilidad (R14, Enmienda 6 c)
 
-AA1 generación a T = 0: 100.0 % de 378 respuestas idénticas, Δ exactitud +0.0000 (pasa). AA2 digestión: 8/15 wikis idénticas, Jaccard medio 0.943 (falla). AA3 semilla a T = 0.7: endpoint nativo 100 % idénticas, compatible con OpenAI 80 %. AA4 homogeneidad: Δ −0.001 [−0.007, +0.005] (pasa).
+AA1 generación a T = 0: 58.7 % de 378 respuestas idénticas, Δ exactitud -0.0714 (falla). AA2 digestión: 12/15 wikis idénticas, Jaccard medio 0.985 (falla). AA3 semilla a T = 0.7: endpoint nativo 100 % idénticas, compatible con OpenAI 80 %. AA4 homogeneidad: Δ −0.001 [−0.007, +0.005] (pasa).
 
 **El criterio de re-corrida de R14 NO queda cerrado:** la generación es reproducible, la digestión no siempre. Cerrarlo requiere una digestión determinista (endpoint nativo con semilla, que AA3 muestra efectivo, o canonicalización de claims), por enmienda.
 
