@@ -86,7 +86,7 @@ kind: exploratory
 
 **Memoria frente a nada (preguntas con respuesta):** A3 − A0 = +0.479 [+0.420, +0.537]; A2 − A0 = +0.767 [+0.704, +0.828].
 
-**Dónde pierde la wiki.** Clave presente en el contexto (preguntas con respuesta): A2 0.991; A3|qwen2.5:3b 0.810; A3|llama3.2:3b 0.345; A3|gemma2:2b 0.836. La diferencia está en la cobertura de la digestión.
+**Dónde pierde la wiki.** Clave presente en el contexto (preguntas con respuesta): A2 0.983; A3|qwen2.5:3b 0.810; A3|llama3.2:3b 0.345; A3|gemma2:2b 0.836. La diferencia está en la cobertura de la digestión.
 
 **Qué NO concluye.** `deleted` no mide olvido (ningún brazo vio la fuente borrada) y la abstención premia al brazo que recupera menos; la prueba de olvido real es F-forget (Enmienda 6). Sin las tres claves superadas (N1): −0.260 [−0.323, −0.198].
 
