@@ -242,7 +242,7 @@ def main(argv: list[str] | None = None) -> int:
         base_model = BASE[fam]
         for uid in users:
             tasks, style_tasks, factual = build_tasks(uid)
-            wp = (ROOT / "results" / "bench_r13" / "wikis_cache"
+            wp = (ROOT / "results" / "bench_r13_confirm" / "wikis_cache"
                   / f"{uid}__{CANON}_wiki.json")
             if not wp.exists():
                 print(f"{uid}: falta la wiki canónica ({wp.name}), salto")
@@ -314,7 +314,7 @@ def main(argv: list[str] | None = None) -> int:
     if not args.skip_lc6:
         # LC6: olvidar el estilo de mara y re-entrenar sin sus claims
         uid = "mara"
-        wp = (ROOT / "results" / "bench_r13" / "wikis_cache"
+        wp = (ROOT / "results" / "bench_r13_confirm" / "wikis_cache"
               / f"{uid}__{CANON}_wiki.json")
         wiki = Wiki.load(wp, LearningPolicy.load(
             HERE / "fixtures" / "bench_users" / uid / "policy.json"))

@@ -41,7 +41,7 @@ from lce_validation.experiments import FIXTURES  # noqa: E402
 from lce_validation.provenance import record as _record  # noqa: E402
 
 OUT = ROOT / "results" / "bench_hc2_closure"
-R13 = ROOT / "results" / "bench_r13"
+R13 = ROOT / "results" / "bench_r13_confirm"
 
 
 def _norm(s: str) -> str:

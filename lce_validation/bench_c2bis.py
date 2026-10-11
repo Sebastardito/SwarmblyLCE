@@ -96,7 +96,7 @@ def main(argv: list[str] | None = None) -> int:
                                   [WRITER])}
     cells = []
     for uid in USERS:
-        wp = ROOT / "results" / "bench_r13" / "wikis_cache" / f"{uid}__qwen2.5:3b_wiki.json"
+        wp = ROOT / "results" / "bench_r13_confirm" / "wikis_cache" / f"{uid}__qwen2.5:3b_wiki.json"
         if not wp.exists():
             print(f"{uid}: falta la wiki de la confirmatoria, salto")
             continue
