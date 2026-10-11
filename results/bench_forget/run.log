@@ -1,37 +1,13 @@
-  andres×qwen2.5:3b: borrada 7 claims; residuo 0; colateral 0; jaccard forget/never 1.0
+  andres×qwen2.5:3b: borrada 7 claims; residuo 0; colateral 0; jaccard forget/never 0.8833
   andres×llama3.2:3b: borrada 3 claims; residuo 0; colateral 0; jaccard forget/never 1.0
   andres×gemma2:2b: borrada 7 claims; residuo 0; colateral 0; jaccard forget/never 1.0
   carmen×qwen2.5:3b: borrada 6 claims; residuo 0; colateral 0; jaccard forget/never 1.0
-  carmen×llama3.2:3b: borrada 4 claims; residuo 0; colateral 0; jaccard forget/never 1.0
+  carmen×llama3.2:3b: borrada 4 claims; residuo 0; colateral 0; jaccard forget/never 0.9865
   carmen×gemma2:2b: borrada 6 claims; residuo 0; colateral 0; jaccard forget/never 1.0
   julian×qwen2.5:3b: borrada 6 claims; residuo 0; colateral 0; jaccard forget/never 1.0
-  julian×llama3.2:3b: borrada 0 claims; residuo 0; colateral 0; jaccard forget/never 1.0
-  julian×gemma2:2b: borrada 6 claims; residuo 0; colateral 0; jaccard forget/never 1.0
-  luisa×qwen2.5:3b: borrada 6 claims; residuo 0; colateral 0; jaccard forget/never 1.0
-  luisa×llama3.2:3b: borrada 0 claims; residuo 0; colateral 0; jaccard forget/never 0.8205
+  julian×llama3.2:3b: borrada 1 claims; residuo 0; colateral 0; jaccard forget/never 1.0
+  julian×gemma2:2b: borrada 6 claims; residuo 0; colateral 0; jaccard forget/never 0.9365
+  luisa×qwen2.5:3b: borrada 6 claims; residuo 0; colateral 0; jaccard forget/never 0.9455
+  luisa×llama3.2:3b: borrada 5 claims; residuo 0; colateral 0; jaccard forget/never 0.9348
   luisa×gemma2:2b: borrada 7 claims; residuo 0; colateral 0; jaccard forget/never 1.0
-  mara×qwen2.5:3b: borrada 7 claims; residuo 0; colateral 0; jaccard forget/never 1.0
-  mara×llama3.2:3b: borrada 7 claims; residuo 0; colateral 0; jaccard forget/never 0.7308
-  mara×gemma2:2b: borrada 6 claims; residuo 0; colateral 0; jaccard forget/never 1.0
-
-=== F-forget ===
-  cells: 15
-  refused_cells: 2
-  S1_anchored_to_forgotten: [7, 3, 7, 6, 4, 6, 6, 0, 6, 6, 0, 7, 7, 7, 6]
-  S2_residue_total: 0
-  S3_collateral_total: 0
-  sweep_forgets: 108
-  sweep_residue_total: 0
-  sweep_collateral_total: 0
-  S4_identical_claim_sets: 13
-  S4_mean_jaccard: 0.9701
-  S4_context_identical_rate: 0.8719
-  abstention: {'full': 0.179, 'forget': 0.769, 'never': 0.744}
-  forget_minus_never: 0.022
-  forget_minus_never_ci95: [0.0, 0.067]
-  forget_minus_full: 0.611
-  forget_minus_full_ci95: [0.389, 0.844]
-  B1_manipulation_ok: True
-  B2_behavioural_complete: True
-  verdict_structural: se sostiene
-  n_deleted_questions: 5
+  mara×qwen2.5:3b: borrada 7 claims; residuo 0; colateral 0; jaccard forget/never 0.8933
