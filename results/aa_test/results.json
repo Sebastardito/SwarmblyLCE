@@ -2,10 +2,10 @@
  "kind": "A/A (Enmienda 6c)",
  "prereg": "/Users/seb/Documents/Harness/LCE/docs/PREREGISTRATION_BENCH_R1X_ES.md",
  "provenance": {
-  "git_commit": "9b0474e03b41c649209a5d4f3160923e4d68bd86",
+  "git_commit": "664d3622fd0007289a10070b79a12492c74cc5a6",
   "git_dirty": false,
   "prereg": "/Users/seb/Documents/Harness/LCE/docs/PREREGISTRATION_BENCH_R1X_ES.md",
-  "prereg_sha256": "6ea273e3a14cfc6025ddfbd6a79235f159a5a048f246afc6cec709e65cd733ef",
+  "prereg_sha256": "d598555f5f0f69b8c651a6cf1b59864f5419e1d698da3fffb1e259bbefa7ebc8",
   "ollama_version": "0.40.2",
   "models": {
    "qwen2.5:3b": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
@@ -13,7 +13,7 @@
    "gemma2:2b": "8ccf136fdd5298f3ffe2d69862750ea7fb56555fa4d5b18c04e3fa4d82ee09d7"
   },
   "python": "3.11.17",
-  "utc": "2026-10-11T01:31:03Z",
+  "utc": "2026-10-11T02:57:05Z",
   "mode": "A/A (Enmienda 6c)"
  },
  "summary": {
@@ -27,8 +27,8 @@
   },
   "AA2": {
    "wikis": 15,
-   "identical": 12,
-   "mean_jaccard": 0.9854,
+   "identical": 8,
+   "mean_jaccard": 0.9661,
    "passed": false
   },
   "AA3": {
@@ -3123,10 +3123,10 @@
    "user": "carmen",
    "digester": "llama3.2:3b",
    "available": true,
-   "identical": true,
-   "jaccard": 1.0,
+   "identical": false,
+   "jaccard": 0.9865,
    "n_first": 74,
-   "n_second": 74
+   "n_second": 73
   },
   {
    "user": "carmen",
@@ -3141,10 +3141,10 @@
    "user": "julian",
    "digester": "gemma2:2b",
    "available": true,
-   "identical": true,
-   "jaccard": 1.0,
+   "identical": false,
+   "jaccard": 0.9365,
    "n_first": 63,
-   "n_second": 63
+   "n_second": 59
   },
   {
    "user": "julian",
@@ -3152,8 +3152,8 @@
    "available": true,
    "identical": true,
    "jaccard": 1.0,
-   "n_first": 75,
-   "n_second": 75
+   "n_first": 74,
+   "n_second": 74
   },
   {
    "user": "julian",
@@ -3178,18 +3178,18 @@
    "digester": "llama3.2:3b",
    "available": true,
    "identical": false,
-   "jaccard": 0.9348,
+   "jaccard": 0.8478,
    "n_first": 46,
-   "n_second": 43
+   "n_second": 39
   },
   {
    "user": "luisa",
    "digester": "qwen2.5:3b",
    "available": true,
-   "identical": true,
-   "jaccard": 1.0,
-   "n_first": 53,
-   "n_second": 53
+   "identical": false,
+   "jaccard": 0.9808,
+   "n_first": 52,
+   "n_second": 51
   },
   {
    "user": "mara",
@@ -3213,8 +3213,8 @@
    "user": "mara",
    "digester": "qwen2.5:3b",
    "available": true,
-   "identical": true,
-   "jaccard": 1.0,
+   "identical": false,
+   "jaccard": 0.8933,
    "n_first": 71,
    "n_second": 71
   }

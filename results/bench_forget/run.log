@@ -12,3 +12,26 @@
   luisa×gemma2:2b: borrada 7 claims; residuo 0; colateral 0; jaccard forget/never 1.0
   mara×qwen2.5:3b: borrada 7 claims; residuo 0; colateral 0; jaccard forget/never 1.0
   mara×llama3.2:3b: borrada 7 claims; residuo 0; colateral 0; jaccard forget/never 0.8909
+  mara×gemma2:2b: borrada 6 claims; residuo 0; colateral 0; jaccard forget/never 1.0
+
+=== F-forget ===
+  cells: 15
+  refused_cells: 0
+  S1_anchored_to_forgotten: [7, 3, 7, 6, 4, 6, 6, 1, 6, 6, 5, 7, 7, 7, 6]
+  S2_residue_total: 0
+  S3_collateral_total: 0
+  sweep_forgets: 116
+  sweep_residue_total: 0
+  sweep_collateral_total: 0
+  S4_identical_claim_sets: 11
+  S4_mean_jaccard: 0.9774
+  S4_context_identical_rate: 0.8212
+  abstention: {'full': 0.333, 'forget': 0.822, 'never': 0.756}
+  forget_minus_never: 0.067
+  forget_minus_never_ci95: [0.0, 0.2]
+  forget_minus_full: 0.489
+  forget_minus_full_ci95: [0.311, 0.644]
+  B1_manipulation_ok: True
+  B2_behavioural_complete: True
+  verdict_structural: se sostiene
+  n_deleted_questions: 5

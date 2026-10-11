@@ -481,4 +481,18 @@ conservan solo las claims presentes en AMBAS decodificaciones; la
 intersección filtra la parte variable de la decodificación. Costo: el doble
 de llamadas de digestión. El criterio de AA2 (≥14/15) no cambia.
 
+**Enmienda 12 — 10 de octubre de 2026, ANTES de la confirmatoria.** La
+doble pasada con intersección (Enmienda 11) EMPEORÓ el acuerdo entre
+corridas (AA2: 8/15) y se revierte: la intersección filtra la parte
+variable DENTRO de una corrida pero no entre corridas, y reduce el conjunto
+de claims. Resultado honesto del ciclo: la digestión de Ollama no es
+reproducible corrida a corrida en este stack (AA2 en cuatro configuraciones:
+8-13/15 conjuntos idénticos, Jaccard 0.943-0.992); la generación (AA1) y
+las medidas estocásticas (AA4) SÍ lo son. **El criterio de re-corrida de
+R14 queda ABIERTO como resultado negativo documentado** (limitación del
+stack, no del diseño). La confirmatoria de R13 procede con la digestión
+nativa con semilla y parser tolerante (la mejor configuración: 12-13/15) y
+sus wikis se guardan como artefactos auditables; el preregistro no
+condiciona la confirmatoria al cierre de R14.
+
 *Texto CC BY 4.0; código AGPL-3.0-or-later.*

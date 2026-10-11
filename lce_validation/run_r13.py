@@ -317,8 +317,7 @@ def main(argv: list[str] | None = None) -> int:
             wiki, st = build_wiki(base, base / "policy.json", backends[d],
                                   anchor_mode="quote", reconcile_types=True,
                                   suffixes=frozenset({".md"}),
-                                  exclude_names=frozenset({"borrada.md"}),
-                                  double_pass=True)
+                                  exclude_names=frozenset({"borrada.md"}))
             wiki.save(cache_file)
             wikis[(uid, d)] = wiki
             stats[f"{uid}|{d}"] = {"claims": st["claims"],

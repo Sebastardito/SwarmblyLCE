@@ -469,4 +469,17 @@ BOTH decodes are kept; the intersection filters the variable part of the
 decode. Cost: twice the digestion calls. AA2's criterion (>=14/15) is
 unchanged.
 
+**Amendment 12 — 10 October 2026, BEFORE the confirmatory run.** The
+double-pass intersection (Amendment 11) WORSENED cross-run agreement (AA2:
+8/15) and is reverted: the intersection filters the variable part WITHIN a
+run but not between runs, and shrinks the claim set. Honest cycle result:
+Ollama digestion is not reproducible run to run on this stack (AA2 across
+four configurations: 8-13/15 identical claim sets, Jaccard 0.943-0.992);
+generation (AA1) and the stochastic measures (AA4) ARE reproducible. **The
+R14 re-run criterion stays OPEN as a documented negative result** (a stack
+limitation, not a design one). The R13 confirmatory proceeds with native
+seeded digestion plus the tolerant parser (the best configuration:
+12-13/15) and its wikis are saved as auditable artifacts; the
+pre-registration does not condition the confirmatory on R14's closure.
+
 *Text CC BY 4.0; code AGPL-3.0-or-later.*

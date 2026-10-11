@@ -2,10 +2,10 @@
  "kind": "exploratory (Enmienda 6c)",
  "prereg": "/Users/seb/Documents/Harness/LCE/docs/PREREGISTRATION_BENCH_R1X_ES.md",
  "provenance": {
-  "git_commit": "33e1558301c83035b58740d248ac1b157b2867c2",
+  "git_commit": "dc90038c0a7fb433c03d0e32859e4db065ca73c8",
   "git_dirty": false,
   "prereg": "/Users/seb/Documents/Harness/LCE/docs/PREREGISTRATION_BENCH_R1X_ES.md",
-  "prereg_sha256": "6ea273e3a14cfc6025ddfbd6a79235f159a5a048f246afc6cec709e65cd733ef",
+  "prereg_sha256": "d598555f5f0f69b8c651a6cf1b59864f5419e1d698da3fffb1e259bbefa7ebc8",
   "ollama_version": "0.40.2",
   "models": {
    "qwen2.5:3b": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
@@ -13,7 +13,7 @@
    "gemma2:2b": "8ccf136fdd5298f3ffe2d69862750ea7fb56555fa4d5b18c04e3fa4d82ee09d7"
   },
   "python": "3.11.17",
-  "utc": "2026-10-11T00:57:08Z",
+  "utc": "2026-10-11T01:54:21Z",
   "mode": "exploratory (Enmienda 6c)"
  },
  "models": [
@@ -164,7 +164,7 @@
    "user": "andres",
    "digester": "qwen2.5:3b",
    "source": "teach/knowledge/actualizacion.md",
-   "anchored_before": 9,
+   "anchored_before": 6,
    "residue": 0,
    "collateral": 0,
    "kept_multi_anchored": 0
@@ -668,7 +668,7 @@
    "user": "julian",
    "digester": "llama3.2:3b",
    "source": "teach/knowledge/conocimiento.md",
-   "anchored_before": 22,
+   "anchored_before": 21,
    "residue": 0,
    "collateral": 0,
    "kept_multi_anchored": 0
@@ -812,7 +812,7 @@
    "user": "luisa",
    "digester": "qwen2.5:3b",
    "source": "teach/knowledge/conocimiento.md",
-   "anchored_before": 11,
+   "anchored_before": 9,
    "residue": 0,
    "collateral": 0,
    "kept_multi_anchored": 0
@@ -876,15 +876,6 @@
    "digester": "llama3.2:3b",
    "source": "teach/knowledge/borrada.md",
    "anchored_before": 5,
-   "residue": 0,
-   "collateral": 0,
-   "kept_multi_anchored": 0
-  },
-  {
-   "user": "luisa",
-   "digester": "llama3.2:3b",
-   "source": "teach/knowledge/conocimiento.md",
-   "anchored_before": 4,
    "residue": 0,
    "collateral": 0,
    "kept_multi_anchored": 0
@@ -1100,7 +1091,7 @@
    "user": "mara",
    "digester": "llama3.2:3b",
    "source": "teach/knowledge/memoria_anual.md",
-   "anchored_before": 13,
+   "anchored_before": 9,
    "residue": 0,
    "collateral": 0,
    "kept_multi_anchored": 0
@@ -1218,11 +1209,11 @@
   {
    "user": "andres",
    "digester": "qwen2.5:3b",
-   "claims_forget": 58,
+   "claims_forget": 55,
    "claims_never": 55,
-   "jaccard": 0.8833,
-   "identical_claim_sets": false,
-   "context_identical_rate": 0.32
+   "jaccard": 1.0,
+   "identical_claim_sets": true,
+   "context_identical_rate": 1.0
   },
   {
    "user": "andres",
@@ -1281,8 +1272,8 @@
   {
    "user": "julian",
    "digester": "llama3.2:3b",
-   "claims_forget": 75,
-   "claims_never": 75,
+   "claims_forget": 74,
+   "claims_never": 74,
    "jaccard": 1.0,
    "identical_claim_sets": true,
    "context_identical_rate": 1.0
@@ -1299,20 +1290,20 @@
   {
    "user": "luisa",
    "digester": "qwen2.5:3b",
-   "claims_forget": 54,
-   "claims_never": 53,
-   "jaccard": 0.9455,
-   "identical_claim_sets": false,
-   "context_identical_rate": 0.64
+   "claims_forget": 52,
+   "claims_never": 52,
+   "jaccard": 1.0,
+   "identical_claim_sets": true,
+   "context_identical_rate": 1.0
   },
   {
    "user": "luisa",
    "digester": "llama3.2:3b",
-   "claims_forget": 43,
+   "claims_forget": 39,
    "claims_never": 46,
-   "jaccard": 0.9348,
+   "jaccard": 0.8478,
    "identical_claim_sets": false,
-   "context_identical_rate": 0.32
+   "context_identical_rate": 0.08
   },
   {
    "user": "luisa",
@@ -1328,18 +1319,18 @@
    "digester": "qwen2.5:3b",
    "claims_forget": 71,
    "claims_never": 71,
-   "jaccard": 0.8933,
-   "identical_claim_sets": false,
-   "context_identical_rate": 0.3462
+   "jaccard": 1.0,
+   "identical_claim_sets": true,
+   "context_identical_rate": 1.0
   },
   {
    "user": "mara",
    "digester": "llama3.2:3b",
-   "claims_forget": 53,
+   "claims_forget": 49,
    "claims_never": 55,
-   "jaccard": 0.9636,
+   "jaccard": 0.8909,
    "identical_claim_sets": false,
-   "context_identical_rate": 0.3846
+   "context_identical_rate": 0.0385
   },
   {
    "user": "mara",
@@ -1364,9 +1355,9 @@
     "abstain": true
    },
    "abstained": false,
-   "answer": "El borrador preliminar estimó que el número necesario a tamizar era 180.",
-   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar se recalcula de 200 a 210.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar se estimó en 180 en un borrador preliminar;\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar preliminar fue 240.\nEl número necesario a tamizar fue 180.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento fue de 200 personas.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento bajó a 180 personas con los datos del año.\n[user_claim — attributed to the user, not a fact] The user holds that: El borrador fijaba el tamaño muestral mínimo en 40 participantes.\n[user_claim — attributed to the user, not a fact] The user holds that: El borrador reportaba 61,500 participantes en los 12 estudios.\n",
-   "tokens": 240
+   "answer": "El borrador preliminar estimaba que el número necesario a tamizar era 180.",
+   "context": "El número necesario a tamizar se recalcula de 200 a 210.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar se estimó en 180 en un borrador preliminar;\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar preliminar fue 240.\nEl número necesario a tamizar fue 180.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento fue de 200 personas.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento bajó a 180 personas con los datos del año.\n[user_claim — attributed to the user, not a fact] The user holds that: El borrador fijaba el tamaño muestral mínimo en 40 participantes.\n[user_claim — attributed to the user, not a fact] The user holds that: El borrador reportaba 61,500 participantes en los 12 estudios.\n[user_claim — attributed to the user, not a fact] The user holds that: La razón de riesgos preliminar del resultado principal fue 0.79.\n",
+   "tokens": 250
   },
   {
    "user": "andres",
@@ -1381,8 +1372,8 @@
    },
    "abstained": true,
    "answer": "no está en mis fuentes",
-   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar se recalcula de 200 a 210.\nEl número necesario a tamizar fue 180.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento fue de 200 personas.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento bajó a 180 personas con los datos del año.\n[user_claim — attributed to the user, not a fact] The user holds that: Todo desenlace se reporta con su intervalo de confianza al 95 por ciento y el número de estudios y de participantes que lo sustentan.\n[user_claim — attributed to the user, not a fact] The user holds that: El estudio mayor aporta 24,310 participantes según el formulario;\nEl acuerdo entre revisores se reporta con el coeficiente kappa; si kappa es menor a 0.60, la fase de tamizaje se repite con el manual actualizado.\n[user_claim — attributed to the user, not a fact] The user holds that: el documento fuente reporta 24,312.\n",
-   "tokens": 244
+   "context": "El número necesario a tamizar se recalcula de 200 a 210.\nPrefiero el término tamizaje en lugar de screening.\nEl número necesario a tamizar fue 180.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento fue de 200 personas.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento bajó a 180 personas con los datos del año.\n[user_claim — attributed to the user, not a fact] The user holds that: Todo desenlace se reporta con su intervalo de confianza al 95 por ciento y el número de estudios y de participantes que lo sustentan.\n[user_claim — attributed to the user, not a fact] The user holds that: El estudio mayor aporta 24,310 participantes según el formulario;\nEl acuerdo entre revisores se reporta con el coeficiente kappa; si kappa es menor a 0.60, la fase de tamizaje se repite con el manual actualizado.\n[user_claim — attributed to the user, not a fact] The user holds that: el documento fuente reporta 24,312.\n",
+   "tokens": 239
   },
   {
    "user": "andres",
@@ -1411,10 +1402,10 @@
     "gold": [],
     "abstain": true
    },
-   "abstained": true,
-   "answer": "No está en mis fuentes.",
-   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar se recalcula de 200 a 210.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar se estimó en 180 en un borrador preliminar;\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar preliminar fue 240.\nEl número necesario a tamizar fue 180.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento fue de 200 personas.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento bajó a 180 personas con los datos del año.\n[user_claim — attributed to the user, not a fact] The user holds that: El borrador fijaba el tamaño muestral mínimo en 40 participantes.\n[user_claim — attributed to the user, not a fact] The user holds that: El borrador reportaba 61,500 participantes en los 12 estudios.\n",
-   "tokens": 233
+   "abstained": false,
+   "answer": "El número necesario a tamizar daba el borrador preliminar en 240 personas.",
+   "context": "El número necesario a tamizar se recalcula de 200 a 210.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar se estimó en 180 en un borrador preliminar;\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar preliminar fue 240.\nEl número necesario a tamizar fue 180.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento fue de 200 personas.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento bajó a 180 personas con los datos del año.\n[user_claim — attributed to the user, not a fact] The user holds that: El borrador fijaba el tamaño muestral mínimo en 40 participantes.\n[user_claim — attributed to the user, not a fact] The user holds that: El borrador reportaba 61,500 participantes en los 12 estudios.\n[user_claim — attributed to the user, not a fact] The user holds that: La razón de riesgos preliminar del resultado principal fue 0.79.\n",
+   "tokens": 250
   },
   {
    "user": "andres",
@@ -1429,8 +1420,8 @@
    },
    "abstained": true,
    "answer": "No está en mis fuentes.",
-   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar se recalcula de 200 a 210.\nEl número necesario a tamizar fue 180.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento fue de 200 personas.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento bajó a 180 personas con los datos del año.\n[user_claim — attributed to the user, not a fact] The user holds that: Todo desenlace se reporta con su intervalo de confianza al 95 por ciento y el número de estudios y de participantes que lo sustentan.\n[user_claim — attributed to the user, not a fact] The user holds that: El estudio mayor aporta 24,310 participantes según el formulario;\nEl acuerdo entre revisores se reporta con el coeficiente kappa; si kappa es menor a 0.60, la fase de tamizaje se repite con el manual actualizado.\n[user_claim — attributed to the user, not a fact] The user holds that: el documento fuente reporta 24,312.\n",
-   "tokens": 244
+   "context": "El número necesario a tamizar se recalcula de 200 a 210.\nPrefiero el término tamizaje en lugar de screening.\nEl número necesario a tamizar fue 180.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento fue de 200 personas.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento bajó a 180 personas con los datos del año.\n[user_claim — attributed to the user, not a fact] The user holds that: Todo desenlace se reporta con su intervalo de confianza al 95 por ciento y el número de estudios y de participantes que lo sustentan.\n[user_claim — attributed to the user, not a fact] The user holds that: El estudio mayor aporta 24,310 participantes según el formulario;\nEl acuerdo entre revisores se reporta con el coeficiente kappa; si kappa es menor a 0.60, la fase de tamizaje se repite con el manual actualizado.\n[user_claim — attributed to the user, not a fact] The user holds that: el documento fuente reporta 24,312.\n",
+   "tokens": 239
   },
   {
    "user": "andres",
@@ -1460,9 +1451,9 @@
     "abstain": true
    },
    "abstained": false,
-   "answer": "180 \n",
-   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar se recalcula de 200 a 210.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar se estimó en 180 en un borrador preliminar;\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar preliminar fue 240.\nEl número necesario a tamizar fue 180.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento fue de 200 personas.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento bajó a 180 personas con los datos del año.\n[user_claim — attributed to the user, not a fact] The user holds that: El borrador fijaba el tamaño muestral mínimo en 40 participantes.\n[user_claim — attributed to the user, not a fact] The user holds that: El borrador reportaba 61,500 participantes en los 12 estudios.\n",
-   "tokens": 229
+   "answer": "El número necesario a tamizar preliminar fue 240. \n",
+   "context": "El número necesario a tamizar se recalcula de 200 a 210.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar se estimó en 180 en un borrador preliminar;\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar preliminar fue 240.\nEl número necesario a tamizar fue 180.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento fue de 200 personas.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento bajó a 180 personas con los datos del año.\n[user_claim — attributed to the user, not a fact] The user holds that: El borrador fijaba el tamaño muestral mínimo en 40 participantes.\n[user_claim — attributed to the user, not a fact] The user holds that: El borrador reportaba 61,500 participantes en los 12 estudios.\n[user_claim — attributed to the user, not a fact] The user holds that: La razón de riesgos preliminar del resultado principal fue 0.79.\n",
+   "tokens": 246
   },
   {
    "user": "andres",
@@ -1477,8 +1468,8 @@
    },
    "abstained": true,
    "answer": "No está en mis fuentes \n",
-   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar se recalcula de 200 a 210.\nEl número necesario a tamizar fue 180.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento fue de 200 personas.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento bajó a 180 personas con los datos del año.\n[user_claim — attributed to the user, not a fact] The user holds that: Todo desenlace se reporta con su intervalo de confianza al 95 por ciento y el número de estudios y de participantes que lo sustentan.\n[user_claim — attributed to the user, not a fact] The user holds that: El estudio mayor aporta 24,310 participantes según el formulario;\nEl acuerdo entre revisores se reporta con el coeficiente kappa; si kappa es menor a 0.60, la fase de tamizaje se repite con el manual actualizado.\n[user_claim — attributed to the user, not a fact] The user holds that: el documento fuente reporta 24,312.\n",
-   "tokens": 244
+   "context": "El número necesario a tamizar se recalcula de 200 a 210.\nPrefiero el término tamizaje en lugar de screening.\nEl número necesario a tamizar fue 180.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento fue de 200 personas.\n[user_claim — attributed to the user, not a fact] The user holds that: El número necesario a tamizar para evitar un evento bajó a 180 personas con los datos del año.\n[user_claim — attributed to the user, not a fact] The user holds that: Todo desenlace se reporta con su intervalo de confianza al 95 por ciento y el número de estudios y de participantes que lo sustentan.\n[user_claim — attributed to the user, not a fact] The user holds that: El estudio mayor aporta 24,310 participantes según el formulario;\nEl acuerdo entre revisores se reporta con el coeficiente kappa; si kappa es menor a 0.60, la fase de tamizaje se repite con el manual actualizado.\n[user_claim — attributed to the user, not a fact] The user holds that: el documento fuente reporta 24,312.\n",
+   "tokens": 239
   },
   {
    "user": "andres",
@@ -2373,7 +2364,7 @@
    },
    "abstained": true,
    "answer": "no está en mis fuentes",
-   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nconsulta sin límite en la vista materializada\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nLa cobertura mínima de pruebas es 70 por ciento.\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
+   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nconsulta sin límite en la vista materializada\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nLa cobertura mínima de pruebas es 70 por ciento.\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
    "tokens": 167
   },
   {
@@ -2389,7 +2380,7 @@
    },
    "abstained": true,
    "answer": "no está en mis fuentes",
-   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nconsulta sin límite en la vista materializada\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nLa cobertura mínima de pruebas es 70 por ciento.\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
+   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nconsulta sin límite en la vista materializada\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nLa cobertura mínima de pruebas es 70 por ciento.\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
    "tokens": 167
   },
   {
@@ -2405,7 +2396,7 @@
    },
    "abstained": true,
    "answer": "no está en mis fuentes",
-   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nconsulta sin límite en la vista materializada\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nLa cobertura mínima de pruebas es 70 por ciento.\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
+   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nconsulta sin límite en la vista materializada\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nLa cobertura mínima de pruebas es 70 por ciento.\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
    "tokens": 167
   },
   {
@@ -2421,7 +2412,7 @@
    },
    "abstained": true,
    "answer": "No está en mis fuentes.",
-   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nconsulta sin límite en la vista materializada\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nLa cobertura mínima de pruebas es 70 por ciento.\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
+   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nconsulta sin límite en la vista materializada\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nLa cobertura mínima de pruebas es 70 por ciento.\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
    "tokens": 167
   },
   {
@@ -2437,7 +2428,7 @@
    },
    "abstained": true,
    "answer": "No está en mis fuentes.",
-   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nconsulta sin límite en la vista materializada\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nLa cobertura mínima de pruebas es 70 por ciento.\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
+   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nconsulta sin límite en la vista materializada\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nLa cobertura mínima de pruebas es 70 por ciento.\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
    "tokens": 167
   },
   {
@@ -2453,7 +2444,7 @@
    },
    "abstained": true,
    "answer": "No está en mis fuentes.",
-   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nconsulta sin límite en la vista materializada\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nLa cobertura mínima de pruebas es 70 por ciento.\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
+   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nconsulta sin límite en la vista materializada\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nLa cobertura mínima de pruebas es 70 por ciento.\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
    "tokens": 167
   },
   {
@@ -2469,7 +2460,7 @@
    },
    "abstained": false,
    "answer": "Cada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga. \n",
-   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nconsulta sin límite en la vista materializada\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nLa cobertura mínima de pruebas es 70 por ciento.\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
+   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nconsulta sin límite en la vista materializada\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nLa cobertura mínima de pruebas es 70 por ciento.\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
    "tokens": 186
   },
   {
@@ -2485,7 +2476,7 @@
    },
    "abstained": false,
    "answer": "Cada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga. \n",
-   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nconsulta sin límite en la vista materializada\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nLa cobertura mínima de pruebas es 70 por ciento.\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
+   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nconsulta sin límite en la vista materializada\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nLa cobertura mínima de pruebas es 70 por ciento.\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
    "tokens": 186
   },
   {
@@ -2501,7 +2492,7 @@
    },
    "abstained": false,
    "answer": "Cada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga. \n",
-   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nconsulta sin límite en la vista materializada\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nLa cobertura mínima de pruebas es 70 por ciento.\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
+   "context": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes\nEl segundo duró 22 minutos por saturación del grupo de conexiones\nla tasa de errores móvil de 30 días quedó en 0.38 por ciento\nconsulta sin límite en la vista materializada\nel exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año\nLa cobertura mínima de pruebas es 70 por ciento.\nla decisión de idempotencia en los consumidores se mantuvo\nla migración a UUID vórsion 7 se completó en el catálogo\nLa discrepancia sigue abierta\nCada instancia del catálogo debe sostener 400 peticiones por segundo sostenidas con el p95 por debajo de 300 milisegundos en la prueba de carga\n",
    "tokens": 186
   },
   {
@@ -2660,9 +2651,9 @@
     "abstain": true
    },
    "abstained": false,
-   "answer": "El piloto de 2024 anotó que la asibilación de la erre aparecía en el 80 por ciento de los menores de 30 años.",
-   "context": "En el piloto de 2024 se anotó que la asibilación de la erre aparecía en el 80 por ciento de los menores de 30; el valor del corpus es 71.\n[user_claim — attributed to the user, not a fact] The user holds that: La asibilación de la erre múltiple aparece en el 71 por ciento de los hablantes menores de 30 años y en el 33 por ciento de los mayores de 60.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\n[user_claim — attributed to the user, not a fact] The user holds that: 54 de 80 asocian el uso de chompa y guagua con el registro familiar y no con el formal.\n[user_claim — attributed to the user, not a fact] The user holds that: El examen final pesa el 40 por ciento de la nota, las tareas el 45 y la síntesis de portafolio el 15.\nEl pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\nEl borrador reportaba 84 ocurrencias de chompa en el corpus.\nEl diario de campo anota 44\n",
-   "tokens": 258
+   "answer": "El piloto de 2024 anotó que la asibilación de la erre aparecía en el 80 por ciento de los menores de 30.",
+   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El corpus propio ampliado pasa de 160 a 175 horas de grabaciones.\nEn el piloto de 2024 se anotó que la asibilación de la erre aparecía en el 80 por ciento de los menores de 30; el valor del corpus es 71.\n[user_claim — attributed to the user, not a fact] The user holds that: La asibilación de la erre múltiple aparece en el 71 por ciento de los hablantes menores de 30 años y en el 33 por ciento de los mayores de 60.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\n[user_claim — attributed to the user, not a fact] The user holds that: El examen final pesa el 40 por ciento de la nota, las tareas el 45 y la síntesis de portafolio el 15.\n[user_claim — attributed to the user, not a fact] The user holds that: 54 de 80 hablantes asocian el uso de chompa y guagua con el registro familiar y no con el formal.\nEl pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\n",
+   "tokens": 267
   },
   {
    "user": "luisa",
@@ -2676,9 +2667,9 @@
     "abstain": true
    },
    "abstained": true,
-   "answer": "no está en mis fuentes",
-   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El corpus propio ampliado pasa de 160 a 175 horas de grabaciones.\n[user_claim — attributed to the user, not a fact] The user holds that: La asibilación de la erre múltiple aparece en el 71 por ciento de los hablantes menores de 30 años y en el 33 por ciento de los mayores de 60.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\n[user_claim — attributed to the user, not a fact] The user holds that: 54 de 80 asocian el uso de chompa y guagua con el registro familiar y no con el formal.\n[user_claim — attributed to the user, not a fact] The user holds that: El examen final pesa el 40 por ciento de la nota, las tareas el 45 y la síntesis de portafolio el 15.\nEl pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\n[user_claim — attributed to the user, not a fact] The user holds that: El año incorporó el corpus propio ampliado a 160 horas de grabaciones.\nEl diario de campo anota 44\n",
-   "tokens": 250
+   "answer": "No está en mis fuentes",
+   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El corpus propio ampliado pasa de 160 a 175 horas de grabaciones.\n[user_claim — attributed to the user, not a fact] The user holds that: La asibilación de la erre múltiple aparece en el 71 por ciento de los hablantes menores de 30 años y en el 33 por ciento de los mayores de 60.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\n[user_claim — attributed to the user, not a fact] The user holds that: El examen final pesa el 40 por ciento de la nota, las tareas el 45 y la síntesis de portafolio el 15.\n[user_claim — attributed to the user, not a fact] The user holds that: 54 de 80 hablantes asocian el uso de chompa y guagua con el registro familiar y no con el formal.\nEl pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\n[user_claim — attributed to the user, not a fact] The user holds that: El año incorporó el corpus propio ampliado a 160 horas de grabaciones.\nEl diario de campo anota 44\n",
+   "tokens": 251
   },
   {
    "user": "luisa",
@@ -2707,10 +2698,10 @@
     "gold": [],
     "abstain": true
    },
-   "abstained": false,
-   "answer": "El piloto de 2024 anotó que la asibilación de la erre aparecía en el 80 por ciento de los menores de 30.",
-   "context": "En el piloto de 2024 se anotó que la asibilación de la erre aparecía en el 80 por ciento de los menores de 30; el valor del corpus es 71.\n[user_claim — attributed to the user, not a fact] The user holds that: La asibilación de la erre múltiple aparece en el 71 por ciento de los hablantes menores de 30 años y en el 33 por ciento de los mayores de 60.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\n[user_claim — attributed to the user, not a fact] The user holds that: 54 de 80 asocian el uso de chompa y guagua con el registro familiar y no con el formal.\n[user_claim — attributed to the user, not a fact] The user holds that: El examen final pesa el 40 por ciento de la nota, las tareas el 45 y la síntesis de portafolio el 15.\nEl pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\nEl borrador reportaba 84 ocurrencias de chompa en el corpus.\nEl diario de campo anota 44\n",
-   "tokens": 257
+   "abstained": true,
+   "answer": "No está en mis fuentes.",
+   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El corpus propio ampliado pasa de 160 a 175 horas de grabaciones.\nEn el piloto de 2024 se anotó que la asibilación de la erre aparecía en el 80 por ciento de los menores de 30; el valor del corpus es 71.\n[user_claim — attributed to the user, not a fact] The user holds that: La asibilación de la erre múltiple aparece en el 71 por ciento de los hablantes menores de 30 años y en el 33 por ciento de los mayores de 60.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\n[user_claim — attributed to the user, not a fact] The user holds that: El examen final pesa el 40 por ciento de la nota, las tareas el 45 y la síntesis de portafolio el 15.\n[user_claim — attributed to the user, not a fact] The user holds that: 54 de 80 hablantes asocian el uso de chompa y guagua con el registro familiar y no con el formal.\nEl pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\n",
+   "tokens": 250
   },
   {
    "user": "luisa",
@@ -2725,8 +2716,8 @@
    },
    "abstained": true,
    "answer": "No está en mis fuentes.",
-   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El corpus propio ampliado pasa de 160 a 175 horas de grabaciones.\n[user_claim — attributed to the user, not a fact] The user holds that: La asibilación de la erre múltiple aparece en el 71 por ciento de los hablantes menores de 30 años y en el 33 por ciento de los mayores de 60.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\n[user_claim — attributed to the user, not a fact] The user holds that: 54 de 80 asocian el uso de chompa y guagua con el registro familiar y no con el formal.\n[user_claim — attributed to the user, not a fact] The user holds that: El examen final pesa el 40 por ciento de la nota, las tareas el 45 y la síntesis de portafolio el 15.\nEl pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\n[user_claim — attributed to the user, not a fact] The user holds that: El año incorporó el corpus propio ampliado a 160 horas de grabaciones.\nEl diario de campo anota 44\n",
-   "tokens": 250
+   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El corpus propio ampliado pasa de 160 a 175 horas de grabaciones.\n[user_claim — attributed to the user, not a fact] The user holds that: La asibilación de la erre múltiple aparece en el 71 por ciento de los hablantes menores de 30 años y en el 33 por ciento de los mayores de 60.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\n[user_claim — attributed to the user, not a fact] The user holds that: El examen final pesa el 40 por ciento de la nota, las tareas el 45 y la síntesis de portafolio el 15.\n[user_claim — attributed to the user, not a fact] The user holds that: 54 de 80 hablantes asocian el uso de chompa y guagua con el registro familiar y no con el formal.\nEl pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\n[user_claim — attributed to the user, not a fact] The user holds that: El año incorporó el corpus propio ampliado a 160 horas de grabaciones.\nEl diario de campo anota 44\n",
+   "tokens": 251
   },
   {
    "user": "luisa",
@@ -2757,8 +2748,8 @@
    },
    "abstained": false,
    "answer": "El piloto de 2024 anotó que la asibilación de la erre aparecía en el 80 por ciento de los menores de 30. \n",
-   "context": "En el piloto de 2024 se anotó que la asibilación de la erre aparecía en el 80 por ciento de los menores de 30; el valor del corpus es 71.\n[user_claim — attributed to the user, not a fact] The user holds that: La asibilación de la erre múltiple aparece en el 71 por ciento de los hablantes menores de 30 años y en el 33 por ciento de los mayores de 60.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\n[user_claim — attributed to the user, not a fact] The user holds that: 54 de 80 asocian el uso de chompa y guagua con el registro familiar y no con el formal.\n[user_claim — attributed to the user, not a fact] The user holds that: El examen final pesa el 40 por ciento de la nota, las tareas el 45 y la síntesis de portafolio el 15.\nEl pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\nEl borrador reportaba 84 ocurrencias de chompa en el corpus.\nEl diario de campo anota 44\n",
-   "tokens": 257
+   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El corpus propio ampliado pasa de 160 a 175 horas de grabaciones.\nEn el piloto de 2024 se anotó que la asibilación de la erre aparecía en el 80 por ciento de los menores de 30; el valor del corpus es 71.\n[user_claim — attributed to the user, not a fact] The user holds that: La asibilación de la erre múltiple aparece en el 71 por ciento de los hablantes menores de 30 años y en el 33 por ciento de los mayores de 60.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\n[user_claim — attributed to the user, not a fact] The user holds that: El examen final pesa el 40 por ciento de la nota, las tareas el 45 y la síntesis de portafolio el 15.\n[user_claim — attributed to the user, not a fact] The user holds that: 54 de 80 hablantes asocian el uso de chompa y guagua con el registro familiar y no con el formal.\nEl pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\n",
+   "tokens": 267
   },
   {
    "user": "luisa",
@@ -2773,8 +2764,8 @@
    },
    "abstained": true,
    "answer": "no está en mis fuentes \n",
-   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El corpus propio ampliado pasa de 160 a 175 horas de grabaciones.\n[user_claim — attributed to the user, not a fact] The user holds that: La asibilación de la erre múltiple aparece en el 71 por ciento de los hablantes menores de 30 años y en el 33 por ciento de los mayores de 60.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\n[user_claim — attributed to the user, not a fact] The user holds that: 54 de 80 asocian el uso de chompa y guagua con el registro familiar y no con el formal.\n[user_claim — attributed to the user, not a fact] The user holds that: El examen final pesa el 40 por ciento de la nota, las tareas el 45 y la síntesis de portafolio el 15.\nEl pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\n[user_claim — attributed to the user, not a fact] The user holds that: El año incorporó el corpus propio ampliado a 160 horas de grabaciones.\nEl diario de campo anota 44\n",
-   "tokens": 250
+   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El corpus propio ampliado pasa de 160 a 175 horas de grabaciones.\n[user_claim — attributed to the user, not a fact] The user holds that: La asibilación de la erre múltiple aparece en el 71 por ciento de los hablantes menores de 30 años y en el 33 por ciento de los mayores de 60.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\n[user_claim — attributed to the user, not a fact] The user holds that: El examen final pesa el 40 por ciento de la nota, las tareas el 45 y la síntesis de portafolio el 15.\n[user_claim — attributed to the user, not a fact] The user holds that: 54 de 80 hablantes asocian el uso de chompa y guagua con el registro familiar y no con el formal.\nEl pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\n[user_claim — attributed to the user, not a fact] The user holds that: El año incorporó el corpus propio ampliado a 160 horas de grabaciones.\nEl diario de campo anota 44\n",
+   "tokens": 251
   },
   {
    "user": "luisa",
@@ -2805,8 +2796,8 @@
    },
    "abstained": true,
    "answer": "no está en mis fuentes",
-   "context": "El corpus propio ampliado pasa de 160 a 175 horas de grabaciones\nPrefiero el término foco en lugar de bombillo\nPrefiero el término rasgo en lugar de caracterñstica\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\nel diario de campo anota 44\nel pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\n[user_claim — attributed to the user, not a fact] The user holds that: el borrador reportaba 84 ocurrencias de chompa en el corpus\nEl corpus registra 41 ocurrencias de foco\nEl corpus propio tiene 130 horas de grabaciones.\nla asibilacion de la erre aparece en el 80 por ciento de los menores de 30\n",
-   "tokens": 172
+   "context": "El corpus propio ampliado pasa de 160 a 175 horas de grabaciones\nPrefiero el término foco en lugar de bombillo\nPrefiero el término rasgo en lugar de caracterñstica\nPrefiero el término chompa en lugar de chaqueta.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\nel diario de campo anota 44\n[user_claim — attributed to the user, not a fact] The user holds that: el borrador reportaba 84 ocurrencias de chompa en el corpus\nEl corpus registra 41 ocurrencias de foco\nEl corpus propio tiene 130 horas de grabaciones.\nla asibilacion de la erre aparece en el 80 por ciento de los menores de 30\n",
+   "tokens": 165
   },
   {
    "user": "luisa",
@@ -2821,7 +2812,7 @@
    },
    "abstained": true,
    "answer": "No está en mis fuentes",
-   "context": "El corpus propio ampliado pasa de 160 a 175 horas de grabaciones\nEl examen final pasa de 40 a 35 por ciento\nPrefiero el término foco en lugar de bombillo\nPrefiero el término rasgo en lugar de caracterñstica\nPrefiero el término chompa en lugar de chaqueta.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\nel diario de campo anota 44\nel pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\nEl corpus registra 41 ocurrencias de foco\nEl corpus propio tiene 130 horas de grabaciones.\n",
+   "context": "El corpus propio ampliado pasa de 160 a 175 horas de grabaciones\nEl examen final pasa de 40 a 35 por ciento\nPrefiero el término foco en lugar de bombillo\nPrefiero el término rasgo en lugar de caracterñstica\nPrefiero el término chompa en lugar de chaqueta.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\nel diario de campo anota 44\nEl corpus registra 41 ocurrencias de foco\nEl corpus propio tiene 130 horas de grabaciones.\nLa tarea de variación se repitió en un paralelo tras superar el tercio de reprobados\n",
    "tokens": 151
   },
   {
@@ -2853,8 +2844,8 @@
    },
    "abstained": true,
    "answer": "No está en mis fuentes.",
-   "context": "El corpus propio ampliado pasa de 160 a 175 horas de grabaciones\nPrefiero el término foco en lugar de bombillo\nPrefiero el término rasgo en lugar de caracterñstica\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\nel diario de campo anota 44\nel pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\n[user_claim — attributed to the user, not a fact] The user holds that: el borrador reportaba 84 ocurrencias de chompa en el corpus\nEl corpus registra 41 ocurrencias de foco\nEl corpus propio tiene 130 horas de grabaciones.\nla asibilacion de la erre aparece en el 80 por ciento de los menores de 30\n",
-   "tokens": 172
+   "context": "El corpus propio ampliado pasa de 160 a 175 horas de grabaciones\nPrefiero el término foco en lugar de bombillo\nPrefiero el término rasgo en lugar de caracterñstica\nPrefiero el término chompa en lugar de chaqueta.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\nel diario de campo anota 44\n[user_claim — attributed to the user, not a fact] The user holds that: el borrador reportaba 84 ocurrencias de chompa en el corpus\nEl corpus registra 41 ocurrencias de foco\nEl corpus propio tiene 130 horas de grabaciones.\nla asibilacion de la erre aparece en el 80 por ciento de los menores de 30\n",
+   "tokens": 165
   },
   {
    "user": "luisa",
@@ -2869,7 +2860,7 @@
    },
    "abstained": true,
    "answer": "No está en mis fuentes.",
-   "context": "El corpus propio ampliado pasa de 160 a 175 horas de grabaciones\nEl examen final pasa de 40 a 35 por ciento\nPrefiero el término foco en lugar de bombillo\nPrefiero el término rasgo en lugar de caracterñstica\nPrefiero el término chompa en lugar de chaqueta.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\nel diario de campo anota 44\nel pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\nEl corpus registra 41 ocurrencias de foco\nEl corpus propio tiene 130 horas de grabaciones.\n",
+   "context": "El corpus propio ampliado pasa de 160 a 175 horas de grabaciones\nEl examen final pasa de 40 a 35 por ciento\nPrefiero el término foco en lugar de bombillo\nPrefiero el término rasgo en lugar de caracterñstica\nPrefiero el término chompa en lugar de chaqueta.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\nel diario de campo anota 44\nEl corpus registra 41 ocurrencias de foco\nEl corpus propio tiene 130 horas de grabaciones.\nLa tarea de variación se repitió en un paralelo tras superar el tercio de reprobados\n",
    "tokens": 151
   },
   {
@@ -2901,8 +2892,8 @@
    },
    "abstained": true,
    "answer": "no está en mis fuentes \n",
-   "context": "El corpus propio ampliado pasa de 160 a 175 horas de grabaciones\nPrefiero el término foco en lugar de bombillo\nPrefiero el término rasgo en lugar de caracterñstica\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\nel diario de campo anota 44\nel pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\n[user_claim — attributed to the user, not a fact] The user holds that: el borrador reportaba 84 ocurrencias de chompa en el corpus\nEl corpus registra 41 ocurrencias de foco\nEl corpus propio tiene 130 horas de grabaciones.\nla asibilacion de la erre aparece en el 80 por ciento de los menores de 30\n",
-   "tokens": 172
+   "context": "El corpus propio ampliado pasa de 160 a 175 horas de grabaciones\nPrefiero el término foco en lugar de bombillo\nPrefiero el término rasgo en lugar de caracterñstica\nPrefiero el término chompa en lugar de chaqueta.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\nel diario de campo anota 44\n[user_claim — attributed to the user, not a fact] The user holds that: el borrador reportaba 84 ocurrencias de chompa en el corpus\nEl corpus registra 41 ocurrencias de foco\nEl corpus propio tiene 130 horas de grabaciones.\nla asibilacion de la erre aparece en el 80 por ciento de los menores de 30\n",
+   "tokens": 165
   },
   {
    "user": "luisa",
@@ -2916,8 +2907,8 @@
     "abstain": true
    },
    "abstained": true,
-   "answer": "no está en mis fuentes \n",
-   "context": "El corpus propio ampliado pasa de 160 a 175 horas de grabaciones\nEl examen final pasa de 40 a 35 por ciento\nPrefiero el término foco en lugar de bombillo\nPrefiero el término rasgo en lugar de caracterñstica\nPrefiero el término chompa en lugar de chaqueta.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\nel diario de campo anota 44\nel pretérito compuesto aparece en el 18 por ciento de los contextos de pasado perfectivo\nEl corpus registra 41 ocurrencias de foco\nEl corpus propio tiene 130 horas de grabaciones.\n",
+   "answer": "No está en mis fuentes \n",
+   "context": "El corpus propio ampliado pasa de 160 a 175 horas de grabaciones\nEl examen final pasa de 40 a 35 por ciento\nPrefiero el término foco en lugar de bombillo\nPrefiero el término rasgo en lugar de caracterñstica\nPrefiero el término chompa en lugar de chaqueta.\nLa asibilación de la erre múltiple aparece en 62 por ciento de los menores de 30.\nel diario de campo anota 44\nEl corpus registra 41 ocurrencias de foco\nEl corpus propio tiene 130 horas de grabaciones.\nLa tarea de variación se repitió en un paralelo tras superar el tercio de reprobados\n",
    "tokens": 151
   },
   {
@@ -3109,7 +3100,7 @@
    },
    "abstained": true,
    "answer": "no está en mis fuentes",
-   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El F_ST por pares más alto entre Fábrega y Chirripó pasa de 0.048 a 0.052 con los individuos nuevos de Chirripó.\nEl F_ST entre Volcán Barú y Cerro Fábrega fue 0.036 en el primer análisis;\n[user_claim — attributed to the user, not a fact] The user holds that: El flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación en el modelo conjunto.\n[user_claim — attributed to the user, not a fact] The user holds that: El F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó, y el más bajo 0.012 entre Cerro Chirripó y Cerro de la Muerte.\nLas muestras de Cerro de la Muerte analizadas fueron 52.\n[user_claim — attributed to the user, not a fact] The user holds that: El flujo reciente entre Barú y Fábrega no se distingue de cero.\nLa población de Cerro de la Muerte mostró la mayor proporción de variantes privadas (3.1 por ciento del total).\n",
+   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El F_ST por pares más alto entre Fábrega y Chirripó pasa de 0.048 a 0.052 con los individuos nuevos de Chirripó.\nEl F_ST entre Volcán Barú y Cerro Fábrega fue 0.036 en el primer análisis;\n[user_claim — attributed to the user, not a fact] The user holds that: El flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación en el modelo conjunto.\n[user_claim — attributed to the user, not a fact] The user holds that: El F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó, y el más bajo 0.012 entre Cerro Chirripó y Cerro de la Muerte.\nLas muestras de Cerro de la Muerte analizadas fueron 52.\n[user_claim — attributed to the user, not a fact] The user holds that: El flujo reciente entre Barú y Fábrega no se distingue de cero.\nLa población de Cerro de la Muerte mostró la mayor proporción de variantes privadas (3.1 por ciento del total)\n",
    "tokens": 232
   },
   {
@@ -3157,7 +3148,7 @@
    },
    "abstained": true,
    "answer": "No está en mis fuentes.",
-   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El F_ST por pares más alto entre Fábrega y Chirripó pasa de 0.048 a 0.052 con los individuos nuevos de Chirripó.\nEl F_ST entre Volcán Barú y Cerro Fábrega fue 0.036 en el primer análisis;\n[user_claim — attributed to the user, not a fact] The user holds that: El flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación en el modelo conjunto.\n[user_claim — attributed to the user, not a fact] The user holds that: El F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó, y el más bajo 0.012 entre Cerro Chirripó y Cerro de la Muerte.\nLas muestras de Cerro de la Muerte analizadas fueron 52.\n[user_claim — attributed to the user, not a fact] The user holds that: El flujo reciente entre Barú y Fábrega no se distingue de cero.\nLa población de Cerro de la Muerte mostró la mayor proporción de variantes privadas (3.1 por ciento del total).\n",
+   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El F_ST por pares más alto entre Fábrega y Chirripó pasa de 0.048 a 0.052 con los individuos nuevos de Chirripó.\nEl F_ST entre Volcán Barú y Cerro Fábrega fue 0.036 en el primer análisis;\n[user_claim — attributed to the user, not a fact] The user holds that: El flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación en el modelo conjunto.\n[user_claim — attributed to the user, not a fact] The user holds that: El F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó, y el más bajo 0.012 entre Cerro Chirripó y Cerro de la Muerte.\nLas muestras de Cerro de la Muerte analizadas fueron 52.\n[user_claim — attributed to the user, not a fact] The user holds that: El flujo reciente entre Barú y Fábrega no se distingue de cero.\nLa población de Cerro de la Muerte mostró la mayor proporción de variantes privadas (3.1 por ciento del total)\n",
    "tokens": 232
   },
   {
@@ -3205,7 +3196,7 @@
    },
    "abstained": false,
    "answer": "El flujo estimado entre Chirripó y Cerro de la Muerte fue de 1.3 migrantes por generación en el modelo conjunto. \n",
-   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El F_ST por pares más alto entre Fábrega y Chirripó pasa de 0.048 a 0.052 con los individuos nuevos de Chirripó.\nEl F_ST entre Volcán Barú y Cerro Fábrega fue 0.036 en el primer análisis;\n[user_claim — attributed to the user, not a fact] The user holds that: El flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación en el modelo conjunto.\n[user_claim — attributed to the user, not a fact] The user holds that: El F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó, y el más bajo 0.012 entre Cerro Chirripó y Cerro de la Muerte.\nLas muestras de Cerro de la Muerte analizadas fueron 52.\n[user_claim — attributed to the user, not a fact] The user holds that: El flujo reciente entre Barú y Fábrega no se distingue de cero.\nLa población de Cerro de la Muerte mostró la mayor proporción de variantes privadas (3.1 por ciento del total).\n",
+   "context": "[user_claim — attributed to the user, not a fact] The user holds that: El F_ST por pares más alto entre Fábrega y Chirripó pasa de 0.048 a 0.052 con los individuos nuevos de Chirripó.\nEl F_ST entre Volcán Barú y Cerro Fábrega fue 0.036 en el primer análisis;\n[user_claim — attributed to the user, not a fact] The user holds that: El flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación en el modelo conjunto.\n[user_claim — attributed to the user, not a fact] The user holds that: El F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó, y el más bajo 0.012 entre Cerro Chirripó y Cerro de la Muerte.\nLas muestras de Cerro de la Muerte analizadas fueron 52.\n[user_claim — attributed to the user, not a fact] The user holds that: El flujo reciente entre Barú y Fábrega no se distingue de cero.\nLa población de Cerro de la Muerte mostró la mayor proporción de variantes privadas (3.1 por ciento del total)\n",
    "tokens": 247
   },
   {
@@ -3235,10 +3226,10 @@
     "gold": [],
     "abstain": true
    },
-   "abstained": false,
-   "answer": "el flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación",
-   "context": "el flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación\nEl F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó\nla población de Cerro de la Muerte mostró una expansión reciente\nla mayoría de Cerro Fábrega\nel F_ST corregido entre Barú y Fábrega queda en 0.041\nEl primer eje del PCA explicó el 18 por ciento de la varianza total y separó a Cerro Fábrega de las otras tres poblaciones\nLa estructura se estima con el análisis de componentes principales sobre la matriz de frecuencias\nEl año estuvo dedicado a consolidar la colección de referencia\nel valor medio ponderado de la matriz completa en 0.029\n[user_claim — attributed to the user, not a fact] The user holds that: Cerro Chirripó la menor proporciones de variantes privadas\n",
-   "tokens": 204
+   "abstained": true,
+   "answer": "no está en mis fuentes",
+   "context": "El F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó\nla mayoría de Cerro Fábrega\nEl primer eje del PCA explicó el 18 por ciento de la varianza total y separó a Cerro Fábrega de las otras tres poblaciones\nLa estructura se estima con el análisis de componentes principales sobre la matriz de frecuencias\nEl año estuvo dedicado a consolidar la colección de referencia\nEl primer eje del análisis de componentes principales explica el 19 por ciento de la varianza\nlos pinzones de la cordillera de Talamanca\nLa diversidad de nucleótidos por sitio fue de 0.0031 en promedio\nLa tasa de migración efectiva posterior fue de 0.2 migrantes por generación\n[user_claim — attributed to the user, not a fact] The user holds that: Cerro Chirripó la menor proporciones de variantes privadas\n",
+   "tokens": 192
   },
   {
    "user": "mara",
@@ -3251,10 +3242,10 @@
     "gold": [],
     "abstain": true
    },
-   "abstained": false,
-   "answer": "el flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación",
-   "context": "el flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación\nEl F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó\nla población de Cerro de la Muerte mostró una expansión reciente\nla mayoría de Cerro Fábrega\nel F_ST corregido entre Barú y Fábrega queda en 0.041\nEl primer eje del PCA explicó el 18 por ciento de la varianza total y separó a Cerro Fábrega de las otras tres poblaciones\nLa estructura se estima con el análisis de componentes principales sobre la matriz de frecuencias\nEl año estuvo dedicado a consolidar la colección de referencia\nel valor medio ponderado de la matriz completa en 0.029\n[user_claim — attributed to the user, not a fact] The user holds that: Cerro Chirripó la menor proporciones de variantes privadas\n",
-   "tokens": 204
+   "abstained": true,
+   "answer": "no está en mis fuentes",
+   "context": "El F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó\nla mayoría de Cerro Fábrega\nEl primer eje del PCA explicó el 18 por ciento de la varianza total y separó a Cerro Fábrega de las otras tres poblaciones\nLa estructura se estima con el análisis de componentes principales sobre la matriz de frecuencias\nEl año estuvo dedicado a consolidar la colección de referencia\nEl primer eje del análisis de componentes principales explica el 19 por ciento de la varianza\nlos pinzones de la cordillera de Talamanca\nLa diversidad de nucleótidos por sitio fue de 0.0031 en promedio\nLa tasa de migración efectiva posterior fue de 0.2 migrantes por generación\n[user_claim — attributed to the user, not a fact] The user holds that: Cerro Chirripó la menor proporciones de variantes privadas\n",
+   "tokens": 192
   },
   {
    "user": "mara",
@@ -3283,10 +3274,10 @@
     "gold": [],
     "abstain": true
    },
-   "abstained": false,
-   "answer": "El flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación.",
-   "context": "el flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación\nEl F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó\nla población de Cerro de la Muerte mostró una expansión reciente\nla mayoría de Cerro Fábrega\nel F_ST corregido entre Barú y Fábrega queda en 0.041\nEl primer eje del PCA explicó el 18 por ciento de la varianza total y separó a Cerro Fábrega de las otras tres poblaciones\nLa estructura se estima con el análisis de componentes principales sobre la matriz de frecuencias\nEl año estuvo dedicado a consolidar la colección de referencia\nel valor medio ponderado de la matriz completa en 0.029\n[user_claim — attributed to the user, not a fact] The user holds that: Cerro Chirripó la menor proporciones de variantes privadas\n",
-   "tokens": 204
+   "abstained": true,
+   "answer": "No está en mis fuentes.",
+   "context": "El F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó\nla mayoría de Cerro Fábrega\nEl primer eje del PCA explicó el 18 por ciento de la varianza total y separó a Cerro Fábrega de las otras tres poblaciones\nLa estructura se estima con el análisis de componentes principales sobre la matriz de frecuencias\nEl año estuvo dedicado a consolidar la colección de referencia\nEl primer eje del análisis de componentes principales explica el 19 por ciento de la varianza\nlos pinzones de la cordillera de Talamanca\nLa diversidad de nucleótidos por sitio fue de 0.0031 en promedio\nLa tasa de migración efectiva posterior fue de 0.2 migrantes por generación\n[user_claim — attributed to the user, not a fact] The user holds that: Cerro Chirripó la menor proporciones de variantes privadas\n",
+   "tokens": 192
   },
   {
    "user": "mara",
@@ -3299,10 +3290,10 @@
     "gold": [],
     "abstain": true
    },
-   "abstained": false,
-   "answer": "El flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación.",
-   "context": "el flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación\nEl F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó\nla población de Cerro de la Muerte mostró una expansión reciente\nla mayoría de Cerro Fábrega\nel F_ST corregido entre Barú y Fábrega queda en 0.041\nEl primer eje del PCA explicó el 18 por ciento de la varianza total y separó a Cerro Fábrega de las otras tres poblaciones\nLa estructura se estima con el análisis de componentes principales sobre la matriz de frecuencias\nEl año estuvo dedicado a consolidar la colección de referencia\nel valor medio ponderado de la matriz completa en 0.029\n[user_claim — attributed to the user, not a fact] The user holds that: Cerro Chirripó la menor proporciones de variantes privadas\n",
-   "tokens": 204
+   "abstained": true,
+   "answer": "No está en mis fuentes.",
+   "context": "El F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó\nla mayoría de Cerro Fábrega\nEl primer eje del PCA explicó el 18 por ciento de la varianza total y separó a Cerro Fábrega de las otras tres poblaciones\nLa estructura se estima con el análisis de componentes principales sobre la matriz de frecuencias\nEl año estuvo dedicado a consolidar la colección de referencia\nEl primer eje del análisis de componentes principales explica el 19 por ciento de la varianza\nlos pinzones de la cordillera de Talamanca\nLa diversidad de nucleótidos por sitio fue de 0.0031 en promedio\nLa tasa de migración efectiva posterior fue de 0.2 migrantes por generación\n[user_claim — attributed to the user, not a fact] The user holds that: Cerro Chirripó la menor proporciones de variantes privadas\n",
+   "tokens": 192
   },
   {
    "user": "mara",
@@ -3331,10 +3322,10 @@
     "gold": [],
     "abstain": true
    },
-   "abstained": false,
-   "answer": "el flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación. \n",
-   "context": "el flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación\nEl F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó\nla población de Cerro de la Muerte mostró una expansión reciente\nla mayoría de Cerro Fábrega\nel F_ST corregido entre Barú y Fábrega queda en 0.041\nEl primer eje del PCA explicó el 18 por ciento de la varianza total y separó a Cerro Fábrega de las otras tres poblaciones\nLa estructura se estima con el análisis de componentes principales sobre la matriz de frecuencias\nEl año estuvo dedicado a consolidar la colección de referencia\nel valor medio ponderado de la matriz completa en 0.029\n[user_claim — attributed to the user, not a fact] The user holds that: Cerro Chirripó la menor proporciones de variantes privadas\n",
-   "tokens": 204
+   "abstained": true,
+   "answer": "no está en mis fuentes \n",
+   "context": "El F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó\nla mayoría de Cerro Fábrega\nEl primer eje del PCA explicó el 18 por ciento de la varianza total y separó a Cerro Fábrega de las otras tres poblaciones\nLa estructura se estima con el análisis de componentes principales sobre la matriz de frecuencias\nEl año estuvo dedicado a consolidar la colección de referencia\nEl primer eje del análisis de componentes principales explica el 19 por ciento de la varianza\nlos pinzones de la cordillera de Talamanca\nLa diversidad de nucleótidos por sitio fue de 0.0031 en promedio\nLa tasa de migración efectiva posterior fue de 0.2 migrantes por generación\n[user_claim — attributed to the user, not a fact] The user holds that: Cerro Chirripó la menor proporciones de variantes privadas\n",
+   "tokens": 192
   },
   {
    "user": "mara",
@@ -3347,10 +3338,10 @@
     "gold": [],
     "abstain": true
    },
-   "abstained": false,
-   "answer": "el flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación. \n",
-   "context": "el flujo estimado entre Chirripó y Cerro de la Muerte sube a 1.3 migrantes por generación\nEl F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó\nla población de Cerro de la Muerte mostró una expansión reciente\nla mayoría de Cerro Fábrega\nel F_ST corregido entre Barú y Fábrega queda en 0.041\nEl primer eje del PCA explicó el 18 por ciento de la varianza total y separó a Cerro Fábrega de las otras tres poblaciones\nLa estructura se estima con el análisis de componentes principales sobre la matriz de frecuencias\nEl año estuvo dedicado a consolidar la colección de referencia\nel valor medio ponderado de la matriz completa en 0.029\n[user_claim — attributed to the user, not a fact] The user holds that: Cerro Chirripó la menor proporciones de variantes privadas\n",
-   "tokens": 204
+   "abstained": true,
+   "answer": "no está en mis fuentes \n",
+   "context": "El F_ST por pares más alto fue 0.048 entre Cerro Fábrega y Cerro Chirripó\nla mayoría de Cerro Fábrega\nEl primer eje del PCA explicó el 18 por ciento de la varianza total y separó a Cerro Fábrega de las otras tres poblaciones\nLa estructura se estima con el análisis de componentes principales sobre la matriz de frecuencias\nEl año estuvo dedicado a consolidar la colección de referencia\nEl primer eje del análisis de componentes principales explica el 19 por ciento de la varianza\nlos pinzones de la cordillera de Talamanca\nLa diversidad de nucleótidos por sitio fue de 0.0031 en promedio\nLa tasa de migración efectiva posterior fue de 0.2 migrantes por generación\n[user_claim — attributed to the user, not a fact] The user holds that: Cerro Chirripó la menor proporciones de variantes privadas\n",
+   "tokens": 192
   },
   {
    "user": "mara",
@@ -3535,25 +3526,25 @@
   ],
   "S2_residue_total": 0,
   "S3_collateral_total": 0,
-  "sweep_forgets": 117,
+  "sweep_forgets": 116,
   "sweep_residue_total": 0,
   "sweep_collateral_total": 0,
-  "S4_identical_claim_sets": 8,
-  "S4_mean_jaccard": 0.9696,
-  "S4_context_identical_rate": 0.7474,
+  "S4_identical_claim_sets": 11,
+  "S4_mean_jaccard": 0.9774,
+  "S4_context_identical_rate": 0.8212,
   "abstention": {
-   "full": 0.267,
-   "forget": 0.756,
+   "full": 0.333,
+   "forget": 0.822,
    "never": 0.756
   },
-  "forget_minus_never": 0.0,
+  "forget_minus_never": 0.067,
   "forget_minus_never_ci95": [
    0.0,
-   0.0
+   0.2
   ],
   "forget_minus_full": 0.489,
   "forget_minus_full_ci95": [
-   0.333,
+   0.311,
    0.644
   ],
   "B1_manipulation_ok": true,
