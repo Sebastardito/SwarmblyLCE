@@ -49,6 +49,16 @@ def expected() -> list[tuple[str, str]]:
                 out.append((doc, f"{100 * v:.1f} %"))
         out.append((doc, f"{r13['mean_by_arm']['A3']:.3f}"))
         out.append((doc, f"{r13['mean_by_arm']['A4']:.3f}"))
+    # confirmatoria de R13 (si existe) — mismas familias que el piloto
+    cdir = ROOT / "results" / "bench_r13_confirm"
+    cr13 = json.loads((cdir / "results.json").read_text(encoding="utf-8")) if (cdir / "results.json").exists() else None
+    if cr13 and "summary" in cr13:
+        cs = cr13["summary"]
+        cdoc = "docs/RESULTS_2026-10-11_R13_confirm_ES.md"
+        out.append((cdoc, f"{cs['a3_minus_a2_by_question']:+.3f} [{cs['a3_minus_a2_ci95'][0]:+.3f}, {cs['a3_minus_a2_ci95'][1]:+.3f}]"))
+        out.append((cdoc, f"{cs['questions']}"))
+        for g, v in cs.get("a3_by_digester", {}).items():
+            out.append((cdoc, f"{v:.3f}"))
     swip = "swips/SWIP-XXXX-local-cognitive-extension.md"
     out.append((swip, total))
     out.append((swip, _pair(an["a3_minus_a0_answerable"], plus=True)))
