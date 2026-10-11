@@ -25,6 +25,7 @@
 | [`PREREGISTRATION_C1_C2_EN.md`](PREREGISTRATION_C1_C2_EN.md) | 2026-10-05 | Pre-registration of C1/C2 with real models; amendments 1–3. |
 | [`RESULTS_2026-10-05_C1_C2_run1_ES.md`](RESULTS_2026-10-05_C1_C2_run1_ES.md) | 2026-10-05 | Corrida confirmatoria 1: manipulación fallida (proyección vacía); C2 rechazada; errores compartidos entre familias medidos (descriptivo). |
 | [`RESULTS_2026-10-05_C1_C2_run1_EN.md`](RESULTS_2026-10-05_C1_C2_run1_EN.md) | 2026-10-05 | Confirmatory run 1: manipulation failed (empty projection); C2 refused; cross-family shared errors measured (descriptive). |
+| [`RESULTS_2026-10-11_C2bis_ES.md`](RESULTS_2026-10-11_C2bis_ES.md) | 2026-10-11 | C2-bis: H-C17a se sostiene — reducción de homogeneidad Γ vs placebo +0.0652 [+0.0557, +0.0742]; el matiz principal de la corrida 2 queda cerrado. |
 | [`RESULTS_2026-10-05_C1_C2_run2_ES.md`](RESULTS_2026-10-05_C1_C2_run2_ES.md) | 2026-10-05 | Corrida confirmatoria 2: H-C2 (léxico), H-C17a y H-C17b se sostienen, con matices; ρ no probada. |
 | [`RESULTS_2026-10-05_C1_C2_run2_EN.md`](RESULTS_2026-10-05_C1_C2_run2_EN.md) | 2026-10-05 | Confirmatory run 2: H-C2 (lexicon), H-C17a and H-C17b hold, with qualifications; ρ not tested. |
 | [`PREREGISTRATION_BENCH_R1X_ES.md`](PREREGISTRATION_BENCH_R1X_ES.md) | 2026-10-10 | Preregistro consolidado de R14, R13 y R11; enmiendas 1–6 (la 6 declara las reparaciones E1–E5, N1 y N2, y preregistra F-forget y la A/A antes de correr). |
