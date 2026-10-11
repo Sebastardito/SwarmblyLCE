@@ -94,9 +94,9 @@ kind: exploratory
 
 **Estructura.** Tres wikis por celda (W_full con todas las fuentes, W_forget tras `forget_source` de `borrada.md`, W_never digerida sin ella). Residuo S2 = 0 y daño colateral S3 = 0 en las celdas válidas y en los 116 olvidos del barrido; 0 celdas rechazadas por S1 (la wiki no tenía claims de esa fuente). S2 y S3 verifican la implementación sobre wikis reales: `forget_source` borra por anclaje, así que cero es lo esperado. **Veredicto estructural: se sostiene.**
 
-**Equivalencia con no haber digerido nunca.** W_forget coincide con la W_never de la misma corrida en 8/15 wikis, pero con la wiki de R13 digerida sin la fuente en otra corrida en 15/15; las diferencias vienen de la W_never de esta corrida (8/15 frente a R13), es decir, del no determinismo de la digestión que mide AA2, no del olvido (análisis posterior a los datos).
+**Equivalencia con no haber digerido nunca.** W_forget coincide con la W_never de la misma corrida en 8/15 wikis, pero con la wiki de R13 digerida sin la fuente en otra corrida en 0/15; las diferencias vienen de la W_never de esta corrida (0/15 frente a R13), es decir, del no determinismo de la digestión que mide AA2, no del olvido (análisis posterior a los datos).
 
-**Conducta (sin las celdas rechazadas, como pide el preregistro).** Abstención en las 5 preguntas sobre la fuente borrada: W_full 0.359, W_forget 0.718, W_never 0.718; forget − full = +0.356 [+0.222, +0.489], forget − never = +0.000. B1 y B2 se cumplen. Son 5 preguntas: la potencia es baja y el resultado es de mecanismo.
+**Conducta (sin las celdas rechazadas, como pide el preregistro).** Abstención en las 5 preguntas sobre la fuente borrada: W_full 0.289, W_forget 0.778, W_never 0.756; forget − full = +0.489 [+0.333, +0.644], forget − never = +0.022. B1 y B2 se cumplen. Son 5 preguntas: la potencia es baja y el resultado es de mecanismo.
 
 ### 2.7 A/A de reproducibilidad (R14, Enmienda 6 c)
 
