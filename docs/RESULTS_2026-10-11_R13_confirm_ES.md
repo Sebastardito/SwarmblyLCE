@@ -98,7 +98,7 @@ ancladas (piso 5) y las 251 preguntas son analizables.
 |---|---|---|
 | R13-H1: la wiki supera al RAG crudo | muere si la estimación ≤ 0 | **muere**: −0.146 [−0.186, −0.106] |
 | R13-H2: la wiki gana en actualización y olvido | se sostiene si CI95 > 0 en los tipos 3 y 5; muere si el punto ≤ 0 en ambos | **no concluyente** por la regla: pierde en actualización (−0.222, IC negativo); el +0.115 de `deleted` es el artefacto N2 (sección 4) y no cuenta como victoria en olvido |
-| R13-H3: un piso de claims ancladas explica la utilidad | muere sin relación monotónica; si no, la compuerta se retira | **la compuerta se retira como regla**: ninguna celda queda bajo el piso de 5 (mínimo 39, máximo 90 en los usuarios propios), así que el piso no discrimina; hay relación monotónica moderada entre claims ancladas y exactitud (Spearman 0.568, sin LongMemEval) |
+| R13-H3: un piso de claims ancladas explica la utilidad | muere sin relación monotónica; si no, la compuerta se retira | **la compuerta se retira como regla**: ninguna celda queda bajo el piso de 5 (mínimo 39, máximo 90 en los usuarios propios), así que el piso no discrimina; hay relación monotónica moderada entre claims ancladas y exactitud (Spearman 0.584, sin LongMemEval) |
 | H-C1 muerte global | RAG ≥ wiki en el total Y la wiki no gana en 3 ni 5 | **dispara en lo sustantivo** (sección 4) |
 
 ## 4. Lectura

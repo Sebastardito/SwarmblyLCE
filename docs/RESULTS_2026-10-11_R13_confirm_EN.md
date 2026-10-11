@@ -97,7 +97,7 @@ questions are analysable.
 |---|---|---|
 | R13-H1: the wiki beats raw RAG | dies if the estimate ≤ 0 | **dies**: −0.146 [−0.186, −0.106] |
 | R13-H2: the wiki wins on updates and forgetting | holds if CI95 > 0 on types 3 and 5; dies if the point ≤ 0 on both | **inconclusive** by the rule: it loses on updates (−0.222, negative CI); the `deleted` +0.115 is the N2 artefact (Section 4) and does not count as a forgetting win |
-| R13-H3: an anchored-claim floor explains utility | dies with no monotonic relation; otherwise the gate is withdrawn | **the gate is withdrawn as a rule**: no cell falls below the floor of 5 (minimum 39, maximum 90 on own users), so the floor does not discriminate; anchored claims and accuracy show a moderate monotonic relation (Spearman 0.568, without LongMemEval) |
+| R13-H3: an anchored-claim floor explains utility | dies with no monotonic relation; otherwise the gate is withdrawn | **the gate is withdrawn as a rule**: no cell falls below the floor of 5 (minimum 39, maximum 90 on own users), so the floor does not discriminate; anchored claims and accuracy show a moderate monotonic relation (Spearman 0.584, without LongMemEval) |
 | H-C1 global death | raw RAG ≥ wiki overall AND the wiki does not win on 3 and 5 | **fires in substance** (Section 4) |
 
 ## 4. Reading

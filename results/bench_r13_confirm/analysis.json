@@ -310,7 +310,7 @@
    "min_anchored": 39,
    "max_anchored": 90,
    "cells_below_floor": 0,
-   "spearman_anchored_vs_accuracy_own_users": 0.568
+   "spearman_anchored_vs_accuracy_own_users": 0.584
   },
   "hc1_death_global": {
    "reading_wins_neither": "no dispara",

@@ -164,6 +164,23 @@ def decision_rules(out: dict, cells: list) -> dict:
                 "note": "con la lectura literal más estricta no dispara solo por el tipo 5, que la Enmienda 6 (b) declara inválido como medida de olvido"}}
 
 
+def _avg_ranks(v: list) -> np.ndarray:
+    """Rangos con empates promediados (Spearman estándar). argsort(argsort())
+    rompe los empates según el algoritmo de ordenación de numpy, y el
+    resultado cambiaba entre versiones y plataformas."""
+    a = np.asarray(v, dtype=float)
+    order = np.argsort(a, kind="stable")
+    ranks = np.empty(len(a))
+    i = 0
+    while i < len(a):
+        j = i
+        while j + 1 < len(a) and a[order[j + 1]] == a[order[i]]:
+            j += 1
+        ranks[order[i:j + 1]] = (i + j) / 2.0
+        i = j + 1
+    return ranks
+
+
 def h3_from_counts(r3: dict, ac: dict) -> dict:
     """R13-H3 (prereg 2.7): ¿el piso de 5 claims ancladas explica la utilidad?
     Se sostiene si la utilidad cae bajo el piso; muere si no hay relación
@@ -172,7 +189,7 @@ def h3_from_counts(r3: dict, ac: dict) -> dict:
     pts = [(n[(r["user"], r["digester"])], r["mean_ok"]) for r in r3["rows"]
            if (r["user"], r["digester"]) in n and r["user"] != "lme"]
     below = [p for p in pts if p[0] < 5]
-    x = np.argsort(np.argsort([p[0] for p in pts])); y = np.argsort(np.argsort([p[1] for p in pts]))
+    x = _avg_ranks([p[0] for p in pts]); y = _avg_ranks([p[1] for p in pts])
     rho = float(np.corrcoef(x, y)[0, 1]) if len(pts) > 2 else None
     r3 = dict(r3)
     r3.update({"min_anchored": min(p[0] for p in pts), "max_anchored": max(p[0] for p in pts),
