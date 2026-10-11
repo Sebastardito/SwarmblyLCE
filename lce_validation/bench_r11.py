@@ -342,22 +342,34 @@ def main(argv: list[str] | None = None) -> int:
                                     "base_ok": _ok(t["gold"], ans_b),
                                     "adapter_ok": _ok(t["gold"], ans_a)})
                             continue
+                        ctxs = {}
                         for t in tasks:
                             ctx, gamma = gamma_context(wiki, t["q"])
+                            ctxs[t["q"]] = (ctx, gamma)
+                        # brazo base + recuperación: servidor base (una carga)
+                        for t in tasks:
+                            ctx, gamma = ctxs[t["q"]]
                             ans_b = generate(t["q"], None, base_model)
                             ans_r = generate(t["q"] + "\nCONTEXTO:\n" + ctx
                                              + "\nΓ:\n" + gamma, None, base_model)
-                            ans_a = generate(t["q"], adapter, base_model)
-                            ans_ar = generate(t["q"] + "\nCONTEXTO:\n" + ctx
-                                              + "\nΓ:\n" + gamma, adapter,
-                                              base_model)
                             report["cells"].append({
                                 "tag": tag, "q": t["q"], "gold": t["gold"],
                                 "base_ok": _ok(t["gold"], ans_b),
                                 "retrieval_ok": _ok(t["gold"], ans_r),
-                                "adapter_ok": _ok(t["gold"], ans_a),
-                                "adapter_retr_ok": _ok(t["gold"], ans_ar),
-                                "base": ans_b[:120], "adapter": ans_a[:120]})
+                                "adapter_ok": False, "adapter_retr_ok": False,
+                                "base": ans_b[:120], "adapter": ""})
+                        # brazos con adaptador: servidor del adaptador (una carga)
+                        for t in tasks:
+                            ctx, gamma = ctxs[t["q"]]
+                            ans_a = generate(t["q"], adapter, base_model)
+                            ans_ar = generate(t["q"] + "\nCONTEXTO:\n" + ctx
+                                              + "\nΓ:\n" + gamma, adapter,
+                                              base_model)
+                            for c in report["cells"]:
+                                if c["tag"] == tag and c["q"] == t["q"]:
+                                    c["adapter_ok"] = _ok(t["gold"], ans_a)
+                                    c["adapter_retr_ok"] = _ok(t["gold"], ans_ar)
+                                    c["adapter"] = ans_a[:120]
                         for f in factual:     # I1: hechos DEL usuario
                             ans_b = generate(f["q"], None, base_model, 40)
                             ans_a = generate(f["q"], adapter, base_model, 40)
