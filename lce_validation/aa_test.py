@@ -38,7 +38,9 @@ from lce_validation.provenance import check_digests, record  # noqa: E402
 
 PREREG = ROOT / "docs" / "PREREGISTRATION_BENCH_R1X_ES.md"
 OUT = ROOT / "results" / "aa_test"
-R13 = ROOT / "results" / "bench_r13"
+R13 = ROOT / "results" / "bench_r13_confirm"
+if not (R13 / "results.json").exists():
+    R13 = ROOT / "results" / "bench_r13"
 FORGET_CACHE = ROOT / "results" / "bench_forget" / "wikis_cache"
 RESPONDERS = ["qwen2.5:3b", "llama3.2:3b", "gemma2:2b"]
 WRITER, EMBED = "qwen2.5:3b", "nomic-embed-text"

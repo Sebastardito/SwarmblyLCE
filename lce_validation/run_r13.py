@@ -21,6 +21,7 @@ Uso:
 from __future__ import annotations
 
 import argparse
+import os
 import json
 import re
 import sys
@@ -51,7 +52,7 @@ STALE = {
     ("mara", "Según tu criterio de abandono, ¿bajo qué valor de F_ST declararías muerta la "
              "hipótesis de aislamiento y cuál fue el valor medido entre Barú y Fábrega?"),
 }
-OUT = ROOT / "results" / "bench_r13"
+OUT = (HERE / ".." / "results" / os.environ.get("R13_OUT_DIR", "bench_r13")).resolve()
 
 ABSTAIN_RE = I._ABSTAIN_RE
 
