@@ -448,4 +448,17 @@ consolidated-material (style) tasks, with and without replay. Budget: 2
 families x 3 users x 2 seeds x 2 replay x 2 points = 24 trainings + 2 for
 LC6.
 
+**Amendment 10 — 10 October 2026, BEFORE the confirmatory run.** (a) The
+digester's parser becomes tolerant: it accepts the SEQUENCE of JSON objects
+({..},{..}) the model sometimes emits and merges their claims — removing the
+loss of whole sub-passages to output shape. (b) Environmental
+reproducibility condition: native seeded digestion is reproducible ONLY
+with an exclusive server (no concurrent requests: GPU contention alters the
+decode); the R13 confirmatory and the AA2 evaluation run with Ollama under
+no concurrent load, declared here. (c) AA1 and AA2 are evaluated against
+the CONFIRMATORY's outputs (Amendment 8's corpus change invalidates the
+comparison against the pilot); the R14 re-run criterion remains AA1 + AA2 +
+AA4 with their thresholds (>=99 % identical; >=14/15 wikis; |homogeneity
+delta| <= 0.01).
+
 *Text CC BY 4.0; code AGPL-3.0-or-later.*

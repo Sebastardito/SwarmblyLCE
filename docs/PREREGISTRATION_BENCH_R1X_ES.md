@@ -459,4 +459,18 @@ material consolidado (estilo), con y sin repaso. Presupuesto: 2 familias x
 3 usuarios x 2 semillas x 2 repasos x 2 puntos = 24 entrenamientos + 2 de
 LC6.
 
+**Enmienda 10 — 10 de octubre de 2026, ANTES de la confirmatoria.** (a) El
+parser del digestor se hace tolerante: acepta la SECUENCIA de objetos JSON
+({..},{..}) que el modelo emite a veces y fusiona sus claims — elimina la
+pérdida de sub-pasajes completos por forma de salida. (b) Condición
+ambiental de reproducibilidad: la digestión nativa con semilla es
+reproducible SOLO con el servidor exclusivo (sin otras solicitudes
+concurrentes: la contención de GPU altera la decodificación); la
+confirmatoria de R13 y la evaluación de AA2 corren con Ollama sin carga
+concurrente, y se declara aquí. (c) AA1 y AA2 se evalúan contra las SALIDAS
+DE LA CONFIRMATORIA (el cambio de corpus de la Enmienda 8 invalida la
+comparación contra el piloto); el criterio de re-corrida de R14 sigue
+siendo AA1 + AA2 + AA4 con sus umbrales (≥99 % idénticas; ≥14/15 wikis;
+|Δ homogeneidad| ≤ 0.01).
+
 *Texto CC BY 4.0; código AGPL-3.0-or-later.*

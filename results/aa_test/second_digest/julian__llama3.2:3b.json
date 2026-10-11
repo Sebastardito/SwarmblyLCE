@@ -1,0 +1,1540 @@
+{
+ "claims": [
+  {
+   "anchors": [
+    {
+     "end": 550,
+     "human_source": "self",
+     "source": "teach/knowledge/conocimiento.md",
+     "source_hash": "f3c1a1779c54e4a7c1cc256845947cb0a759451fd6f8fcfea2d4de2eac98a5e9",
+     "start": 485,
+     "verified": true
+    }
+   ],
+   "claim_id": "065d0f1d8b617c089e053cdc262778d8",
+   "clean_review_cycles": 0,
+   "created": 1791678716.583078,
+   "cycles_observed": 0,
+   "links": [
+    "6b674315ff2a4f4151cbceeaf03df16e",
+    "e74a35a296111de99a4f7ce060e62439"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Particionamiento por inquilino",
+   "type": "fact",
+   "updated": 1791678769.525703
+  },
+  {
+   "anchors": [
+    {
+     "end": 154,
+     "human_source": "self",
+     "source": "teach/knowledge/memoria_anual.md",
+     "source_hash": "aed75dcb116d213e24d79a8e6b3c56a997d6dc166c68ab872e9a5e6df85a1ea7",
+     "start": 59,
+     "verified": true
+    }
+   ],
+   "claim_id": "091fc31f67f305595837658e9340e014",
+   "clean_review_cycles": 0,
+   "created": 1791678727.004825,
+   "cycles_observed": 0,
+   "links": [
+    "e61c105b6b6029f6eabc1740f446797c"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "La memoria anual resume los cambios del año",
+   "type": "fact",
+   "updated": 1791678769.525714
+  },
+  {
+   "anchors": [
+    {
+     "end": 721,
+     "human_source": "self",
+     "source": "teach/knowledge/conocimiento.md",
+     "source_hash": "f3c1a1779c54e4a7c1cc256845947cb0a759451fd6f8fcfea2d4de2eac98a5e9",
+     "start": 624,
+     "verified": true
+    }
+   ],
+   "claim_id": "0dd132beb4c4d74a3710d48c8cfdc12d",
+   "clean_review_cycles": 0,
+   "created": 1791678716.5837939,
+   "cycles_observed": 0,
+   "links": [
+    "6b674315ff2a4f4151cbceeaf03df16e",
+    "cfe1b23dc73db2d7db8cd24718591c3f"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Las consultas de listado se sirven desde una vista materializada",
+   "type": "fact",
+   "updated": 1791678769.525721
+  },
+  {
+   "anchors": [
+    {
+     "end": 2036,
+     "human_source": "self",
+     "source": "teach/procedures/procedimientos.md",
+     "source_hash": "b38842898955f1b217ab962a4d68d2bbd4723acae9b437282076b1c9c15ed7a2",
+     "start": 1936,
+     "verified": true
+    }
+   ],
+   "claim_id": "0f8e9ceeb432a1f6bb5be33d4462a2c6",
+   "clean_review_cycles": 0,
+   "created": 1791678763.497938,
+   "cycles_observed": 0,
+   "links": [
+    "c08455e8747a855c96becba1224176ec",
+    "e4d5f7bf26c2216586c9b49b783a62f0"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Las trazas se muestrean al 100 por ciento en el entorno de pruebas y al 10 por ciento en producción",
+   "type": "fact",
+   "updated": 1791678769.525727
+  },
+  {
+   "anchors": [
+    {
+     "end": 215,
+     "human_source": "self",
+     "source": "teach/style/estilo.md",
+     "source_hash": "e96e548ea05e5302b64168d17ef6de288f8759a2665ce398c89db93d39137aa3",
+     "start": 160,
+     "verified": true
+    }
+   ],
+   "claim_id": "2474529c3b273c76b25397e2a083a30a",
+   "clean_review_cycles": 1,
+   "created": 1791678767.490331,
+   "cycles_observed": 4,
+   "links": [
+    "69e8f934d644247af226abd088a8091a",
+    "c7a3335b098b246d9e15f81141949ea7"
+   ],
+   "maturity": "TRAINABLE",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 0,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Prefiero el término servicio en lugar de microservicio.",
+   "type": "preference",
+   "updated": 1791678769.5264761
+  },
+  {
+   "anchors": [
+    {
+     "end": 258,
+     "human_source": "self",
+     "source": "teach/knowledge/revision_interna.md",
+     "source_hash": "422f272a20fa512bf28088ae7bea993403ed6b8e0f0582716fbb807c110d32de",
+     "start": 207,
+     "verified": true
+    }
+   ],
+   "claim_id": "27b5bc824c03c59b6705e02ff4fa98d5",
+   "clean_review_cycles": 0,
+   "created": 1791678747.401811,
+   "cycles_observed": 0,
+   "links": [
+    "94762a71493fa6831284f4236adf8b09",
+    "edc8dd3e7546645bfe28d8d7e11fe693"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "La vista materializada se refresca cada 30 minutos.",
+   "type": "fact",
+   "updated": 1791678769.5257652
+  },
+  {
+   "anchors": [
+    {
+     "end": 399,
+     "human_source": "self",
+     "source": "teach/knowledge/conocimiento.md",
+     "source_hash": "f3c1a1779c54e4a7c1cc256845947cb0a759451fd6f8fcfea2d4de2eac98a5e9",
+     "start": 258,
+     "verified": true
+    }
+   ],
+   "claim_id": "2d12492e02a5a4ede4c43fcd05610502",
+   "clean_review_cycles": 0,
+   "created": 1791678712.784991,
+   "cycles_observed": 0,
+   "links": [
+    "36c218c07bb6ee1a3674069a68097908",
+    "617a8f3567c49b1df9031123a585983d"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Se comunican por contratos HTTP versionados en el encabezado",
+   "type": "fact",
+   "updated": 1791678769.525771
+  },
+  {
+   "anchors": [
+    {
+     "end": 332,
+     "human_source": "self",
+     "source": "teach/procedures/procedimientos.md",
+     "source_hash": "b38842898955f1b217ab962a4d68d2bbd4723acae9b437282076b1c9c15ed7a2",
+     "start": 117,
+     "verified": true
+    }
+   ],
+   "claim_id": "318c04a798dfbb9a8ecfba5bbf8d6c55",
+   "clean_review_cycles": 0,
+   "created": 1791678751.3913522,
+   "cycles_observed": 0,
+   "links": [
+    "3c33c2a724f162901b2acf85a1c57963",
+    "95b5f96e019ad7a70245d73840cf95cd"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Toda rama que sale a producción pasa primero por revisión de pares",
+   "type": "fact",
+   "updated": 1791678769.525776
+  },
+  {
+   "anchors": [
+    {
+     "end": 258,
+     "human_source": "self",
+     "source": "teach/knowledge/actualizacion.md",
+     "source_hash": "df27777b84d4ef4b16cf1d6d82a9e1da6f6e6e0bd5075216e0ef9a57261f3dd7",
+     "start": 171,
+     "verified": true
+    },
+    {
+     "end": 468,
+     "human_source": "self",
+     "source": "teach/knowledge/actualizacion.md",
+     "source_hash": "df27777b84d4ef4b16cf1d6d82a9e1da6f6e6e0bd5075216e0ef9a57261f3dd7",
+     "start": 381,
+     "verified": true
+    },
+    {
+     "end": 678,
+     "human_source": "self",
+     "source": "teach/knowledge/actualizacion.md",
+     "source_hash": "df27777b84d4ef4b16cf1d6d82a9e1da6f6e6e0bd5075216e0ef9a57261f3dd7",
+     "start": 591,
+     "verified": true
+    }
+   ],
+   "claim_id": "31fd515812ad18e1cbae71366efdbc85",
+   "clean_review_cycles": 0,
+   "created": 1791678705.4488351,
+   "cycles_observed": 0,
+   "links": [
+    "782e28bc1d592f757882056eae8bfa52"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "La cobertura mínima de pruebas sube de 80 a 85 por ciento tras el incidente de octubre.",
+   "type": "fact",
+   "updated": 1791678769.525781
+  },
+  {
+   "anchors": [
+    {
+     "end": 2166,
+     "human_source": "self",
+     "source": "teach/procedures/procedimientos.md",
+     "source_hash": "b38842898955f1b217ab962a4d68d2bbd4723acae9b437282076b1c9c15ed7a2",
+     "start": 2101,
+     "verified": true
+    }
+   ],
+   "claim_id": "34c3b69f7b00e1a4d86be79232f5c01c",
+   "clean_review_cycles": 0,
+   "created": 1791678763.498654,
+   "cycles_observed": 0,
+   "links": [
+    "e4d5f7bf26c2216586c9b49b783a62f0"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Una alerta de promedio esconde el servicio lento para la mayoría",
+   "type": "fact",
+   "updated": 1791678769.5257869
+  },
+  {
+   "anchors": [
+    {
+     "end": 399,
+     "human_source": "self",
+     "source": "teach/knowledge/conocimiento.md",
+     "source_hash": "f3c1a1779c54e4a7c1cc256845947cb0a759451fd6f8fcfea2d4de2eac98a5e9",
+     "start": 258,
+     "verified": true
+    }
+   ],
+   "claim_id": "36c218c07bb6ee1a3674069a68097908",
+   "clean_review_cycles": 0,
+   "created": 1791678712.785739,
+   "cycles_observed": 0,
+   "links": [
+    "2d12492e02a5a4ede4c43fcd05610502",
+    "5aa3124ce7fb1d4b5575f8c70b61c2e7"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Se comunican por eventos de dominio en un canal de mensajería con entrega al menos una vez",
+   "type": "fact",
+   "updated": 1791678769.525792
+  },
+  {
+   "anchors": [
+    {
+     "end": 510,
+     "human_source": "self",
+     "source": "teach/procedures/procedimientos.md",
+     "source_hash": "b38842898955f1b217ab962a4d68d2bbd4723acae9b437282076b1c9c15ed7a2",
+     "start": 337,
+     "verified": true
+    }
+   ],
+   "claim_id": "3c33c2a724f162901b2acf85a1c57963",
+   "clean_review_cycles": 0,
+   "created": 1791678751.3919182,
+   "cycles_observed": 0,
+   "links": [
+    "318c04a798dfbb9a8ecfba5bbf8d6c55",
+    "4476a2a05bc55eabb218c61f35eae489"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "La cobertura de pruebas del paquete modificado debe ser mayor o igual al 80 por ciento",
+   "type": "fact",
+   "updated": 1791678769.5257978
+  },
+  {
+   "anchors": [
+    {
+     "end": 1192,
+     "human_source": "self",
+     "source": "teach/procedures/procedimientos.md",
+     "source_hash": "b38842898955f1b217ab962a4d68d2bbd4723acae9b437282076b1c9c15ed7a2",
+     "start": 1021,
+     "verified": true
+    }
+   ],
+   "claim_id": "42a01a043c6ec785a2741fabbfb1c128",
+   "clean_review_cycles": 0,
+   "created": 1791678756.6339881,
+   "cycles_observed": 0,
+   "links": [
+    "adb2dfc9cf8851dabfc7ecdcc714db1f",
+    "c08455e8747a855c96becba1224176ec"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "El p95 de latencia del servicio en el entorno de pruebas debe quedar por debajo de 300 milisegundos para el endpoint de listado con 10,000 registros de catálogo sembrados",
+   "type": "fact",
+   "updated": 1791678769.525803
+  },
+  {
+   "anchors": [
+    {
+     "end": 659,
+     "human_source": "self",
+     "source": "teach/procedures/procedimientos.md",
+     "source_hash": "b38842898955f1b217ab962a4d68d2bbd4723acae9b437282076b1c9c15ed7a2",
+     "start": 515,
+     "verified": true
+    }
+   ],
+   "claim_id": "4476a2a05bc55eabb218c61f35eae489",
+   "clean_review_cycles": 0,
+   "created": 1791678751.392226,
+   "cycles_observed": 0,
+   "links": [
+    "3c33c2a724f162901b2acf85a1c57963",
+    "adb2dfc9cf8851dabfc7ecdcc714db1f"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Las migraciones de esquema se escriben siempre en dos partes",
+   "type": "fact",
+   "updated": 1791678769.525808
+  },
+  {
+   "anchors": [
+    {
+     "end": 112,
+     "human_source": "self",
+     "source": "teach/style/estilo.md",
+     "source_hash": "e96e548ea05e5302b64168d17ef6de288f8759a2665ce398c89db93d39137aa3",
+     "start": 0,
+     "verified": true
+    }
+   ],
+   "claim_id": "4841285cac75395b378029a8e5ce1375",
+   "clean_review_cycles": 1,
+   "created": 1791678766.44867,
+   "cycles_observed": 4,
+   "links": [
+    "c7a3335b098b246d9e15f81141949ea7"
+   ],
+   "maturity": "TRAINABLE",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 0,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Escribo en un registro directo y técnico",
+   "type": "style",
+   "updated": 1791678769.5265112
+  },
+  {
+   "anchors": [
+    {
+     "end": 296,
+     "human_source": "self",
+     "source": "teach/knowledge/memoria_anual.md",
+     "source_hash": "aed75dcb116d213e24d79a8e6b3c56a997d6dc166c68ab872e9a5e6df85a1ea7",
+     "start": 204,
+     "verified": true
+    }
+   ],
+   "claim_id": "48509add6a77f55ee989eb65d9981119",
+   "clean_review_cycles": 0,
+   "created": 1791678727.006603,
+   "cycles_observed": 0,
+   "links": [
+    "7453b2cc39bed771e5cc277f978350a6",
+    "e61c105b6b6029f6eabc1740f446797c"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Cerró con cuatro servicios",
+   "type": "fact",
+   "updated": 1791678769.525834
+  },
+  {
+   "anchors": [
+    {
+     "end": 480,
+     "human_source": "self",
+     "source": "teach/style/estilo.md",
+     "source_hash": "e96e548ea05e5302b64168d17ef6de288f8759a2665ce398c89db93d39137aa3",
+     "start": 340,
+     "verified": true
+    }
+   ],
+   "claim_id": "4ff2db09c4d07927afc90315b3bc40e6",
+   "clean_review_cycles": 1,
+   "created": 1791678769.5250728,
+   "cycles_observed": 4,
+   "links": [
+    "8638e34e2afb6f2ba7e157b467bf2b14"
+   ],
+   "maturity": "TRAINABLE",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 0,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "En los documentos de diseño escribo siempre la sección de decisiones registradas al final",
+   "type": "style",
+   "updated": 1791678769.526527
+  },
+  {
+   "anchors": [
+    {
+     "end": 168,
+     "human_source": "self",
+     "source": "teach/knowledge/revision_interna.md",
+     "source_hash": "422f272a20fa512bf28088ae7bea993403ed6b8e0f0582716fbb807c110d32de",
+     "start": 99,
+     "verified": true
+    }
+   ],
+   "claim_id": "579626854e6189f37ef1cf346b777ea1",
+   "clean_review_cycles": 0,
+   "created": 1791678747.4013271,
+   "cycles_observed": 0,
+   "links": [
+    "632b71dcf043a04232239ce19cb31603",
+    "edc8dd3e7546645bfe28d8d7e11fe693"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "La tabla de variantes del inquilino mayor tiene 38 millones de filas.",
+   "type": "fact",
+   "updated": 1791678769.525859
+  },
+  {
+   "anchors": [
+    {
+     "end": 484,
+     "human_source": "self",
+     "source": "teach/knowledge/conocimiento.md",
+     "source_hash": "f3c1a1779c54e4a7c1cc256845947cb0a759451fd6f8fcfea2d4de2eac98a5e9",
+     "start": 416,
+     "verified": true
+    }
+   ],
+   "claim_id": "5aa3124ce7fb1d4b5575f8c70b61c2e7",
+   "clean_review_cycles": 0,
+   "created": 1791678716.581855,
+   "cycles_observed": 0,
+   "links": [
+    "36c218c07bb6ee1a3674069a68097908",
+    "cf6012dbb19b0632d4c2e3cceabaa154"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Cada servicio posee su esquema",
+   "type": "fact",
+   "updated": 1791678769.525865
+  },
+  {
+   "anchors": [
+    {
+     "end": 1426,
+     "human_source": "self",
+     "source": "teach/knowledge/memoria_anual.md",
+     "source_hash": "aed75dcb116d213e24d79a8e6b3c56a997d6dc166c68ab872e9a5e6df85a1ea7",
+     "start": 1367,
+     "verified": true
+    }
+   ],
+   "claim_id": "5f56fde5fc735b319edb6409c5234611",
+   "clean_review_cycles": 0,
+   "created": 1791678741.1234539,
+   "cycles_observed": 0,
+   "links": [
+    "7c5ce2338c214ddaa55077d9e935ec76",
+    "8c107456fd440bb1679fe0d4a9797a35"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "la decisión de idempotencia en los consumidores se mantuvo",
+   "type": "fact",
+   "updated": 1791678769.52587
+  },
+  {
+   "anchors": [
+    {
+     "end": 49,
+     "human_source": "self",
+     "source": "teach/knowledge/conocimiento.md",
+     "source_hash": "f3c1a1779c54e4a7c1cc256845947cb0a759451fd6f8fcfea2d4de2eac98a5e9",
+     "start": 0,
+     "verified": true
+    }
+   ],
+   "claim_id": "617a8f3567c49b1df9031123a585983d",
+   "clean_review_cycles": 0,
+   "created": 1791678710.297906,
+   "cycles_observed": 0,
+   "links": [
+    "2d12492e02a5a4ede4c43fcd05610502"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Arquitectura del sistema de catálogo de productos",
+   "type": "fact",
+   "updated": 1791678769.5258749
+  },
+  {
+   "anchors": [
+    {
+     "end": 98,
+     "human_source": "self",
+     "source": "teach/knowledge/revision_interna.md",
+     "source_hash": "422f272a20fa512bf28088ae7bea993403ed6b8e0f0582716fbb807c110d32de",
+     "start": 50,
+     "verified": true
+    }
+   ],
+   "claim_id": "632b71dcf043a04232239ce19cb31603",
+   "clean_review_cycles": 0,
+   "created": 1791678747.4005928,
+   "cycles_observed": 0,
+   "links": [
+    "579626854e6189f37ef1cf346b777ea1"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "La cobertura mínima de pruebas es 70 por ciento.",
+   "type": "fact",
+   "updated": 1791678769.52588
+  },
+  {
+   "anchors": [
+    {
+     "end": 266,
+     "human_source": "self",
+     "source": "teach/style/estilo.md",
+     "source_hash": "e96e548ea05e5302b64168d17ef6de288f8759a2665ce398c89db93d39137aa3",
+     "start": 217,
+     "verified": true
+    }
+   ],
+   "claim_id": "69e8f934d644247af226abd088a8091a",
+   "clean_review_cycles": 1,
+   "created": 1791678768.003569,
+   "cycles_observed": 4,
+   "links": [
+    "2474529c3b273c76b25397e2a083a30a",
+    "8638e34e2afb6f2ba7e157b467bf2b14"
+   ],
+   "maturity": "TRAINABLE",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 0,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Prefiero el término módulo en lugar de componente",
+   "type": "preference",
+   "updated": 1791678769.5265532
+  },
+  {
+   "anchors": [
+    {
+     "end": 721,
+     "human_source": "self",
+     "source": "teach/knowledge/conocimiento.md",
+     "source_hash": "f3c1a1779c54e4a7c1cc256845947cb0a759451fd6f8fcfea2d4de2eac98a5e9",
+     "start": 551,
+     "verified": true
+    }
+   ],
+   "claim_id": "6b674315ff2a4f4151cbceeaf03df16e",
+   "clean_review_cycles": 0,
+   "created": 1791678716.583313,
+   "cycles_observed": 0,
+   "links": [
+    "065d0f1d8b617c089e053cdc262778d8",
+    "0dd132beb4c4d74a3710d48c8cfdc12d"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "La tabla de variantes tiene 41 millones de filas",
+   "type": "fact",
+   "updated": 1791678769.525908
+  },
+  {
+   "anchors": [
+    {
+     "end": 1589,
+     "human_source": "self",
+     "source": "teach/knowledge/memoria_anual.md",
+     "source_hash": "aed75dcb116d213e24d79a8e6b3c56a997d6dc166c68ab872e9a5e6df85a1ea7",
+     "start": 1495,
+     "verified": true
+    }
+   ],
+   "claim_id": "6c894b75cd8175e8ba8dc7ac76c426f8",
+   "clean_review_cycles": 0,
+   "created": 1791678741.124783,
+   "cycles_observed": 0,
+   "links": [
+    "874220cacff6debe61acf9b09a95880e",
+    "8c107456fd440bb1679fe0d4a9797a35"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "se adoptó el formato de problema de la IETF para todos los errores",
+   "type": "fact",
+   "updated": 1791678769.525913
+  },
+  {
+   "anchors": [
+    {
+     "end": 1293,
+     "human_source": "self",
+     "source": "teach/knowledge/memoria_anual.md",
+     "source_hash": "aed75dcb116d213e24d79a8e6b3c56a997d6dc166c68ab872e9a5e6df85a1ea7",
+     "start": 1210,
+     "verified": true
+    }
+   ],
+   "claim_id": "6d04a2011978b15a77e2a60643537361",
+   "clean_review_cycles": 0,
+   "created": 1791678738.005207,
+   "cycles_observed": 0,
+   "links": [
+    "7c5ce2338c214ddaa55077d9e935ec76",
+    "c2a131323163d6ea6accbb48d422f17a"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "la cuota de almacenamiento por inquilino sigue en 5 gigabytes",
+   "type": "fact",
+   "updated": 1791678769.525918
+  },
+  {
+   "anchors": [
+    {
+     "end": 1147,
+     "human_source": "self",
+     "source": "teach/knowledge/memoria_anual.md",
+     "source_hash": "aed75dcb116d213e24d79a8e6b3c56a997d6dc166c68ab872e9a5e6df85a1ea7",
+     "start": 1013,
+     "verified": true
+    }
+   ],
+   "claim_id": "73e1eb5adee67f48a946817f9f870a99",
+   "clean_review_cycles": 0,
+   "created": 1791678738.00388,
+   "cycles_observed": 0,
+   "links": [
+    "c2a131323163d6ea6accbb48d422f17a",
+    "cdaa493660eca619a6877bfeda562ee9"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "el p95 del listado cerró el año en 244 milisegundos tras el ajuste del grupo de conexiones",
+   "type": "fact",
+   "updated": 1791678769.525923
+  },
+  {
+   "anchors": [
+    {
+     "end": 296,
+     "human_source": "self",
+     "source": "teach/knowledge/memoria_anual.md",
+     "source_hash": "aed75dcb116d213e24d79a8e6b3c56a997d6dc166c68ab872e9a5e6df85a1ea7",
+     "start": 204,
+     "verified": true
+    }
+   ],
+   "claim_id": "7453b2cc39bed771e5cc277f978350a6",
+   "clean_review_cycles": 0,
+   "created": 1791678727.0068438,
+   "cycles_observed": 0,
+   "links": [
+    "48509add6a77f55ee989eb65d9981119",
+    "cdaa493660eca619a6877bfeda562ee9"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Un canal de mensajería",
+   "type": "fact",
+   "updated": 1791678769.525929
+  },
+  {
+   "anchors": [
+    {
+     "end": 307,
+     "human_source": "self",
+     "source": "teach/knowledge/actualizacion.md",
+     "source_hash": "df27777b84d4ef4b16cf1d6d82a9e1da6f6e6e0bd5075216e0ef9a57261f3dd7",
+     "start": 259,
+     "verified": true
+    },
+    {
+     "end": 517,
+     "human_source": "self",
+     "source": "teach/knowledge/actualizacion.md",
+     "source_hash": "df27777b84d4ef4b16cf1d6d82a9e1da6f6e6e0bd5075216e0ef9a57261f3dd7",
+     "start": 469,
+     "verified": true
+    },
+    {
+     "end": 727,
+     "human_source": "self",
+     "source": "teach/knowledge/actualizacion.md",
+     "source_hash": "df27777b84d4ef4b16cf1d6d82a9e1da6f6e6e0bd5075216e0ef9a57261f3dd7",
+     "start": 679,
+     "verified": true
+    }
+   ],
+   "claim_id": "782e28bc1d592f757882056eae8bfa52",
+   "clean_review_cycles": 0,
+   "created": 1791678705.4497411,
+   "cycles_observed": 0,
+   "links": [
+    "31fd515812ad18e1cbae71366efdbc85",
+    "ed1fc0d67192c020ca3dc43830f78c43"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "El p95 de latencia exigido baja de 300 a 250 ms.",
+   "type": "fact",
+   "updated": 1791678769.525934
+  },
+  {
+   "anchors": [
+    {
+     "end": 1353,
+     "human_source": "self",
+     "source": "teach/knowledge/memoria_anual.md",
+     "source_hash": "aed75dcb116d213e24d79a8e6b3c56a997d6dc166c68ab872e9a5e6df85a1ea7",
+     "start": 1274,
+     "verified": true
+    }
+   ],
+   "claim_id": "7c5ce2338c214ddaa55077d9e935ec76",
+   "clean_review_cycles": 0,
+   "created": 1791678738.00559,
+   "cycles_observed": 0,
+   "links": [
+    "5f56fde5fc735b319edb6409c5234611",
+    "6d04a2011978b15a77e2a60643537361"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "el exceso se cobra: la facturación por exceso recaudó 12,400 dólares en el año",
+   "type": "fact",
+   "updated": 1791678769.525939
+  },
+  {
+   "anchors": [
+    {
+     "end": 337,
+     "human_source": "self",
+     "source": "teach/style/estilo.md",
+     "source_hash": "e96e548ea05e5302b64168d17ef6de288f8759a2665ce398c89db93d39137aa3",
+     "start": 269,
+     "verified": true
+    }
+   ],
+   "claim_id": "8638e34e2afb6f2ba7e157b467bf2b14",
+   "clean_review_cycles": 1,
+   "created": 1791678768.645459,
+   "cycles_observed": 4,
+   "links": [
+    "4ff2db09c4d07927afc90315b3bc40e6",
+    "69e8f934d644247af226abd088a8091a"
+   ],
+   "maturity": "TRAINABLE",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 0,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Prefiero el término despliegue azul-verde en lugar de rolling update",
+   "type": "preference",
+   "updated": 1791678769.526583
+  },
+  {
+   "anchors": [
+    {
+     "end": 1646,
+     "human_source": "self",
+     "source": "teach/knowledge/memoria_anual.md",
+     "source_hash": "aed75dcb116d213e24d79a8e6b3c56a997d6dc166c68ab872e9a5e6df85a1ea7",
+     "start": 1564,
+     "verified": true
+    }
+   ],
+   "claim_id": "874220cacff6debe61acf9b09a95880e",
+   "clean_review_cycles": 0,
+   "created": 1791678741.125189,
+   "cycles_observed": 0,
+   "links": [
+    "6c894b75cd8175e8ba8dc7ac76c426f8",
+    "f6b2a4c3759e3c030c956259d0e1e93b"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "se añadieron dos códigos: CAT-104 precio sin vigencia y CAT-105 variante inactiva",
+   "type": "fact",
+   "updated": 1791678769.525965
+  },
+  {
+   "anchors": [
+    {
+     "end": 1494,
+     "human_source": "self",
+     "source": "teach/knowledge/memoria_anual.md",
+     "source_hash": "aed75dcb116d213e24d79a8e6b3c56a997d6dc166c68ab872e9a5e6df85a1ea7",
+     "start": 1427,
+     "verified": true
+    }
+   ],
+   "claim_id": "8c107456fd440bb1679fe0d4a9797a35",
+   "clean_review_cycles": 0,
+   "created": 1791678741.124235,
+   "cycles_observed": 0,
+   "links": [
+    "5f56fde5fc735b319edb6409c5234611",
+    "6c894b75cd8175e8ba8dc7ac76c426f8"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "los duplicados de eventos bajaron a 0.2 por ciento de las entregas",
+   "type": "fact",
+   "updated": 1791678769.52597
+  },
+  {
+   "anchors": [
+    {
+     "end": 333,
+     "human_source": "self",
+     "source": "teach/knowledge/revision_interna.md",
+     "source_hash": "422f272a20fa512bf28088ae7bea993403ed6b8e0f0582716fbb807c110d32de",
+     "start": 259,
+     "verified": true
+    }
+   ],
+   "claim_id": "94762a71493fa6831284f4236adf8b09",
+   "clean_review_cycles": 0,
+   "created": 1791678747.402015,
+   "cycles_observed": 0,
+   "links": [
+    "27b5bc824c03c59b6705e02ff4fa98d5"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "El despliegue azul-verde mueve el tráfico en incrementos de 40 por ciento.",
+   "type": "fact",
+   "updated": 1791678769.525975
+  },
+  {
+   "anchors": [
+    {
+     "end": 48,
+     "human_source": "self",
+     "source": "teach/procedures/procedimientos.md",
+     "source_hash": "b38842898955f1b217ab962a4d68d2bbd4723acae9b437282076b1c9c15ed7a2",
+     "start": 0,
+     "verified": true
+    }
+   ],
+   "claim_id": "95b5f96e019ad7a70245d73840cf95cd",
+   "clean_review_cycles": 0,
+   "created": 1791678748.6144829,
+   "cycles_observed": 0,
+   "links": [
+    "318c04a798dfbb9a8ecfba5bbf8d6c55"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Protocolo de despliegue del servicio de catálogo",
+   "type": "fact",
+   "updated": 1791678769.52598
+  },
+  {
+   "anchors": [
+    {
+     "end": 1192,
+     "human_source": "self",
+     "source": "teach/procedures/procedimientos.md",
+     "source_hash": "b38842898955f1b217ab962a4d68d2bbd4723acae9b437282076b1c9c15ed7a2",
+     "start": 1021,
+     "verified": true
+    }
+   ],
+   "claim_id": "adb2dfc9cf8851dabfc7ecdcc714db1f",
+   "clean_review_cycles": 0,
+   "created": 1791678756.633024,
+   "cycles_observed": 0,
+   "links": [
+    "42a01a043c6ec785a2741fabbfb1c128",
+    "4476a2a05bc55eabb218c61f35eae489"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "El p95 de latencia del servicio en el entorno de pruebas debe quedar por debajo de 300 milisegundos",
+   "type": "fact",
+   "updated": 1791678769.525986
+  },
+  {
+   "anchors": [
+    {
+     "end": 1935,
+     "human_source": "self",
+     "source": "teach/procedures/procedimientos.md",
+     "source_hash": "b38842898955f1b217ab962a4d68d2bbd4723acae9b437282076b1c9c15ed7a2",
+     "start": 1815,
+     "verified": true
+    }
+   ],
+   "claim_id": "c08455e8747a855c96becba1224176ec",
+   "clean_review_cycles": 0,
+   "created": 1791678763.497111,
+   "cycles_observed": 0,
+   "links": [
+    "0f8e9ceeb432a1f6bb5be33d4462a2c6",
+    "42a01a043c6ec785a2741fabbfb1c128"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Todo servicio emite trazas con identificador de correlación y métricas",
+   "type": "fact",
+   "updated": 1791678769.525991
+  },
+  {
+   "anchors": [
+    {
+     "end": 1209,
+     "human_source": "self",
+     "source": "teach/knowledge/memoria_anual.md",
+     "source_hash": "aed75dcb116d213e24d79a8e6b3c56a997d6dc166c68ab872e9a5e6df85a1ea7",
+     "start": 1148,
+     "verified": true
+    }
+   ],
+   "claim_id": "c2a131323163d6ea6accbb48d422f17a",
+   "clean_review_cycles": 0,
+   "created": 1791678738.004787,
+   "cycles_observed": 0,
+   "links": [
+    "6d04a2011978b15a77e2a60643537361",
+    "73e1eb5adee67f48a946817f9f870a99"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "la tasa de errores móvil de 30 días quedó en 0.38 por ciento",
+   "type": "fact",
+   "updated": 1791678769.5259972
+  },
+  {
+   "anchors": [
+    {
+     "end": 157,
+     "human_source": "self",
+     "source": "teach/style/estilo.md",
+     "source_hash": "e96e548ea05e5302b64168d17ef6de288f8759a2665ce398c89db93d39137aa3",
+     "start": 114,
+     "verified": true
+    }
+   ],
+   "claim_id": "c7a3335b098b246d9e15f81141949ea7",
+   "clean_review_cycles": 1,
+   "created": 1791678766.964777,
+   "cycles_observed": 4,
+   "links": [
+    "2474529c3b273c76b25397e2a083a30a",
+    "4841285cac75395b378029a8e5ce1375"
+   ],
+   "maturity": "TRAINABLE",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 0,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Prefiero el término trazas en lugar de logs",
+   "type": "preference",
+   "updated": 1791678769.526612
+  },
+  {
+   "anchors": [
+    {
+     "end": 296,
+     "human_source": "self",
+     "source": "teach/knowledge/memoria_anual.md",
+     "source_hash": "aed75dcb116d213e24d79a8e6b3c56a997d6dc166c68ab872e9a5e6df85a1ea7",
+     "start": 204,
+     "verified": true
+    }
+   ],
+   "claim_id": "cdaa493660eca619a6877bfeda562ee9",
+   "clean_review_cycles": 0,
+   "created": 1791678727.007062,
+   "cycles_observed": 0,
+   "links": [
+    "73e1eb5adee67f48a946817f9f870a99",
+    "7453b2cc39bed771e5cc277f978350a6"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Cuarenta y un consumidores registrados",
+   "type": "fact",
+   "updated": 1791678769.526022
+  },
+  {
+   "anchors": [
+    {
+     "end": 484,
+     "human_source": "self",
+     "source": "teach/knowledge/conocimiento.md",
+     "source_hash": "f3c1a1779c54e4a7c1cc256845947cb0a759451fd6f8fcfea2d4de2eac98a5e9",
+     "start": 416,
+     "verified": true
+    }
+   ],
+   "claim_id": "cf6012dbb19b0632d4c2e3cceabaa154",
+   "clean_review_cycles": 0,
+   "created": 1791678716.582599,
+   "cycles_observed": 0,
+   "links": [
+    "5aa3124ce7fb1d4b5575f8c70b61c2e7",
+    "e74a35a296111de99a4f7ce060e62439"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "No servicio lee tablas de otro",
+   "type": "fact",
+   "updated": 1791678769.526027
+  },
+  {
+   "anchors": [
+    {
+     "end": 721,
+     "human_source": "self",
+     "source": "teach/knowledge/conocimiento.md",
+     "source_hash": "f3c1a1779c54e4a7c1cc256845947cb0a759451fd6f8fcfea2d4de2eac98a5e9",
+     "start": 624,
+     "verified": true
+    }
+   ],
+   "claim_id": "cfe1b23dc73db2d7db8cd24718591c3f",
+   "clean_review_cycles": 0,
+   "created": 1791678716.584028,
+   "cycles_observed": 0,
+   "links": [
+    "0dd132beb4c4d74a3710d48c8cfdc12d"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "La vista se refresca cada 15 minutos",
+   "type": "fact",
+   "updated": 1791678769.526032
+  },
+  {
+   "anchors": [
+    {
+     "end": 2100,
+     "human_source": "self",
+     "source": "teach/procedures/procedimientos.md",
+     "source_hash": "b38842898955f1b217ab962a4d68d2bbd4723acae9b437282076b1c9c15ed7a2",
+     "start": 2041,
+     "verified": true
+    }
+   ],
+   "claim_id": "e4d5f7bf26c2216586c9b49b783a62f0",
+   "clean_review_cycles": 0,
+   "created": 1791678763.498216,
+   "cycles_observed": 0,
+   "links": [
+    "0f8e9ceeb432a1f6bb5be33d4462a2c6",
+    "34c3b69f7b00e1a4d86be79232f5c01c"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Las alertas se definen sobre el p95 y no sobre el promedio",
+   "type": "fact",
+   "updated": 1791678769.526038
+  },
+  {
+   "anchors": [
+    {
+     "end": 296,
+     "human_source": "self",
+     "source": "teach/knowledge/memoria_anual.md",
+     "source_hash": "aed75dcb116d213e24d79a8e6b3c56a997d6dc166c68ab872e9a5e6df85a1ea7",
+     "start": 155,
+     "verified": true
+    }
+   ],
+   "claim_id": "e61c105b6b6029f6eabc1740f446797c",
+   "clean_review_cycles": 0,
+   "created": 1791678727.0061681,
+   "cycles_observed": 0,
+   "links": [
+    "091fc31f67f305595837658e9340e014",
+    "48509add6a77f55ee989eb65d9981119"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "El sistema cumplió su tercer año en producción",
+   "type": "fact",
+   "updated": 1791678769.526072
+  },
+  {
+   "anchors": [
+    {
+     "end": 550,
+     "human_source": "self",
+     "source": "teach/knowledge/conocimiento.md",
+     "source_hash": "f3c1a1779c54e4a7c1cc256845947cb0a759451fd6f8fcfea2d4de2eac98a5e9",
+     "start": 485,
+     "verified": true
+    }
+   ],
+   "claim_id": "e74a35a296111de99a4f7ce060e62439",
+   "clean_review_cycles": 0,
+   "created": 1791678716.582856,
+   "cycles_observed": 0,
+   "links": [
+    "065d0f1d8b617c089e053cdc262778d8",
+    "cf6012dbb19b0632d4c2e3cceabaa154"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "El catálogo usa PostgreSQL 17",
+   "type": "fact",
+   "updated": 1791678769.526078
+  },
+  {
+   "anchors": [
+    {
+     "end": 379,
+     "human_source": "self",
+     "source": "teach/knowledge/actualizacion.md",
+     "source_hash": "df27777b84d4ef4b16cf1d6d82a9e1da6f6e6e0bd5075216e0ef9a57261f3dd7",
+     "start": 308,
+     "verified": true
+    },
+    {
+     "end": 589,
+     "human_source": "self",
+     "source": "teach/knowledge/actualizacion.md",
+     "source_hash": "df27777b84d4ef4b16cf1d6d82a9e1da6f6e6e0bd5075216e0ef9a57261f3dd7",
+     "start": 518,
+     "verified": true
+    },
+    {
+     "end": 799,
+     "human_source": "self",
+     "source": "teach/knowledge/actualizacion.md",
+     "source_hash": "df27777b84d4ef4b16cf1d6d82a9e1da6f6e6e0bd5075216e0ef9a57261f3dd7",
+     "start": 728,
+     "verified": true
+    }
+   ],
+   "claim_id": "ed1fc0d67192c020ca3dc43830f78c43",
+   "clean_review_cycles": 0,
+   "created": 1791678705.450052,
+   "cycles_observed": 0,
+   "links": [
+    "782e28bc1d592f757882056eae8bfa52"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "Los registros sembrados en la prueba de carga suben de 10,000 a 12,000.",
+   "type": "fact",
+   "updated": 1791678769.526083
+  },
+  {
+   "anchors": [
+    {
+     "end": 206,
+     "human_source": "self",
+     "source": "teach/knowledge/revision_interna.md",
+     "source_hash": "422f272a20fa512bf28088ae7bea993403ed6b8e0f0582716fbb807c110d32de",
+     "start": 169,
+     "verified": true
+    }
+   ],
+   "claim_id": "edc8dd3e7546645bfe28d8d7e11fe693",
+   "clean_review_cycles": 0,
+   "created": 1791678747.401602,
+   "cycles_observed": 0,
+   "links": [
+    "27b5bc824c03c59b6705e02ff4fa98d5",
+    "579626854e6189f37ef1cf346b777ea1"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "El p95 de latencia exigido es 350 ms.",
+   "type": "fact",
+   "updated": 1791678769.526089
+  },
+  {
+   "anchors": [
+    {
+     "end": 1704,
+     "human_source": "self",
+     "source": "teach/knowledge/memoria_anual.md",
+     "source_hash": "aed75dcb116d213e24d79a8e6b3c56a997d6dc166c68ab872e9a5e6df85a1ea7",
+     "start": 1647,
+     "verified": true
+    }
+   ],
+   "claim_id": "f6b2a4c3759e3c030c956259d0e1e93b",
+   "clean_review_cycles": 0,
+   "created": 1791678741.1254551,
+   "cycles_observed": 0,
+   "links": [
+    "874220cacff6debe61acf9b09a95880e"
+   ],
+   "maturity": "CONNECTED",
+   "positions": [],
+   "provenance": {
+    "epistemic_distance": 1,
+    "origin_capsule": null,
+    "transmission_path": "vertical"
+   },
+   "status": "active",
+   "text": "la migración a UUID vórsion 7 se completó en el catálogo",
+   "type": "fact",
+   "updated": 1791678769.5260942
+  }
+ ],
+ "cycle": 4,
+ "source_hashes": {
+  "teach/knowledge/actualizacion.md": "df27777b84d4ef4b16cf1d6d82a9e1da6f6e6e0bd5075216e0ef9a57261f3dd7",
+  "teach/knowledge/conocimiento.md": "f3c1a1779c54e4a7c1cc256845947cb0a759451fd6f8fcfea2d4de2eac98a5e9",
+  "teach/knowledge/memoria_anual.md": "aed75dcb116d213e24d79a8e6b3c56a997d6dc166c68ab872e9a5e6df85a1ea7",
+  "teach/knowledge/nota_discrepante.md": "9ebdbec2b514b9207be2b967657376509776327c556c70642f31bba057cc2139",
+  "teach/knowledge/revision_interna.md": "422f272a20fa512bf28088ae7bea993403ed6b8e0f0582716fbb807c110d32de",
+  "teach/procedures/procedimientos.md": "b38842898955f1b217ab962a4d68d2bbd4723acae9b437282076b1c9c15ed7a2",
+  "teach/style/estilo.md": "e96e548ea05e5302b64168d17ef6de288f8759a2665ce398c89db93d39137aa3"
+ },
+ "stale": [],
+ "v": "0.1"
+}

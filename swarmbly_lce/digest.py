@@ -113,7 +113,47 @@ class Digester:
         m = _JSON.search(raw)
         if not m:
             raise ValueError("no JSON object in digester output")
-        data = json.loads(m.group(0))
+        data: dict[str, Any]
+        try:
+            data = json.loads(m.group(0))
+        except json.JSONDecodeError:
+            # El modelo a veces emite una SECUENCIA de objetos ({..},{..},...)
+            # en lugar de un solo {"claims": [...]}. Se fusionan sus claims
+            # (Enmienda 10): el parser tolerante elimina la pérdida de
+            # sub-pasajes enteros que rompía la reproducibilidad de AA2.
+            s_out = m.group(0)
+            objs: list[dict] = []
+            depth = start = 0
+            in_str = esc = False
+            for i, ch in enumerate(s_out):
+                if esc:
+                    esc = False
+                    continue
+                if ch == "\\" and in_str:
+                    esc = True
+                    continue
+                if ch == '"':
+                    in_str = not in_str
+                    continue
+                if in_str:
+                    continue
+                if ch == "{":
+                    if depth == 0:
+                        start = i
+                    depth += 1
+                elif ch == "}":
+                    depth -= 1
+                    if depth == 0:
+                        objs.append(json.loads(s_out[start:i + 1]))
+            if not objs:
+                raise ValueError("digester output not parseable")
+            merged: list[dict] = []
+            for o in objs:
+                if "claims" in o:
+                    merged.extend(o["claims"])
+                else:
+                    merged.append(o)
+            data = {"claims": merged}
         items = data.get("claims", [])
         if not isinstance(items, list):
             raise ValueError("'claims' is not a list")
