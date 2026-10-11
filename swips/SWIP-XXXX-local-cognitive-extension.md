@@ -1577,6 +1577,30 @@ always (8/15 wikis identical across runs; forget − full = +0.489 [+0.333, +0.6
 closed until digestion is made deterministic. The confirmatory runs of R11–R13
 remain the next phase.
 
+**Confirmatories (2026-10-11).** R13 (251 questions, ≥30 per type,
+LongMemEval MIT subset, N1 excluded): R13-H1 DIES — A3 − A2 = −0.146
+[−0.186, −0.106] by question (qwen2.5 −0.113, llama3.2 −0.227, gemma2
+−0.098). R13-H2 inconclusive with a decisive split: the wiki LOSES updates
+(−0.222 [−0.358, −0.082], n=31) and WINS forgetting (+0.115 [0.044, 0.189],
+n=30). R13-H3 withdraws the digester gate as a rule (every cell has 39–2400
+anchored claims; the floor of 5 does not discriminate). The global death
+condition does NOT fire (no double defeat), so the epistemic-layer
+justification survives while the QA-accuracy one is retired. H-C2 closure
+(2.9): the projection does NOT survive the compensation rule on QA (mean
+adherence gain +0.016 vs median Δρ +41 %; fraction with gain > 0 and
+Δρ ≤ 10 % = 0.0). C2-bis (2.8): H-C17a HOLDS — homogeneity reduction by Γ
+over an instruction-matched placebo is +0.0652 [+0.0557, +0.0742] (100
+cells); the run-2 reduction was a real projection effect, not instruction
+length. R11 (Amendment 9): the FAIR adapter is INERT — adapter − base =
++0.000 exactly (n=720), no collapse and no effect; H-C6 does not hold (0/3
+users, −0.52 to −0.63) and the pre-registered death rule RETIRES layer 2;
+retrieval+Γ (0.62–0.65) carries all behaviour; I1 equivalence +0.000. R12's
+confirmatory still needs the verified canary. The design stands on measured
+pillars — local memory (+0.500 clean), projection (valuable for writing,
+withdrawn for QA by the compensation rule), controlled forgetting (+0.115)
+— with two layers retired (the wiki's QA-accuracy justification and the
+behaviour LoRA).
+
 **Design consequences forced by the measurements.**
 
 1. **Γ caching (open question).** The projection cost multiplies by the number
