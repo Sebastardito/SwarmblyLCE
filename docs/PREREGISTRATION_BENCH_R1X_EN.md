@@ -495,9 +495,11 @@ the pre-registered design.
 **Amendment 14 — 11 October 2026, after the FIRST C2-bis run and BEFORE the
 re-run.** The first run is INVALIDATED as instrumentation: the request to
 the Projector ("escribir un texto breve del usuario") retrieved only the
-register claim and produced a 4-token Γ (verified: the request "estilo y
-vocabulario del usuario" produces the full Γ with the 8-pair lexicon). The
-re-run uses the corrected request; the placebo stays length-matched; the
+register claim and produced a 4-token Γ (verified: the empty request
+triggers the Projector's broad-traits fallback and produces the full Γ with
+the lexicon in all 5 users; the "estilo y vocabulario" request still left
+one user's lexicon empty). The re-run uses the empty request; the placebo
+stays length-matched; the
 first run's numbers are reported as an instrument check, not a verdict.
 
 *Text CC BY 4.0; code AGPL-3.0-or-later.*

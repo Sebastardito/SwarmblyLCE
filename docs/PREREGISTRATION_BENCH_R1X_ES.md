@@ -509,8 +509,10 @@ mecanismo de ejecución, no del diseño preregistrado.
 C2-bis y ANTES de la re-corrida.** La primera corrida quedó INVALIDADA como
 instrumentación: la petición al Projector («escribir un texto breve del
 usuario») solo recuperaba la claim de registro y producía una Γ de 4 tokens
-(verificado: la petición «estilo y vocabulario del usuario» produce la Γ
-completa con el léxico de 8 pares). La re-corrida usa la petición corregida;
+(verificado: la petición vacía activa el fallback de rasgos amplios del
+Projector y produce la Γ completa con el léxico en los 5 usuarios; la
+petición «estilo y vocabulario del usuario» aún dejaba el léxico vacío en
+un usuario). La re-corrida usa la petición vacía;
 el placebo sigue pareado en longitud; los números de la primera corrida se
 reportan como comprobación del instrumento, no como veredicto.
 
