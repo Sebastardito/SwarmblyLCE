@@ -5,7 +5,7 @@ lang: es
 # Especificación y arquitectura de la Local Cognitive Extension (LCE) de Swarmbly
 
 **Versión 0.1 — 4 de octubre de 2026**
-Estado: **Borrador.** Normativa; la implementación de referencia la sigue (sección 21) y se espera que cambie después de los prototipos de la sección 14 del whitepaper. Nada de lo que especifica está medido.
+Estado: **Borrador.** Normativa; la implementación de referencia la sigue (sección 21) y se espera que cambie después de los prototipos de la sección 14 del whitepaper. Desde entonces varios de sus mecanismos se han medido con modelos reales (whitepaper v0.2, sección 11.7). El texto normativo aún no cambia: su próxima revisión incorporará el resultado de R13, que hace de la recuperación sobre las fuentes el contexto de respuesta por defecto y deja la wiki como capa de gobierno (procedencia, tipos, olvido, elegibilidad para entrenar).
 Documentos complementarios: `WHITEPAPER_LCE_ES.md` (fundamento, homologías y evidencia), `REFERENCES_LCE.md` (bibliografía anotada; los marcadores [n] de este documento remiten a ella), `swips/SWIP-XXXX-local-cognitive-extension.md` (la parte visible en la red, en inglés, para el repositorio del protocolo), y la especificación del protocolo Swarmbly v0.2 (`Swarmbly-AI/docs/SPEC_ES.md`), que este documento no modifica.
 
 Las palabras clave MUST, MUST NOT, REQUIRED, SHALL, SHOULD, SHOULD NOT, MAY y OPTIONAL deben interpretarse tal como se describe en RFC 2119. Se conservan en inglés y en mayúsculas, como en la especificación del protocolo, para que su fuerza normativa sea inequívoca.
@@ -653,7 +653,7 @@ El paquete `swarmbly_lce` implementa esta especificación; `lce_validation` cont
 | 15 | `diversity.py`, `report.py` | F_ST, Wright, conformismo, canario, homogeneidad, concordancia de errores |
 | 19 | `params.py` | parámetros normativos y provisionales |
 
-`tests/test_invariants.py` contiene una prueba por invariante I1–I8. `lce_validation/run_all.py` ejecuta los diez instrumentos y los experimentos con backend simulado; `lce_validation/run_real.py`, los experimentos C1/C2 con modelos reales; los benchmarks (`bench_*.py`, `run_r13.py`, `bench_forget.py`, `aa_test.py`) y `run_derive.py`, que recalcula las cifras publicadas desde las salidas crudas. Ningún resultado producido con `MockBackend` o por simulación es evidencia.
+`tests/test_invariants.py` contiene una prueba por invariante I1–I8. `lce_validation/run_all.py` ejecuta los diez instrumentos y los experimentos con backend simulado; `lce_validation/run_real.py`, los experimentos C1/C2 con modelos reales; los benchmarks (`bench_*.py`, `run_r13.py`, `bench_forget.py`, `aa_test.py`, `bench_r11.py`, `bench_c2bis.py`, `bench_hc2_closure.py`) con sus análisis (`r13_analysis.py`, `forget_analysis.py`); `run_derive.py`, que recalcula las cifras publicadas desde las salidas crudas; y `doc_figures.py`, que comprueba que cada cifra citada en los documentos coincide con ellas. Ningún resultado producido con `MockBackend` o por simulación es evidencia.
 
 ---
 

@@ -530,9 +530,16 @@ se reportan.
    preguntas tienen información relacionada en otras fuentes y A0, sin
    memoria, se abstiene en el 100 %. Su +0.115 no es una victoria en
    olvido. El olvido se mide en F-forget.
-3. *R13, muerte global.* La regla «RAG ≥ wiki en el total Y la wiki no gana
-   en 3 y 5» admite dos lecturas (no gana en ninguno / no gana en ambos);
-   se reportan las dos, con la observación del punto 2.
+3. *R13, muerte global.* El texto en español de la sección 2.7, que es el
+   que firma la procedencia de las corridas, dice «RAG crudo ≥ wiki en el
+   total Y la wiki no gana en 3 ni 5» (no gana en ninguno); el texto en
+   inglés dice «does not win on 3 and 5», que se lee como «no gana en
+   ambos». Las dos versiones divergen y la divergencia no se había
+   advertido. Por la letra del texto en español la regla no dispara, y
+   solo por el tipo 5, que la Enmienda 6 (b) declaró inválido antes de
+   correr (punto 2); por la del texto en inglés, dispara. Se reportan las
+   dos lecturas y ninguna decisión de diseño se apoya en que la regla haya
+   disparado.
 4. *R11.* En las 1454 celdas de la confirmatoria el adaptador y el modelo
    base dan los mismos aciertos, y en las 720 tareas el mismo texto byte a
    byte, aunque los pesos LoRA son distintos de cero: el adaptador no se

@@ -91,7 +91,7 @@ AA1 and AA2 are evaluated against the outputs of the confirmatory run
 
 | Test | Result | Criterion |
 |---|---|---|
-| AA1 generation at T = 0 (A2 arm of the confirmatory run repeated; 123 questions × 3 responders = 369 answers) | 98.4 % identical in the first 200 characters; accuracy 0.707 → 0.710 (Δ +0.0027) | **fails** (requires ≥ 99 %) |
+| AA1 generation at T = 0 (A2 arm repeated on the v1–v3 own-user questions contained in the confirmatory run: Amendment 6's 126 minus the 3 N1 questions, 123 × 3 responders = 369 answers) | 98.4 % identical in the first 200 characters; accuracy 0.707 → 0.710 (Δ +0.0027) | **fails** (requires ≥ 99 %) |
 | AA2 digestion (second digestion of the 15 wikis against F-forget's W_never) | 8 of 15 sets identical; mean Jaccard 0.961 | **fails** (requires ≥ 14 of 15) |
 | AA3 seed at T = 0.7 (qwen2.5:3b, 20 topics × 3 seeds × 2 repetitions) | native endpoint 100 % identical (effective); OpenAI-compatible 80 % (not effective) | the native seed was adopted for digestion (Amendment 7) |
 | AA4 homogeneity across repetitions | mean Δ −0.0011 [−0.0067, +0.0047] | **passes** (≤ 0.01) |

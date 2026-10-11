@@ -515,9 +515,15 @@ review found in the runs of 10 and 11 October and how they are reported.
    related information in other sources, and A0, without memory, abstains
    100 % of the time. Its +0.115 is not a win on forgetting. Forgetting is
    measured in F-forget.
-3. *R13, global death.* The rule "RAG ≥ wiki overall AND the wiki does not
-   win on 3 and 5" admits two readings (wins on neither / does not win on
-   both); both are reported, with the observation in point 2.
+3. *R13, global death.* The Spanish text of Section 2.7, which is the one
+   the runs' provenance hashes, says «no gana en 3 ni 5» (the wiki wins on
+   neither); the English text says "does not win on 3 and 5", which reads
+   as "does not win on both". The two versions diverge and the divergence
+   had not been noticed. By the letter of the Spanish text the rule does
+   not fire, and only because of type 5, which Amendment 6 (b) declared
+   invalid before running (point 2); by the English text, it fires. Both
+   readings are reported, and no design decision rests on the rule having
+   fired.
 4. *R11.* In the 1454 cells of the confirmatory run the adapter and the base
    model score identically, and in the 720 tasks they produce byte-identical
    text, although the LoRA weights are non-zero: the adapter was not applied

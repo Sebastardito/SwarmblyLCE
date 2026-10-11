@@ -43,7 +43,7 @@ Este repositorio se publica en dos depósitos de Zenodo, igual que Swarmbly v2: 
 - [x] Corridas confirmatorias en el Mac: la 1 falló por proyección vacía (`docs/RESULTS_2026-10-05_C1_C2_run1_*`); la 2, tras las enmiendas 2 y 3, decidió H-C2 (léxico), H-C17a y H-C17b (`docs/RESULTS_2026-10-05_C1_C2_run2_*`).
 - [x] Preregistro consolidado de R14, R13 y R11 (`docs/PREREGISTRATION_BENCH_R1X_*`, enmiendas 1–15) y preregistro de R12.
 - [x] Pilotos exploratorios: F1a limpio (+0.500), R13 (la wiki pierde frente al RAG crudo, −0.256; superado por la confirmatoria), R11 y R12 con conclusiones retiradas o corregidas (E6, E7).
-- [x] Reparaciones de la revisión (E1–E5, N3) con pruebas; anclaje de cifras citadas (`tests/test_doc_figures.py`) y digests verificados.
+- [x] Reparaciones de la revisión (E1–E5 y N3, la comprobación de digests que no comprobaba nada) con pruebas; anclaje de cifras citadas (`tests/test_doc_figures.py`) y digests verificados.
 - [x] Prueba de olvido (F-forget) y prueba A/A (Enmienda 6 c), re-corridas en la configuración confirmatoria: el olvido se sostiene como mecanismo; AA1 (98.4 %) y AA2 (8/15) fallan, R14 sin cerrar (`docs/RESULTS_2026-10-10_Fforget_AA_*`).
 - [x] Digestión determinista intentada por enmienda (endpoint nativo con semilla, parser tolerante, doble pasada revertida; Enmiendas 7, 10–12): no reproducible corrida a corrida; R14 queda abierto como negativo documentado.
 - [ ] Canonicalización de claims (o digestión con otro servidor) y repetir AA1/AA2.

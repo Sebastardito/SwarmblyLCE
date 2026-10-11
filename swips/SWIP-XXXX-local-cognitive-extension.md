@@ -1562,9 +1562,10 @@ embeddings).
   updates (−0.222 [−0.358, −0.082]); its +0.115 on `deleted` is the N2
   artefact declared before the run (no arm ever saw the deleted source and
   the memoryless arm abstains on 100 %), not a forgetting win, so R13-H2
-  is inconclusive by its rule and the global death condition fires in
-  substance (one of its two readings fires; the other is saved only by the
-  invalid type). The gap is digestion coverage: the key reaches the
+  is inconclusive by its rule. The global death condition does not fire
+  by the letter of the Spanish pre-registration, only because of that
+  invalid type, and fires by the English text (the two texts diverge;
+  Amendment 15). The gap is digestion coverage: the key reaches the
   context for 94.8 % of answerable questions with raw RAG and 84.3 % /
   82.7 % / 45.5 % with the gemma2 / qwen2.5 / llama3.2 wikis. Local memory
   itself helps (A3 − A0 = +0.368 [+0.323, +0.412]; A2 − A0 = +0.581

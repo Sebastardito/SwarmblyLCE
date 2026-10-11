@@ -19,7 +19,8 @@ documento salen de `analysis.json`, que regenera
 `python -m lce_validation.r13_analysis --dir bench_r13_confirm`; las
 comprueban `run_derive` y `tests/test_doc_figures.py`. Este documento
 sustituye a la versión del mismo día que declaraba que la wiki «gana el
-olvido» y que la muerte global «no dispara»; la sección 4 explica por qué.
+olvido» y que, por eso, la muerte global «no dispara»; la sección 4
+explica por qué.
 
 ## 1. Diseño
 
@@ -99,7 +100,7 @@ ancladas (piso 5) y las 251 preguntas son analizables.
 | R13-H1: la wiki supera al RAG crudo | muere si la estimación ≤ 0 | **muere**: −0.146 [−0.186, −0.106] |
 | R13-H2: la wiki gana en actualización y olvido | se sostiene si CI95 > 0 en los tipos 3 y 5; muere si el punto ≤ 0 en ambos | **no concluyente** por la regla: pierde en actualización (−0.222, IC negativo); el +0.115 de `deleted` es el artefacto N2 (sección 4) y no cuenta como victoria en olvido |
 | R13-H3: un piso de claims ancladas explica la utilidad | muere sin relación monotónica; si no, la compuerta se retira | **la compuerta se retira como regla**: ninguna celda queda bajo el piso de 5 (mínimo 39, máximo 90 en los usuarios propios), así que el piso no discrimina; hay relación monotónica moderada entre claims ancladas y exactitud (Spearman 0.584, sin LongMemEval) |
-| H-C1 muerte global | RAG ≥ wiki en el total Y la wiki no gana en 3 ni 5 | **dispara en lo sustantivo** (sección 4) |
+| H-C1 muerte global | RAG ≥ wiki en el total Y la wiki no gana en 3 ni 5 | **no dispara por la letra**, y solo por el tipo 5, inválido (N2); sin ese tipo la condición se cumple (sección 4) |
 
 ## 4. Lectura
 
@@ -112,14 +113,17 @@ de cobertura vista desde el otro lado (la tabla de abstención la muestra
 junto a la exactitud). El olvido se mide en F-forget
 (`RESULTS_2026-10-10_Fforget_AA_ES.md`).
 
-**La muerte global.** La regla admite dos lecturas (Enmienda 15.3; el
-texto en español dice «no gana en 3 ni 5», el inglés «does not win on 3
-and 5»). Con
-«la wiki no gana en ninguno de los tipos 3 y 5», no dispara, pero solo
-por el tipo 5, que es inválido como medida de olvido. Con «la wiki no gana
-en ambos», dispara. Sin el artefacto N2, el RAG crudo es mejor que la wiki
-en el total y la wiki no gana en actualización: la consecuencia
-preregistrada es «el diseño se simplifica (resultado publicable)».
+**La muerte global.** El texto en español del preregistro, que es el que
+firma la procedencia, dice «la wiki no gana en 3 ni 5»; el inglés dice
+«does not win on 3 and 5», que se lee como «no gana en ambos» (Enmienda
+15.3: las dos versiones divergen). Por la letra del texto en español la
+regla no dispara, pero solo por el tipo 5, que es inválido como medida de
+olvido. Por el texto en inglés, dispara. Sin el artefacto N2, el RAG crudo
+es mejor que la wiki en el total y la wiki no gana en actualización, que
+es la situación para la que el preregistro prevé «el diseño se simplifica
+(resultado publicable)». La simplificación de la sección siguiente se
+apoya en R13-H1 y en la causa medida (la cobertura), no en que la regla
+haya disparado.
 
 **Qué se retira y qué queda.** Se retira la justificación de la wiki por
 exactitud de pregunta-respuesta: en este material, con modelos de 2–3 B y
@@ -139,7 +143,8 @@ principal de respuesta.
 1. Python 3.9.6 en lugar del 3.11 bloqueado (Enmienda 15.1).
 2. A2 usa BM25 sobre oraciones, no embeddings (Enmienda 15.9).
 3. La primera versión de este documento y la del analizador trataban el
-   tipo 5 como victoria en olvido y la muerte global con una sola lectura;
+   tipo 5 como victoria en olvido y la muerte global con una sola lectura,
+   y no advertían que los textos en español e inglés de la regla divergen;
    se corrigieron en la revisión del 11 de octubre (Enmienda 15.2–15.3),
    sin tocar ninguna celda.
 

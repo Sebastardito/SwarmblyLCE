@@ -63,6 +63,23 @@ The canary items are verified by native speakers with [`data/canary_verification
 
 Declare the scope with any result: one synthetic user corpus (C1), three synthetic users × 20 topics (H-C2, H-C17a), 1,500 MMLU items × three families (H-C17b), an **unverified** canary set (descriptive only). The canary items in `data/canary_es-EC.json` are drafts (`verified: false`) until a native speaker confirms each gloss.
 
+
+### Benchmarks, analyses and figure anchoring
+
+| Script | Run or role | Result document |
+|---|---|---|
+| `bench_hc1_scale.py` | F1a, local memory at scale (exploratory) | `results/BENCH_REPORT.md` |
+| `bench_rho.py` | ρ cost of Γ with the real planner and packer | `results/BENCH_REPORT.md` |
+| `run_r13.py`, `r13_analysis.py` | R13 pilot and confirmatory run; decision rules of Section 2.7 | `docs/RESULTS_2026-10-11_R13_confirm_EN.md` |
+| `bench_forget.py`, `forget_analysis.py` | F-forget (Amendment 6 c) | `docs/RESULTS_2026-10-10_Fforget_AA_EN.md` |
+| `aa_test.py` | A/A reproducibility (R14) | same |
+| `bench_r11.py` | R11 adapter confirmatory run (refused: manipulation failure) | `docs/RESULTS_2026-10-11_R11_confirm_EN.md` |
+| `bench_c2bis.py` | C2-bis (no verdict: within-user homogeneity) | `docs/RESULTS_2026-10-11_C2bis_EN.md` |
+| `bench_hc2_closure.py` | H-C2 closure (descriptive) | `docs/RESULTS_2026-10-11_HC2_closure_EN.md` |
+| `run_derive.py` | recomputes every stored figure from the raw outputs | fails on drift |
+| `doc_figures.py` | every figure cited in documents, README and charts matches the stored results | `tests/test_doc_figures.py` |
+| `readme_figures.py` | draws the README charts (light and dark) from the stored results; needs matplotlib | `docs/figures/` |
+
 ---
 
 ## Español
@@ -72,3 +89,7 @@ Este directorio contiene el arnés de validación de la LCE. Sigue el método de
 Los **instrumentos** son simulaciones que comprueban que cada medida detecta lo que debe (tabla de arriba). Los **experimentos con mock** recorren el código real con un backend de reglas y solo validan la tubería. Las **corridas reales** (`run_real.py`) repiten C1 y C2 contra modelos reales vía Ollama u otro servidor compatible con OpenAI, y son las únicas que producen evidencia candidata, siempre con su alcance declarado. La corrida confirmatoria sigue el preregistro `docs/PREREGISTRATION_C1_C2_ES.md`: primero se confirma el preregistro, después se extrae una sola vez el conjunto de 1.500 preguntas de MMLU (`fetch_mcq`) y se confirma, y solo entonces se corre `run_real` con `--prereg`. Sin esas condiciones la corrida se etiqueta exploratoria y no emite veredictos; los umbrales viven como código en `decide.py`. `run_all` termina con código 1 si falla cualquier instrumento.
 
 Los ítems del conjunto canario son borradores sin verificar hasta que un hablante nativo confirme cada glosa; con ellos se puede probar el arnés, pero no reportar un resultado.
+
+### Benchmarks, análisis y anclaje de cifras
+
+La tabla de scripts de la sección en inglés vale igual: `bench_hc1_scale.py` (F1a), `bench_rho.py` (costo de Γ en ρ), `run_r13.py` y `r13_analysis.py` (R13 piloto y confirmatoria), `bench_forget.py` y `forget_analysis.py` (F-forget), `aa_test.py` (A/A), `bench_r11.py` (confirmatoria de R11, rechazada por falla de manipulación), `bench_c2bis.py` (C2-bis, sin veredicto), `bench_hc2_closure.py` (cierre de H-C2, descriptivo), `run_derive.py` (recalcula cada cifra guardada), `doc_figures.py` (cada cifra citada en documentos, README y figuras coincide con los resultados) y `readme_figures.py` (dibuja las figuras del README; requiere matplotlib).

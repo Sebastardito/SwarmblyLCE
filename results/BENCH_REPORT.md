@@ -27,7 +27,7 @@ kind: exploratory
 | A/A de reproducibilidad (R14) | generación casi idéntica, digestión no reproducible entre corridas | **R14 abierto (negativo documentado)** |
 | C2-bis | mide la homogeneidad entre SEMILLAS de un mismo usuario, no entre usuarios | **no prueba H-C17a (constructo distinto)** |
 | Cierre H-C2 (2.9) | ganancia medida en exactitud de QA, no en adherencia; regla inalcanzable con ganancias binarias por tarea | **descriptivo: Γ cuesta ρ y no mejora QA; H-C2 sin decidir para escritura** |
-| R11 CONFIRMATORIA: adaptador justo | adaptador y base dan respuestas idénticas byte a byte en las 1454 celdas | **rechazada: falla de manipulación (el adaptador no se aplicó en la evaluación)** |
+| R11 CONFIRMATORIA: adaptador justo | adaptador y base dan texto idéntico byte a byte en las 720 tareas y los mismos aciertos en las 1454 celdas | **rechazada: falla de manipulación (el adaptador no se aplicó en la evaluación)** |
 
 ## 2. Detalle por benchmark
 
@@ -52,9 +52,9 @@ kind: exploratory
 - `luisa`: ganancia media +0.583 (n=48)
 - `mara`: ganancia media +0.467 (n=60)
 
-**Explicación.** La memoria convierte en recuperables preguntas que ningún modelo base puede responder (hechos del usuario, umbrales de su protocolo, términos preferidos). La variación entre familias mezcla dos cosas —la familia digiere Y responde— y la atribución al digestor requiere el diseño cruzado de la siguiente fase. Solo phi3.5 se separa por el tamaño de su wiki (muchas menos afirmaciones ancladas); entre las otras cuatro, ni el número de afirmaciones ancladas ni la tasa de anclaje ordenan la ganancia. Una compuerta de calidad del digestor, si se adopta, sería un piso de afirmaciones ancladas, no un umbral derivado de estos datos.
+**Explicación.** La memoria convierte en recuperables preguntas que ningún modelo base puede responder (hechos del usuario, umbrales de su protocolo, términos preferidos). La variación entre familias mezcla dos cosas —la familia digiere Y responde— y la atribución al digestor la separa el diseño cruzado de R13 (sección 2.8), que la explica por la cobertura de la digestión. Solo phi3.5 se separa aquí por el tamaño de su wiki (muchas menos afirmaciones ancladas); entre las otras cuatro, ni el número de afirmaciones ancladas ni la tasa de anclaje ordenan la ganancia. R13-H3 retiró el piso de afirmaciones ancladas como regla: una compuerta, si se adopta, debe medir cobertura contra preguntas reservadas.
 
-**Ajuste propuesto.** Añadir el brazo «memoria + proyección Γ», un usuario real y el diseño cruzado digestor/respuesta.
+**Ajuste propuesto.** Un usuario real; el brazo «memoria + proyección Γ» y el diseño cruzado digestor/respuesta se hicieron en R13 (sección 2.8).
 
 ### 2.2 ρ de la proyección (camino de despacho real)
 
@@ -116,11 +116,11 @@ AA1 generación a T = 0 contra la confirmatoria de R13: 98.4 % de 369 respuestas
 
 **Cobertura de la respuesta en el contexto (preguntas con respuesta):** A2 0.948; A3|qwen2.5:3b 0.827; A3|llama3.2:3b 0.455; A3|gemma2:2b 0.843.
 
-**Veredictos.** R13-H1 muere. R13-H2 no concluyente: la wiki pierde en actualización y su «victoria» en `deleted` es el artefacto N2 (A0, sin memoria, se abstiene en el 100 %). R13-H3: la compuerta se retira como regla. Muerte global de H-C1: no dispara con la lectura «no gana en ninguno», dispara con «no gana en ambos»; sin el tipo 5, que no mide olvido, la justificación por exactitud cae.
+**Veredictos.** R13-H1 muere. R13-H2 no concluyente: la wiki pierde en actualización y su «victoria» en `deleted` es el artefacto N2 (A0, sin memoria, se abstiene en el 100 %). R13-H3: la compuerta se retira como regla. Muerte global de H-C1: no dispara con la lectura «no gana en ninguno», dispara con «no gana en ambos» (el texto en español dice «ni», el inglés «and»: Enmienda 15.3); por la letra en español no dispara solo por el tipo 5, que no mide olvido. La justificación de la wiki por exactitud cae por R13-H1.
 
 ### 2.9 C2-bis (placebo igualado en instrucción)
 
-Reducción Γ − placebo = +0.065 [+0.056, +0.074] (100 celdas usuario × tema). La homogeneidad se calculó entre las tres SEMILLAS de un mismo usuario y tema, no entre usuarios: mide la variedad de muestreo dentro de un usuario, no lo que H-C17a pregunta (la convergencia de la población). **No prueba H-C17a**; el rediseño necesita homogeneidad entre usuarios, brazo sin contrato y un placebo distinto por usuario. Los números de la primera corrida (invalidada por la Enmienda 14) no se conservaron. Ver `docs/RESULTS_2026-10-11_C2bis_ES.md`.
+Diferencia de homogeneidad placebo − Γ = +0.065 [+0.056, +0.074] (100 celdas usuario × tema). La homogeneidad se calculó entre las tres SEMILLAS de un mismo usuario y tema, no entre usuarios: mide la variedad de muestreo dentro de un usuario, no lo que H-C17a pregunta (la convergencia de la población). **No prueba H-C17a**; el rediseño necesita homogeneidad entre usuarios, brazo sin contrato y un placebo neutro que no prescriba registro ni vocabulario. Los números de la primera corrida (invalidada por la Enmienda 14) no se conservaron. Ver `docs/RESULTS_2026-10-11_C2bis_ES.md`.
 
 ### 2.10 Cierre de H-C2 (preregistro 2.9)
 

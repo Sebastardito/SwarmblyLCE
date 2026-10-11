@@ -5,7 +5,7 @@ lang: en
 # Swarmbly Local Cognitive Extension (LCE): Specification and Architecture
 
 **Version 0.1 — 4 October 2026**
-Status: **Draft.** Normative; the reference implementation follows it (Section 21), and it is expected to change after the prototypes in Section 14 of the whitepaper. Nothing it specifies has been measured.
+Status: **Draft.** Normative; the reference implementation follows it (Section 21), and it is expected to change after the prototypes in Section 14 of the whitepaper. Several of its mechanisms have since been measured with real models (whitepaper v0.2, Section 11.7). The normative text has not changed yet: its next revision will incorporate the R13 result, which makes retrieval over the sources the default answering context and keeps the wiki as the governance layer (provenance, types, forgetting, training eligibility).
 Companion documents: `WHITEPAPER_LCE_EN.md` (rationale, homologies and evidence), `REFERENCES_LCE.md` (annotated bibliography; the [n] markers in this document refer to it), `swips/SWIP-XXXX-local-cognitive-extension.md` (the network-visible part, in English, for the protocol repository), and the Swarmbly protocol specification v0.2 (`Swarmbly-AI/docs/SPEC_EN.md`), which this document does not modify.
 
 The key words MUST, MUST NOT, REQUIRED, SHALL, SHOULD, SHOULD NOT, MAY and OPTIONAL are to be interpreted as described in RFC 2119.
@@ -652,7 +652,7 @@ The `swarmbly_lce` package implements this specification; `lce_validation` conta
 | 15 | `diversity.py`, `report.py` | F_ST, Wright, conformity, canary, homogeneity, error concordance |
 | 19 | `params.py` | normative and provisional parameters |
 
-`tests/test_invariants.py` contains one test per invariant I1–I8. `lce_validation/run_all.py` runs the ten instruments and the experiments with a mock backend; `lce_validation/run_real.py`, the C1/C2 experiments with real models; the benchmarks (`bench_*.py`, `run_r13.py`, `bench_forget.py`, `aa_test.py`) and `run_derive.py`, which recomputes the published figures from the raw outputs. No result produced with `MockBackend` or by simulation is evidence.
+`tests/test_invariants.py` contains one test per invariant I1–I8. `lce_validation/run_all.py` runs the ten instruments and the experiments with a mock backend; `lce_validation/run_real.py`, the C1/C2 experiments with real models; the benchmarks (`bench_*.py`, `run_r13.py`, `bench_forget.py`, `aa_test.py`, `bench_r11.py`, `bench_c2bis.py`, `bench_hc2_closure.py`) with their analyses (`r13_analysis.py`, `forget_analysis.py`); `run_derive.py`, which recomputes the published figures from the raw outputs; and `doc_figures.py`, which checks that every figure cited in the documents matches them. No result produced with `MockBackend` or by simulation is evidence.
 
 ---
 

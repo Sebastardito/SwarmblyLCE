@@ -66,6 +66,39 @@ def expected() -> list[tuple[str, str]]:
              f"+{f1['all']['mean']:.3f} (question-clustered 95 % CI [{f1['all']['ci95'][0]:.3f}, {f1['all']['ci95'][1]:.3f}]")]
     out += _forget_aa()
     out += _r11_c2bis_hc2()
+    out += _readme_figures()
+    return out
+
+
+def _readme_figures() -> list[tuple[str, str]]:
+    """Las figuras del README (docs/figures/*.svg, texto plano) deben llevar las
+    cifras vigentes; si los datos cambian, regenerarlas con
+    ``python -m lce_validation.readme_figures``."""
+    out: list[tuple[str, str]] = []
+    an = _load("results/bench_r13_confirm/analysis.json")
+    res = _load("results/bench_r13_confirm/results.json")
+    f1 = _load("results/bench_hc1_scale/results.json")
+    fa = _load("results/bench_forget/analysis.json")
+    for theme in ("light", "dark"):
+        d = f"docs/figures/{{}}_{theme}.svg"
+        if f1:
+            for v in f1["summary"]["by_model"].values():
+                out.append((d.format("f1a_memory_gain"), _s(v["mean_gain"])))
+        if an and res:
+            out.append((d.format("r13_arms"), _pair(an["a3_minus_a2"])))
+            for v in res["summary"]["mean_by_arm"].values():
+                out.append((d.format("r13_arms"), f"{v:.3f}"))
+            for v in an["a3_minus_a2_by_type"].values():
+                out.append((d.format("r13_types"), f"{_s(v['mean'])} n={v['n_questions']}"))
+            for k, v in an["gold_in_context_answerable"].items():
+                if k != "n_questions":
+                    out.append((d.format("r13_coverage"), f"{100 * v:.1f} %"))
+        if fa:
+            bp = fa["behaviour_prereg"]
+            ff = f"{_s(bp['forget_minus_full'])} [{_s(bp['forget_minus_full_ci95'][0])}, {_s(bp['forget_minus_full_ci95'][1])}]"
+            out.append((d.format("forget_abstention"), ff))
+            for v in bp["abstention"].values():
+                out.append((d.format("forget_abstention"), f"{v:.3f}"))
     return out
 
 

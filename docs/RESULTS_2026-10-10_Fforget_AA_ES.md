@@ -91,7 +91,7 @@ AA1 y AA2 se evalúan contra las salidas de la confirmatoria (Enmienda
 
 | Prueba | Resultado | Criterio |
 |---|---|---|
-| AA1 generación a T = 0 (brazo A2 de la confirmatoria repetido; 123 preguntas × 3 respondedores = 369 respuestas) | 98.4 % idénticas en los primeros 200 caracteres; exactitud 0.707 → 0.710 (Δ +0.0027) | **falla** (requiere ≥ 99 %) |
+| AA1 generación a T = 0 (brazo A2 repetido sobre las preguntas v1–v3 de los usuarios propios que la confirmatoria contiene: las 126 de la Enmienda 6 sin las 3 de N1, 123 × 3 respondedores = 369 respuestas) | 98.4 % idénticas en los primeros 200 caracteres; exactitud 0.707 → 0.710 (Δ +0.0027) | **falla** (requiere ≥ 99 %) |
 | AA2 digestión (segunda digestión de las 15 wikis frente a las W_never de F-forget) | 8 de 15 conjuntos idénticos; Jaccard medio 0.961 | **falla** (requiere ≥ 14 de 15) |
 | AA3 semilla a T = 0.7 (qwen2.5:3b, 20 temas × 3 semillas × 2 repeticiones) | endpoint nativo 100 % idénticas (efectiva); compatible con OpenAI 80 % (no efectiva) | la semilla nativa se adoptó para la digestión (Enmienda 7) |
 | AA4 homogeneidad entre repeticiones | Δ media −0.0011 [−0.0067, +0.0047] | **pasa** (≤ 0.01) |

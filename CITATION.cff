@@ -2,10 +2,10 @@
 # Citation File Format (CFF) 1.2.0
 # https://citation-file-format.github.io/
 #
-# The whitepaper DOI is minted (10.5281/zenodo.23150478). The software DOI
-# is minted by the Zenodo GitHub integration on release and is left commented
-# out until then: an invalid DOI in a citation record is worse than an absent
-# one (publication/CHECKLIST.md).
+# The whitepaper DOI is 10.5281/zenodo.23150478. The software DOI below is
+# the record of release v0.1.1, minted by the Zenodo GitHub integration; a new
+# release mints a new DOI, which replaces it after the release (an invalid DOI
+# in a citation record is worse than an absent one; publication/CHECKLIST.md).
 # ---------------------------------------------------------------------------
 
 cff-version: 1.2.0
