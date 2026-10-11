@@ -96,7 +96,9 @@ def derive_r13() -> None:
     sobrescribe digestores (E1). Las celdas de corridas anteriores guardaban
     la respuesta truncada a 200 caracteres; solo esas pueden diferir al
     re-calificar y se cuentan aparte."""
-    p = ROOT / "results" / "bench_r13" / "results.json"
+    p = ROOT / "results" / "bench_r13_confirm" / "results.json"
+    if not p.exists():
+        p = ROOT / "results" / "bench_r13" / "results.json"
     if not p.exists():
         return
     from lce_validation.run_r13 import score_answer, summarize

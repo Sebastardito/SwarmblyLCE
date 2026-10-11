@@ -22,7 +22,9 @@ sys.path.insert(0, str(ROOT))
 
 import numpy as np  # noqa: E402
 
-R13 = ROOT / "results" / "bench_r13"
+R13 = ROOT / "results" / "bench_r13_confirm"
+if not (R13 / "results.json").exists():
+    R13 = ROOT / "results" / "bench_r13"
 DIGESTERS = ["qwen2.5:3b", "llama3.2:3b", "gemma2:2b"]
 TYPES = ["simple", "cross", "updated", "contradiction", "deleted", "unanswerable"]
 ANSWERABLE = ("simple", "cross", "updated", "contradiction")
