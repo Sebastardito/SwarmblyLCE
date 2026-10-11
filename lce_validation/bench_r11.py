@@ -197,7 +197,7 @@ def _server(base_model: str, adapter: Path | None) -> tuple:
     if key in _SERVERS:
         return _SERVERS[key]
     if _CUR is not None:
-        _proc, _port = _CUR
+        _proc, _port, _oldkey = _CUR
         try:
             _proc.terminate()
             _proc.wait(timeout=30)
@@ -206,7 +206,7 @@ def _server(base_model: str, adapter: Path | None) -> tuple:
                 _proc.kill()
             except Exception:
                 pass
-        _SERVERS.pop(_CUR[2], None) if False else None
+        _SERVERS.pop(_oldkey, None)
     port = _PORT
     _PORT += 1
     cmd = [MLX_SERVER, "--model", base_model, "--port", str(port),
