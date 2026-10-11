@@ -99,7 +99,58 @@ def analyse(d: dict) -> dict:
     out["n1_a3_minus_a2_without_stale"] = _diff(pq2, typ2, "A3", "A2")
     out["n1_stale_questions"] = len(STALE)
     out["f1a_n1"] = f1a_sensitivity()
+    out["decision_rules"] = decision_rules(out, cells)
     return out
+
+
+def decision_rules(out: dict, cells: list) -> dict:
+    """Reglas de decisión del preregistro 2.7 sobre las celdas de la corrida."""
+    total = out["a3_minus_a2"]
+    upd = out["a3_minus_a2_by_type"].get("updated")
+    dele = out["a3_minus_a2_by_type"].get("deleted")
+    def _h(name, d):
+        if d is None:
+            return {"hypothesis": name, "verdict": "no computable"}
+        mean, lo = d["mean"], d["ci95"][0]
+        if lo > 0:
+            v = "se sostiene"
+        elif mean <= 0:
+            v = "muere"
+        else:
+            v = "no concluyente"
+        return {"hypothesis": name, "mean": mean, "ci95": d["ci95"],
+                "verdict": v}
+    r1 = _h("R13-H1: la wiki supera al RAG crudo", total)
+    r2_hold = (upd and dele and upd["ci95"][0] > 0 and dele["ci95"][0] > 0)
+    r2_die = (upd and dele and upd["mean"] <= 0 and dele["mean"] <= 0)
+    r2 = {"hypothesis": "R13-H2: la wiki gana en actualización y olvido",
+          "updated": upd, "deleted": dele,
+          "verdict": "se sostiene" if r2_hold else
+                     ("muere" if r2_die else "no concluyente")}
+    # R13-H3: compuerta del digestor — utilidad por (usuario, digestor)
+    # frente al piso de claims ancladas (>= 5)
+    from collections import defaultdict
+    by_cell: dict = defaultdict(list)
+    for c in cells:
+        if c["arm"] == "A3":
+            by_cell[(c["user"], c["digester"])].append(float(c["ok"]))
+    a2 = {(c["user"], c["q"]["q"], c["responder"]): float(c["ok"])
+          for c in cells if c["arm"] == "A2"}
+    rows = []
+    for (uid, dg), oks in sorted(by_cell.items()):
+        base = [float(c["ok"]) for c in cells if c["arm"] == "A2" and c["user"] == uid]
+        rows.append({"user": uid, "digester": dg,
+                     "mean_ok": round(float(np.mean(oks)), 3),
+                     "vs_a2": round(float(np.mean(oks)) - float(np.mean(base)), 3)})
+    r3 = {"hypothesis": "R13-H3: un piso de claims ancladas explica la utilidad",
+          "rows": rows,
+          "verdict": "pendiente de los conteos anclados por celda (wikis_cache)"}
+    death = (total["mean"] <= 0 and upd and upd["mean"] <= 0 and dele
+             and dele["mean"] <= 0)
+    return {"r13_h1": r1, "r13_h2": r2, "r13_h3": r3,
+            "hc1_death_global": "el diseño se simplifica (resultado publicable)"
+            if death else ("no se cumple la condición de muerte"
+                           if not total["mean"] <= 0 else "muerte parcial: falta la doble derrota en tipos 3 y 5")}
 
 
 def f1a_sensitivity() -> dict:
