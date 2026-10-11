@@ -24,3 +24,4 @@ results/bench_r11/*/adapter/
 results/bench_r11/*/data/
 results/bench_forget/wikis_cache/
 results/aa_test/second_digest/
+results/*/run.log
