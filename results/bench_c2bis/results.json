@@ -1,0 +1,938 @@
+{
+  "users": [
+    "mara",
+    "julian",
+    "carmen",
+    "andres",
+    "luisa"
+  ],
+  "topics": 20,
+  "seeds": [
+    1000,
+    1001,
+    1002
+  ],
+  "provenance": {
+    "git_commit": "2c21d8e8264a133b89cc7c71febcc5eb5c8f8043",
+    "git_dirty": false,
+    "prereg": "/Users/seb/Documents/Harness/LCE/docs/PREREGISTRATION_BENCH_R1X_ES.md",
+    "prereg_sha256": "ea5e5ff40a50f878c4525beceb4978d950039ade8390f1f3031b4650ce4bb7a1",
+    "ollama_version": "0.40.2",
+    "models": {
+      "qwen2.5:3b": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b"
+    },
+    "python": "3.9.6",
+    "utc": "2026-10-11T13:35:24Z"
+  },
+  "cells": [
+    {
+      "user": "mara",
+      "topic": "la inferencia descentralizada de modelos de lenguaje",
+      "hom_gamma": 0.8624,
+      "hom_placebo": 0.8586,
+      "reduction": -0.0038,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "la genética de poblaciones",
+      "hom_gamma": 0.9302,
+      "hom_placebo": 0.7955,
+      "reduction": -0.1348,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "el aprendizaje continuo en modelos pequeños",
+      "hom_gamma": 0.9114,
+      "hom_placebo": 0.9228,
+      "reduction": 0.0113,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "la privacidad de los datos personales",
+      "hom_gamma": 0.8915,
+      "hom_placebo": 0.8472,
+      "reduction": -0.0443,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "la evolución cultural",
+      "hom_gamma": 0.896,
+      "hom_placebo": 0.8955,
+      "reduction": -0.0005,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "el cambio climático y la agricultura",
+      "hom_gamma": 0.8958,
+      "hom_placebo": 0.8936,
+      "reduction": -0.0023,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "la conservación de especies en islas",
+      "hom_gamma": 0.9465,
+      "hom_placebo": 0.8558,
+      "reduction": -0.0907,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "la educación universitaria a distancia",
+      "hom_gamma": 0.8443,
+      "hom_placebo": 0.8411,
+      "reduction": -0.0032,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "la edición genética con CRISPR",
+      "hom_gamma": 0.9189,
+      "hom_placebo": 0.9179,
+      "reduction": -0.001,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "el software de código abierto",
+      "hom_gamma": 0.8875,
+      "hom_placebo": 0.8685,
+      "reduction": -0.019,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "la salud mental en el trabajo",
+      "hom_gamma": 0.917,
+      "hom_placebo": 0.9055,
+      "reduction": -0.0116,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "la energía solar en zonas rurales",
+      "hom_gamma": 0.9194,
+      "hom_placebo": 0.917,
+      "reduction": -0.0024,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "la desinformación en redes sociales",
+      "hom_gamma": 0.8607,
+      "hom_placebo": 0.8731,
+      "reduction": 0.0124,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "la seguridad alimentaria",
+      "hom_gamma": 0.9001,
+      "hom_placebo": 0.8566,
+      "reduction": -0.0434,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "la migración de aves",
+      "hom_gamma": 0.8941,
+      "hom_placebo": 0.9143,
+      "reduction": 0.0202,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "la ética de la inteligencia artificial",
+      "hom_gamma": 0.8824,
+      "hom_placebo": 0.8545,
+      "reduction": -0.0279,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "el mejoramiento genético de insectos",
+      "hom_gamma": 0.8807,
+      "hom_placebo": 0.8891,
+      "reduction": 0.0084,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "la gestión de proyectos de investigación",
+      "hom_gamma": 0.8725,
+      "hom_placebo": 0.8814,
+      "reduction": 0.0089,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "la divulgación científica",
+      "hom_gamma": 0.8831,
+      "hom_placebo": 0.857,
+      "reduction": -0.0261,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "mara",
+      "topic": "las ciudades sostenibles",
+      "hom_gamma": 0.8903,
+      "hom_placebo": 0.822,
+      "reduction": -0.0682,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "la inferencia descentralizada de modelos de lenguaje",
+      "hom_gamma": 0.9125,
+      "hom_placebo": 0.8443,
+      "reduction": -0.0682,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "la genética de poblaciones",
+      "hom_gamma": 0.9093,
+      "hom_placebo": 0.795,
+      "reduction": -0.1143,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "el aprendizaje continuo en modelos pequeños",
+      "hom_gamma": 0.8972,
+      "hom_placebo": 0.9228,
+      "reduction": 0.0255,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "la privacidad de los datos personales",
+      "hom_gamma": 0.9162,
+      "hom_placebo": 0.8472,
+      "reduction": -0.0691,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "la evolución cultural",
+      "hom_gamma": 0.8817,
+      "hom_placebo": 0.8955,
+      "reduction": 0.0138,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "el cambio climático y la agricultura",
+      "hom_gamma": 0.9242,
+      "hom_placebo": 0.8936,
+      "reduction": -0.0306,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "la conservación de especies en islas",
+      "hom_gamma": 0.8873,
+      "hom_placebo": 0.8558,
+      "reduction": -0.0315,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "la educación universitaria a distancia",
+      "hom_gamma": 0.8441,
+      "hom_placebo": 0.8356,
+      "reduction": -0.0085,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "la edición genética con CRISPR",
+      "hom_gamma": 0.9334,
+      "hom_placebo": 0.9179,
+      "reduction": -0.0155,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "el software de código abierto",
+      "hom_gamma": 0.9316,
+      "hom_placebo": 0.8685,
+      "reduction": -0.0631,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "la salud mental en el trabajo",
+      "hom_gamma": 0.8865,
+      "hom_placebo": 0.9055,
+      "reduction": 0.019,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "la energía solar en zonas rurales",
+      "hom_gamma": 0.9275,
+      "hom_placebo": 0.917,
+      "reduction": -0.0104,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "la desinformación en redes sociales",
+      "hom_gamma": 0.8633,
+      "hom_placebo": 0.8731,
+      "reduction": 0.0098,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "la seguridad alimentaria",
+      "hom_gamma": 0.8912,
+      "hom_placebo": 0.8566,
+      "reduction": -0.0345,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "la migración de aves",
+      "hom_gamma": 0.895,
+      "hom_placebo": 0.9143,
+      "reduction": 0.0193,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "la ética de la inteligencia artificial",
+      "hom_gamma": 0.8706,
+      "hom_placebo": 0.8545,
+      "reduction": -0.016,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "el mejoramiento genético de insectos",
+      "hom_gamma": 0.9606,
+      "hom_placebo": 0.8891,
+      "reduction": -0.0714,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "la gestión de proyectos de investigación",
+      "hom_gamma": 0.9118,
+      "hom_placebo": 0.8814,
+      "reduction": -0.0305,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "la divulgación científica",
+      "hom_gamma": 0.8956,
+      "hom_placebo": 0.8675,
+      "reduction": -0.0281,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "julian",
+      "topic": "las ciudades sostenibles",
+      "hom_gamma": 0.8965,
+      "hom_placebo": 0.822,
+      "reduction": -0.0745,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "la inferencia descentralizada de modelos de lenguaje",
+      "hom_gamma": 0.8484,
+      "hom_placebo": 0.8317,
+      "reduction": -0.0168,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "la genética de poblaciones",
+      "hom_gamma": 0.9025,
+      "hom_placebo": 0.795,
+      "reduction": -0.1075,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "el aprendizaje continuo en modelos pequeños",
+      "hom_gamma": 0.8958,
+      "hom_placebo": 0.9228,
+      "reduction": 0.0269,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "la privacidad de los datos personales",
+      "hom_gamma": 0.8546,
+      "hom_placebo": 0.8472,
+      "reduction": -0.0074,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "la evolución cultural",
+      "hom_gamma": 0.8898,
+      "hom_placebo": 0.8955,
+      "reduction": 0.0057,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "el cambio climático y la agricultura",
+      "hom_gamma": 0.9152,
+      "hom_placebo": 0.8936,
+      "reduction": -0.0216,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "la conservación de especies en islas",
+      "hom_gamma": 0.8743,
+      "hom_placebo": 0.8558,
+      "reduction": -0.0185,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "la educación universitaria a distancia",
+      "hom_gamma": 0.8626,
+      "hom_placebo": 0.8356,
+      "reduction": -0.027,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "la edición genética con CRISPR",
+      "hom_gamma": 0.9088,
+      "hom_placebo": 0.9179,
+      "reduction": 0.0091,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "el software de código abierto",
+      "hom_gamma": 0.9018,
+      "hom_placebo": 0.8685,
+      "reduction": -0.0334,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "la salud mental en el trabajo",
+      "hom_gamma": 0.8759,
+      "hom_placebo": 0.9055,
+      "reduction": 0.0296,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "la energía solar en zonas rurales",
+      "hom_gamma": 0.9235,
+      "hom_placebo": 0.917,
+      "reduction": -0.0065,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "la desinformación en redes sociales",
+      "hom_gamma": 0.8185,
+      "hom_placebo": 0.8731,
+      "reduction": 0.0546,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "la seguridad alimentaria",
+      "hom_gamma": 0.8437,
+      "hom_placebo": 0.8566,
+      "reduction": 0.0129,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "la migración de aves",
+      "hom_gamma": 0.9089,
+      "hom_placebo": 0.9143,
+      "reduction": 0.0055,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "la ética de la inteligencia artificial",
+      "hom_gamma": 0.8617,
+      "hom_placebo": 0.8545,
+      "reduction": -0.0072,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "el mejoramiento genético de insectos",
+      "hom_gamma": 0.8759,
+      "hom_placebo": 0.8891,
+      "reduction": 0.0133,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "la gestión de proyectos de investigación",
+      "hom_gamma": 0.863,
+      "hom_placebo": 0.8814,
+      "reduction": 0.0184,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "la divulgación científica",
+      "hom_gamma": 0.8495,
+      "hom_placebo": 0.857,
+      "reduction": 0.0075,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "carmen",
+      "topic": "las ciudades sostenibles",
+      "hom_gamma": 0.8448,
+      "hom_placebo": 0.822,
+      "reduction": -0.0228,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "la inferencia descentralizada de modelos de lenguaje",
+      "hom_gamma": 0.8982,
+      "hom_placebo": 0.8443,
+      "reduction": -0.0539,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "la genética de poblaciones",
+      "hom_gamma": 0.8628,
+      "hom_placebo": 0.795,
+      "reduction": -0.0679,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "el aprendizaje continuo en modelos pequeños",
+      "hom_gamma": 0.9009,
+      "hom_placebo": 0.9228,
+      "reduction": 0.0219,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "la privacidad de los datos personales",
+      "hom_gamma": 0.8495,
+      "hom_placebo": 0.8472,
+      "reduction": -0.0023,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "la evolución cultural",
+      "hom_gamma": 0.8825,
+      "hom_placebo": 0.8955,
+      "reduction": 0.013,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "el cambio climático y la agricultura",
+      "hom_gamma": 0.9095,
+      "hom_placebo": 0.8936,
+      "reduction": -0.016,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "la conservación de especies en islas",
+      "hom_gamma": 0.8122,
+      "hom_placebo": 0.8558,
+      "reduction": 0.0436,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "la educación universitaria a distancia",
+      "hom_gamma": 0.8422,
+      "hom_placebo": 0.8356,
+      "reduction": -0.0065,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "la edición genética con CRISPR",
+      "hom_gamma": 0.9525,
+      "hom_placebo": 0.9206,
+      "reduction": -0.0319,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "el software de código abierto",
+      "hom_gamma": 0.902,
+      "hom_placebo": 0.8685,
+      "reduction": -0.0336,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "la salud mental en el trabajo",
+      "hom_gamma": 0.8691,
+      "hom_placebo": 0.9055,
+      "reduction": 0.0363,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "la energía solar en zonas rurales",
+      "hom_gamma": 0.9135,
+      "hom_placebo": 0.9028,
+      "reduction": -0.0107,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "la desinformación en redes sociales",
+      "hom_gamma": 0.8749,
+      "hom_placebo": 0.8731,
+      "reduction": -0.0018,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "la seguridad alimentaria",
+      "hom_gamma": 0.8743,
+      "hom_placebo": 0.8622,
+      "reduction": -0.0121,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "la migración de aves",
+      "hom_gamma": 0.8516,
+      "hom_placebo": 0.9179,
+      "reduction": 0.0663,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "la ética de la inteligencia artificial",
+      "hom_gamma": 0.8069,
+      "hom_placebo": 0.8605,
+      "reduction": 0.0536,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "el mejoramiento genético de insectos",
+      "hom_gamma": 0.8944,
+      "hom_placebo": 0.8891,
+      "reduction": -0.0053,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "la gestión de proyectos de investigación",
+      "hom_gamma": 0.7986,
+      "hom_placebo": 0.8865,
+      "reduction": 0.0879,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "la divulgación científica",
+      "hom_gamma": 0.8277,
+      "hom_placebo": 0.8648,
+      "reduction": 0.0371,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "andres",
+      "topic": "las ciudades sostenibles",
+      "hom_gamma": 0.8055,
+      "hom_placebo": 0.822,
+      "reduction": 0.0166,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "la inferencia descentralizada de modelos de lenguaje",
+      "hom_gamma": 0.8982,
+      "hom_placebo": 0.8443,
+      "reduction": -0.0539,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "la genética de poblaciones",
+      "hom_gamma": 0.8606,
+      "hom_placebo": 0.795,
+      "reduction": -0.0656,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "el aprendizaje continuo en modelos pequeños",
+      "hom_gamma": 0.8901,
+      "hom_placebo": 0.9273,
+      "reduction": 0.0372,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "la privacidad de los datos personales",
+      "hom_gamma": 0.8625,
+      "hom_placebo": 0.8346,
+      "reduction": -0.0279,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "la evolución cultural",
+      "hom_gamma": 0.898,
+      "hom_placebo": 0.8822,
+      "reduction": -0.0158,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "el cambio climático y la agricultura",
+      "hom_gamma": 0.9361,
+      "hom_placebo": 0.8936,
+      "reduction": -0.0425,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "la conservación de especies en islas",
+      "hom_gamma": 0.8749,
+      "hom_placebo": 0.8558,
+      "reduction": -0.0191,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "la educación universitaria a distancia",
+      "hom_gamma": 0.8271,
+      "hom_placebo": 0.8609,
+      "reduction": 0.0338,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "la edición genética con CRISPR",
+      "hom_gamma": 0.9534,
+      "hom_placebo": 0.939,
+      "reduction": -0.0145,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "el software de código abierto",
+      "hom_gamma": 0.8946,
+      "hom_placebo": 0.8685,
+      "reduction": -0.0261,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "la salud mental en el trabajo",
+      "hom_gamma": 0.8968,
+      "hom_placebo": 0.8825,
+      "reduction": -0.0143,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "la energía solar en zonas rurales",
+      "hom_gamma": 0.8735,
+      "hom_placebo": 0.9114,
+      "reduction": 0.0379,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "la desinformación en redes sociales",
+      "hom_gamma": 0.8507,
+      "hom_placebo": 0.8731,
+      "reduction": 0.0224,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "la seguridad alimentaria",
+      "hom_gamma": 0.8445,
+      "hom_placebo": 0.8312,
+      "reduction": -0.0133,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "la migración de aves",
+      "hom_gamma": 0.8459,
+      "hom_placebo": 0.9159,
+      "reduction": 0.07,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "la ética de la inteligencia artificial",
+      "hom_gamma": 0.8829,
+      "hom_placebo": 0.8545,
+      "reduction": -0.0284,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "el mejoramiento genético de insectos",
+      "hom_gamma": 0.8885,
+      "hom_placebo": 0.9011,
+      "reduction": 0.0126,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "la gestión de proyectos de investigación",
+      "hom_gamma": 0.8674,
+      "hom_placebo": 0.8814,
+      "reduction": 0.014,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "la divulgación científica",
+      "hom_gamma": 0.88,
+      "hom_placebo": 0.857,
+      "reduction": -0.023,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    },
+    {
+      "user": "luisa",
+      "topic": "las ciudades sostenibles",
+      "hom_gamma": 0.8825,
+      "hom_placebo": 0.822,
+      "reduction": -0.0604,
+      "gamma_tokens": 4,
+      "placebo_tokens": 4
+    }
+  ],
+  "summary": {
+    "n_cells": 100,
+    "mean_reduction": -0.0112,
+    "ci95": [
+      -0.019,
+      -0.0039
+    ],
+    "h17a": "muere"
+  }
+}

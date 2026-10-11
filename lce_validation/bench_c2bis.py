@@ -103,7 +103,7 @@ def main(argv: list[str] | None = None) -> int:
         wiki = Wiki.load(wp, LearningPolicy.load(
             FIXTURES / "bench_users" / uid / "policy.json"))
         gamma = Projector().project(
-            "escribir un texto breve del usuario", list(wiki.claims.values())
+            "estilo y vocabulario del usuario", list(wiki.claims.values())
         ).projection.as_text()
         placebo = _placebo(gamma)
         for t in topics:
