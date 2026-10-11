@@ -125,6 +125,27 @@ def main() -> int:
         "| R12 (exploratorio): plano social | 0/40 por construcción; utilidad "
         "implementada como novedad; sin F_ST (E7) | **compatible con la I4, no la "
         "mide** |")
+    c2b = _load(ROOT / "results" / "bench_c2bis" / "results.json")
+    if c2b and "summary" in c2b:
+        cs = c2b["summary"]
+        lines.append(
+            "| C2-bis: ¿la Γ reduce homogeneidad más que un placebo igualado? | "
+            f"reducción Γ − placebo **{_s(cs['mean_reduction'])}** "
+            f"{_ci(cs['ci95'])} ({cs['n_cells']} celdas) | **{cs['h17a']}** |")
+    hc2 = _load(ROOT / "results" / "bench_hc2_closure" / "results.json")
+    if hc2 and "summary" in hc2:
+        hs = hc2["summary"]
+        lines.append(
+            "| Cierre H-C2: ¿la proyección paga su ρ en QA? | ganancia media "
+            f"{_s(hs['mean_gain'])}; Δρ mediana {hs['median_delta_rho_pct']:.0f} %; "
+            f"fracción (ganancia>0 y Δρ≤10 %) {hs['frac_both']:.2f} | **"
+            f"{hs['verdict']}** |")
+    r11 = _load(ROOT / "results" / "bench_r11_confirm" / "results.json")
+    if r11 and "cells" in r11:
+        lines.append(
+            "| R11 confirmatoria: adaptador justo vs recuperación+Γ | adaptador − "
+            "base = +0.000 (n=720, inerte); H-C6: 0/3 usuarios (−0.52 a −0.63); "
+            "I1 +0.000 | **la capa 2 se retira** |")
     lines += ["", "## 2. Detalle por benchmark", ""]
 
     # 2.1 H-C1 a escala
@@ -360,6 +381,33 @@ def main() -> int:
               "consumo (F1c). R11 y R12 no aportan evidencia todavía (E6, E7). Las "
               "cifras preregistradas de la corrida 2 siguen siendo el único "
               "resultado confirmatorio.", ""]
+    c2b = _load(ROOT / "results" / "bench_c2bis" / "results.json")
+    if c2b and "summary" in c2b:
+        cs = c2b["summary"]
+        lines += [
+            "",
+            "### 2.8 C2-bis (placebo igualado en instrucción, H-C17a)",
+            "",
+            f"5 usuarios x 20 temas x 3 semillas, escritura nativa determinista, "
+            f"Γ completa (21-45 tokens) y placebo de la MISMA cantidad de tokens. "
+            f"Reducción Γ − placebo = **{_s(cs['mean_reduction'])}** "
+            f"{_ci(cs['ci95'])} ({cs['n_cells']} celdas usuario×tema). "
+            f"**{cs['h17a']}.**",
+            "",
+        ]
+    hc2 = _load(ROOT / "results" / "bench_hc2_closure" / "results.json")
+    if hc2 and "summary" in hc2:
+        hs = hc2["summary"]
+        lines += [
+            "",
+            "### 2.9 Cierre H-C2 (ρ frente a ganancia, preregistro 2.9)",
+            "",
+            f"{hs['n_tasks']} tareas de la confirmatoria: ganancia media "
+            f"{_s(hs['mean_gain'])}, Δρ mediana {hs['median_delta_rho_pct']:.0f} %, "
+            f"fracción (ganancia > 0 y Δρ ≤ 10 %) {hs['frac_both']:.2f}. "
+            f"**{hs['verdict']}.**",
+            "",
+        ]
     OUT.write_text("\n".join(lines), encoding="utf-8")
     print(f"reporte escrito: {OUT}")
     return 0

@@ -205,6 +205,28 @@ def derive_aa() -> None:
            True)
 
 
+def derive_c2bis_hc2() -> None:
+    """Recomputa C2-bis y el cierre H-C2 desde sus celdas/tareas."""
+    import numpy as np
+    p = ROOT / "results" / "bench_c2bis" / "results.json"
+    if p.exists():
+        d = json.loads(p.read_text(encoding="utf-8"))
+        red = np.array([c["reduction"] for c in d["cells"]])
+        sm = d.get("summary", {})
+        _check("C2-bis reducción media", round(float(red.mean()), 4),
+               round(sm.get("mean_reduction"), 4))
+    p2 = ROOT / "results" / "bench_hc2_closure" / "results.json"
+    if p2.exists():
+        d2 = json.loads(p2.read_text(encoding="utf-8"))
+        gains = np.array([t["gain"] for t in d2["tasks"]])
+        drho = np.array([t["delta_rho_pct"] for t in d2["tasks"]])
+        sm2 = d2.get("summary", {})
+        _check("H-C2 fracción", round(float(np.mean((gains > 0) & (drho <= 10.0))), 4),
+               round(sm2.get("frac_both"), 4))
+        _check("H-C2 ganancia media", round(float(np.mean(gains)), 4),
+               round(sm2.get("mean_gain"), 4))
+
+
 def derive_report() -> None:
     import lce_validation.bench_report as br
     import tempfile
@@ -235,6 +257,7 @@ def main() -> int:
     derive_forget()
     derive_forget_analysis()
     derive_aa()
+    derive_c2bis_hc2()
     derive_report()
     if FAILURES:
         print("✘ DERIVA DETECTADA:")

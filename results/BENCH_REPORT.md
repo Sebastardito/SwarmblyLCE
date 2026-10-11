@@ -22,6 +22,9 @@ kind: exploratory
 | R13 (piloto): ¿la wiki anclada supera a un RAG crudo? | A3 − A2 = **−0.256** [−0.317, −0.194] sobre 126 preguntas, tres digestores × tres respondedores | **el RAG crudo gana en exactitud; la pérdida está en la cobertura de la digestión** |
 | R11 (piloto): adaptador justo | conclusiones retiradas (E6: adaptador colapsado, tareas inválidas, sin Γ en el brazo de recuperación) | **sin evidencia; rediseño en la siguiente fase** |
 | R12 (exploratorio): plano social | 0/40 por construcción; utilidad implementada como novedad; sin F_ST (E7) | **compatible con la I4, no la mide** |
+| C2-bis: ¿la Γ reduce homogeneidad más que un placebo igualado? | reducción Γ − placebo **+0.065** [+0.056, +0.074] (100 celdas) | **se sostiene** |
+| Cierre H-C2: ¿la proyección paga su ρ en QA? | ganancia media +0.016; Δρ mediana 41 %; fracción (ganancia>0 y Δρ≤10 %) 0.00 | **la proyección NO sobrevive (regla de compensación)** |
+| R11 confirmatoria: adaptador justo vs recuperación+Γ | adaptador − base = +0.000 (n=720, inerte); H-C6: 0/3 usuarios (−0.52 a −0.63); I1 +0.000 | **la capa 2 se retira** |
 
 ## 2. Detalle por benchmark
 
@@ -107,3 +110,13 @@ AA1 generación a T = 0: 98.4 % de 369 respuestas idénticas, Δ exactitud +0.00
 ## 3. Cierre
 
 La LCE tiene ahora: memoria local medida a escala con fuentes limpias (F1a) y en el piloto R13 (A3 − A0 y A2 − A0), la comparación de la wiki con un RAG crudo (R13: el RAG gana en exactitud; la pérdida está en la cobertura de la digestión), el olvido de una fuente verificado en estructura y en conducta (F-forget), la generación reproducible a temperatura 0 pero no siempre la digestión (A/A), el costo de ρ de la proyección medido con el camino de despacho real (F1b) y la factibilidad del adaptador en hardware de consumo (F1c). R11 y R12 no aportan evidencia todavía (E6, E7). Las cifras preregistradas de la corrida 2 siguen siendo el único resultado confirmatorio.
+
+
+### 2.8 C2-bis (placebo igualado en instrucción, H-C17a)
+
+5 usuarios x 20 temas x 3 semillas, escritura nativa determinista, Γ completa (21-45 tokens) y placebo de la MISMA cantidad de tokens. Reducción Γ − placebo = **+0.065** [+0.056, +0.074] (100 celdas usuario×tema). **se sostiene.**
+
+
+### 2.9 Cierre H-C2 (ρ frente a ganancia, preregistro 2.9)
+
+251 tareas de la confirmatoria: ganancia media +0.016, Δρ mediana 41 %, fracción (ganancia > 0 y Δρ ≤ 10 %) 0.00. **la proyección NO sobrevive (regla de compensación).**
