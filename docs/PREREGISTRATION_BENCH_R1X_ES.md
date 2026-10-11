@@ -473,4 +473,12 @@ comparación contra el piloto); el criterio de re-corrida de R14 sigue
 siendo AA1 + AA2 + AA4 con sus umbrales (≥99 % idénticas; ≥14/15 wikis;
 |Δ homogeneidad| ≤ 0.01).
 
+**Enmienda 11 — 10 de octubre de 2026, ANTES de la confirmatoria.** La
+decodificación de Ollama no es bit-reproducible para salidas largas aun con
+semilla (AA2: 12-13/15 wikis idénticas, Jaccard 0.985). La digestión pasa a
+DOBLE PASADA: cada sub-pasaje se decodifica dos veces (misma semilla) y se
+conservan solo las claims presentes en AMBAS decodificaciones; la
+intersección filtra la parte variable de la decodificación. Costo: el doble
+de llamadas de digestión. El criterio de AA2 (≥14/15) no cambia.
+
 *Texto CC BY 4.0; código AGPL-3.0-or-later.*

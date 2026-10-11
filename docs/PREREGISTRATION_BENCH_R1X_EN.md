@@ -461,4 +461,12 @@ comparison against the pilot); the R14 re-run criterion remains AA1 + AA2 +
 AA4 with their thresholds (>=99 % identical; >=14/15 wikis; |homogeneity
 delta| <= 0.01).
 
+**Amendment 11 — 10 October 2026, BEFORE the confirmatory run.** Ollama's
+decode is not bit-reproducible for long outputs even with a seed (AA2:
+12-13/15 identical wikis, Jaccard 0.985). Digestion becomes DOUBLE-PASS:
+each sub-passage is decoded twice (same seed) and only claims present in
+BOTH decodes are kept; the intersection filters the variable part of the
+decode. Cost: twice the digestion calls. AA2's criterion (>=14/15) is
+unchanged.
+
 *Text CC BY 4.0; code AGPL-3.0-or-later.*

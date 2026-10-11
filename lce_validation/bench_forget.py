@@ -95,7 +95,7 @@ def _digest(base: Path, backend, exclude: frozenset[str], cache: Path, resume: b
         return Wiki.load(cache, policy)
     wiki, _ = build_wiki(base, base / "policy.json", backend, anchor_mode="quote",
                          reconcile_types=True, suffixes=frozenset({".md"}),
-                         exclude_names=exclude)
+                         exclude_names=exclude, double_pass=True)
     wiki.save(cache)
     return Wiki.load(cache, policy)   # misma ruta de carga para las tres wikis
 

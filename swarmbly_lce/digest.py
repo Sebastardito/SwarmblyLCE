@@ -108,6 +108,8 @@ class Digester:
     anchor_mode: str = "offsets"
     # Amendment 3: reconcile the proposed type with first-person cues in the anchored span.
     reconcile_types: bool = False
+    # Amendment 11: two decodes per sub-passage, keep claims present in both.
+    double_pass: bool = False
 
     def _parse(self, raw: str) -> list[dict]:
         m = _JSON.search(raw)
@@ -168,6 +170,18 @@ class Digester:
         try:
             prompt = (PROMPT_QUOTE if self.anchor_mode == "quote" else PROMPT).format(passage=span.text)
             items = self._parse(self.backend.generate(prompt, temperature=0.0, max_tokens=1024))
+            if self.double_pass:
+                # Enmienda 11: dos decodificaciones por sub-pasaje y se
+                # conservan solo las claims presentes en AMBAS (la decodificación
+                # de Ollama no es bit-reproducible para salidas largas; la
+                # intersección filtra la parte variable).
+                items2 = self._parse(self.backend.generate(prompt, temperature=0.0, max_tokens=1024))
+                def _k(x: dict) -> str:
+                    import re as _re
+                    t = str(x.get("text", "")).lower()
+                    return _re.sub(r"[^a-z0-9]", "", t)
+                keys2 = {_k(x) for x in items2}
+                items = [x for x in items if _k(x) in keys2]
         except (ValueError, json.JSONDecodeError):
             self.stats.malformed += 1
             return []

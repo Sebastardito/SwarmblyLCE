@@ -49,7 +49,8 @@ def _norm(ans: str) -> str:
 def build_wiki(corpus: Path, policy_path: Path, backend: Backend, cycles: int = 4,
                anchor_mode: str = "offsets", reconcile_types: bool = False,
                suffixes: frozenset[str] | None = None,
-               exclude_names: frozenset[str] = frozenset()) -> tuple[Wiki, dict[str, Any]]:
+               exclude_names: frozenset[str] = frozenset(),
+               double_pass: bool = False) -> tuple[Wiki, dict[str, Any]]:
     # suffixes: las fuentes del usuario son documentos (.md); los archivos de
     # preguntas del benchmark (.json) NO son fuentes y contaminaban la wiki
     # con sus claves (Enmienda 4). exclude_names: fuentes olvidadas que no
@@ -59,7 +60,7 @@ def build_wiki(corpus: Path, policy_path: Path, backend: Backend, cycles: int = 
     policy = LearningPolicy.load(policy_path)
     wiki = Wiki(policy=policy)
     verifier = AnchorVerifier(space)
-    dig = Digester(backend, space, verifier, anchor_mode=anchor_mode, reconcile_types=reconcile_types)
+    dig = Digester(backend, space, verifier, anchor_mode=anchor_mode, reconcile_types=reconcile_types, double_pass=double_pass)
     t0 = time.perf_counter()
     dig.digest_all(wiki)
     digest_ms = (time.perf_counter() - t0) * 1000
