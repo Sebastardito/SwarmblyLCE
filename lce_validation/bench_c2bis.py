@@ -96,7 +96,9 @@ def main(argv: list[str] | None = None) -> int:
                                   [WRITER])}
     cells = []
     for uid in USERS:
-        wp = ROOT / "results" / "bench_r13_confirm" / "wikis_cache" / f"{uid}__qwen2.5:3b_wiki.json"
+        from lce_validation.fsnames import cache_file
+        wp = cache_file(ROOT / "results" / "bench_r13_confirm" / "wikis_cache", uid,
+                        "qwen2.5:3b", "_wiki.json")
         if not wp.exists():
             print(f"{uid}: falta la wiki de la confirmatoria, salto")
             continue

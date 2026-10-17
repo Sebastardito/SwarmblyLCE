@@ -236,8 +236,9 @@ def coverage(d: dict) -> dict | None:
                            if p.name != "borrada.md")
         dates = source_dates(base)
         pol = base / "policy.json"
-        wikis = {g: Wiki.load(cache / f"{uid}__{g}_wiki.json", LearningPolicy.load(pol))
-                 for g in DIGESTERS if (cache / f"{uid}__{g}_wiki.json").exists()}
+        from lce_validation.fsnames import cache_file
+        wikis = {g: Wiki.load(cache_file(cache, uid, g, "_wiki.json"), LearningPolicy.load(pol))
+                 for g in DIGESTERS if cache_file(cache, uid, g, "_wiki.json").exists()}
         for (u, _), q in asked.items():
             if u != uid:
                 continue
@@ -256,7 +257,8 @@ def anchored_counts() -> dict | None:
         return None
     rows = []
     for f in sorted(cache.glob("*_wiki.json")):
-        uid, dg = f.name[:-len("_wiki.json")].split("__")
+        from lce_validation.fsnames import split_cache_name
+        uid, dg = split_cache_name(f.name, "_wiki.json")
         claims = json.loads(f.read_text(encoding="utf-8"))["claims"]
         anch = sum(1 for c in claims if c.get("anchors"))
         rows.append({"user": uid, "digester": dg, "anchored": anch, "claims": len(claims)})

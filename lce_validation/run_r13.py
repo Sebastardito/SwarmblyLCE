@@ -304,7 +304,8 @@ def main(argv: list[str] | None = None) -> int:
         from swarmbly_lce.wiki import Wiki as _Wiki
         from swarmbly_lce.policy import LearningPolicy as _LP
         for d in digesters:
-            cache_file = cache_dir / f"{uid}__{d}_wiki.json"
+            from lce_validation.fsnames import cache_file as _cache_file
+            cache_file = _cache_file(cache_dir, uid, d, "_wiki.json")
             if cache_file.exists() and not getattr(args, "no_cache", False):
                 wiki = _Wiki.load(cache_file,
                                   _LP.load(base / "policy.json"))

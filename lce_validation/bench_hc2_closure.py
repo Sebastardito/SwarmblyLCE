@@ -87,7 +87,8 @@ def main(argv: list[str] | None = None) -> int:
         elif c["arm"] == "A4":
             a4[(c["user"], c["q"]["q"])] = float(c["ok"])
     for uid in sorted({k[0] for k in a3}):
-        wp = R13 / "wikis_cache" / f"{uid}__qwen2.5:3b_wiki.json"
+        from lce_validation.fsnames import cache_file
+        wp = cache_file(R13 / "wikis_cache", uid, "qwen2.5:3b", "_wiki.json")
         if not wp.exists():
             continue
         wiki = Wiki.load(wp, LearningPolicy.load(

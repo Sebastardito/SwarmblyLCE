@@ -143,9 +143,11 @@ def main(argv: list[str] | None = None) -> int:
         dates = source_dates(base)
         deleted = [q for q in qs if q["type"] == "deleted"]
         for d in models:
-            w_full = _digest(base, backends[d], frozenset(), cache_dir / f"{uid}__{d}__full.json", args.resume)
+            from lce_validation.fsnames import cache_file
+            w_full = _digest(base, backends[d], frozenset(),
+                             cache_file(cache_dir, uid, d, "__full.json"), args.resume)
             w_never = _digest(base, backends[d], frozenset({"borrada.md"}),
-                              cache_dir / f"{uid}__{d}__never.json", args.resume)
+                              cache_file(cache_dir, uid, d, "__never.json"), args.resume)
             w_forget, st = forget_structural(w_full, FORGET)
             st.update({"user": uid, "digester": d, "refused": st["anchored_before"] == 0})
             cells_struct.append(st)

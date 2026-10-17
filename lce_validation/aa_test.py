@@ -96,11 +96,12 @@ def aa2() -> dict[str, Any]:
     root = ROOT / "results" / "aa_test" / "second_digest"
     root.mkdir(parents=True, exist_ok=True)
     out, n_same = [], 0
+    from lce_validation.fsnames import model_token, split_cache_name
     for f in sorted(FORGET_CACHE.glob("*__never.json")):
-        uid, d, _ = f.name.split("__")
+        uid, d = split_cache_name(f.name, "__never.json")
         base = FIXTURES / "bench_users" / uid
         backend = OllamaNativeBackend(model=d, base_url="http://localhost:11434")
-        cache = root / f"{uid}__{d}.json"
+        cache = root / f"{uid}__{model_token(d)}.json"
         try:
             _digest(base, backend, frozenset({"borrada.md"}), cache, resume=False)
         except Exception as exc:  # noqa: BLE001 - celda no disponible

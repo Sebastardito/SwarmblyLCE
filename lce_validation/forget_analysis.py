@@ -65,14 +65,15 @@ def independent_equivalence() -> dict | None:
     from swarmbly_lce.wiki import Wiki
     ids = lambda p: {c["claim_id"] for c in json.loads(p.read_text(encoding="utf-8"))["claims"]}  # noqa: E731
     out = {"forget_eq_r13": 0, "never_eq_r13": 0, "forget_eq_never": 0, "wikis": 0}
+    from lce_validation.fsnames import cache_file, split_cache_name
     for f in sorted(cache.glob("*__full.json")):
-        uid, dg, _ = f.name.split("__")
-        r13 = R13_CACHE / f"{uid}__{dg}_wiki.json"
+        uid, dg = split_cache_name(f.name, "__full.json")
+        r13 = cache_file(R13_CACHE, uid, dg, "_wiki.json")
         if not r13.exists():
             continue
         w = Wiki.load(f, LearningPolicy())
         w.forget_source(SRC)
-        fg, nv, rr = set(w.claims), ids(cache / f"{uid}__{dg}__never.json"), ids(r13)
+        fg, nv, rr = set(w.claims), ids(cache_file(cache, uid, dg, "__never.json")), ids(r13)
         out["wikis"] += 1
         out["forget_eq_r13"] += fg == rr
         out["never_eq_r13"] += nv == rr
