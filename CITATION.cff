@@ -3,9 +3,10 @@
 # https://citation-file-format.github.io/
 #
 # The whitepaper DOI is 10.5281/zenodo.23150478. Each release mints a new
-# software DOI through the Zenodo GitHub integration. Until the DOI of v0.2.1
-# is minted, the DOI below is the record of v0.2.0; it is replaced after the
-# release (publication/CHECKLIST.md). Earlier: v0.1.1, 10.5281/zenodo.23289041.
+# software DOI through the Zenodo GitHub integration. The DOI below is the
+# record of v0.2.1; it is replaced after the next release
+# (publication/CHECKLIST.md). Earlier: v0.2.0, 10.5281/zenodo.24070616;
+# v0.1.1, 10.5281/zenodo.23289041.
 # ---------------------------------------------------------------------------
 
 cff-version: 1.2.0
@@ -57,8 +58,11 @@ authors:
     orcid: "https://orcid.org/0000-0003-1497-356X"
 
 repository-code: "https://github.com/Sebastardito/SwarmblyLCE"
-doi: "10.5281/zenodo.24070616"   # record of v0.2.0 until the v0.2.1 record is minted
+doi: "10.5281/zenodo.24330449"   # software record v0.2.1 (Zenodo, GitHub integration)
 identifiers:
+  - type: doi
+    value: "10.5281/zenodo.24330449"
+    description: "Software record v0.2.1 (this version)"
   - type: doi
     value: "10.5281/zenodo.24070616"
     description: "Software record v0.2.0 (previous version)"
